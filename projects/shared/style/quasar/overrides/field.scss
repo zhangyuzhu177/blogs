@@ -1,0 +1,147 @@
+/** 重写 input输入框、select选择框 样式 */
+.z-input, .z-select {
+  --q-negative: #FF8080;
+
+  .q-field {
+    .q-field__control {
+      border-radius: 0;
+
+      .q-field__prepend {
+        height: 100%;
+        margin-left: 4px;
+      }
+
+      .q-field__append {
+        height: 100%;
+        margin-left: 6px;
+      }
+
+      .q-field__control-container {
+        height: 100%;
+      }
+
+      input, textarea {
+        color: var(--grey-8);
+        padding: 0;
+        &::-webkit-input-placeholder {
+          color: var(--grey-5);
+        }
+      }
+
+      textarea {
+        padding: 9px 0 6px;
+      }
+
+      &::before {
+        border-color: var(--grey-3);
+        border-style: solid;
+      }
+      &:hover::before {
+        border-color: var(--grey-4);
+      }
+      &::after {
+        height: 100%;
+        border-width: 1px !important;
+      }
+    }
+
+    &--dark {
+      .q-field__control {
+        .q-field__label {
+          color: var(--white-7);
+        }
+
+        input {
+          color: var(--grey-1);
+          &::-webkit-input-placeholder {
+            color: var(--white-7);
+          }
+        }
+
+        &::before {
+          border-color: var(--white-7);
+        }
+        &:hover::before {
+          border-color: var(--white-9);
+        }
+      }
+    }
+
+    .q-field__bottom {
+      padding-left: 0;
+    }
+
+    &.big {
+      .q-field__control {
+        min-height: 48px;
+        height: 48px;
+
+        .text-negative {
+          font-size: 20px;
+        }
+
+        input, textarea, .q-field__native > span {
+          font-size: 16px;
+          line-height: 24px;
+        }
+      }
+    }
+
+    &.medium {
+      .q-field__control {
+        min-height: 40px;
+        height: 40px;
+
+        .text-negative {
+          font-size: 18px;
+        }
+
+        input, textarea, .q-field__native > span {
+          font-size: 16px;
+          line-height: 24px;
+        }
+      }
+    }
+
+    &.small {
+      .q-field__control {
+        min-height: 32px;
+        height: 32px;
+
+        .text-negative {
+          font-size: 16px;
+        }
+
+        input, textarea, .q-field__native > span {
+          font-size: 14px;
+          line-height: 20px;
+        }
+      }
+    }
+
+    &.is-admin {
+      .q-field__control {
+        border-radius: 8px;
+      }
+
+      &.medium {
+        .q-field__control {
+          .text-negative {
+            font-size: 16px;
+          }
+
+          input, textarea, .q-field__native > span {
+            font-size: 14px;
+            line-height: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  &.rounded {
+    .q-field__control {
+      border-radius: 32px !important;
+    }
+  }
+}

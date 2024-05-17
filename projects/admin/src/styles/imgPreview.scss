@@ -1,0 +1,36 @@
+.img-preview {
+  width: 100% !important;
+  height: 100% !important;
+
+  .close.button {
+    border-radius: 8px;
+  }
+
+  .arrow.button {
+    border-radius: 8px;
+    font-size: 24px !important;
+  }
+
+  .options {
+    gap: 8px;
+    bottom: 80px !important;
+
+    .option.button {
+      border-radius: 8px;
+      transform: scale(1.2);
+    }
+  }
+
+  .imgs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .img.button {
+      border-radius: 8px;
+      &.selected {
+        background-color: var(--primary-1-6) !important;
+      }
+    }
+  }
+}

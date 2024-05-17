@@ -1,0 +1,27 @@
+.q-checkbox {
+  .q-checkbox__inner {
+    color: var(--grey-5);
+
+    .q-checkbox__bg {
+      border-radius: 0;
+    }
+
+    &.q-checkbox__inner-- {
+      &truthy, &indet {
+        color: var(--primary-1) !important;
+      }
+    }
+  }
+
+  &--dark {
+    .q-checkbox__inner {
+      color: var(--grey-1);
+
+      &.q-checkbox__inner-- {
+        &truthy, &indet {
+          color: var(--primary-1) !important;
+        }
+      }
+    }
+  }
+}

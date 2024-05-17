@@ -1,0 +1,10 @@
+.q-dialog.full-body-dialog {
+  > .q-dialog__inner {
+    > .q-card {
+      > div:not(.q-inner-loading) {
+        flex: 1;
+        height: 0;
+      }
+    }
+  }
+}

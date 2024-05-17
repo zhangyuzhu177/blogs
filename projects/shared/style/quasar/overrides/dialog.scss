@@ -1,0 +1,23 @@
+/** 重写 dialog对话框 样式 */
+.q-dialog.fullscreen {
+  max-width: inherit !important;
+  max-height: inherit !important;
+}
+
+.protocol-dialog {
+  .q-card {
+    h1 {
+      text-align: center;
+    }
+
+    p {
+      margin: 16px 0;
+      text-indent: 34px;
+    }
+
+    ul, ol {
+      margin: 16px 0 16px 56px;
+      list-style-type: auto
+    }
+  }
+}

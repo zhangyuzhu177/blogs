@@ -1,0 +1,41 @@
+:root {
+  --q-primary: var(--primary-1);
+  --q-success: var(--alerts-success);
+  --q-error: var(--alerts-error);
+  --q-warning: var(--alerts-warning);
+}
+
+/* 中性色 */
+@for $i from 1 through 8 {
+  .text-grey-#{$i} {
+    color: var(--grey-#{$i}) !important;
+  }
+
+  .bg-grey-#{$i} {
+    background: var(--grey-#{$i}) !important;
+  }
+}
+
+/* 透明色 */
+@for $i from 1 through 9 {
+  .text-white-#{$i} {
+    color: var(--white-#{$i}) !important;
+  }
+
+  .bg-white-#{$i} {
+    background: var(--white-#{$i}) !important;
+  }
+}
+
+/* 通知色 */
+$alerts: primary-1, alerts-success, alerts-error, alerts-warning;
+
+@each $alert in $alerts {
+  .text-#{$alert} {
+    color: var(--#{$alert}) !important;
+  }
+
+  .bg-#{$alert} {
+    background: var(--#{$alert}) !important;
+  }
+}
