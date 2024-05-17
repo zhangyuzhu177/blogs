@@ -1,6 +1,5 @@
 {
   "name": "client",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -9,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@iconify-json/ph": "^1.1.13",
     "@quasar/extras": "^1.16.11",
     "@unocss/reset": "^0.60.2",
     "@vueuse/core": "^10.9.0",
@@ -17,10 +17,10 @@
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "quasar": "^2.12.3",
+    "shared": "workspace:^",
     "unocss": "^0.60.2",
     "vue": "^3.4.21",
-    "vue-router": "^4.2.4",
-    "shared": "workspace:^"
+    "vue-router": "^4.2.4"
   },
   "devDependencies": {
     "@quasar/vite-plugin": "^1.4.1",

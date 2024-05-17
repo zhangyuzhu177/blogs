@@ -1,13 +1,13 @@
 interface Env extends ImportMetaEnv {
   /** ---------------- 仅开发模式 ---------------- */
-  /** 数据大屏启动端口 */
-  VITE_SCREEN_PORT?: number
-  /** 数据大屏基础路径 */
-  VITE_SCREEN_BASE?: string
-  /** 数据大屏APP名称 */
-  VITE_SCREEN_APP_NAME?: string
-  /** 数据大屏APP图标路径 */
-  VITE_SCREEN_APP_ICON?: string
+  /** 客户端启动端口 */
+  VITE_CLIENT_PORT?: number
+  /** 客户端基础路径 */
+  VITE_CLIENT_BASE?: string
+  /** 客户端APP名称 */
+  VITE_CLIENT_APP_NAME?: string
+  /** 客户端APP图标路径 */
+  VITE_CLIENT_APP_ICON?: string
 
   /** 管理后台启动端口 */
   VITE_ADMIN_PORT?: number
@@ -34,10 +34,10 @@ interface Env extends ImportMetaEnv {
   VITE_PRIVATE_KEY: string
 
   /**是否使用手机号 */
-  VITE_USER_PHONE:boolean
+  VITE_USER_PHONE: boolean
 
   /**是否启用站点地图 */
-  VITE_SITEMAP:boolean
+  VITE_SITEMAP: boolean
 }
 
 interface ImportMeta {

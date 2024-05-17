@@ -4,18 +4,17 @@
   "description": "",
   "main": "index.js",
   "packageManager": "pnpm@8.6.7",
+  "license": "ISC",
+  "private": true,
   "scripts": {
     "dev:admin": "pnpm --filter admin dev",
     "dev:client": "pnpm --filter client dev",
     "dev:server": "pnpm --filter server dev"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@antfu/eslint-config": "^2.18.0",
-    "eslint": "^9.2.0",
-    "eslint-plugin-vue": "^9.26.0",
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.39.5",
+    "eslint": "^8.43.0",
+    "eslint-plugin-vue": "^9.15.1",
     "chalk": "^5.3.0",
     "execa": "^7.1.1",
     "prettier": "^3.2.5",

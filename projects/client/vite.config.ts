@@ -27,7 +27,7 @@ export default ({ mode }: any) => {
 
     server: {
       host: '0.0.0.0',
-      port: Number.parseInt(process.env.VITE_ADMIN_PORT || '3334'),
+      port: Number.parseInt(process.env.VITE_CLIENT_PORT || '3334'),
       proxy: {
         [process.env.VITE_API_BASE_PY as string]: {
           target: process.env.VITE_PROXY_TARGET_PY,

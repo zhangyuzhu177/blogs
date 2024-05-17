@@ -1,20 +1,7 @@
 import { useFavicon, useTitle, useWindowSize } from '@vueuse/core'
 import { useHead } from '@vueuse/head'
 import { computed, ref } from 'vue'
-
-/** 应用名称 */
-export const APP_NAME = '南方科技大学'
-
-export const APP_ICON = '/logo.svg'
-
-/** 应用英文名称 */
-export const APP_NAME_EN = ''
-
-/**
- * 应用的最小宽度
- */
-export const APP_MIN_WIDTH = 600
-
+import { APP_ICON, APP_MIN_WIDTH, APP_NAME, APP_NAME_EN } from '../constants/app'
 
 const { width } = useWindowSize()
 

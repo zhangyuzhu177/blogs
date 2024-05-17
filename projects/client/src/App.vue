@@ -4,16 +4,16 @@ import { isClient } from '@vueuse/core'
 const { width } = useWindowSize()
 const { isAdmin, zoomRatio, getAppConfig } = useSysConfig()
 const $router = useRouter()
-// const { updateAppHead } = useApp()
+const { updateAppHead } = useApp()
 
 onBeforeMount(() => {
   isAdmin.value = true
   $router.replace({ query: undefined })
   getAppConfig()
 
-  // const { VITE_ADMIN_APP_NAME, VITE_ADMIN_APP_ICON } = import.meta.env
+  const { VITE_CLIENT_APP_NAME, VITE_CLIENT_APP_ICON } = import.meta.env
 
-  // updateAppHead(VITE_ADMIN_APP_NAME, VITE_ADMIN_APP_ICON)
+  updateAppHead(VITE_CLIENT_APP_NAME, VITE_CLIENT_APP_ICON)
 })
 
 /** 监听窗口大小，缩放页面 */
