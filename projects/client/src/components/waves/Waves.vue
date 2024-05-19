@@ -1,23 +1,24 @@
+<script setup lang="ts">
+</script>
+
 <template>
-  <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28"
-    preserveAspectRatio="none" shape-rendering="auto">
-    <!--形状容器-->
+  <svg
+    class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28"
+    preserveAspectRatio="none" shape-rendering="auto"
+  >
+    <!-- 形状容器 -->
     <defs>
-      <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z">
-      </path>
+      <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
     </defs>
-    <!--组合波浪-->
+    <!-- 组合波浪 -->
     <g class="parallax">
-      <use class="use" xlink:href="#gentle-wave" x="48" y="0"></use>
-      <use class="use" xlink:href="#gentle-wave" x="48" y="3"></use>
-      <use class="use" xlink:href="#gentle-wave" x="48" y="5"></use>
-      <use class="use" xlink:href="#gentle-wave" x="48" y="7"></use>
+      <use class="use" xlink:href="#gentle-wave" x="48" y="0" />
+      <use class="use" xlink:href="#gentle-wave" x="48" y="3" />
+      <use class="use" xlink:href="#gentle-wave" x="48" y="5" />
+      <use class="use" xlink:href="#gentle-wave" x="48" y="7" />
     </g>
   </svg>
 </template>
-
-<script setup lang="ts">
-</script>
 
 <style lang="scss" scoped>
 .waves {

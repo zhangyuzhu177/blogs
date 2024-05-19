@@ -2,13 +2,14 @@
 </script>
 
 <template>
-  <div full flex-center>
-    首页
+  <div class="">
+    文章
   </div>
 </template>
 
 <route lang="yaml">
 meta:
   layout: home
-  redirect: home
 </route>
+
+<style scoped></style>

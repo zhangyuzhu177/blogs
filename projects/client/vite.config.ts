@@ -11,6 +11,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import VueDevTools from 'vite-plugin-vue-devtools'
 import WebfontDownload from 'vite-plugin-webfont-dl'
 import Components from 'unplugin-vue-components/vite'
+import { QuasarResolver } from 'unplugin-vue-components/resolvers'
 
 export default ({ mode }: any) => {
   process.env = {
@@ -74,10 +75,12 @@ export default ({ mode }: any) => {
           'vue-router',
           '@vueuse/head',
           '@vueuse/core',
+          'quasar',
         ],
         dts: 'src/types/auto-imports.d.ts',
         dirs: [
           'src/composables',
+          'src/constants',
           'src/constants',
           'src/utils',
           '../shared/api',
@@ -86,6 +89,7 @@ export default ({ mode }: any) => {
           '../shared/utils/**',
         ],
         vueTemplate: true,
+        resolvers: [QuasarResolver()],
       }),
 
       // https://github.com/antfu/unplugin-vue-components
@@ -99,6 +103,7 @@ export default ({ mode }: any) => {
           'src/components',
           '../shared/components',
         ],
+        resolvers: [QuasarResolver()],
       }),
 
       // https://github.com/antfu/unocss

@@ -8,9 +8,23 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppHeader: typeof import('./../components/AppHeader.vue')['default']
-    Plum: typeof import('./../components/plum/Plum.vue')['default']
+    Images: typeof import('./../components/images/Images.vue')['default']
+    Navigation1: typeof import('./../components/navigation/Navigation1.vue')['default']
+    Navigation2: typeof import('./../components/navigation/Navigation2.vue')['default']
+    QBtn: typeof import('quasar')['QBtn']
+    QItem: typeof import('quasar')['QItem']
+    QItemSection: typeof import('quasar')['QItemSection']
+    QList: typeof import('quasar')['QList']
+    QMenu: typeof import('quasar')['QMenu']
+    QRouteTab: typeof import('quasar')['QRouteTab']
+    QScrollArea: typeof import('quasar')['QScrollArea']
+    QSeparator: typeof import('quasar')['QSeparator']
+    QTab: typeof import('quasar')['QTab']
+    QTabs: typeof import('quasar')['QTabs']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Tags: typeof import('./../components/tags/Tags.vue')['default']
+    Title: typeof import('./../components/Title/index.vue')['default']
     Waves: typeof import('./../components/waves/Waves.vue')['default']
   }
 }
