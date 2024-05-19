@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUST-SYSTEM</title>
+  <script src="https://unpkg.com/dockbar@latest/dockbar.iife.js"></script>
+
+  <style>
+    :root {
+      --color: currentColor;
+      --gap: 1px;
+      --raster-h: 40px;
+      --raster-w: 10px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html,
+      body {
+        background: #222;
+      }
+
+      * {
+        color: white;
+      }
+    }
+
+    a,
+    a:visited,
+    a:active,
+    a:hover {
+      color: unset;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    #raster {
+      height: 120px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: var(--gap);
+    }
+
+    .raster-item {
+      --sk: 0deg;
+      width: var(--raster-w);
+      height: 300px;
+      margin-top: -100px;
+      position: relative;
+      -webkit-perspective: 200px;
+      perspective: 200px;
+      transition: all 0.2s ease;
+    }
+    .raster-item:hover {
+      margin-top: -120px;
+    }
+
+    .raster-item::after,
+    .raster-item::before {
+      --tx: -50%;
+      --ty: -50%;
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(var(--tx), var(--ty)) skewY(var(--sk)) rotateY(var(--rotateY));
+      background: var(--color);
+    }
+
+    .raster-item::before {
+      --rotateY: 0deg !important;
+      --sk: 0deg !important;
+      width: 2px;
+      height: 100%;
+    }
+
+    .raster-item::after {
+      width: var(--raster-w);
+      height: var(--raster-h);
+      border-radius: 5px;
+      --sk: 30deg;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="raster" data-cursor="text"></div>
+
+  <div data-cursor="text">
+    <dock-wrapper size="20">
+      <dock-item>S</dock-item>
+      <dock-item>U</dock-item>
+      <dock-item>S</dock-item>
+      <dock-item>T</dock-item>
+      <dock-item>-</dock-item>
+      <dock-item>S</dock-item>
+      <dock-item>Y</dock-item>
+      <dock-item>S</dock-item>
+      <dock-item>T</dock-item>
+      <dock-item>E</dock-item>
+      <dock-item>M</dock-item>
+      <dock-item>&nbsp;</dock-item>
+      <dock-item>S</dock-item>
+      <dock-item>E</dock-item>
+      <dock-item>R</dock-item>
+      <dock-item>V</dock-item>
+      <dock-item>I</dock-item>
+      <dock-item>C</dock-item>
+      <dock-item>E</dock-item>
+    </dock-wrapper>
+  </div>
+
+  <div data-cursor="block" style="padding: 4px 8px; letter-spacing: 2px;">
+    <a href="./docs">API DOCS</a>
+  </div>
+
+  <script>
+    const count = 50
+
+    const items = []
+
+    for (let i = 0; i < count; i++) {
+      const rasterItem = document.createElement('div')
+      rasterItem.classList.add('raster-item')
+      window.raster.appendChild(rasterItem)
+      items.push(rasterItem)
+    }
+
+    const timeStart = Date.now()
+
+    const r = [Math.random() * 10, Math.random() * 10]
+
+    function frame() {
+      const timePast = Date.now() - timeStart
+
+      items.forEach((item, index) => {
+        const y = Math.sin(timePast / 1000 + index / r[0]) * 20
+        const rx = Math.cos(timePast / 1000 + index / r[1]) * 90
+        item.style.setProperty('transform', `translateY(${y}px)`)
+        item.style.setProperty('--rotateY', `${rx}deg`)
+        item.style.setProperty('--sk', `${rx}deg`)
+      })
+
+      window.requestAnimationFrame(frame)
+    }
+
+    frame()
+
+    setInterval(() => {
+      r.forEach((_, index) => r[index] = Math.random() * 10)
+    }, 5000)
+  </script>
+
+  <script type="module">
+    import cursor from 'https://unpkg.com/ipad-cursor@latest'
+    cursor.initCursor({
+      normalStyle: {
+        background: '#00000010',
+        border: '1px solid #00000040'
+      },
+      blockStyle: {
+        background: '#00000010'
+      },
+      textStyle: {
+        background: 'currentColor',
+      }
+    })
+  </script>
+</body>
+
+</html>
