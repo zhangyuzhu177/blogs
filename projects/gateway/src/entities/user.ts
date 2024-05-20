@@ -2,9 +2,11 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { Role } from "./role"
 import { Login } from "./login"
+import { BaseTimeStamp } from "./_timestamp"
+import { IUser } from "src/types/entities/user.interface"
 
 @Entity()
-export class User{
+export class User extends BaseTimeStamp implements IUser {
   @ApiProperty({
     description: '用户唯一标识',
     example: '00000000-0000-0000-0000-000000000000',

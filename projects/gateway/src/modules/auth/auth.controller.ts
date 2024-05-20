@@ -1,16 +1,29 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Throttle } from '@nestjs/throttler';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import * as svgCaptcha from 'svg-captcha'
 import { CodeService } from '../code/code.service';
+import { ApiSuccessResponse } from 'src/utils/response';
+import { LoginSuccessResDto } from './dto/login-success.res.dto';
 
 @Controller('auth')
+@ApiTags('Auth | 身份验证')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly _codeSrv: CodeService
   ) { }
+
+  @ApiOperation({ summary: '账号/邮箱+密码登录' })
+  @ApiSuccessResponse(LoginSuccessResDto)
+  @Post('login/password')
+  public async loginByPassword(
+    @Body() body,
+    @Req() req: FastifyRequest
+  ) {
+
+  }
 
   @Throttle(1, 1)
   @ApiOperation({ summary: '获取图形验证码' })
