@@ -2,10 +2,10 @@ import { decorate } from 'ts-mixer'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsString, MaxLength, MinLength } from 'class-validator'
 import { IAccountDto, IAccountOptionalDto } from 'src/types/dto/account.interface'
-import { ACCOUNT_MAX_LENGTH, ACCOUNT_MIN_LENGTH, ACCOUNT_REQUIREMENTS_DESC } from 'src/utils/validator'
 import { IsValidAccount } from 'src/decorators/validators/is-valid-account'
 import { sharedVariableMarkdown } from 'src/utils/docs/shared-variable'
-import { GenerateParamsDecorator } from 'src/utils/params-decorator-gen'
+import { ACCOUNT_MAX_LENGTH, ACCOUNT_MIN_LENGTH, ACCOUNT_REQUIREMENTS_DESC } from 'src/utils/validators/account.validator'
+import { GenerateParamsDecorator } from 'src/utils/validators/params-decorator-gen'
 
 function Decorator(optional = false) {
   return GenerateParamsDecorator(

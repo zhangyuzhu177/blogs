@@ -6,12 +6,13 @@ import * as svgCaptcha from 'svg-captcha'
 import { CodeService } from '../code/code.service';
 import { ApiSuccessResponse } from 'src/utils/response';
 import { LoginSuccessResDto } from './dto/login-success.res.dto';
+import { LoginByPasswordBodyDto } from './dto/login-by-password.body.dto';
 
 @Controller('auth')
 @ApiTags('Auth | 身份验证')
 export class AuthController {
   constructor(
-    private readonly authService: AuthService,
+    private readonly _authSrv: AuthService,
     private readonly _codeSrv: CodeService
   ) { }
 
@@ -19,10 +20,10 @@ export class AuthController {
   @ApiSuccessResponse(LoginSuccessResDto)
   @Post('login/password')
   public async loginByPassword(
-    @Body() body,
+    @Body() body:LoginByPasswordBodyDto,
     @Req() req: FastifyRequest
   ) {
-
+    return this._authSrv.loginByPassword(body, req.raw.ip)
   }
 
   @Throttle(1, 1)
