@@ -16,9 +16,22 @@ import { ThrottlerExceptionFilter } from './filter/throttler-exception.filter'
 import { InfoMiddleware } from './middleware/info.middleware'
 import { AuthMiddleware } from './middleware/auth.middleware'
 import { AccessMiddleware } from './middleware/access.middleware'
+import { AuthModule } from './modules/auth/auth.module'
+import { UserModule } from './modules/user/user.module'
+import { RoleModule } from './modules/role/role.module'
+import { LogModule } from './modules/log/log.module'
+import { PermissionModule } from './modules/permission/permission.module'
+import { EmailModule } from './modules/email/email.module'
 
 @Module({
   imports: [
+    // Internal Modules
+    LogModule,
+    AuthModule,
+    UserModule,
+    RoleModule,
+    PermissionModule,
+    EmailModule,
 
     // External Modules
     ScheduleModule.forRoot(),
