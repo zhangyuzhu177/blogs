@@ -36,15 +36,6 @@ export enum PermissionType {
   /** 查询管理角色分配列表 */
   ROLE_ASSIGN_QUERY = 'role:assign-query',
 
-  // ------------------ 大屏数据管理 ---------------------
-  /** 查询数据  */
-  SCREEN_QUERY = 'screen:query',
-  /** 更新数据 */
-  SCREEN_UPLOAD = 'screen:upload',
-  /** 下载（备份）数据 */
-  SCREEN_DOWNLOAD = 'screen:download',
-  /** 查看数据字典 */
-  SCREEN_DICTIONARIES = 'screen:dictionaries',
 }
 
 /**
@@ -64,9 +55,4 @@ export const permissionDescriptions: Record<PermissionType, string> = {
   [PermissionType.ROLE_UPDATE]: '更新角色权限',
   [PermissionType.ROLE_QUERY]: '查询角色权限',
   [PermissionType.ROLE_ASSIGN_QUERY]: '查询角色权限分配列表',
-
-  [PermissionType.SCREEN_QUERY]: '查询数据',
-  [PermissionType.SCREEN_UPLOAD]: '更新数据',
-  [PermissionType.SCREEN_DOWNLOAD]: '下载（备份）数据',
-  [PermissionType.SCREEN_DICTIONARIES]: '查看数据字典',
 }
