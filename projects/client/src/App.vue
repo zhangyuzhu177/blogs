@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { isClient } from '@vueuse/core'
+import { useClientApp } from './composables/app'
 
 const { width } = useWindowSize()
 const { isAdmin, zoomRatio, getAppConfig } = useSysConfig()
 const $router = useRouter()
 const { updateAppHead } = useApp()
+const { scrollEl } = useClientApp()
 
 onBeforeMount(() => {
   isAdmin.value = true
@@ -46,5 +48,15 @@ watch(
 </script>
 
 <template>
-  <RouterView />
+  <QScrollArea ref="scrollEl" full>
+    <RouterView min-w-600px />
+  </QScrollArea>
 </template>
+
+<style lang="scss" scoped>
+.q-scrollarea {
+  :deep(.q-scrollarea__content) {
+    width: 100% !important;
+  }
+}
+</style>

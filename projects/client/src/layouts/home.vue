@@ -6,9 +6,7 @@
 <template>
   <div class="bg" full>
     <AppHeader />
-    <QScrollArea style="height: 100%; max-width:  100%;">
-      <RouterView full />
-    </QScrollArea>
+    <RouterView full />
   </div>
 </template>
 

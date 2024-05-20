@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { useClientApp } from '~/composables/app'
+
+const { scrollEl } = useClientApp()
+
 function arrowDown() {
-  window.scrollTo({
-    behavior: 'smooth',
-    top: 100,
-  })
+  scrollEl.value?.setScrollPosition('vertical', document?.documentElement.clientHeight)
 }
 </script>
 
@@ -40,7 +41,7 @@ meta:
   -webkit-animation: arrow-shake 1.5s ease-out infinite;
   animation: arrow-shake 1.5s ease-out infinite;
   cursor: pointer;
-  z-index: 8;
+  z-index: 999;
 }
 
 @keyframes arrow-shake {
