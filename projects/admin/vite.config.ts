@@ -1,3 +1,4 @@
+import { QuasarResolver } from 'unplugin-vue-components/resolvers';
 import path from 'node:path'
 import process from 'node:process'
 import Unocss from 'unocss/vite'
@@ -74,6 +75,7 @@ export default ({ mode }: any) => {
           'vue-router',
           '@vueuse/head',
           '@vueuse/core',
+          'quasar',
         ],
         dts: 'src/types/auto-imports.d.ts',
         dirs: [
@@ -86,6 +88,7 @@ export default ({ mode }: any) => {
           '../shared/utils/**',
         ],
         vueTemplate: true,
+        resolvers: [QuasarResolver()],
       }),
 
       // https://github.com/antfu/unplugin-vue-components
@@ -99,6 +102,7 @@ export default ({ mode }: any) => {
           'src/components',
           '../shared/components',
         ],
+        resolvers: [QuasarResolver()],
       }),
 
       // https://github.com/antfu/unocss

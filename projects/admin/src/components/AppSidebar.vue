@@ -1,0 +1,50 @@
+<script setup lang="ts">
+import left from '~/assets/icons/ident/left.svg?raw'
+import right from '~/assets/icons/ident/right.svg?raw'
+
+const { width } = useWindowSize()
+const { baseWidth, isExpand, isShow, time, changeState } = useSidebar()
+
+/** 退出登录对话框 */
+const logoutDialog = ref(false)
+
+watch(
+  width,
+  (newVal, oldVal) => {
+    if ((!oldVal || oldVal >= baseWidth) && newVal < baseWidth)
+      changeState(false)
+    else if ((!oldVal || oldVal < baseWidth) && newVal >= baseWidth)
+      changeState(true)
+  },
+  {
+    immediate: true,
+  },
+)
+</script>
+
+<template>
+  <div flex="~ col gap-6" bg="#051135"
+  text-grey-1 :max-w="isExpand ? 80 : 20" :style="{
+    transition: `max-width ${time}ms`,
+  }">
+    <div flex="~ col gap2">
+      <div>
+        <img src="" alt="">
+        <h3>测试</h3>
+      </div>
+      <div ~ flex="~ items-center">
+        <div v-if="isShow" h1px flex-1 bg-white-2 />
+        <div class="unpack" :mx="isShow ? 4 : 'auto'" cursor-pointer @click="changeState()"
+          v-html="isExpand ? left : right" />
+      </div>
+    </div>
+    <div flex="~ 1 col gap6" px4 h0>
+      <HomeMenu flex-1 h0 class="hide-scrollbar" />
+      <MenuItem
+        label="退出登录"
+        icon="exit"
+        @click="logoutDialog = true"
+      />
+    </div>
+  </div>
+</template>
