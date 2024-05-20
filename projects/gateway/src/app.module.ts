@@ -22,6 +22,8 @@ import { RoleModule } from './modules/role/role.module'
 import { LogModule } from './modules/log/log.module'
 import { PermissionModule } from './modules/permission/permission.module'
 import { EmailModule } from './modules/email/email.module'
+import { SysConfigModule } from './modules/config/config.module'
+import { RedisModule } from './modules/redis/redis.module'
 
 @Module({
   imports: [
@@ -32,6 +34,8 @@ import { EmailModule } from './modules/email/email.module'
     RoleModule,
     PermissionModule,
     EmailModule,
+    SysConfigModule,
+    RedisModule,
 
     // External Modules
     ScheduleModule.forRoot(),

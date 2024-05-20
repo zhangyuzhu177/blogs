@@ -317,7 +317,7 @@ importers:
         specifier: ^6.9.13
         version: 6.9.13
       redis:
-        specifier: ^4.6.13
+        specifier: ^4.6.14
         version: 4.6.14
       reflect-metadata:
         specifier: ^0.2.0
