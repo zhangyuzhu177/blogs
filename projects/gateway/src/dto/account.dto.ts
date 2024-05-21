@@ -16,7 +16,7 @@ function Decorator(optional = false) {
         maxLength: ACCOUNT_MAX_LENGTH,
         minLength: ACCOUNT_MIN_LENGTH,
         type: () => String,
-        example: 'Account',
+        example: 'admin',
       }),
       IsValidAccount(),
       MinLength(ACCOUNT_MIN_LENGTH, { message: `账号长度不能小于${ACCOUNT_MIN_LENGTH}位` }),

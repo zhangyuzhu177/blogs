@@ -1,5 +1,6 @@
 interface Env extends ImportMetaEnv {
   /** ---------------- 仅开发模式 ---------------- */
+
   /** 客户端启动端口 */
   VITE_CLIENT_PORT?: number
   /** 客户端基础路径 */
@@ -18,16 +19,10 @@ interface Env extends ImportMetaEnv {
   /** 管理后台APP图标路径 */
   VITE_ADMIN_APP_ICON?: string
 
-  /** python代理 */
-  VITE_PROXY_TARGET_PY?: string
-  /** python  */
-  // VITE_API_BASE?: string
-  VITE_API_BASE_PY?: string
-  /** nestjs代理 */
-  VITE_PROXY_TARGET_NESTJS?: string
-  /** API基础路径 */
-  VITE_API_BASE_NESTJS?: string
-
+  /** 代理 */
+  VITE_PROXY_TARGET?: string
+  /** api基础路径 */
+  VITE_API_BASE?: string
 
   /** RSA密钥对 */
   VITE_PUBLIC_KEY: string

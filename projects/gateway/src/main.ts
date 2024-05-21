@@ -4,6 +4,8 @@ import { ConfigService } from '@nestjs/config'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { FastifyAdapter } from '@nestjs/platform-fastify'
 import type { NestFastifyApplication } from '@nestjs/platform-fastify'
+import compression from '@fastify/compress'
+import fmp from '@fastify/multipart'
 
 import registerSwagger from './bootstrap/register-swagger'
 import { AppModule } from './app.module'
@@ -24,6 +26,16 @@ async function bootstrap() {
   const cfgSrv = app.get(ConfigService)
   const globalPrefix = validatePath(cfgSrv.get('SERVER_BASE_PATH') || '/')
   app.setGlobalPrefix(globalPrefix)
+
+  /** 启用 压缩 */
+  app.register(compression)
+  /** 文件 */
+  app.register(fmp, {
+    attachFieldsToBody: true,
+    limits: {
+      fileSize: 1024 * 1024 * 1024,
+    },
+  })
 
   // Register Swagger
   if (parseBoolRaw(cfgSrv.get('SWAGGER_ENABLED')))

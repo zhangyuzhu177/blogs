@@ -7,6 +7,7 @@ import { CodeService } from '../code/code.service';
 import { ApiSuccessResponse } from 'src/utils/response';
 import { LoginSuccessResDto } from './dto/login-success.res.dto';
 import { LoginByPasswordBodyDto } from './dto/login-by-password.body.dto';
+import { RegisterBodyDto } from './dto/register.body.dto';
 
 @Controller('auth')
 @ApiTags('Auth | 身份验证')
@@ -15,6 +16,15 @@ export class AuthController {
     private readonly _authSrv: AuthService,
     private readonly _codeSrv: CodeService
   ) { }
+
+  @ApiOperation({ summary: '注册（邮箱+验证码）' })
+  @Post('register')
+  public async register(
+    @Body() body: RegisterBodyDto,
+    @Req() req: FastifyRequest
+  ) {
+    return this._authSrv.register(body,req)
+  }
 
   @ApiOperation({ summary: '账号/邮箱+密码登录' })
   @ApiSuccessResponse(LoginSuccessResDto)
@@ -46,5 +56,11 @@ export class AuthController {
       bizId,
       img: captcha.data,
     }
+  }
+
+  @ApiOperation({ summary: '退出登录（删除token）' })
+  @Post('logout')
+  public async logout(@Req() req: FastifyRequest) {
+    return this._authSrv.logout(req.raw.token)
   }
 }
