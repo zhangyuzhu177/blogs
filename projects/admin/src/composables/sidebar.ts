@@ -1,3 +1,5 @@
+import { isClient } from "@vueuse/core"
+
 /** 是否展开侧边栏 */
 const isExpand = ref(true)
 /**是否显示线条元素 */

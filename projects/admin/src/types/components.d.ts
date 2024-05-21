@@ -11,6 +11,8 @@ declare module 'vue' {
     AppSidebar: typeof import('./../components/AppSidebar.vue')['default']
     HomeMenu: typeof import('./../components/menu/HomeMenu.vue')['default']
     MenuItem: typeof import('./../components/menu/MenuItem.vue')['default']
+    QTab: typeof import('quasar')['QTab']
+    QTabs: typeof import('quasar')['QTabs']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

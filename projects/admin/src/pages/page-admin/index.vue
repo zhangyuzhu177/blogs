@@ -8,4 +8,9 @@ import {} from "vue"
   </div>
 </template>
 
+<route lang="yaml">
+meta:
+  layout: home
+</route>
+
 <style  scoped></style>

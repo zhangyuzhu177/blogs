@@ -32,7 +32,7 @@ watch(
         <img src="" alt="">
         <h3>测试</h3>
       </div>
-      <div ~ flex="~ items-center">
+      <div flex="~ items-center">
         <div v-if="isShow" h1px flex-1 bg-white-2 />
         <div class="unpack" :mx="isShow ? 4 : 'auto'" cursor-pointer @click="changeState()"
           v-html="isExpand ? left : right" />

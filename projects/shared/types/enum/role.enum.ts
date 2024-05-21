@@ -1,11 +1,11 @@
-import { Role } from 'src/entities/role'
+import type { IRole } from '../entities/role.interface'
+import type { IPermission } from '../entities/permission.interface'
 import type { PermissionType } from './permission.enum'
 import { permissionDescriptions } from './permission.enum'
-import { Permission } from 'src/entities/permission'
 
 const allPermissionNames = Object.keys(permissionDescriptions) as PermissionType[]
 
-function getPermission(name: PermissionType): Permission {
+function getPermission(name: PermissionType): IPermission {
   return {
     name,
     description: permissionDescriptions[name],
@@ -15,7 +15,7 @@ function getPermission(name: PermissionType): Permission {
 /**
  * 默认的管理角色信息
  */
-export const defaultRoles: Role[] = [
+export const defaultRoles: IRole[] = [
   {
     id: 'root',
     name: 'root',
@@ -30,4 +30,4 @@ export const defaultRoles: Role[] = [
 export const defaultRolesMap = defaultRoles.reduce((map, role) => {
   map[role.name] = role
   return map
-}, {} as Record<string, Role>)
+}, {} as Record<string, IRole>)

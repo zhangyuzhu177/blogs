@@ -3,7 +3,7 @@ import * as NodeRSA from 'node-rsa'
 /**
  * 对字符串进行rsa加密
  */
-export function rsaEncrypt(password: string, publicKey = process.env.VITE_PUBLIC_KEY, key = 'sustUsO') {
+export function rsaEncrypt(password: string, publicKey = process.env.VITE_PUBLIC_KEY, key = 'blogsUsO') {
   const rsa = new NodeRSA()
   rsa.setOptions({ encryptionScheme: 'pkcs1' })
   rsa.importKey(publicKey, 'public')
@@ -16,7 +16,7 @@ export function rsaEncrypt(password: string, publicKey = process.env.VITE_PUBLIC
 /**
  * 对密文进行rsa解密
  */
-export function rsaDecrypt(hash: string, privateKey = process.env.VITE_PRIVATE_KEY, key = 'sustUsO') {
+export function rsaDecrypt(hash: string, privateKey = process.env.VITE_PRIVATE_KEY, key = 'blogsUsO') {
   try {
     const rsa = new NodeRSA()
     rsa.setOptions({ encryptionScheme: 'pkcs1' })
