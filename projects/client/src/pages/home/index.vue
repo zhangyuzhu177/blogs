@@ -1,27 +1,10 @@
 <script setup lang="ts">
-import { useClientApp } from '~/composables/app'
 
-const { scrollEl } = useClientApp()
-
-function arrowDown() {
-  scrollEl.value?.setScrollPosition('vertical', document?.documentElement.clientHeight)
-}
 </script>
 
 <template>
   <div full z-100 overflow-auto>
-    <div relative>
-      <Images />
-      <Title />
-      <Waves />
-      <div>
-        <div
-          class="arrow-down"
-          w10 h10 i-ph:caret-double-down-bold
-          @click="arrowDown"
-        />
-      </div>
-    </div>
+    <Images />
     <div h="100vh" w-full>
       111
     </div>

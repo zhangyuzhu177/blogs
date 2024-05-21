@@ -12,7 +12,7 @@ nextTick(() => {
   watch(
     [width, y],
     ([newWidth, newY]) => {
-      if (newWidth >= 900 && newY <= 200)
+      if (newWidth >= 600 && newY <= 200)
         theme.value = 'dark'
       else
         theme.value = 'light'

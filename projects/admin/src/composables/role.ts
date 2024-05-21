@@ -15,11 +15,12 @@ export function useRole() {
    * 获取当前权限对应的菜单
    */
   function getMenu(permission?: PermissionType[]) {
-    return ADMIN_MENU_LIST.filter(({ value, flag }) => (
-      hasIntersection(value ?? [], permission ?? [])
-      && flag !== false
-    ))
-      .map(v => objectOmit(v, 'children'))
+    return ADMIN_MENU_LIST
+    // .filter(({ value, flag }) => (
+    //   hasIntersection(value ?? [], permission ?? [])
+    //   && flag !== false
+    // ))
+    //   .map(v => objectOmit(v, 'children'))
   }
 
   /**

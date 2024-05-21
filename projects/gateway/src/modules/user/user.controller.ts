@@ -1,6 +1,6 @@
 import { Controller, Get, Query, Req } from '@nestjs/common';
 import { UserService } from './user.service';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermission } from 'src/guards/permission.guard';
 import { PermissionType } from 'src/types/enum/permission.enum';
 import { IsLogin } from 'src/guards/login.guard';
@@ -13,6 +13,7 @@ import { parseSqlError } from 'src/utils/response/sql-error/parse-sql-error';
 import { responseParamsError } from 'src/utils/response/validate-exception-factory';
 
 @Controller('user')
+@ApiTags('User | 用户')
 export class UserController {
   constructor(
     private readonly _userSrv: UserService

@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { IConfigDto } from 'shared/types/dto/config.interface';
+import { SysConfig } from 'shared/types/enum/config.enum';
+
+interface Props {
+  page?: IConfigDto[SysConfig.HOME]
+}
+
+const props=defineProps<Props>()
+
 const signature = ref<string>('hhhh')
 const time = ref<NodeJS.Timer | null>(null)
-const title = ref('Hello World')
+const title = ref(props.page?.title||'Hello World')
 function appear(text: string) {
   signature.value = ''
   clearTimeout(time.value as NodeJS.Timeout)
@@ -23,7 +32,7 @@ function appear(text: string) {
 }
 
 onMounted(() => {
-  appear('Do not go gentle into the good night')
+  appear(props.page?.label||'Do not go gentle into the good night')
 })
 </script>
 

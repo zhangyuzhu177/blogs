@@ -23,7 +23,7 @@ export function validatePassword(password: string) {
   const notAllowedChar = specialChars.find(char => !PASSWORD_ALLOW_CHARS.includes(char))
   if (notAllowedChar)
     return `不得包含 ${PASSWORD_ALLOW_CHARS} 以外的特殊字，特殊字符 “${notAllowedChar}” 不被允许`
-  if (validateString(password) < 3)
+  if (validateString(password) < 2)
     return '至少包含大小写字母、数字和特殊字符中的三种'
   return ''
 }

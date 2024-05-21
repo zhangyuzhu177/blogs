@@ -22,26 +22,26 @@ export function useMenu() {
         {
           id: 'page',
           label: '页面配置管理',
-          flag: role?.includes(PermissionType.CONFIG_QUERY_APP),
+          // flag: role?.includes(PermissionType.CONFIG_QUERY_APP),
         }
       ],
       user: [
         {
           id: 'userInfo',
           label: '用户信息管理',
-          flag: role?.includes(PermissionType.USER_QUERY),
+          // flag: role?.includes(PermissionType.USER_QUERY),
         },
       ],
       admin: [
         {
           id: 'adminRole',
           label: '设置管理角色',
-          flag: role?.includes(PermissionType.ROLE_QUERY),
+          // flag: role?.includes(PermissionType.ROLE_QUERY),
         },
         {
           id: 'adminAssign',
           label: '分配管理角色',
-          flag: role?.includes(PermissionType.ROLE_ASSIGN_QUERY),
+          // flag: role?.includes(PermissionType.ROLE_ASSIGN_QUERY),
         },
       ],
     }

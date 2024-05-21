@@ -26,20 +26,15 @@ export default ({ mode }: any) => {
       'process.env': {},
     },
 
+
     server: {
       host: '0.0.0.0',
       port: Number.parseInt(process.env.VITE_ADMIN_PORT || '3333'),
       proxy: {
-        [process.env.VITE_API_BASE_PY as string]: {
-          target: process.env.VITE_PROXY_TARGET_PY,
+        [process.env.VITE_API_BASE as string]: {
+          target: process.env.VITE_PROXY_TARGET,
           changeOrigin: true,
-          rewrite: path => path.replace(new RegExp(`^${process.env.VITE_API_BASE_PY}`), ''),
-          secure: false,
-        },
-        [process.env.VITE_API_BASE_NESTJS as string]: {
-          target: process.env.VITE_PROXY_TARGET_NESTJS,
-          changeOrigin: true,
-          rewrite: path => path.replace(new RegExp(`^${process.env.VITE_API_BASE_NESTJS}`), ''),
+          // rewrite: path => path.replace(new RegExp(`^${process.env.VITE_API_BASE}`), ''),
           secure: false,
         },
       },

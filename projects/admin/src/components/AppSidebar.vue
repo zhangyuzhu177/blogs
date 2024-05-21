@@ -4,6 +4,7 @@ import right from '~/assets/icons/ident/right.svg?raw'
 
 const { width } = useWindowSize()
 const { baseWidth, isExpand, isShow, time, changeState } = useSidebar()
+const {app}=useSysConfig()
 
 /** 退出登录对话框 */
 const logoutDialog = ref(false)
@@ -28,9 +29,14 @@ watch(
     transition: `max-width ${time}ms`,
   }">
     <div flex="~ col gap2">
-      <div>
-        <img src="" alt="">
-        <h3>测试</h3>
+      <div flex="~ center gap2">
+        <img w-10 h-10 :src="app?.icon">
+        <h4
+          v-if="isShow"
+          truncate
+          cursor-pointer
+          v-text="app?.name"
+        />
       </div>
       <div flex="~ items-center">
         <div v-if="isShow" h1px flex-1 bg-white-2 />

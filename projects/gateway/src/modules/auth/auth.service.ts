@@ -15,6 +15,7 @@ import { Cron } from '@nestjs/schedule';
 import { userInfo } from 'os';
 import { objectOmit } from '@catsjuice/utils';
 import { parseSqlError } from 'src/utils/response/sql-error/parse-sql-error';
+import { CodeAction } from 'src/types/enum/code-action.enum';
 
 @Injectable()
 export class AuthService {
@@ -38,15 +39,15 @@ export class AuthService {
 
   /** 注册 */
   public async register(body: RegisterBodyDto, req: FastifyRequest) {
-    const user = this._userSrv.qb().where('account=:account', { account: body.account })
+    const user =await this._userSrv.qb().where('account=:account', { account: body.account }).getOne()
+
     if (user)
       responseError(ErrorCode.USER_ACCOUNT_REGISTERED)
 
     // 校验验证码
     const { code, bizId, ...userInfo } = body
-    const res=await this._codeSrv.verifyCaptcha(bizId, [req.raw.ip, code])
-    if (!res)
-      responseError(ErrorCode.AUTH_CODE_NOT_MATCHED)
+    const { email } = userInfo
+    await this._codeSrv.verifyWithError(bizId, [email, CodeAction.REGISTER, code])
 
     // 创建用户
     try {
