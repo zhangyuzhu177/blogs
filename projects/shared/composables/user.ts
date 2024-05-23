@@ -8,6 +8,7 @@ import { PermissionType } from "../types/enum/permission.enum"
 import { ILoginByPasswordBodyDto, ILoginSuccessResData } from "../types/http/auth/login-by-password.interface"
 import { rsaEncrypt } from "../utils/rsa"
 import { useSysConfig } from "./app"
+import { AUTH_TOKEN_KEY, LEADING_PAGE_KEY } from "../constants/storage"
 
 /**用户token */
 export const authToken = useStorage('auth_token', '')
@@ -30,7 +31,7 @@ export function useUser($router?: Router) {
       if (res && remember) {
         // 记住密码
         localStorage.setItem(
-          'remember_login_info',
+          AUTH_TOKEN_KEY,
           JSON.stringify({
             userCode: body.account || body.email,
             password: await rsaEncrypt(body.password!),
@@ -38,7 +39,7 @@ export function useUser($router?: Router) {
         )
       }
       else {
-        localStorage.removeItem('remember_login_info')
+        localStorage.removeItem(AUTH_TOKEN_KEY)
       }
       processLoginInfo(res)
     }
@@ -79,7 +80,7 @@ export function useUser($router?: Router) {
     authToken.value = sign.access_token
     userInfo.value = user
     await getOwnProfile(undefined, false)
-    $router?.push(localStorage?.getItem('leading_page') ?? '/')
+    $router?.push(localStorage?.getItem(LEADING_PAGE_KEY) ?? '/')
   }
 
   return {

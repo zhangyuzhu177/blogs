@@ -2,13 +2,12 @@
 import { computed, ref } from 'vue'
 import { useIntervalFn, useVModel } from '@vueuse/core'
 import { Notify } from 'quasar'
-import type { CodeAction } from 'sust-types'
-import { validateEmail } from 'sust-utils'
 
-// import { sendEmailCodeApi } from '../../api/email'
 import { sendEmailCodeApi } from '../../api/email'
 import ZInput from './ZInput.vue'
 import type { ZInputProps } from './ZInput.vue'
+import { CodeAction } from '../../types/enum/code-action.enum'
+import {validateEmail} from '../../utils/validators/email.validator'
 
 interface SMSInputProps {
   modelValue: string

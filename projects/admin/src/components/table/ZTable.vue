@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { QTable } from 'quasar'
 import type { QTableProps, QTableSlots } from 'quasar'
-import { ROWS_PER_PAGE_OPTIONS } from 'sust-types'
 
 interface ZTableProps {
   rows: QTableProps['rows']
@@ -25,6 +24,7 @@ const emits = defineEmits(['update:selected', 'update:pagination'])
 const { selected, pagination } = useVModels(props, emits)
 
 const tableRef = ref<InstanceType<typeof QTable>>()
+const ROWS_PER_PAGE_OPTIONS = [20, 80, 200, 500, 1000]
 
 onMounted(() => {
   if (props.onRequest)
