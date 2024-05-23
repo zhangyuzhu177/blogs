@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { adminMenu } = useRole()
+
 </script>
 
 <template>
