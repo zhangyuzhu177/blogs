@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { validateEmail } from 'sust-utils'
-import { CodeAction, type ILoginByEmailCodeBodyDto } from 'sust-types'
-
 import { useUser } from '../../composables/user'
-
 import ZInput from '../../components/input/ZInput.vue'
 import ZBtn from '../../components/btn/ZBtn.vue'
+import { validateEmail } from 'utils/validators/email.validator';
+import { ILoginByEmailCodeBodyDto } from 'types/http/auth/login-by-email-code.interface';
+import { CodeAction } from 'types/enum/code-action.enum';
 
 const { loading, loginByEmailCode } = useUser()
 

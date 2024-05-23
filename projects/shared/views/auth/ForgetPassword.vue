@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { validateEmail, validatePassword } from 'sust-utils'
-import { CodeAction } from 'sust-types'
-import type { IUpdatePasswordByEmailCodeBodyDto } from 'sust-types'
-
 import { useUser } from '../../composables/user'
-
 import ZInput from '../../components/input/ZInput.vue'
 import SMSInput from '../../components/input/SMSInput.vue'
 import ZBtn from '../../components/btn/ZBtn.vue'
+import { validateEmail } from '../../utils/validators/email.validator'
+import { validatePassword } from '../../utils/validators/password.validator'
+import { IUpdatePasswordByEmailCodeBodyDto } from '../../types/http/user/update-pswd-by-email-code.interface'
+import { CodeAction } from '../../types/enum/code-action.enum'
 
 const { loading, updatePasswordByEmailCode } = useUser()
 

@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { validateAccount, validateEmail, validatePassword } from 'sust-utils'
-import { CodeAction } from 'sust-types'
-import type { IRegisterBodyDto } from 'sust-types'
 
 import { useUser } from '../../composables/user'
-
 import ZInput from '../../components/input/ZInput.vue'
 import SMSInput from '../../components/input/SMSInput.vue'
 import ZBtn from '../../components/btn/ZBtn.vue'
+import { validateAccount } from '../../utils/validators/account.validator'
+import { validatePassword } from '../../utils/validators/password.validator'
+import { validateEmail } from '../../utils/validators/email.validator'
+import { IRegisterBodyDto } from '../../types/http/auth/register.interface'
+import { CodeAction } from '../../types/enum/code-action.enum'
 
 const { loading, register } = useUser()
 

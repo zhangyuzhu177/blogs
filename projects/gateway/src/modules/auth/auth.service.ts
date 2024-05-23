@@ -16,6 +16,7 @@ import { userInfo } from 'os';
 import { objectOmit } from '@catsjuice/utils';
 import { parseSqlError } from 'src/utils/response/sql-error/parse-sql-error';
 import { CodeAction } from 'src/types/enum/code-action.enum';
+import { LoginByEmailCodeBodyDto } from './dto/login-by-email-code.body.dto';
 
 @Injectable()
 export class AuthService {
@@ -98,6 +99,24 @@ export class AuthService {
     const correct = await comparePassword(password, user.password)
     if (!correct)
       responseError(ErrorCode.AUTH_PASSWORD_NOT_MATCHED)
+
+    return await this.signLoginTicket(user)
+  }
+
+  /**
+   * 邮箱验证码登录
+   * @param body
+   * @returns
+   */
+  public async loginByEmailCode(body: LoginByEmailCodeBodyDto) {
+    const { bizId, code, email } = body
+    await this._codeSrv.verifyWithError(bizId, [email, CodeAction.LOGIN, code])
+
+    const user = await this._userSrv.repo().findOne({ where: { email } })
+    if (!user)
+      responseError(ErrorCode.USER_EMAIL_NOT_REGISTERED)
+    if (user.isDeleted)
+      responseError(ErrorCode.USER_ACCOUNT_IS_DELETED)
 
     return await this.signLoginTicket(user)
   }

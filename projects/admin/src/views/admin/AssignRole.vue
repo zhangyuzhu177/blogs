@@ -2,13 +2,14 @@
 import { cloneDeep } from 'lodash'
 import moment from 'moment'
 import { Notify, type QTableColumn, type QTableProps } from 'quasar'
-import type { IRole, IUser } from 'sust-types'
 
-import { PermissionType } from 'sust-types'
+import { IUser } from 'shared/types/entities/user.interface'
+import { IRole } from 'shared/types/entities/role.interface'
 import AdminRoleDialog from './dialog/AdminRole.vue'
 import type { Type } from './dialog/AdminRole.vue'
 import UserDetails from '~/views/user/UserDetails.vue'
 import ZTable from '~/components/table/ZTable.vue'
+
 
 const { adminRole } = useUser()
 

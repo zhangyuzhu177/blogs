@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import type { IRole } from 'sust-types'
-import { PermissionType } from 'sust-types'
-import { hasIntersection } from 'sust-utils'
-
 import { Notify, type QTableColumn, type QTableProps } from 'quasar'
 import AdminRoleDialog from './dialog/AdminRole.vue'
+import { PermissionType } from 'shared/types/enum/permission.enum';
+import { IRole } from 'shared/types/entities/role.interface';
 
 const { adminRole } = useUser()
 const { getMenu } = useRole()

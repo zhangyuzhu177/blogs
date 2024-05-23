@@ -6,7 +6,7 @@ import { encryptPassword } from 'src/utils/encrypt/encrypt-password';
 import { responseError } from 'src/utils/response';
 import { parseSqlError } from 'src/utils/response/sql-error/parse-sql-error';
 import { mergeDeep } from 'src/utils/validators/mergeDeep';
-import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
+import { FindManyOptions, FindOneOptions, FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -55,6 +55,31 @@ export class UserService {
       mergeDeep(defaultOptions, options, requiredOptions),
     )
   }
+
+    /**
+   * 更新某个用户的密码
+   * @param where
+   * @param newPassword
+   * @returns
+   */
+    public async updateUserPassword(
+      where: FindOptionsWhere<User>,
+      newPassword: string,
+    ) {
+      const users = await this._userRepo.find({ where })
+      let success = 0
+      for (const user of users) {
+        try {
+          const updateRes = await this._userRepo.update(
+            { id: user.id },
+            { password: await encryptPassword(newPassword) },
+          )
+          success += updateRes.affected
+        }
+        catch (error) {}
+      }
+      return success
+    }
 
   public qb(alias = 'u') {
     return this._userRepo.createQueryBuilder(alias)

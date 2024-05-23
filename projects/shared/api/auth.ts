@@ -2,6 +2,7 @@ import { IRegisterBodyDto } from "../types/http/auth/register.interface";
 import { ILoginByPasswordBodyDto, ILoginSuccessResData } from "../types/http/auth/login-by-password.interface";
 import { authToken } from "../composables/user";
 import { useRequest } from "../utils/request";
+import { ILoginByEmailCodeBodyDto } from "types/http/auth/login-by-email-code.interface";
 
 const { $post,$get } = useRequest()
 
@@ -22,6 +23,15 @@ export function registerApi(body: IRegisterBodyDto) {
  */
 export function loginByPasswordApi(body: ILoginByPasswordBodyDto) {
   return $post<ILoginSuccessResData>('/auth/login/password', body)
+}
+
+/**
+ * 邮箱验证码登录
+ * @param body
+ * @returns
+ */
+export function loginByEmailCodeApi(body: ILoginByEmailCodeBodyDto) {
+  return $post<ILoginSuccessResData>('/auth/login/email/code', body)
 }
 
 /**

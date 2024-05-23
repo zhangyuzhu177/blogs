@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from 'vue'
-import { validateEmail, validatePassword } from 'sust-utils'
 
-import { ErrorCode } from 'sust-types'
 import { rsaDecrypt } from '../../utils/rsa'
 import { useUser } from '../../composables/user'
 import { REMEMBER_LOGIN_INFO_KEY } from '../../constants/storage'
@@ -11,6 +9,9 @@ import ZInput from '../../components/input/ZInput.vue'
 import CaptchaInput from '../../components/input/CaptchaInput.vue'
 import ZBtn from '../../components/btn/ZBtn.vue'
 import ZDialog from '../../components/dialog/ZDialog.vue'
+import { validatePassword } from '../../utils/validators/password.validator'
+import { validateEmail } from '../../utils/validators/email.validator'
+import { ErrorCode } from '../../types/enum/error-code.enum'
 
 const { loading, loginByPassword } = useUser()
 

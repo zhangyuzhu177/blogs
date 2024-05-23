@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { PermissionType } from 'sust-types'
-import { hasIntersection, isFullIncludes } from 'sust-utils'
+import { PermissionType } from 'shared/types/enum/permission.enum';
 import type { PermissionItem } from '~/constants/admin'
 
 interface Props {
