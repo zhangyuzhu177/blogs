@@ -44,7 +44,6 @@ export function useSysConfig() {
     if (useCache && app.value)
       return
     const res = await getConfigApi(SysConfig.APP) || {}
-    console.log(res);
 
     app.value = {
       name: res.name || APP_NAME,

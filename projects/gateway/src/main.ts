@@ -1,4 +1,5 @@
 import { join } from 'node:path'
+import * as dotenvFlow from 'dotenv-flow'
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { Logger, ValidationPipe } from '@nestjs/common'
@@ -14,6 +15,8 @@ import { parseBoolRaw } from './utils/parseBoolRaw'
 import { getExceptionFactory } from './utils/response/validate-exception-factory'
 
 async function bootstrap() {
+  dotenvFlow.config({ path: '../shared' })
+
   const logger = new Logger('Bootstrap')
 
   const app = await NestFactory.create<NestFastifyApplication>(

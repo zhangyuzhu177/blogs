@@ -25,7 +25,7 @@ export function Decorator(optional = false) {
       MinLength(PASSWORD_MIN_LENGTH, { message: `密码长度不能小于${PASSWORD_MIN_LENGTH}位` }),
       MaxLength(PASSWORD_MAX_LENGTH, { message: `密码长度不能大于${PASSWORD_MAX_LENGTH}位` }),
       IsString({ message: '密码必须是字符串' }),
-      Transform(({ value }) => rsaDecrypt(value)),
+      Transform(({ value }) =>rsaDecrypt(value)),
     ],
     optional,
   )

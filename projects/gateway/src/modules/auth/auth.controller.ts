@@ -36,6 +36,7 @@ export class AuthController {
     @Body() body:LoginByPasswordBodyDto,
     @Req() req: FastifyRequest
   ) {
+
     return this._authSrv.loginByPassword(body, req.raw.ip)
   }
 

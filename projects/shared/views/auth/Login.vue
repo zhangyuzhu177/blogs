@@ -37,6 +37,7 @@ onBeforeMount(async () => {
     if (loginInfo.userCode && loginInfo.password) {
       userCode.value = loginInfo.userCode
       password.value = await rsaDecrypt(loginInfo.password)
+
       remember.value = true
     }
   }

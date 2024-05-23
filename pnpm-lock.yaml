@@ -358,6 +358,9 @@ importers:
       compressing:
         specifier: ^1.10.0
         version: 1.10.0
+      dotenv-flow:
+        specifier: ^4.1.0
+        version: 4.1.0
       express-session:
         specifier: ^1.18.0
         version: 1.18.0
@@ -7093,6 +7096,13 @@ packages:
   /dotenv-expand@10.0.0:
     resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
     engines: {node: '>=12'}
+    dev: false
+
+  /dotenv-flow@4.1.0:
+    resolution: {integrity: sha512-0cwP9jpQBQfyHwvE0cRhraZMkdV45TQedA8AAUZMsFzvmLcQyc1HPv+oX0OOYwLFjIlvgVepQ+WuQHbqDaHJZg==}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      dotenv: 16.4.5
     dev: false
 
   /dotenv@16.4.5:

@@ -52,5 +52,8 @@ watch(
         @click="logoutDialog = true"
       />
     </div>
+
+    <!-- 退出登录对话框 -->
+    <LogoutDialog v-model="logoutDialog" />
   </div>
 </template>
