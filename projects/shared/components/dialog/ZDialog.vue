@@ -93,7 +93,11 @@ defineExpose({
           min-w-28
           :label="confirmText"
           :disable="disableConfirm"
-          @click="$emit('ok')"
+          @click="() => {
+            console.log(123);
+
+            $emit('ok')
+          }"
         />
       </footer>
 

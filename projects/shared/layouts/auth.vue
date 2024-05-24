@@ -20,11 +20,11 @@ onBeforeUnmount(() => localStorage?.removeItem(LEADING_PAGE_KEY))
     absolute inset-0 flex="~ row"
   >
     <div flex="1" w0 relative>
-      <img
+      <!-- <img
         v-if="width >= 900"
         src="../assets/bg/auth.webp"
         h-full w-100vw max-w-inherit object-cover
-      >
+      > -->
       <div
         flex="~ gap2 items-center"
         absolute top-12 left-12
