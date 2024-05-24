@@ -13,14 +13,14 @@ export interface PermissionItem {
 
 export const ADMIN_MENU_LIST: PermissionItem[] = [
   {
-    name: '页面管理',
-    to: '/page-admin',
+    name: '首页',
+    to: '/home',
     value: [
       PermissionType.CONFIG_QUERY_APP,
     ],
     children: [
       {
-        name: '页面配置管理',
+        name: '页面管理',
         children: [
           {
             name: '只读访问页面配置',

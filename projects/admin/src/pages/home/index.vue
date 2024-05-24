@@ -4,7 +4,7 @@ import {} from "vue"
 
 <template>
   <div class="">
-    用户
+    页面
   </div>
 </template>
 

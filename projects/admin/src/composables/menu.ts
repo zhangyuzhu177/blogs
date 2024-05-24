@@ -21,7 +21,7 @@ export function useMenu() {
       page: [
         {
           id: 'page',
-          label: '页面配置管理',
+          label: '页面管理',
           flag: role?.includes(PermissionType.CONFIG_QUERY_APP),
         }
       ],

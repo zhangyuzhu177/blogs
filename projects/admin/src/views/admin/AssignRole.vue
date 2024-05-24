@@ -9,6 +9,7 @@ import AdminRoleDialog from './dialog/AdminRole.vue'
 import type { Type } from './dialog/AdminRole.vue'
 import UserDetails from '~/views/user/UserDetails.vue'
 import ZTable from '~/components/table/ZTable.vue'
+import { PermissionType } from 'shared/types/enum/permission.enum'
 
 
 const { adminRole } = useUser()
@@ -57,38 +58,39 @@ const selectRole = ref<IRole>()
 
 const queryUserList: QTableProps['onRequest'] = async (props) => {
   loading.value = true
-  const { filter } = props
+  // const { filter } = props
   const { descending, page, rowsPerPage, sortBy } = props.pagination
 
   try {
-    const { total, data } = await getQueryUserListApi({
-      pagination: {
-        page,
-        pageSize: rowsPerPage,
-      },
-      filters: filter
-        ? [
-            {
-              field: 'account',
-              type: 'LIKE',
-              value: filter,
-            },
-          ]
-        : undefined,
-      sort: [
-        {
-          field: sortBy as keyof IUser,
-          order: descending ? 'DESC' : 'ASC',
-        },
-      ],
-      relations: {
-        role: {
-          permissions: true,
-        },
-      },
-    })
+    // const { total, data } = await getQueryUserListApi({
+    //   pagination: {
+    //     page,
+    //     pageSize: rowsPerPage,
+    //   },
+    //   filters: filter
+    //     ? [
+    //         {
+    //           field: 'account',
+    //           type: 'LIKE',
+    //           value: filter,
+    //         },
+    //       ]
+    //     : undefined,
+    //   sort: [
+    //     {
+    //       field: sortBy as keyof IUser,
+    //       order: descending ? 'DESC' : 'ASC',
+    //     },
+    //   ],
+    //   relations: {
+    //     role: {
+    //       permissions: true,
+    //     },
+    //   },
+    // })
+    const data=await getUserListApi()
     rows.value = data
-    pagination.value.rowsNumber = total
+    // pagination.value.rowsNumber = total
   }
   catch (error) {
     rows.value = []
@@ -113,10 +115,14 @@ async function assignRole(id?: string) {
   loading.value = true
   let res
   try {
-    res = await batchUpdateUserRoleApi({
-      roleId: id,
-      id: selected.value.map(v => v.id),
-    })
+    // res = await batchUpdateUserRoleApi({
+    //   roleId: id,
+    //   id: selected.value.map(v => v.id),
+    // })
+    res = await updateUserRoleApi(
+      id as string,
+      selected.value.map(v => v.id)[0],
+    )
     Notify.create({
       type: 'success',
       message: '操作成功',

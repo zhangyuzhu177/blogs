@@ -137,6 +137,10 @@ export function useUser($router?: Router) {
       else
         $router?.push('/')
     }
+
+    authToken.value = ''
+    adminRole.value = []
+    userInfo.value = undefined
   }
 
   /**处理登录信息 */

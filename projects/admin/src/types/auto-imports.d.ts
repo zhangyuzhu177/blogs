@@ -32,7 +32,7 @@ declare global {
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const authToken: typeof import('../../../shared/composables/user')['authToken']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
-  const batchUpdateUserRoleApi: typeof import('../../../shared/api/user')['batchUpdateUserRoleApi']
+  const batchDeleteRoleApi: typeof import('../../../shared/api/role')['batchDeleteRoleApi']
   const clearUserPasswordApi: typeof import('../../../shared/api/user')['clearUserPasswordApi']
   const computed: typeof import('vue')['computed']
   const computedAsync: typeof import('@vueuse/core')['computedAsync']
@@ -50,7 +50,6 @@ declare global {
   const createSharedComposable: typeof import('@vueuse/core')['createSharedComposable']
   const createTemplatePromise: typeof import('@vueuse/core')['createTemplatePromise']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
-  const createUserApi: typeof import('../../../shared/api/user')['createUserApi']
   const customRef: typeof import('vue')['customRef']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
@@ -69,7 +68,7 @@ declare global {
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getEnvVariable: typeof import('../../../shared/utils/env')['getEnvVariable']
   const getOwnProfileApi: typeof import('../../../shared/api/user')['getOwnProfileApi']
-  const getQueryUserListApi: typeof import('../../../shared/api/user')['getQueryUserListApi']
+  const getRolesApi: typeof import('../../../shared/api/role')['getRolesApi']
   const getUserListApi: typeof import('../../../shared/api/user')['getUserListApi']
   const h: typeof import('vue')['h']
   const hasIntersection: typeof import('../../../shared/utils/isIntersect')['hasIntersection']
@@ -163,6 +162,7 @@ declare global {
   const updateUserApi: typeof import('../../../shared/api/user')['updateUserApi']
   const updateUserRoleApi: typeof import('../../../shared/api/user')['updateUserRoleApi']
   const upsertConfigApi: typeof import('../../../shared/api/config')['upsertConfigApi']
+  const upsertRoleApi: typeof import('../../../shared/api/role')['upsertRoleApi']
   const useActiveElement: typeof import('@vueuse/core')['useActiveElement']
   const useAnimate: typeof import('@vueuse/core')['useAnimate']
   const useApp: typeof import('../../../shared/composables/app')['useApp']
@@ -397,6 +397,7 @@ declare module 'vue' {
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly authToken: UnwrapRef<typeof import('../../../shared/composables/user')['authToken']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
+    readonly batchDeleteRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['batchDeleteRoleApi']>
     readonly clearUserPasswordApi: UnwrapRef<typeof import('../../../shared/api/user')['clearUserPasswordApi']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>
@@ -432,6 +433,7 @@ declare module 'vue' {
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getEnvVariable: UnwrapRef<typeof import('../../../shared/utils/env')['getEnvVariable']>
     readonly getOwnProfileApi: UnwrapRef<typeof import('../../../shared/api/user')['getOwnProfileApi']>
+    readonly getRolesApi: UnwrapRef<typeof import('../../../shared/api/role')['getRolesApi']>
     readonly getUserListApi: UnwrapRef<typeof import('../../../shared/api/user')['getUserListApi']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly hasIntersection: UnwrapRef<typeof import('../../../shared/utils/isIntersect')['hasIntersection']>
@@ -525,6 +527,7 @@ declare module 'vue' {
     readonly updateUserApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserApi']>
     readonly updateUserRoleApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserRoleApi']>
     readonly upsertConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['upsertConfigApi']>
+    readonly upsertRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['upsertRoleApi']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
     readonly useApp: UnwrapRef<typeof import('../../../shared/composables/app')['useApp']>
@@ -752,6 +755,7 @@ declare module '@vue/runtime-core' {
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly authToken: UnwrapRef<typeof import('../../../shared/composables/user')['authToken']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
+    readonly batchDeleteRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['batchDeleteRoleApi']>
     readonly clearUserPasswordApi: UnwrapRef<typeof import('../../../shared/api/user')['clearUserPasswordApi']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>
@@ -787,6 +791,7 @@ declare module '@vue/runtime-core' {
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getEnvVariable: UnwrapRef<typeof import('../../../shared/utils/env')['getEnvVariable']>
     readonly getOwnProfileApi: UnwrapRef<typeof import('../../../shared/api/user')['getOwnProfileApi']>
+    readonly getRolesApi: UnwrapRef<typeof import('../../../shared/api/role')['getRolesApi']>
     readonly getUserListApi: UnwrapRef<typeof import('../../../shared/api/user')['getUserListApi']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly hasIntersection: UnwrapRef<typeof import('../../../shared/utils/isIntersect')['hasIntersection']>
@@ -880,6 +885,7 @@ declare module '@vue/runtime-core' {
     readonly updateUserApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserApi']>
     readonly updateUserRoleApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserRoleApi']>
     readonly upsertConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['upsertConfigApi']>
+    readonly upsertRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['upsertRoleApi']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
     readonly useApp: UnwrapRef<typeof import('../../../shared/composables/app')['useApp']>

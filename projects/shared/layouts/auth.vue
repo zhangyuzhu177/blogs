@@ -51,17 +51,17 @@ onBeforeUnmount(() => localStorage?.removeItem(LEADING_PAGE_KEY))
 </template>
 
 <style lang="scss" scoped>
-.auth {
-  background: linear-gradient(90deg, #2F96FB 0%, #2041B7 100%);
+// .auth {
+//   background: linear-gradient(90deg, #2F96FB 0%, #2041B7 100%);
 
-  &-card {
-    border-image: linear-gradient(150.02deg, #FFFFFF 0%, rgba(255, 255, 255, 0.05) 100%) 1;
-    background: linear-gradient(147.03deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.01) 100%);
-    max-height: calc(100% - 20px);
+//   &-card {
+//     border-image: linear-gradient(150.02deg, #FFFFFF 0%, rgba(255, 255, 255, 0.05) 100%) 1;
+//     background: linear-gradient(147.03deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.01) 100%);
+//     max-height: calc(100% - 20px);
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-}
+//     &::-webkit-scrollbar {
+//       display: none;
+//     }
+//   }
+// }
 </style>
