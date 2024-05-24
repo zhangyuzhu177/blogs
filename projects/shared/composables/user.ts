@@ -1,4 +1,5 @@
-import { computed, ref } from "vue"
+import { computed, getCurrentInstance, ref } from "vue"
+import { useRouter } from 'vue-router'
 import type { Router } from "vue-router"
 import { useStorage } from "@vueuse/core"
 import { Notify } from "quasar"
@@ -29,6 +30,9 @@ const loading = ref(false)
 
 export function useUser($router?: Router) {
   const { isAdmin } = useSysConfig()
+  const instance = getCurrentInstance()
+  if (!$router && instance)
+    $router = useRouter()
   /**登录 */
   async function loginByPassword(body: ILoginByPasswordBodyDto,remember=false) {
     loading.value = true

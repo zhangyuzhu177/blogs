@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { QScrollArea } from 'quasar'
 import type { QDialogProps } from 'quasar'
@@ -35,6 +35,11 @@ const scrollRef = ref<InstanceType<typeof QScrollArea>>()
 const { isAdmin } = useSysConfig()
 
 const value = useVModel(props, 'modelValue')
+console.log(value);
+
+watch(value, (newVal) => {
+  console.log(newVal)
+})
 
 defineExpose({
   scrollRef,
@@ -88,16 +93,13 @@ defineExpose({
             outline: true,
           }"
         />
+        {{value}}
         <ZBtn
           v-close-popup="confirmClose"
           min-w-28
           :label="confirmText"
           :disable="disableConfirm"
-          @click="() => {
-            console.log(123);
-
-            $emit('ok')
-          }"
+          @click="$emit('ok')"
         />
       </footer>
 
