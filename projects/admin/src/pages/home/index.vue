@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import {} from "vue"
+import Home from '~/views/home/Home.vue'
+import PageAdmin from '~/views/home/PageAdmin.vue'
+
+const { active, menu } = useMenu()
 </script>
 
 <template>
-  <div class="">
-    页面
+  <div v-if="menu?.length">
+    <Home v-if="active===menu[0].id" />
+    <PageAdmin v-if="active===menu[1].id"/>
   </div>
 </template>
 
@@ -12,5 +16,3 @@ import {} from "vue"
 meta:
   layout: home
 </route>
-
-<style  scoped></style>

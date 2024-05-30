@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { QScrollArea } from 'quasar'
 import type { QDialogProps } from 'quasar'
@@ -35,11 +35,6 @@ const scrollRef = ref<InstanceType<typeof QScrollArea>>()
 const { isAdmin } = useSysConfig()
 
 const value = useVModel(props, 'modelValue')
-console.log(value);
-
-watch(value, (newVal) => {
-  console.log(newVal)
-})
 
 defineExpose({
   scrollRef,
@@ -66,7 +61,7 @@ defineExpose({
           <div text="sm grey-6" font-400 v-text="caption" />
         </div>
 
-        <q-btn v-close-popup dense flat p0 h6 w6 min-h="auto!">
+        <q-btn  @click="value=false" dense flat p0 h6 w6 min-h="auto!">
           <div i-mingcute:close-line text-grey-5 text-lg />
         </q-btn>
       </header>
@@ -85,7 +80,7 @@ defineExpose({
 
       <footer v-if="footer" flex="~ row justify-end gap6" px6>
         <ZBtn
-          v-close-popup
+          @click="value=false"
           min-w-28
           :label="cancelText"
           text-color="primary-1"
@@ -93,13 +88,14 @@ defineExpose({
             outline: true,
           }"
         />
-        {{value}}
         <ZBtn
-          v-close-popup="confirmClose"
           min-w-28
           :label="confirmText"
           :disable="disableConfirm"
-          @click="$emit('ok')"
+          @click="() => {
+            value=false
+            $emit('ok')
+          }"
         />
       </footer>
 

@@ -16,6 +16,7 @@ declare global {
   const APP_NAME: typeof import('../../../shared/constants/app')['APP_NAME']
   const APP_NAME_EN: typeof import('../../../shared/constants/app')['APP_NAME_EN']
   const AUTH_TOKEN_KEY: typeof import('../../../shared/constants/storage')['AUTH_TOKEN_KEY']
+  const ClosePopup: typeof import('quasar')['ClosePopup']
   const EMAIL_MAX_LENGTH: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MAX_LENGTH']
   const EMAIL_MIN_LENGTH: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MIN_LENGTH']
   const EMAIL_REQUIREMENTS_DESC: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']

@@ -12,7 +12,7 @@ function getUrl(opt: RedisConnectionOptions): { key: string; url: string } {
   const { host, port, db, username, password } = opt
   if (!host || !port || (db !== 0 && !db))
     return null
-  const auth = username ? `${username}${password ? `:${password}` : ''}@` : ''
+  const auth = username ? `${username}${password ? `:${password}` : ''}@` :''
   const key = `${host}_${port}_${db}_${username || ''}`
   const url = `redis://${auth}${host}:${port}/${db}`
   return { key, url }

@@ -39,7 +39,9 @@ const cols = reactive<QTableColumn<IUser>[]>([
 /** 表格行 */
 const rows = ref<QTableProps['rows']>([])
 /** 表格分页信息 */
-const pagination = TABLE_PAGINATION('createdAt', true)
+const pagination = {
+  rowsPerPage: 0,
+}
 /** 多选 */
 const selected = ref<IUser[]>()
 /** 分配角色对话框 */
@@ -59,36 +61,10 @@ const selectRole = ref<IRole>()
 const queryUserList: QTableProps['onRequest'] = async (props) => {
   loading.value = true
   // const { filter } = props
-  const { descending, page, rowsPerPage, sortBy } = props.pagination
 
   try {
-    // const { total, data } = await getQueryUserListApi({
-    //   pagination: {
-    //     page,
-    //     pageSize: rowsPerPage,
-    //   },
-    //   filters: filter
-    //     ? [
-    //         {
-    //           field: 'account',
-    //           type: 'LIKE',
-    //           value: filter,
-    //         },
-    //       ]
-    //     : undefined,
-    //   sort: [
-    //     {
-    //       field: sortBy as keyof IUser,
-    //       order: descending ? 'DESC' : 'ASC',
-    //     },
-    //   ],
-    //   relations: {
-    //     role: {
-    //       permissions: true,
-    //     },
-    //   },
-    // })
-    const data=await getUserListApi()
+    const data = await getUserListApi()
+
     rows.value = data
     // pagination.value.rowsNumber = total
   }
@@ -96,10 +72,6 @@ const queryUserList: QTableProps['onRequest'] = async (props) => {
     rows.value = []
   }
   finally {
-    pagination.value.page = page
-    pagination.value.rowsPerPage = rowsPerPage
-    pagination.value.sortBy = sortBy
-    pagination.value.descending = descending
     loading.value = false
     selected.value = undefined
   }
@@ -120,8 +92,8 @@ async function assignRole(id?: string) {
     //   id: selected.value.map(v => v.id),
     // })
     res = await updateUserRoleApi(
-      id as string,
       selected.value.map(v => v.id)[0],
+      id as string,
     )
     Notify.create({
       type: 'success',
@@ -200,6 +172,7 @@ onBeforeMount(async () => {
         filter: text,
         binaryStateSort: true,
         selection: 'multiple',
+        hideBottom:rows.length?true:false
       }"
       flex-1 h0
       fixed-first-column

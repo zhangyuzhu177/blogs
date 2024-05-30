@@ -24,7 +24,7 @@ watch(
 </script>
 
 <template>
-  <div flex="~ col gap-6" bg="#051135"
+  <div flex="~ col gap2" bg="#282C34" py-6
   text-grey-1 :max-w="isExpand ? 80 : 20" :style="{
     transition: `max-width ${time}ms`,
   }">
@@ -44,7 +44,7 @@ watch(
           v-html="isExpand ? left : right" />
       </div>
     </div>
-    <div flex="~ 1 col gap6" px4 h0>
+    <div w-full flex="~ 1 col gap6" px4 flex-1 h0>
       <HomeMenu flex-1 h0 class="hide-scrollbar" />
       <MenuItem
         label="退出登录"

@@ -2,13 +2,12 @@ import { IUser } from "../types/entities/user.interface"
 import { useRequest } from "../utils/request"
 import { IUserIdDto } from "../types/dto/id/user.interface"
 import type { IGetProfileOwnQueryDto, } from '../types/http/user/get-profile-own.interface'
-import { ICreateUserBodyDto } from "../types/http/user/create-user.interface"
 import { IUpdateUserBodyDto } from "../types/http/user/update-user.interface"
 import { IUpdatePasswordByEmailCodeBodyDto } from "../types/http/user/update-pswd-by-email-code.interface"
 import type {} from '../types/dto/id/user.interface'
 import { IRoleIdDto } from "../types/dto/id/role.interface"
 
-const { $patch, $get, $post, $delete, $put } = useRequest()
+const { $patch, $get, $delete } = useRequest()
 
 /** 获取用户列表 */
 export function getUserListApi() {

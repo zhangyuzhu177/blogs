@@ -18,7 +18,12 @@ export function useMenu() {
   const menu = computed<MenuItem[] | undefined>(() => {
     const role = adminRole.value
     const menu: Record<string, MenuItem[]> = {
-      page: [
+      home: [
+        {
+          id: 'home',
+          label: '首页',
+          flag: true,
+        },
         {
           id: 'page',
           label: '页面管理',

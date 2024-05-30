@@ -51,6 +51,9 @@ const cols = reactive<QTableColumn<IRole>[]>([
     field: 'id',
   },
 ])
+const pagination = {
+  rowsPerPage: 0,
+}
 
 watch(
   dialogType,
@@ -145,12 +148,14 @@ onBeforeMount(() => {
     </div>
 
     <ZTable
+      v-model:pagination="pagination"
       v-model:selected="selected"
       :rows="rows"
       :cols="cols"
       :params="{
-        noDataLabel: '暂无管理角色记录',
+      noDataLabel: '暂无管理角色记录',
         selection: 'multiple',
+        hideBottom:rows.length?true:false
       }"
       flex-1 h0
       fixed-first-column

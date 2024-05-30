@@ -20,6 +20,9 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
     ],
     children: [
       {
+        name: '首页',
+      },
+      {
         name: '页面管理',
         children: [
           {

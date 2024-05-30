@@ -38,7 +38,7 @@ export class UserController {
   ])
   @Get('list')
   public async getUserList() {
-    return await this._userSrv.repo().find()
+    return await this._userSrv.repo().find({relations:{role:true}})
   }
 
   @ApiOperation({ summary: '获取当前登录的用户' })
@@ -95,8 +95,12 @@ export class UserController {
   public async updateUserRole(@Param() param: UpdateUserRoleParamDto) {
     const { userId } = param
     const roleId = param.roleId || null
+    console.log(userId,roleId);
+
     // const { list } = await this._cfgSrv.get<{ list: SysAdmin[] }>('sa')
     const user = await this._userSrv.repo().findOne({ where: { id: userId } })
+    console.log(user);
+
     if (!user.account)
       responseError(ErrorCode.USER_NOT_FOUND)
     // if (list.some(v => v.account === user.account))

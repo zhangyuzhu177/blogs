@@ -11,7 +11,7 @@ import { getEnvVariable } from "../utils/env"
 import { IUser } from "../types/entities/user.interface"
 import { loginByEmailCodeApi, loginByPasswordApi, logoutApi, registerApi } from "../api/auth"
 import { PermissionType } from "../types/enum/permission.enum"
-import { AUTH_TOKEN_KEY, LEADING_PAGE_KEY } from "../constants/storage"
+import { AUTH_TOKEN_KEY, LEADING_PAGE_KEY, REMEMBER_LOGIN_INFO_KEY } from "../constants/storage"
 import { IRegisterBodyDto } from "../types/http/auth/register.interface"
 import { ILoginByEmailCodeBodyDto } from "../types/http/auth/login-by-email-code.interface"
 import { ILoginByPasswordBodyDto, ILoginSuccessResData } from "../types/http/auth/login-by-password.interface"
@@ -41,7 +41,7 @@ export function useUser($router?: Router) {
       if (res && remember) {
         // 记住密码
         localStorage.setItem(
-          AUTH_TOKEN_KEY,
+          REMEMBER_LOGIN_INFO_KEY,
           JSON.stringify({
             userCode: body.account || body.email,
             password: await rsaEncrypt(body.password!),
