@@ -9,7 +9,7 @@ const { $get, $post } = useRequest()
  * 创建或更新全局配置
  */
 export function upsertConfigApi(body: IUpsertConfigBodyDto) {
-  return $post<IConfigDto[SysConfig]>('/config', body)
+  return $post<IConfigDto[SysConfig]>(`/config`, body)
 }
 
 /**

@@ -3,9 +3,9 @@ import { computed, ref } from 'vue'
 import { useUser } from '../../composables/user'
 import ZInput from '../../components/input/ZInput.vue'
 import ZBtn from '../../components/btn/ZBtn.vue'
-import { validateEmail } from 'utils/validators/email.validator';
-import { ILoginByEmailCodeBodyDto } from 'types/http/auth/login-by-email-code.interface';
-import { CodeAction } from 'types/enum/code-action.enum';
+import { validateEmail } from '../../utils/validators/email.validator';
+import { ILoginByEmailCodeBodyDto } from '../../types/http/auth/login-by-email-code.interface';
+import { CodeAction } from '../../types/enum/code-action.enum';
 
 const { loading, loginByEmailCode } = useUser()
 

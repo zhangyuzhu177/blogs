@@ -54,12 +54,11 @@ onBeforeUnmount(() => localStorage?.removeItem(LEADING_PAGE_KEY))
 .auth {
   background-image: url('../assets/bg/1.jpg');
   background-size: 100% 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;  /*关键*/
-    background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;  /*关键*/
+  background-position: center;
   // background: linear-gradient(90deg, #2F96FB 0%, #2041B7 100%);
-  background-color: rgb(105, 105, 87);
 
   &-card {
     border-image: linear-gradient(150.02deg, #FFFFFF 0%, rgba(255, 255, 255, 0.05) 100%) 1;

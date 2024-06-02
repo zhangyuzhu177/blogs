@@ -30,8 +30,10 @@
   ],
   "prettier.enable": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll": "explicit"
   },
+
   "files.associations": {
     "*.css": "postcss"
   },

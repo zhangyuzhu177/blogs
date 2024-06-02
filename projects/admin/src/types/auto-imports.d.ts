@@ -22,6 +22,7 @@ declare global {
   const EMAIL_REQUIREMENTS_DESC: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']
   const EffectScope: typeof import('vue')['EffectScope']
   const LEADING_PAGE_KEY: typeof import('../../../shared/constants/storage')['LEADING_PAGE_KEY']
+  const Notify: typeof import('quasar')['Notify']
   const PASSWORD_ALLOW_CHARS: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_ALLOW_CHARS']
   const PASSWORD_MAX_LENGTH: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MAX_LENGTH']
   const PASSWORD_MIN_LENGTH: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MIN_LENGTH']
@@ -162,6 +163,7 @@ declare global {
   const updateOwnPasswordByEmailCodeApi: typeof import('../../../shared/api/user')['updateOwnPasswordByEmailCodeApi']
   const updateUserApi: typeof import('../../../shared/api/user')['updateUserApi']
   const updateUserRoleApi: typeof import('../../../shared/api/user')['updateUserRoleApi']
+  const uploadFileApi: typeof import('../../../shared/api/file')['uploadFileApi']
   const upsertConfigApi: typeof import('../../../shared/api/config')['upsertConfigApi']
   const upsertRoleApi: typeof import('../../../shared/api/role')['upsertRoleApi']
   const useActiveElement: typeof import('@vueuse/core')['useActiveElement']
@@ -264,6 +266,7 @@ declare global {
   const useObjectUrl: typeof import('@vueuse/core')['useObjectUrl']
   const useOffsetPagination: typeof import('@vueuse/core')['useOffsetPagination']
   const useOnline: typeof import('@vueuse/core')['useOnline']
+  const usePageAdmin: typeof import('../composables/page')['usePageAdmin']
   const usePageLeave: typeof import('@vueuse/core')['usePageLeave']
   const useParallax: typeof import('@vueuse/core')['useParallax']
   const useParentElement: typeof import('@vueuse/core')['useParentElement']
@@ -387,6 +390,7 @@ declare module 'vue' {
     readonly EMAIL_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly LEADING_PAGE_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['LEADING_PAGE_KEY']>
+    readonly Notify: UnwrapRef<typeof import('quasar')['Notify']>
     readonly PASSWORD_ALLOW_CHARS: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_ALLOW_CHARS']>
     readonly PASSWORD_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MAX_LENGTH']>
     readonly PASSWORD_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MIN_LENGTH']>
@@ -527,6 +531,7 @@ declare module 'vue' {
     readonly updateOwnPasswordByEmailCodeApi: UnwrapRef<typeof import('../../../shared/api/user')['updateOwnPasswordByEmailCodeApi']>
     readonly updateUserApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserApi']>
     readonly updateUserRoleApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserRoleApi']>
+    readonly uploadFileApi: UnwrapRef<typeof import('../../../shared/api/file')['uploadFileApi']>
     readonly upsertConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['upsertConfigApi']>
     readonly upsertRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['upsertRoleApi']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
@@ -629,6 +634,7 @@ declare module 'vue' {
     readonly useObjectUrl: UnwrapRef<typeof import('@vueuse/core')['useObjectUrl']>
     readonly useOffsetPagination: UnwrapRef<typeof import('@vueuse/core')['useOffsetPagination']>
     readonly useOnline: UnwrapRef<typeof import('@vueuse/core')['useOnline']>
+    readonly usePageAdmin: UnwrapRef<typeof import('../composables/page')['usePageAdmin']>
     readonly usePageLeave: UnwrapRef<typeof import('@vueuse/core')['usePageLeave']>
     readonly useParallax: UnwrapRef<typeof import('@vueuse/core')['useParallax']>
     readonly useParentElement: UnwrapRef<typeof import('@vueuse/core')['useParentElement']>
@@ -745,6 +751,7 @@ declare module '@vue/runtime-core' {
     readonly EMAIL_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly LEADING_PAGE_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['LEADING_PAGE_KEY']>
+    readonly Notify: UnwrapRef<typeof import('quasar')['Notify']>
     readonly PASSWORD_ALLOW_CHARS: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_ALLOW_CHARS']>
     readonly PASSWORD_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MAX_LENGTH']>
     readonly PASSWORD_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MIN_LENGTH']>
@@ -885,6 +892,7 @@ declare module '@vue/runtime-core' {
     readonly updateOwnPasswordByEmailCodeApi: UnwrapRef<typeof import('../../../shared/api/user')['updateOwnPasswordByEmailCodeApi']>
     readonly updateUserApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserApi']>
     readonly updateUserRoleApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserRoleApi']>
+    readonly uploadFileApi: UnwrapRef<typeof import('../../../shared/api/file')['uploadFileApi']>
     readonly upsertConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['upsertConfigApi']>
     readonly upsertRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['upsertRoleApi']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
@@ -987,6 +995,7 @@ declare module '@vue/runtime-core' {
     readonly useObjectUrl: UnwrapRef<typeof import('@vueuse/core')['useObjectUrl']>
     readonly useOffsetPagination: UnwrapRef<typeof import('@vueuse/core')['useOffsetPagination']>
     readonly useOnline: UnwrapRef<typeof import('@vueuse/core')['useOnline']>
+    readonly usePageAdmin: UnwrapRef<typeof import('../composables/page')['usePageAdmin']>
     readonly usePageLeave: UnwrapRef<typeof import('@vueuse/core')['usePageLeave']>
     readonly useParallax: UnwrapRef<typeof import('@vueuse/core')['useParallax']>
     readonly useParentElement: UnwrapRef<typeof import('@vueuse/core')['useParentElement']>

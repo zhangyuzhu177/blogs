@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Home from '~/views/home/Home.vue'
-import PageAdmin from '~/views/home/PageAdmin.vue'
+import PageAdmin from '~/views/home/PageAdmin/index.vue'
 
 const { active, menu } = useMenu()
 </script>
