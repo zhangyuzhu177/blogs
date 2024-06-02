@@ -3,14 +3,14 @@ import { IConfigDto } from 'shared/types/dto/config.interface';
 import { SysConfig } from 'shared/types/enum/config.enum';
 
 interface Props {
-  page?: IConfigDto[SysConfig.HOME]
+  page: IConfigDto[SysConfig.HOME]
 }
 
 const props=defineProps<Props>()
 
-const signature = ref<string>('hhhh')
+const signature = ref<string>('')
 const time = ref<NodeJS.Timer | null>(null)
-const title = ref(props.page?.title||'Hello World')
+const title = ref(props.page?.title)
 function appear(text: string) {
   signature.value = ''
   clearTimeout(time.value as NodeJS.Timeout)
@@ -32,7 +32,7 @@ function appear(text: string) {
 }
 
 onMounted(() => {
-  appear(props.page?.label||'Do not go gentle into the good night')
+  appear(props.page!.label as string)
 })
 </script>
 
@@ -52,7 +52,7 @@ onMounted(() => {
   left: 50%;
   top: 50%;
   transform: translateX(-50%) translateY(-60%);
-  color: #ffffff;
+  color: white;
 
   .artboard {
     font-family:
@@ -62,7 +62,7 @@ onMounted(() => {
       "PingFang SC",
       "Microsoft YaHei",
       sans-serif;
-    font-size: 100px;
+    font-size: 82px;
     line-height: 1.2;
     /* animation: titleScale 1s; */
     animation: showup 2s linear forwards;
@@ -73,6 +73,7 @@ onMounted(() => {
   .text {
     font-size: 24px;
     text-align: center;
+    font-family: "Dream Font",BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
   }
 
   .typed-cursor {

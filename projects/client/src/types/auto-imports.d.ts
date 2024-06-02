@@ -33,6 +33,8 @@ declare global {
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const authToken: typeof import('../../../shared/composables/user')['authToken']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
+  const batchDeleteRoleApi: typeof import('../../../shared/api/role')['batchDeleteRoleApi']
+  const clearUserPasswordApi: typeof import('../../../shared/api/user')['clearUserPasswordApi']
   const computed: typeof import('vue')['computed']
   const computedAsync: typeof import('@vueuse/core')['computedAsync']
   const computedEager: typeof import('@vueuse/core')['computedEager']
@@ -54,6 +56,7 @@ declare global {
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
+  const deleteUserApi: typeof import('../../../shared/api/user')['deleteUserApi']
   const distance: typeof import('../utils/vector')['distance']
   const downloadCsv: typeof import('../../../shared/utils/browser/download/downloadCsv')['downloadCsv']
   const downloadUrl: typeof import('../../../shared/utils/browser/download/downloadUrl')['downloadUrl']
@@ -67,7 +70,10 @@ declare global {
   const getConfigApi: typeof import('../../../shared/api/config')['getConfigApi']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
+  const getEnvVariable: typeof import('../../../shared/utils/env')['getEnvVariable']
   const getOwnProfileApi: typeof import('../../../shared/api/user')['getOwnProfileApi']
+  const getRolesApi: typeof import('../../../shared/api/role')['getRolesApi']
+  const getUserListApi: typeof import('../../../shared/api/user')['getUserListApi']
   const h: typeof import('vue')['h']
   const hasIntersection: typeof import('../../../shared/utils/isIntersect')['hasIntersection']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
@@ -76,10 +82,12 @@ declare global {
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const isDefined: typeof import('@vueuse/core')['isDefined']
+  const isFullIncludes: typeof import('../../../shared/utils/fullIncludes')['isFullIncludes']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
+  const loginByEmailCodeApi: typeof import('../../../shared/api/auth')['loginByEmailCodeApi']
   const loginByPasswordApi: typeof import('../../../shared/api/auth')['loginByPasswordApi']
   const logoutApi: typeof import('../../../shared/api/auth')['logoutApi']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
@@ -108,6 +116,7 @@ declare global {
   const onStartTyping: typeof import('@vueuse/core')['onStartTyping']
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
+  const parseBoolRaw: typeof import('../../../shared/utils/parseBoolRaw')['parseBoolRaw']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const pick: typeof import('../utils/vector')['pick']
   const polar2cart: typeof import('../utils/vector')['polar2cart']
@@ -129,6 +138,7 @@ declare global {
   const reactivePick: typeof import('@vueuse/core')['reactivePick']
   const readFile: typeof import('../../../shared/utils/browser/file/readFile')['readFile']
   const readonly: typeof import('vue')['readonly']
+  const recoverUserApi: typeof import('../../../shared/api/user')['recoverUserApi']
   const ref: typeof import('vue')['ref']
   const refAutoReset: typeof import('@vueuse/core')['refAutoReset']
   const refDebounced: typeof import('@vueuse/core')['refDebounced']
@@ -165,7 +175,12 @@ declare global {
   const unref: typeof import('vue')['unref']
   const unrefElement: typeof import('@vueuse/core')['unrefElement']
   const until: typeof import('@vueuse/core')['until']
+  const updateOwnPasswordByEmailCodeApi: typeof import('../../../shared/api/user')['updateOwnPasswordByEmailCodeApi']
+  const updateUserApi: typeof import('../../../shared/api/user')['updateUserApi']
+  const updateUserRoleApi: typeof import('../../../shared/api/user')['updateUserRoleApi']
+  const uploadFileApi: typeof import('../../../shared/api/file')['uploadFileApi']
   const upsertConfigApi: typeof import('../../../shared/api/config')['upsertConfigApi']
+  const upsertRoleApi: typeof import('../../../shared/api/role')['upsertRoleApi']
   const useActiveElement: typeof import('@vueuse/core')['useActiveElement']
   const useAnimate: typeof import('@vueuse/core')['useAnimate']
   const useApp: typeof import('../../../shared/composables/app')['useApp']
@@ -341,6 +356,8 @@ declare global {
   const validateAccount: typeof import('../../../shared/utils/validators/account.validator')['validateAccount']
   const validateEmail: typeof import('../../../shared/utils/validators/email.validator')['validateEmail']
   const validatePassword: typeof import('../../../shared/utils/validators/password.validator')['validatePassword']
+  const validateRoleDesc: typeof import('../../../shared/utils/validators/dataRole')['validateRoleDesc']
+  const validateRoleName: typeof import('../../../shared/utils/validators/dataRole')['validateRoleName']
   const validateString: typeof import('../../../shared/utils/validators/string.validator')['validateString']
   const vec2mat: typeof import('../utils/vector')['vec2mat']
   const watch: typeof import('vue')['watch']
@@ -395,6 +412,8 @@ declare module 'vue' {
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly authToken: UnwrapRef<typeof import('../../../shared/composables/user')['authToken']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
+    readonly batchDeleteRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['batchDeleteRoleApi']>
+    readonly clearUserPasswordApi: UnwrapRef<typeof import('../../../shared/api/user')['clearUserPasswordApi']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>
     readonly computedEager: UnwrapRef<typeof import('@vueuse/core')['computedEager']>
@@ -416,6 +435,7 @@ declare module 'vue' {
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
+    readonly deleteUserApi: UnwrapRef<typeof import('../../../shared/api/user')['deleteUserApi']>
     readonly downloadCsv: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadCsv')['downloadCsv']>
     readonly downloadUrl: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadUrl')['downloadUrl']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
@@ -426,17 +446,22 @@ declare module 'vue' {
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getEnvVariable: UnwrapRef<typeof import('../../../shared/utils/env')['getEnvVariable']>
     readonly getOwnProfileApi: UnwrapRef<typeof import('../../../shared/api/user')['getOwnProfileApi']>
+    readonly getRolesApi: UnwrapRef<typeof import('../../../shared/api/role')['getRolesApi']>
+    readonly getUserListApi: UnwrapRef<typeof import('../../../shared/api/user')['getUserListApi']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly hasIntersection: UnwrapRef<typeof import('../../../shared/utils/isIntersect')['hasIntersection']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
+    readonly isFullIncludes: UnwrapRef<typeof import('../../../shared/utils/fullIncludes')['isFullIncludes']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly loginByEmailCodeApi: UnwrapRef<typeof import('../../../shared/api/auth')['loginByEmailCodeApi']>
     readonly loginByPasswordApi: UnwrapRef<typeof import('../../../shared/api/auth')['loginByPasswordApi']>
     readonly logoutApi: UnwrapRef<typeof import('../../../shared/api/auth')['logoutApi']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
@@ -464,6 +489,7 @@ declare module 'vue' {
     readonly onStartTyping: UnwrapRef<typeof import('@vueuse/core')['onStartTyping']>
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
+    readonly parseBoolRaw: UnwrapRef<typeof import('../../../shared/utils/parseBoolRaw')['parseBoolRaw']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
@@ -476,6 +502,7 @@ declare module 'vue' {
     readonly reactivePick: UnwrapRef<typeof import('@vueuse/core')['reactivePick']>
     readonly readFile: UnwrapRef<typeof import('../../../shared/utils/browser/file/readFile')['readFile']>
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
+    readonly recoverUserApi: UnwrapRef<typeof import('../../../shared/api/user')['recoverUserApi']>
     readonly ref: UnwrapRef<typeof import('vue')['ref']>
     readonly refAutoReset: UnwrapRef<typeof import('@vueuse/core')['refAutoReset']>
     readonly refDebounced: UnwrapRef<typeof import('@vueuse/core')['refDebounced']>
@@ -511,7 +538,12 @@ declare module 'vue' {
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly unrefElement: UnwrapRef<typeof import('@vueuse/core')['unrefElement']>
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
+    readonly updateOwnPasswordByEmailCodeApi: UnwrapRef<typeof import('../../../shared/api/user')['updateOwnPasswordByEmailCodeApi']>
+    readonly updateUserApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserApi']>
+    readonly updateUserRoleApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserRoleApi']>
+    readonly uploadFileApi: UnwrapRef<typeof import('../../../shared/api/file')['uploadFileApi']>
     readonly upsertConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['upsertConfigApi']>
+    readonly upsertRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['upsertRoleApi']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
     readonly useApp: UnwrapRef<typeof import('../../../shared/composables/app')['useApp']>
@@ -687,6 +719,8 @@ declare module 'vue' {
     readonly validateAccount: UnwrapRef<typeof import('../../../shared/utils/validators/account.validator')['validateAccount']>
     readonly validateEmail: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['validateEmail']>
     readonly validatePassword: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['validatePassword']>
+    readonly validateRoleDesc: UnwrapRef<typeof import('../../../shared/utils/validators/dataRole')['validateRoleDesc']>
+    readonly validateRoleName: UnwrapRef<typeof import('../../../shared/utils/validators/dataRole')['validateRoleName']>
     readonly validateString: UnwrapRef<typeof import('../../../shared/utils/validators/string.validator')['validateString']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchArray: UnwrapRef<typeof import('@vueuse/core')['watchArray']>
@@ -733,6 +767,8 @@ declare module '@vue/runtime-core' {
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly authToken: UnwrapRef<typeof import('../../../shared/composables/user')['authToken']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
+    readonly batchDeleteRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['batchDeleteRoleApi']>
+    readonly clearUserPasswordApi: UnwrapRef<typeof import('../../../shared/api/user')['clearUserPasswordApi']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>
     readonly computedEager: UnwrapRef<typeof import('@vueuse/core')['computedEager']>
@@ -754,6 +790,7 @@ declare module '@vue/runtime-core' {
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
+    readonly deleteUserApi: UnwrapRef<typeof import('../../../shared/api/user')['deleteUserApi']>
     readonly downloadCsv: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadCsv')['downloadCsv']>
     readonly downloadUrl: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadUrl')['downloadUrl']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
@@ -764,17 +801,22 @@ declare module '@vue/runtime-core' {
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getEnvVariable: UnwrapRef<typeof import('../../../shared/utils/env')['getEnvVariable']>
     readonly getOwnProfileApi: UnwrapRef<typeof import('../../../shared/api/user')['getOwnProfileApi']>
+    readonly getRolesApi: UnwrapRef<typeof import('../../../shared/api/role')['getRolesApi']>
+    readonly getUserListApi: UnwrapRef<typeof import('../../../shared/api/user')['getUserListApi']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly hasIntersection: UnwrapRef<typeof import('../../../shared/utils/isIntersect')['hasIntersection']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
+    readonly isFullIncludes: UnwrapRef<typeof import('../../../shared/utils/fullIncludes')['isFullIncludes']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly loginByEmailCodeApi: UnwrapRef<typeof import('../../../shared/api/auth')['loginByEmailCodeApi']>
     readonly loginByPasswordApi: UnwrapRef<typeof import('../../../shared/api/auth')['loginByPasswordApi']>
     readonly logoutApi: UnwrapRef<typeof import('../../../shared/api/auth')['logoutApi']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
@@ -802,6 +844,7 @@ declare module '@vue/runtime-core' {
     readonly onStartTyping: UnwrapRef<typeof import('@vueuse/core')['onStartTyping']>
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
+    readonly parseBoolRaw: UnwrapRef<typeof import('../../../shared/utils/parseBoolRaw')['parseBoolRaw']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
@@ -814,6 +857,7 @@ declare module '@vue/runtime-core' {
     readonly reactivePick: UnwrapRef<typeof import('@vueuse/core')['reactivePick']>
     readonly readFile: UnwrapRef<typeof import('../../../shared/utils/browser/file/readFile')['readFile']>
     readonly readonly: UnwrapRef<typeof import('vue')['readonly']>
+    readonly recoverUserApi: UnwrapRef<typeof import('../../../shared/api/user')['recoverUserApi']>
     readonly ref: UnwrapRef<typeof import('vue')['ref']>
     readonly refAutoReset: UnwrapRef<typeof import('@vueuse/core')['refAutoReset']>
     readonly refDebounced: UnwrapRef<typeof import('@vueuse/core')['refDebounced']>
@@ -849,7 +893,12 @@ declare module '@vue/runtime-core' {
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly unrefElement: UnwrapRef<typeof import('@vueuse/core')['unrefElement']>
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
+    readonly updateOwnPasswordByEmailCodeApi: UnwrapRef<typeof import('../../../shared/api/user')['updateOwnPasswordByEmailCodeApi']>
+    readonly updateUserApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserApi']>
+    readonly updateUserRoleApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserRoleApi']>
+    readonly uploadFileApi: UnwrapRef<typeof import('../../../shared/api/file')['uploadFileApi']>
     readonly upsertConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['upsertConfigApi']>
+    readonly upsertRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['upsertRoleApi']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
     readonly useApp: UnwrapRef<typeof import('../../../shared/composables/app')['useApp']>
@@ -1025,6 +1074,8 @@ declare module '@vue/runtime-core' {
     readonly validateAccount: UnwrapRef<typeof import('../../../shared/utils/validators/account.validator')['validateAccount']>
     readonly validateEmail: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['validateEmail']>
     readonly validatePassword: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['validatePassword']>
+    readonly validateRoleDesc: UnwrapRef<typeof import('../../../shared/utils/validators/dataRole')['validateRoleDesc']>
+    readonly validateRoleName: UnwrapRef<typeof import('../../../shared/utils/validators/dataRole')['validateRoleName']>
     readonly validateString: UnwrapRef<typeof import('../../../shared/utils/validators/string.validator')['validateString']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchArray: UnwrapRef<typeof import('@vueuse/core')['watchArray']>

@@ -5,6 +5,7 @@ import { useClientApp } from './composables/app'
 const { width } = useWindowSize()
 const { isAdmin, zoomRatio, getAppConfig } = useSysConfig()
 const $router = useRouter()
+const route = useRoute()
 const { updateAppHead } = useApp()
 const { scrollEl } = useClientApp()
 
@@ -44,6 +45,13 @@ watch(
   {
     immediate: true,
   },
+)
+
+watch(
+  () => route.path,
+  () => {
+    scrollEl.value?.setScrollPosition('vertical',0,300)
+  }
 )
 </script>
 

@@ -2,14 +2,12 @@
 </script>
 
 <template>
-  <div class="">
+  <Container>
     文章
-  </div>
+  </Container>
 </template>
 
 <route lang="yaml">
 meta:
   layout: home
 </route>
-
-<style scoped></style>

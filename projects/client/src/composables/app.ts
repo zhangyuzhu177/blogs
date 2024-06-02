@@ -5,11 +5,11 @@ import { SysConfig } from 'shared/types/enum/config.enum'
 
 
 const scrollEl = ref<QScrollArea>()
-const page=ref<IConfigDto[SysConfig.HOME]>()
+const page=ref<IConfigDto[SysConfig.HOME]| null>(null)
 
 export function useClientApp() {
-
-  async function getPageConfig(path:string) {
+  async function getPageConfig(path: string) {
+    page.value=null
     const data = await getConfigApi(path.slice(1))
     if(data)
       page.value=data

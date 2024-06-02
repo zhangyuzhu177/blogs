@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import * as echarts from 'echarts'
 
+interface Props {
+  title:string
+}
+
+const props=defineProps<Props>()
+
 type EChartsOptions = echarts.EChartsOption
 type ECharts = echarts.ECharts
 
-const el = <HTMLDivElement | null>(null)
+const el = ref<HTMLDivElement | null>(null)
 let instance: ECharts | null = null
 
 function renderChart() {
@@ -16,9 +22,8 @@ function renderChart() {
           left: 'center',
           top: 'center',
           style: {
-            text: 'Apache ECharts',
-            fontSize: 80,
-            fontWeight: 'bold',
+            text: props.title,
+            fontSize: 30,
             lineDash: [0, 200],
             lineDashOffset: 0,
             fill: 'transparent',
@@ -59,8 +64,8 @@ function renderChart() {
 }
 
 onMounted(() => {
-  instance = echarts.init(el)
-  renderChart
+  instance = echarts.init(el.value)
+  renderChart()
 })
 </script>
 

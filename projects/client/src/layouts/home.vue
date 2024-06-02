@@ -10,8 +10,8 @@
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .bg {
-  background-color:var(--grey-0);
+  background-color:var(--grey-2);
 }
 </style>

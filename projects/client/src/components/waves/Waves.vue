@@ -29,7 +29,6 @@
   height: 12vh;
   min-height: 3.125rem;
   max-height: 9.375rem;
-  z-index: 1;
 }
 
 .parallax {
