@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash'
 import { Notify } from 'quasar'
-import type { ICreateUserBodyDto, IUpdateUserBodyDto, IUser, IUserIdDto } from 'sust-types'
-import { validateAccount, validateEmail, validatePassword, validatePhone } from 'sust-utils'
+import { IUserIdDto } from 'shared/types/dto/id/user.interface';
+import { IUser } from 'shared/types/entities/user.interface';
+import { ICreateUserBodyDto } from 'shared/types/http/user/create-user.interface'
+import { IUpdateUserBodyDto } from 'shared/types/http/user/update-user.interface'
+// import {validatePhone} from 'shared/utils/validators/'
 
 export type Type = 'add' | 'edit'
 interface Props {
   type?: Type
   user?: IUser
 }
-
 interface Form extends ICreateUserBodyDto, IUpdateUserBodyDto {
   repeatPassword?: ICreateUserBodyDto['password']
 }

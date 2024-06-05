@@ -26,9 +26,16 @@ export function useMenu() {
         },
         {
           id: 'page',
-          label: '页面管理',
+          label: '页面配置',
           flag: role?.includes(PermissionType.CONFIG_QUERY_APP),
         }
+      ],
+      article: [
+        {
+          id: 'article',
+          label: '文章信息管理',
+          flag: role?.includes(PermissionType.ARTICLE_QUERY),
+        },
       ],
       user: [
         {

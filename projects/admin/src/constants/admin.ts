@@ -23,7 +23,7 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
         name: '首页',
       },
       {
-        name: '页面管理',
+        name: '页面配置',
         children: [
           {
             name: '只读访问页面配置',
@@ -38,6 +38,45 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
             value: [
               PermissionType.CONFIG_UPSERT_APP,
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: '文章管理',
+    to: '/article',
+    value: [
+      PermissionType.ARTICLE_QUERY,
+    ],
+    children: [
+      {
+        name: '文章信息管理',
+        children: [
+          {
+            name: '只读访问文章信息',
+            value: [
+              PermissionType.ARTICLE_QUERY,
+            ],
+          },
+          {
+            name: '发布/编辑文章',
+            premise: [
+              PermissionType.ARTICLE_QUERY,
+            ],
+            value: [
+              PermissionType.ARTICLE_PUBLISH,
+              PermissionType.ARTICLE_UPDATE,
+            ],
+          },
+          {
+            name: '删除文章',
+            premise: [
+              PermissionType.ARTICLE_QUERY,
+            ],
+            value: [
+              PermissionType.ARTICLE_DELETE,
             ],
           },
         ],

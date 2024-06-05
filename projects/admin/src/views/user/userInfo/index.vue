@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash'
-import type { IUser } from 'sust-types'
-import { PermissionType } from 'sust-types'
-import { hasIntersection } from 'sust-utils'
 import { Notify, type QTableColumn, type QTableProps } from 'quasar'
 import moment from 'moment'
+import { IUser } from 'shared/types/entities/user.interface'
+import { PermissionType } from 'shared/types/enum/permission.enum'
+import ZTable from '~/components/table/ZTable.vue'
+
 import UserDetails from '../UserDetails.vue'
 import BatchAddUser from './BatchAddUser.vue'
 import UpsertUserDialog from './UpsertUser.dialog.vue'
 import type { Type } from './UpsertUser.dialog.vue'
-import ZTable from '~/components/table/ZTable.vue'
+
 
 const { adminRole } = useUser()
 const { byAbsolute } = usePosition()
@@ -69,32 +70,32 @@ const getQueryUserList: QTableProps['onRequest'] = async (props) => {
   const { filter } = props
   const { page, descending, rowsPerPage, sortBy } = props.pagination
   try {
-    const res = await getQueryUserListApi({
-      pagination: {
-        page,
-        pageSize: rowsPerPage,
-      },
-      filters: filter
-        ? [
-            {
-              field: 'account',
-              type: 'LIKE',
-              value: filter,
-            },
-          ]
-        : undefined,
-      sort: [
-        {
-          field: sortBy as keyof IUser,
-          order: descending ? 'DESC' : 'ASC',
-        },
-      ],
-      relations: {
-        role: true,
-      },
-    })
-    pagination.value.rowsNumber = res.total
-    rows.value = res.data
+    // const res = await getQueryUserListApi({
+    //   pagination: {
+    //     page,
+    //     pageSize: rowsPerPage,
+    //   },
+    //   filters: filter
+    //     ? [
+    //         {
+    //           field: 'account',
+    //           type: 'LIKE',
+    //           value: filter,
+    //         },
+    //       ]
+    //     : undefined,
+    //   sort: [
+    //     {
+    //       field: sortBy as keyof IUser,
+    //       order: descending ? 'DESC' : 'ASC',
+    //     },
+    //   ],
+    //   relations: {
+    //     role: true,
+    //   },
+    // })
+    // pagination.value.rowsNumber = res.total
+    // rows.value = res.data
   }
   catch (error) {
     rows.value = []

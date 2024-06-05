@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import UserInfo from '~/views/user/userInfo/index.vue'
+import ArticleAdmin from '~/views/article/index.vue'
 
-const {menu,active}=useMenu()
+const { menu, active } = useMenu()
 </script>
 
 <template>
   <div v-if="menu?.length">
-    <UserInfo v-if="menu[0].id===active"/>
+    <ArticleAdmin v-if="menu[0].id === active" />
   </div>
 </template>
 
