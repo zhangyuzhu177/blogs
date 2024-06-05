@@ -3,14 +3,13 @@ import { cloneDeep } from 'lodash'
 import moment from 'moment'
 import { Notify, type QTableColumn, type QTableProps } from 'quasar'
 
-import { IUser } from 'shared/types/entities/user.interface'
-import { IRole } from 'shared/types/entities/role.interface'
+import type { IUser } from 'shared/types/entities/user.interface'
+import type { IRole } from 'shared/types/entities/role.interface'
+import { PermissionType } from 'shared/types/enum/permission.enum'
 import AdminRoleDialog from './dialog/AdminRole.vue'
 import type { Type } from './dialog/AdminRole.vue'
 import UserDetails from '~/views/user/UserDetails.vue'
 import ZTable from '~/components/table/ZTable.vue'
-import { PermissionType } from 'shared/types/enum/permission.enum'
-
 
 const { adminRole } = useUser()
 
@@ -58,15 +57,12 @@ const roleList = ref<IRole[]>()
 /** 当前选中的角色 */
 const selectRole = ref<IRole>()
 
-const queryUserList: QTableProps['onRequest'] = async (props) => {
+const queryUserList: QTableProps['onRequest'] = async () => {
   loading.value = true
-  // const { filter } = props
 
   try {
     const data = await getUserListApi()
-
     rows.value = data
-    // pagination.value.rowsNumber = total
   }
   catch (error) {
     rows.value = []
@@ -172,7 +168,7 @@ onBeforeMount(async () => {
         filter: text,
         binaryStateSort: true,
         selection: 'multiple',
-        hideBottom:rows.length?true:false
+        hideBottom: rows.length ? true : false,
       }"
       flex-1 h0
       fixed-first-column

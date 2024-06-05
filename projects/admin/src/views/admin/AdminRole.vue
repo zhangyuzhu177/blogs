@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Notify, type QTableColumn, type QTableProps } from 'quasar'
+import { PermissionType } from 'shared/types/enum/permission.enum'
+import type { IRole } from 'shared/types/entities/role.interface'
 import AdminRoleDialog from './dialog/AdminRole.vue'
-import { PermissionType } from 'shared/types/enum/permission.enum';
-import { IRole } from 'shared/types/entities/role.interface';
 
 const { adminRole } = useUser()
 const { getMenu } = useRole()
@@ -153,9 +153,9 @@ onBeforeMount(() => {
       :rows="rows"
       :cols="cols"
       :params="{
-      noDataLabel: '暂无管理角色记录',
+        noDataLabel: '暂无管理角色记录',
         selection: 'multiple',
-        hideBottom:rows.length?true:false
+        hideBottom: rows.length ? true : false,
       }"
       flex-1 h0
       fixed-first-column

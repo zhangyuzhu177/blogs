@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div></div>
+  <div />
 </template>
 
 <route lang="yaml">

@@ -5,12 +5,12 @@ import defaultBg from '~/assets/defaultBg.jpg'
 const route = useRoute()
 const { scrollEl, page, getPageConfig } = useClientApp()
 
-/**滚动 */
+/** 滚动 */
 function arrowDown() {
   scrollEl.value?.setScrollPosition(
     'vertical',
     document?.documentElement.clientHeight - 64,
-    300
+    300,
   )
 }
 
@@ -20,7 +20,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="page?.label" relative >
+  <div v-if="page?.label" relative>
     <div relative w-full h="100vh" overflow-hidden>
       <img full :src="page?.url ? page?.url : defaultBg">
     </div>

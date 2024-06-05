@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import moment from 'moment'
-import { IUser } from 'shared/types/entities/user.interface'
+import type { IUser } from 'shared/types/entities/user.interface'
 
 interface Props {
   user?: IUser

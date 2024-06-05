@@ -2,15 +2,14 @@
 import { cloneDeep } from 'lodash'
 import { Notify, type QTableColumn, type QTableProps } from 'quasar'
 import moment from 'moment'
-import { IUser } from 'shared/types/entities/user.interface'
+import type { IUser } from 'shared/types/entities/user.interface'
 import { PermissionType } from 'shared/types/enum/permission.enum'
-import ZTable from '~/components/table/ZTable.vue'
 
 import UserDetails from '../UserDetails.vue'
 import BatchAddUser from './BatchAddUser.vue'
 import UpsertUserDialog from './UpsertUser.dialog.vue'
 import type { Type } from './UpsertUser.dialog.vue'
-
+import ZTable from '~/components/table/ZTable.vue'
 
 const { adminRole } = useUser()
 const { byAbsolute } = usePosition()
@@ -65,46 +64,16 @@ const menu = ref(false)
 /**
  * 获取用户列表
  */
-const getQueryUserList: QTableProps['onRequest'] = async (props) => {
+const getQueryUserList: QTableProps['onRequest'] = async () => {
   loading.value = true
-  const { filter } = props
-  const { page, descending, rowsPerPage, sortBy } = props.pagination
   try {
-    // const res = await getQueryUserListApi({
-    //   pagination: {
-    //     page,
-    //     pageSize: rowsPerPage,
-    //   },
-    //   filters: filter
-    //     ? [
-    //         {
-    //           field: 'account',
-    //           type: 'LIKE',
-    //           value: filter,
-    //         },
-    //       ]
-    //     : undefined,
-    //   sort: [
-    //     {
-    //       field: sortBy as keyof IUser,
-    //       order: descending ? 'DESC' : 'ASC',
-    //     },
-    //   ],
-    //   relations: {
-    //     role: true,
-    //   },
-    // })
-    // pagination.value.rowsNumber = res.total
-    // rows.value = res.data
+    const data = await getUserListApi()
+    rows.value = data
   }
   catch (error) {
     rows.value = []
   }
   finally {
-    pagination.value.page = page
-    pagination.value.sortBy = sortBy
-    pagination.value.descending = descending
-    pagination.value.rowsPerPage = rowsPerPage
     loading.value = false
     selected.value = undefined
   }
@@ -371,5 +340,3 @@ provide('callback', callback)
     />
   </div>
 </template>
-
-<style  scoped></style>

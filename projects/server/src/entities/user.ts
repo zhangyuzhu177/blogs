@@ -1,9 +1,9 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm"
-import { Role } from "./role"
-import { Login } from "./login"
-import { BaseTimeStamp } from "./_timestamp"
-import { IUser } from "src/types/entities/user.interface"
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import type { IUser } from 'src/types/entities/user.interface'
+import { Role } from './role'
+import { Login } from './login'
+import { BaseTimeStamp } from './_timestamp'
 
 @Entity()
 export class User extends BaseTimeStamp implements IUser {
@@ -16,7 +16,7 @@ export class User extends BaseTimeStamp implements IUser {
 
   @ApiProperty({
     description: '账号',
-    uniqueItems:true
+    uniqueItems: true,
   })
   @Column({ unique: true })
   account: string

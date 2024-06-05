@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { IConfigDto } from 'shared/types/dto/config.interface';
-import { SysConfig } from 'shared/types/enum/config.enum';
+import type { IConfigDto } from 'shared/types/dto/config.interface'
+import type { SysConfig } from 'shared/types/enum/config.enum'
 
 interface Props {
   page: IConfigDto[SysConfig.HOME]
 }
 
-const props=defineProps<Props>()
+const props = defineProps<Props>()
 
 const signature = ref<string>('')
 const time = ref<NodeJS.Timer | null>(null)

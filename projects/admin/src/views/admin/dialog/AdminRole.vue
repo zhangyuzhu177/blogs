@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash'
 import { Notify } from 'quasar'
+import type { PermissionType } from 'shared/types/enum/permission.enum'
+import type { IRole } from 'shared/types/entities/role.interface'
+import type { IUpsertRoleBodyDto } from 'shared/types/http/role/upsert-role.interface'
 import RolePermission from './RolePermission.vue'
-import { PermissionType } from 'shared/types/enum/permission.enum';
-import { IRole } from 'shared/types/entities/role.interface';
-import type {IUpsertRoleBodyDto} from 'shared/types/http/role/upsert-role.interface'
 
 export type Type = 'add' | 'edit' | 'view'
 interface AdminRole {

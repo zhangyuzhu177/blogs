@@ -20,7 +20,9 @@ function jumpTo(path: string) {
           v-for="item in NAV" :key="item.id"
           v-close-popup clickable @click="jumpTo(item.path)"
         >
-          <q-item-section v-text="item.label" />
+          <q-item-section>
+            <div v-text="item.label" />
+          </q-item-section>
         </q-item>
       </q-list>
     </q-menu>

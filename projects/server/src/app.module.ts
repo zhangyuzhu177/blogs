@@ -1,5 +1,6 @@
 import { join } from 'node:path'
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common'
+import type { MiddlewareConsumer, NestModule } from '@nestjs/common'
+import { Module, RequestMethod } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { TypeOrmModule } from '@nestjs/typeorm'
@@ -7,10 +8,9 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { ScheduleModule } from '@nestjs/schedule'
 import { ServeStaticModule } from '@nestjs/serve-static'
 
-
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
 import allConfig from './config'
 import { validatePath } from './utils/validatePath'
-import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
 import { ResponseInterceptor } from './interceptors/response.interceptor'
 import { ThrottlerExceptionFilter } from './filter/throttler-exception.filter'
 import { InfoMiddleware } from './middleware/info.middleware'
@@ -25,6 +25,7 @@ import { EmailModule } from './modules/email/email.module'
 import { SysConfigModule } from './modules/config/config.module'
 import { RedisModule } from './modules/redis/redis.module'
 import { FileModule } from './modules/file/file.module'
+import { WebsocketGateway } from './modules/websocket/websocket.gateway'
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { FileModule } from './modules/file/file.module'
     SysConfigModule,
     RedisModule,
     FileModule,
+    WebsocketGateway,
 
     // External Modules
     ScheduleModule.forRoot(),
@@ -60,7 +62,7 @@ import { FileModule } from './modules/file/file.module'
       useFactory: (_cfgSrv: ConfigService) => [
         {
           rootPath: join(__dirname, 'public'),
-          serveRoot: validatePath(_cfgSrv.get('SERVER_BASE_PATH')|| '/'),
+          serveRoot: validatePath(_cfgSrv.get('SERVER_BASE_PATH') || '/'),
         },
       ],
     }),

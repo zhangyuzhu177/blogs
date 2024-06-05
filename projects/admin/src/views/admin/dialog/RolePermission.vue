@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PermissionType } from 'shared/types/enum/permission.enum';
+import type { PermissionType } from 'shared/types/enum/permission.enum'
 import type { PermissionItem } from '~/constants/admin'
 
 interface Props {
