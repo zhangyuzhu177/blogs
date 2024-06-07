@@ -36,11 +36,21 @@ export enum PermissionType {
   /** 查询管理角色分配列表 */
   ROLE_ASSIGN_QUERY = 'role:assign-query',
 
-   // ------------------ 全局配置 ---------------------
+  // ------------------ 全局配置 ---------------------
   /** 查询应用全局配置 */
   CONFIG_QUERY_APP = 'config:query-app',
   /** 创建/更新应用全局配置 */
   CONFIG_UPSERT_APP = 'config:upsert-app',
+
+  // ------------------ 文章管理 ---------------------
+  /** 发布文章 */
+  ARTICLE_PUBLISH = 'article:publish',
+  /** 删除文章 */
+  ARTICLE_DELETE = 'article:delete',
+  /** 更新文章 */
+  ARTICLE_UPDATE = 'article:update',
+  /** 查询文章 */
+  ARTICLE_QUERY = 'article:query',
 }
 
 /**
@@ -63,4 +73,9 @@ export const permissionDescriptions: Record<PermissionType, string> = {
 
   [PermissionType.CONFIG_QUERY_APP]: '查询应用全局配置',
   [PermissionType.CONFIG_UPSERT_APP]: '创建/更新应用全局配置',
+
+  [PermissionType.ARTICLE_PUBLISH]: '发布文章',
+  [PermissionType.ARTICLE_DELETE]: '删除文章',
+  [PermissionType.ARTICLE_UPDATE]: '更新文章',
+  [PermissionType.ARTICLE_QUERY]: '查询文章',
 }

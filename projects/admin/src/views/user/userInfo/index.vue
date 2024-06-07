@@ -6,13 +6,11 @@ import type { IUser } from 'shared/types/entities/user.interface'
 import { PermissionType } from 'shared/types/enum/permission.enum'
 
 import UserDetails from '../UserDetails.vue'
-import BatchAddUser from './BatchAddUser.vue'
 import UpsertUserDialog from './UpsertUser.dialog.vue'
 import type { Type } from './UpsertUser.dialog.vue'
 import ZTable from '~/components/table/ZTable.vue'
 
 const { adminRole } = useUser()
-const { byAbsolute } = usePosition()
 
 const zTable = ref<InstanceType<typeof ZTable>>()
 
@@ -22,8 +20,6 @@ const loading = ref(false)
 const updateAccountStatusDialog = ref(false)
 /** 账号状态 */
 const accountStatus = ref(false)
-/** 清空用户密码弹框 */
-const clearUserPasswordDialog = ref(false)
 /** 搜索文本 */
 const text = ref('')
 /** 多选 */
@@ -57,9 +53,6 @@ const cols = reactive<QTableColumn<IUser>[]>([
     field: 'id',
   },
 ])
-
-/** 添加用户展开菜单 */
-const menu = ref(false)
 
 /**
  * 获取用户列表
@@ -113,29 +106,6 @@ async function updateAccountStatus() {
   }
 }
 
-/**
- * 清空用户密码
- */
-async function clearUserPassword() {
-  if (!selected.value?.length)
-    return
-  loading.value = true
-  try {
-    const res = await clearUserPasswordApi(selected.value.map(v => v.id))
-    if (res) {
-      Notify.create({
-        type: 'success',
-        message: '操作成功',
-      })
-    }
-  }
-  catch (error) {}
-  finally {
-    selected.value = undefined
-    loading.value = false
-  }
-}
-
 onBeforeMount(() => {
   if (adminRole.value?.includes(PermissionType.USER_UPDATE)) {
     cols.push({
@@ -155,51 +125,15 @@ provide('callback', callback)
     <div flex justify-between gap="x4 y2">
       <div flex="~ wrap" gap="x4 y2" mr-auto>
         <div v-if="adminRole?.includes(PermissionType.USER_CREATE)">
-          <ZBtn label="添加用户信息">
-            <template #left>
-              <div w5 h5 i-mingcute:add-line />
-            </template>
-            <template #icon>
-              <div
-                w5 h5 transition i-mingcute:down-line
-                :style="{
-                  transform: menu ? 'rotate(180deg)' : 'rotate(0deg)',
-                }"
-              />
-            </template>
-          </ZBtn>
-          <q-menu
-            id="add-user-info-menu" v-model="menu"
-            class="more-menu" overflow-hidden
-            @before-show="byAbsolute('add-user-info-menu', [0, 6])"
+          <ZBtn
+            @click="() => {
+              dialogType = 'add'
+              dialogUser = undefined
+            }"
           >
-            <q-list w40.5>
-              <div>
-                <div
-                  text="xs grey-5" font-500 p="y0.5 x2"
-                  v-text="'单个添加'"
-                />
-                <q-item
-                  v-close-popup clickable
-                  @click="() => {
-                    dialogType = 'add'
-                    dialogUser = undefined
-                  }"
-                >
-                  <q-item-section>
-                    <div i-mingcute:file-import-line />
-                    添加用户
-                  </q-item-section>
-                </q-item>
-              </div>
-              <div
-                h1px bg-grey-3 my1
-                relative right-1
-                style="width: calc(100% + 8px);"
-              />
-              <BatchAddUser v-model:menu="menu" @callback="callback" />
-            </q-list>
-          </q-menu>
+            <div i-mingcute:file-import-line />
+            添加用户
+          </ZBtn>
         </div>
         <ZBtn
           v-if="hasIntersection(
@@ -224,20 +158,6 @@ provide('callback', callback)
             <div w5 h5 i-mingcute:edit-2-line />
           </template>
         </ZBtn>
-        <ZBtn
-          v-if="adminRole?.includes(PermissionType.USER_CLEAR_PASSWORD)"
-          label="清空用户密码"
-          text-color="primary-1"
-          :params="{
-            outline: true,
-          }"
-          :disable="!selected?.length"
-          @click="clearUserPasswordDialog = true"
-        >
-          <template #left>
-            <div w5 h5 i-mingcute:delete-2-line />
-          </template>
-        </ZBtn>
       </div>
       <ZInput
         v-model="text"
@@ -258,14 +178,12 @@ provide('callback', callback)
     <ZTable
       ref="zTable"
       v-model:pagination="pagination"
-      v-model:selected="selected"
       :rows="rows"
       :cols="cols"
       :params="{
         noDataLabel: '暂无用户信息记录',
         filter: text,
         binaryStateSort: true,
-        selection: 'multiple',
       }"
       flex-1 h-0
       fixed-first-column
@@ -316,18 +234,6 @@ provide('callback', callback)
           label="禁用"
           @update:model-value="accountStatus = true"
         />
-      </div>
-    </ZDialog>
-
-    <!-- 清空用户密码 -->
-    <ZDialog
-      v-model="clearUserPasswordDialog"
-      footer
-      title="清空用户密码"
-      @ok="clearUserPassword"
-    >
-      <div>
-        该操作将清空已选账号的密码，是否继续
       </div>
     </ZDialog>
 

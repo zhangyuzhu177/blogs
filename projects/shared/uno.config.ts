@@ -25,7 +25,7 @@ export default defineConfig({
     ['text-2xl', 'text-24px leading-36px'],
   ],
   rules: [
-    [/^flex-([\.\d]+)$/, ([_, num]) => ({ flex: `${num} ${num} 0%` })],
+    [/^flex-([.\d]+)$/, ([_, num]) => ({ flex: `${num} ${num} 0%` })],
   ],
   presets: [
     presetUno(),

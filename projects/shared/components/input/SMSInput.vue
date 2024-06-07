@@ -4,10 +4,10 @@ import { useIntervalFn, useVModel } from '@vueuse/core'
 import { Notify } from 'quasar'
 
 import { sendEmailCodeApi } from '../../api/email'
+import type { CodeAction } from '../../types/enum/code-action.enum'
+import { validateEmail } from '../../utils/validators/email.validator'
 import ZInput from './ZInput.vue'
 import type { ZInputProps } from './ZInput.vue'
-import { CodeAction } from '../../types/enum/code-action.enum'
-import {validateEmail} from '../../utils/validators/email.validator'
 
 interface SMSInputProps {
   modelValue: string

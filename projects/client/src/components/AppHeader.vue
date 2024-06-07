@@ -4,7 +4,7 @@ import { useWindowSize } from '@vueuse/core'
 export type Theme = 'light' | 'dark'
 
 const { width } = useWindowSize()
-const {app}=useSysConfig()
+const { app } = useSysConfig()
 
 const theme = ref<Theme>('dark')
 
@@ -36,7 +36,7 @@ nextTick(() => {
     <!-- <div w-50 bg-red  flex="~ gap2" items-center>
       <Navigation2 v-if="width < 600" />
     </div> -->
-    <Logo w-30 :title="app?.nameEn"/>
+    <Logo w-30 :title="app?.nameEn" />
     <Navigation1 v-if="width >= 900" />
     <Tags />
   </div>

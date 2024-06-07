@@ -27,6 +27,9 @@ declare global {
   const PASSWORD_MAX_LENGTH: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MAX_LENGTH']
   const PASSWORD_MIN_LENGTH: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MIN_LENGTH']
   const PASSWORD_REQUIREMENTS_DESC: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_REQUIREMENTS_DESC']
+  const PHONE_NUMBER_MAX_LENGTH: typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_MAX_LENGTH']
+  const PHONE_NUMBER_MIN_LENGTH: typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_MIN_LENGTH']
+  const PHONE_NUMBER_REQUIREMENTS_DESC: typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_REQUIREMENTS_DESC']
   const REMEMBER_LOGIN_INFO_KEY: typeof import('../../../shared/constants/storage')['REMEMBER_LOGIN_INFO_KEY']
   const TABLE_PAGINATION: typeof import('../constants/table')['TABLE_PAGINATION']
   const USER_TABLE_COLUMNS: typeof import('../constants/table')['USER_TABLE_COLUMNS']
@@ -55,6 +58,7 @@ declare global {
   const customRef: typeof import('vue')['customRef']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
+  const deepCopy: typeof import('../../../shared/utils/tool')['deepCopy']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const deleteUserApi: typeof import('../../../shared/api/user')['deleteUserApi']
@@ -68,7 +72,9 @@ declare global {
   const getConfigApi: typeof import('../../../shared/api/config')['getConfigApi']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
+  const getDecimalPlaces: typeof import('../../../shared/utils/tool')['getDecimalPlaces']
   const getEnvVariable: typeof import('../../../shared/utils/env')['getEnvVariable']
+  const getId: typeof import('../../../shared/utils/tool')['getId']
   const getOwnProfileApi: typeof import('../../../shared/api/user')['getOwnProfileApi']
   const getRolesApi: typeof import('../../../shared/api/role')['getRolesApi']
   const getUserListApi: typeof import('../../../shared/api/user')['getUserListApi']
@@ -141,6 +147,7 @@ declare global {
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
+  const splitString: typeof import('../../../shared/utils/tool')['splitString']
   const syncRef: typeof import('@vueuse/core')['syncRef']
   const syncRefs: typeof import('@vueuse/core')['syncRefs']
   const templateRef: typeof import('@vueuse/core')['templateRef']
@@ -275,6 +282,7 @@ declare global {
   const usePointer: typeof import('@vueuse/core')['usePointer']
   const usePointerLock: typeof import('@vueuse/core')['usePointerLock']
   const usePointerSwipe: typeof import('@vueuse/core')['usePointerSwipe']
+  const usePosition: typeof import('../../../shared/composables/position')['usePosition']
   const usePreferredColorScheme: typeof import('@vueuse/core')['usePreferredColorScheme']
   const usePreferredContrast: typeof import('@vueuse/core')['usePreferredContrast']
   const usePreferredDark: typeof import('@vueuse/core')['usePreferredDark']
@@ -344,6 +352,7 @@ declare global {
   const validateAccount: typeof import('../../../shared/utils/validators/account.validator')['validateAccount']
   const validateEmail: typeof import('../../../shared/utils/validators/email.validator')['validateEmail']
   const validatePassword: typeof import('../../../shared/utils/validators/password.validator')['validatePassword']
+  const validatePhone: typeof import('../../../shared/utils/validators/phone.validator')['validatePhone']
   const validateRoleDesc: typeof import('../../../shared/utils/validators/dataRole')['validateRoleDesc']
   const validateRoleName: typeof import('../../../shared/utils/validators/dataRole')['validateRoleName']
   const validateString: typeof import('../../../shared/utils/validators/string.validator')['validateString']
@@ -390,11 +399,13 @@ declare module 'vue' {
     readonly EMAIL_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly LEADING_PAGE_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['LEADING_PAGE_KEY']>
-    readonly Notify: UnwrapRef<typeof import('quasar')['Notify']>
     readonly PASSWORD_ALLOW_CHARS: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_ALLOW_CHARS']>
     readonly PASSWORD_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MAX_LENGTH']>
     readonly PASSWORD_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MIN_LENGTH']>
     readonly PASSWORD_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_REQUIREMENTS_DESC']>
+    readonly PHONE_NUMBER_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_MAX_LENGTH']>
+    readonly PHONE_NUMBER_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_MIN_LENGTH']>
+    readonly PHONE_NUMBER_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_REQUIREMENTS_DESC']>
     readonly REMEMBER_LOGIN_INFO_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['REMEMBER_LOGIN_INFO_KEY']>
     readonly TABLE_PAGINATION: UnwrapRef<typeof import('../constants/table')['TABLE_PAGINATION']>
     readonly USER_TABLE_COLUMNS: UnwrapRef<typeof import('../constants/table')['USER_TABLE_COLUMNS']>
@@ -423,6 +434,7 @@ declare module 'vue' {
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
+    readonly deepCopy: UnwrapRef<typeof import('../../../shared/utils/tool')['deepCopy']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly deleteUserApi: UnwrapRef<typeof import('../../../shared/api/user')['deleteUserApi']>
@@ -436,7 +448,9 @@ declare module 'vue' {
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getDecimalPlaces: UnwrapRef<typeof import('../../../shared/utils/tool')['getDecimalPlaces']>
     readonly getEnvVariable: UnwrapRef<typeof import('../../../shared/utils/env')['getEnvVariable']>
+    readonly getId: UnwrapRef<typeof import('../../../shared/utils/tool')['getId']>
     readonly getOwnProfileApi: UnwrapRef<typeof import('../../../shared/api/user')['getOwnProfileApi']>
     readonly getRolesApi: UnwrapRef<typeof import('../../../shared/api/role')['getRolesApi']>
     readonly getUserListApi: UnwrapRef<typeof import('../../../shared/api/user')['getUserListApi']>
@@ -509,6 +523,7 @@ declare module 'vue' {
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
+    readonly splitString: UnwrapRef<typeof import('../../../shared/utils/tool')['splitString']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
@@ -643,6 +658,7 @@ declare module 'vue' {
     readonly usePointer: UnwrapRef<typeof import('@vueuse/core')['usePointer']>
     readonly usePointerLock: UnwrapRef<typeof import('@vueuse/core')['usePointerLock']>
     readonly usePointerSwipe: UnwrapRef<typeof import('@vueuse/core')['usePointerSwipe']>
+    readonly usePosition: UnwrapRef<typeof import('../../../shared/composables/position')['usePosition']>
     readonly usePreferredColorScheme: UnwrapRef<typeof import('@vueuse/core')['usePreferredColorScheme']>
     readonly usePreferredContrast: UnwrapRef<typeof import('@vueuse/core')['usePreferredContrast']>
     readonly usePreferredDark: UnwrapRef<typeof import('@vueuse/core')['usePreferredDark']>
@@ -712,6 +728,7 @@ declare module 'vue' {
     readonly validateAccount: UnwrapRef<typeof import('../../../shared/utils/validators/account.validator')['validateAccount']>
     readonly validateEmail: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['validateEmail']>
     readonly validatePassword: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['validatePassword']>
+    readonly validatePhone: UnwrapRef<typeof import('../../../shared/utils/validators/phone.validator')['validatePhone']>
     readonly validateRoleDesc: UnwrapRef<typeof import('../../../shared/utils/validators/dataRole')['validateRoleDesc']>
     readonly validateRoleName: UnwrapRef<typeof import('../../../shared/utils/validators/dataRole')['validateRoleName']>
     readonly validateString: UnwrapRef<typeof import('../../../shared/utils/validators/string.validator')['validateString']>
@@ -751,11 +768,13 @@ declare module '@vue/runtime-core' {
     readonly EMAIL_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly LEADING_PAGE_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['LEADING_PAGE_KEY']>
-    readonly Notify: UnwrapRef<typeof import('quasar')['Notify']>
     readonly PASSWORD_ALLOW_CHARS: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_ALLOW_CHARS']>
     readonly PASSWORD_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MAX_LENGTH']>
     readonly PASSWORD_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MIN_LENGTH']>
     readonly PASSWORD_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_REQUIREMENTS_DESC']>
+    readonly PHONE_NUMBER_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_MAX_LENGTH']>
+    readonly PHONE_NUMBER_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_MIN_LENGTH']>
+    readonly PHONE_NUMBER_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_REQUIREMENTS_DESC']>
     readonly REMEMBER_LOGIN_INFO_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['REMEMBER_LOGIN_INFO_KEY']>
     readonly TABLE_PAGINATION: UnwrapRef<typeof import('../constants/table')['TABLE_PAGINATION']>
     readonly USER_TABLE_COLUMNS: UnwrapRef<typeof import('../constants/table')['USER_TABLE_COLUMNS']>
@@ -784,6 +803,7 @@ declare module '@vue/runtime-core' {
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
+    readonly deepCopy: UnwrapRef<typeof import('../../../shared/utils/tool')['deepCopy']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly deleteUserApi: UnwrapRef<typeof import('../../../shared/api/user')['deleteUserApi']>
@@ -797,7 +817,9 @@ declare module '@vue/runtime-core' {
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getDecimalPlaces: UnwrapRef<typeof import('../../../shared/utils/tool')['getDecimalPlaces']>
     readonly getEnvVariable: UnwrapRef<typeof import('../../../shared/utils/env')['getEnvVariable']>
+    readonly getId: UnwrapRef<typeof import('../../../shared/utils/tool')['getId']>
     readonly getOwnProfileApi: UnwrapRef<typeof import('../../../shared/api/user')['getOwnProfileApi']>
     readonly getRolesApi: UnwrapRef<typeof import('../../../shared/api/role')['getRolesApi']>
     readonly getUserListApi: UnwrapRef<typeof import('../../../shared/api/user')['getUserListApi']>
@@ -870,6 +892,7 @@ declare module '@vue/runtime-core' {
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
+    readonly splitString: UnwrapRef<typeof import('../../../shared/utils/tool')['splitString']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
     readonly templateRef: UnwrapRef<typeof import('@vueuse/core')['templateRef']>
@@ -1004,6 +1027,7 @@ declare module '@vue/runtime-core' {
     readonly usePointer: UnwrapRef<typeof import('@vueuse/core')['usePointer']>
     readonly usePointerLock: UnwrapRef<typeof import('@vueuse/core')['usePointerLock']>
     readonly usePointerSwipe: UnwrapRef<typeof import('@vueuse/core')['usePointerSwipe']>
+    readonly usePosition: UnwrapRef<typeof import('../../../shared/composables/position')['usePosition']>
     readonly usePreferredColorScheme: UnwrapRef<typeof import('@vueuse/core')['usePreferredColorScheme']>
     readonly usePreferredContrast: UnwrapRef<typeof import('@vueuse/core')['usePreferredContrast']>
     readonly usePreferredDark: UnwrapRef<typeof import('@vueuse/core')['usePreferredDark']>
@@ -1073,6 +1097,7 @@ declare module '@vue/runtime-core' {
     readonly validateAccount: UnwrapRef<typeof import('../../../shared/utils/validators/account.validator')['validateAccount']>
     readonly validateEmail: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['validateEmail']>
     readonly validatePassword: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['validatePassword']>
+    readonly validatePhone: UnwrapRef<typeof import('../../../shared/utils/validators/phone.validator')['validatePhone']>
     readonly validateRoleDesc: UnwrapRef<typeof import('../../../shared/utils/validators/dataRole')['validateRoleDesc']>
     readonly validateRoleName: UnwrapRef<typeof import('../../../shared/utils/validators/dataRole')['validateRoleName']>
     readonly validateString: UnwrapRef<typeof import('../../../shared/utils/validators/string.validator')['validateString']>

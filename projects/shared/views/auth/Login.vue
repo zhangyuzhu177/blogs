@@ -34,7 +34,6 @@ const captchaInput = ref<InstanceType<typeof CaptchaInput>>()
 onBeforeMount(async () => {
   try {
     const loginInfo = JSON.parse(localStorage?.getItem(REMEMBER_LOGIN_INFO_KEY) ?? '{}')
-    console.log();
 
     if (loginInfo.userCode && loginInfo.password) {
       userCode.value = loginInfo.userCode
@@ -88,7 +87,7 @@ async function login() {
 </script>
 
 <template>
-  <div flex="~ col gap14">
+  <div flex="~ col gap5">
     <h2 text-center>
       登录
     </h2>
@@ -131,15 +130,17 @@ async function login() {
             :to="{
               path: '/auth/forgetPassword',
             }"
-            v-text="'忘记密码？'"
-          />
+          >
+            忘记密码？
+          </RouterLink>
           <RouterLink
             text-grey-1
             :to="{
               path: '/auth/loginByCode',
             }"
-            v-text="'使用验证码登录'"
-          />
+          >
+            使用验证码登录
+          </RouterLink>
         </div>
       </div>
       <div flex="~ col gap4">
@@ -158,8 +159,9 @@ async function login() {
             :to="{
               path: '/auth/register',
             }"
-            v-text="'立即注册'"
-          />
+          >
+            立即注册
+          </RouterLink>
         </div>
       </div>
     </div>

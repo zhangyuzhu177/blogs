@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash'
-import { Notify } from 'quasar'
-import { IUserIdDto } from 'shared/types/dto/id/user.interface';
-import { IUser } from 'shared/types/entities/user.interface';
-import { ICreateUserBodyDto } from 'shared/types/http/user/create-user.interface'
-import { IUpdateUserBodyDto } from 'shared/types/http/user/update-user.interface'
-// import {validatePhone} from 'shared/utils/validators/'
+// import { Notify } from 'quasar'
+import type { IUserIdDto } from 'shared/types/dto/id/user.interface'
+import type { IUser } from 'shared/types/entities/user.interface'
+import type { ICreateUserBodyDto } from 'shared/types/http/user/create-user.interface'
+import type { IUpdateUserBodyDto } from 'shared/types/http/user/update-user.interface'
 
 export type Type = 'add' | 'edit'
 interface Props {
@@ -37,7 +36,6 @@ const initData: Form = {
   account: '',
   email: '',
   isDeleted: false,
-  sendEmail: false,
 }
 /** 添加/编辑用户 form 表单 */
 const form = ref(cloneDeep(initData))
@@ -47,7 +45,11 @@ const userId = ref<IUserIdDto['userId']>()
 /** 禁用提交 */
 const disable = computed<boolean>(() => {
   const {
-    account, email, phone, password, repeatPassword,
+    account,
+    email,
+    phone,
+    password,
+    repeatPassword,
   } = form.value
   return !!validateAccount(account)
     || !!validateEmail(email)
@@ -69,7 +71,6 @@ function init() {
         email,
         phone,
         isDeleted,
-        sendEmail: false,
       }
     }
     else {
@@ -88,36 +89,36 @@ watch(() => dialog.value, (newVal) => {
  * 添加/修改用户
  */
 async function upsertUser() {
-  if (disable.value)
-    return
-  const { type } = props
-  emits('loading', true)
-  try {
-    const body = deepCopy(form.value)
-    const { phone, password } = body
-    delete body.repeatPassword
-    body.password = password ? await rsaEncrypt(password) : undefined
-    body.phone = phone || undefined
+  // if (disable.value)
+  //   return
+  // const { type } = props
+  // emits('loading', true)
+  // try {
+  //   const body = deepCopy(form.value)
+  //   const { phone, password } = body
+  //   delete body.repeatPassword
+  //   body.password = password ? await rsaEncrypt(password) : undefined
+  //   body.phone = phone || undefined
 
-    let res
-    if (type === 'add')
-      res = await createUserApi(body)
-    else
-      res = await updateUserApi(userId.value!, body)
+  //   let res
+  //   if (type === 'add')
+  //     res = await createUserApi(body)
+  //   else
+  //     res = await updateUserApi(userId.value!, body)
 
-    if (res) {
-      Notify.create({
-        type: 'success',
-        message: `${type === 'add' ? '添加' : '编辑'}成功`,
-      })
-      emits('callback')
-      form.value = deepCopy(initData)
-    }
-  }
-  catch (error) {}
-  finally {
-    emits('loading', false)
-  }
+  //   if (res) {
+  //     Notify.create({
+  //       type: 'success',
+  //       message: `${type === 'add' ? '添加' : '编辑'}成功`,
+  //     })
+  //     emits('callback')
+  //     form.value = deepCopy(initData)
+  //   }
+  // }
+  // catch (error) {}
+  // finally {
+  //   emits('loading', false)
+  // }
 }
 </script>
 
@@ -226,7 +227,7 @@ async function upsertUser() {
           />
         </div>
       </div>
-      <div flex="~ col gap6">
+      <!-- <div flex="~ col gap6">
         <SubLabel label="其他" />
         <div flex="~ col gap1">
           <div flex="~ items-center gap2" mb5>
@@ -250,7 +251,7 @@ async function upsertUser() {
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </ZDialog>
 </template>

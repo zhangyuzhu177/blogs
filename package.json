@@ -1,11 +1,11 @@
 {
   "name": "blogs",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "license": "ISC",
   "type": "module",
+  "version": "1.0.0",
   "private": true,
+  "description": "",
+  "license": "ISC",
+  "main": "index.js",
   "scripts": {
     "dev:admin": "pnpm --filter admin dev",
     "dev:client": "pnpm --filter client dev",
