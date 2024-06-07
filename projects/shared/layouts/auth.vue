@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 // import { useWindowSize } from '@vueuse/core'
 import { useSysConfig } from '../composables/app'
 import { LEADING_PAGE_KEY } from '../constants/storage'
+import CanvasBlobBg from '../components/canvas/index.vue'
 
 const $router = useRouter()
 // const { width } = useWindowSize()
@@ -16,15 +17,11 @@ onBeforeUnmount(() => localStorage?.removeItem(LEADING_PAGE_KEY))
 
 <template>
   <div
-    class="auth" text-grey-1
+    text-grey-1
     absolute inset-0 flex="~ row"
   >
+    <CanvasBlobBg full absolute left-0 right-0 />
     <div flex="1" w0 relative>
-      <!-- <img
-        v-if="width >= 900"
-        src="../assets/bg/auth.webp"
-        h-full w-100vw max-w-inherit object-cover
-      > -->
       <div
         flex="~ gap2 items-center"
         absolute top-8 left-8
@@ -43,8 +40,7 @@ onBeforeUnmount(() => localStorage?.removeItem(LEADING_PAGE_KEY))
       lg="max-w-160" xl="max-w-210"
     >
       <div
-        class="auth-card"
-        w150 px10 py6 backdrop-blur-md
+        class="auth-card" w150 px10 py6 backdrop-blur-md
         b="1px solid transparent" overflow-auto
       >
         <RouterView w-full text-sm font-500 />

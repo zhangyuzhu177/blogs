@@ -1,5 +1,5 @@
-import { FileBodyDto } from "types/http/file/file.body"
-import { useRequest } from "../utils/request"
+import type { FileBodyDto } from 'types/http/file/file.body'
+import { useRequest } from '../utils/common/request'
 
 const { $post } = useRequest()
 

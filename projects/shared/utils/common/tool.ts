@@ -27,7 +27,7 @@ export function splitString(str: string, len: number) {
  * @returns
  */
 export function getDecimalPlaces(num: number) {
-  const match = num.toString().match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/)
+  const match = num.toString().match(/(?:\.(\d+))?(?:e([+-]?\d+))?$/i)
   if (!match)
     return 0
   return Math.max(
@@ -49,4 +49,3 @@ export function getId() {
   s[5] = s[10] = '-'
   return s.join('')
 }
-

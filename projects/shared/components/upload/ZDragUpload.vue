@@ -6,7 +6,7 @@ import type { QFileProps } from 'quasar'
 
 import ZLabel from '../label/ZLabel.vue'
 import type { ZLabelProps } from '../label/ZLabel.vue'
-import { onRejected } from '../../utils/uploadFile'
+import { onRejected } from '../../utils/common/uploadFile'
 
 interface ZDragUploadProps extends ZLabelProps {
   modelValue?: File

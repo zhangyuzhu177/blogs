@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref } from 'vue'
 
-import { rsaDecrypt } from '../../utils/rsa'
+import { rsaDecrypt } from '../../utils/common/rsa'
 import { useUser } from '../../composables/user'
 import { REMEMBER_LOGIN_INFO_KEY } from '../../constants/storage'
 

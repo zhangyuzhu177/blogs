@@ -1,5 +1,5 @@
 import { IUpsertConfigBodyDto } from 'types/http/config/upsert-config.interface'
-import { useRequest } from '../utils/request'
+import { useRequest } from '../utils/common/request'
 import { IConfigDto } from 'types/dto/config.interface'
 import { SysConfig } from 'types/enum/config.enum'
 

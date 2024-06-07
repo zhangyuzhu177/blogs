@@ -1,4 +1,4 @@
-import { useRequest } from '../utils/request'
+import { useRequest } from '../utils/common/request'
 import { IRole } from '../types/entities/role.interface'
 import { IRoleIdDto } from '../types/dto/id/role.interface'
 import { IUpsertRoleBodyDto } from '../types/http/role/upsert-role.interface'

@@ -1,5 +1,5 @@
 import { IUser } from "../types/entities/user.interface"
-import { useRequest } from "../utils/request"
+import { useRequest } from "../utils/common/request"
 import { IUserIdDto } from "../types/dto/id/user.interface"
 import type { IGetProfileOwnQueryDto, } from '../types/http/user/get-profile-own.interface'
 import { IUpdateUserBodyDto } from "../types/http/user/update-user.interface"

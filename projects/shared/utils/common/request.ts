@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from 'axios'
 import { useRouter } from 'vue-router'
-import { $http } from '../api'
+import { $http } from '../../api'
 import { pubRouter } from './pubRouter'
 
 const cache = new Map<string, any>()

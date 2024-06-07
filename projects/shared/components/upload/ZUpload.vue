@@ -7,7 +7,7 @@ import ZBtn from '../btn/ZBtn.vue'
 import {fileToUrl} from '../../utils/browser'
 import ZLabel from '../label/ZLabel.vue'
 import type { ZLabelProps } from '../label/ZLabel.vue'
-import { type hint, onRejected } from '../../utils/uploadFile'
+import { type hint, onRejected } from '../../utils/common/uploadFile'
 
 interface ZUploadProps extends ZLabelProps {
   modelValue?: File | File[]
