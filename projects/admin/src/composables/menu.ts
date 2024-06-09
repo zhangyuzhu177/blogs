@@ -1,4 +1,4 @@
-import { PermissionType } from "shared/types/enum/permission.enum"
+import { PermissionType } from 'shared/types/enum/permission.enum'
 
 interface MenuItem {
   id: string
@@ -28,13 +28,18 @@ export function useMenu() {
           id: 'page',
           label: '页面配置',
           flag: role?.includes(PermissionType.CONFIG_QUERY_APP),
-        }
+        },
       ],
       article: [
         {
           id: 'article',
           label: '文章信息管理',
           flag: role?.includes(PermissionType.ARTICLE_QUERY),
+        },
+        {
+          id: 'articleAdd',
+          label: '发布/编辑文章',
+          flag: role?.includes(PermissionType.ARTICLE_PUBLISH),
         },
       ],
       user: [

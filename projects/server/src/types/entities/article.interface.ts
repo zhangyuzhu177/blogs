@@ -10,19 +10,17 @@ export interface IArticle {
   /** 文章内容 */
   content: string
   /** 文章标签 */
-  tags?: string[]
+  tags: string
   /** 文章封面 */
   articleCover: string
   /** 文章访问量 */
   pageView?: number
   /** 文章状态 */
-  status: number
-  /** 摘要 */
-  abstract?: string
+  status: string
   /** 文章类型 */
-  type: number
+  type: string
   /** 原文链接 */
   originalUrl?: string
   /** 创建事件 */
-  createTime?: Date
+  createTime: Date
 }

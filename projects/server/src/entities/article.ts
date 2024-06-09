@@ -33,7 +33,7 @@ export class Article implements IArticle {
     description: '文章标签',
   })
   @Column()
-  tags: string[]
+  tags: string
 
   @ApiProperty({
     description: '文章内容',
@@ -48,30 +48,18 @@ export class Article implements IArticle {
   articleCover: string
 
   @ApiProperty({
-    description: '访问量',
-  })
-  @Column()
-  pageView?: number
-
-  @ApiProperty({
     description: '文章状态 0:公开 | 1:私有 | 2:草稿',
     example: 0,
   })
   @Column()
-  status: number
-
-  @ApiProperty({
-    description: '摘要',
-  })
-  @Column()
-  summary: string
+  status: string
 
   @ApiProperty({
     description: '文章类型 0:原创 | 1:转载',
     example: 0,
   })
   @Column()
-  type: number
+  type: string
 
   @ApiProperty({
     description: '原文链接 当文章类型为转载时为必填',
@@ -81,8 +69,14 @@ export class Article implements IArticle {
   originalUrl?: string
 
   @ApiProperty({
-    description: '更新时间',
+    description: '发布时间',
   })
   @Column()
-  updateTime: Date
+  createTime: Date
+
+  @ApiProperty({
+    description: '访问量',
+  })
+  @Column()
+  pageView?: number
 }

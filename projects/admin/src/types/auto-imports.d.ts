@@ -15,7 +15,10 @@ declare global {
   const APP_MIN_WIDTH: typeof import('../../../shared/constants/app')['APP_MIN_WIDTH']
   const APP_NAME: typeof import('../../../shared/constants/app')['APP_NAME']
   const APP_NAME_EN: typeof import('../../../shared/constants/app')['APP_NAME_EN']
+  const ARTICLE_CLASS: typeof import('../constants/article')['ARTICLE_CLASS']
   const AUTH_TOKEN_KEY: typeof import('../../../shared/constants/storage')['AUTH_TOKEN_KEY']
+  const BT: typeof import('../constants/article')['BT']
+  const CLASSIFY: typeof import('../constants/article')['CLASSIFY']
   const ClosePopup: typeof import('quasar')['ClosePopup']
   const EMAIL_MAX_LENGTH: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MAX_LENGTH']
   const EMAIL_MIN_LENGTH: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MIN_LENGTH']
@@ -395,7 +398,10 @@ declare module 'vue' {
     readonly APP_MIN_WIDTH: UnwrapRef<typeof import('../../../shared/constants/app')['APP_MIN_WIDTH']>
     readonly APP_NAME: UnwrapRef<typeof import('../../../shared/constants/app')['APP_NAME']>
     readonly APP_NAME_EN: UnwrapRef<typeof import('../../../shared/constants/app')['APP_NAME_EN']>
+    readonly ARTICLE_CLASS: UnwrapRef<typeof import('../constants/article')['ARTICLE_CLASS']>
     readonly AUTH_TOKEN_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['AUTH_TOKEN_KEY']>
+    readonly BT: UnwrapRef<typeof import('../constants/article')['BT']>
+    readonly CLASSIFY: UnwrapRef<typeof import('../constants/article')['CLASSIFY']>
     readonly EMAIL_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MAX_LENGTH']>
     readonly EMAIL_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MIN_LENGTH']>
     readonly EMAIL_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']>
@@ -766,7 +772,10 @@ declare module '@vue/runtime-core' {
     readonly APP_MIN_WIDTH: UnwrapRef<typeof import('../../../shared/constants/app')['APP_MIN_WIDTH']>
     readonly APP_NAME: UnwrapRef<typeof import('../../../shared/constants/app')['APP_NAME']>
     readonly APP_NAME_EN: UnwrapRef<typeof import('../../../shared/constants/app')['APP_NAME_EN']>
+    readonly ARTICLE_CLASS: UnwrapRef<typeof import('../constants/article')['ARTICLE_CLASS']>
     readonly AUTH_TOKEN_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['AUTH_TOKEN_KEY']>
+    readonly BT: UnwrapRef<typeof import('../constants/article')['BT']>
+    readonly CLASSIFY: UnwrapRef<typeof import('../constants/article')['CLASSIFY']>
     readonly EMAIL_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MAX_LENGTH']>
     readonly EMAIL_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MIN_LENGTH']>
     readonly EMAIL_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']>

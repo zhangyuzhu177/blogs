@@ -1,7 +1,7 @@
 import { decorate } from 'ts-mixer'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsString, MaxLength, MinLength } from 'class-validator'
-import { IAccountDto, IAccountOptionalDto } from 'src/types/dto/account.interface'
+import type { IAccountDto, IAccountOptionalDto } from 'src/types/dto/account.interface'
 import { IsValidAccount } from 'src/decorators/validators/is-valid-account'
 import { sharedVariableMarkdown } from 'src/utils/docs/shared-variable'
 import { ACCOUNT_MAX_LENGTH, ACCOUNT_MIN_LENGTH, ACCOUNT_REQUIREMENTS_DESC } from 'src/utils/validators/account.validator'

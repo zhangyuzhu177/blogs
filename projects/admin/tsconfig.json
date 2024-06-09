@@ -2,7 +2,9 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "dist",
+    "paths": {
+      "~/*": ["src/*"]
+    },
     "types": [
       "vitest",
       "vite/client",
@@ -11,9 +13,7 @@
       "vite-plugin-vue-layouts/client",
       "unplugin-vue-macros/macros-global"
     ],
-    "paths": {
-      "~/*": ["src/*"]
-    }
+    "outDir": "dist"
   },
   "vueCompilerOptions": {
     "plugins": [

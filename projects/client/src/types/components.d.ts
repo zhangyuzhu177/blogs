@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppHeader: typeof import('./../components/AppHeader.vue')['default']
+    Canvas: typeof import('./../../../shared/components/canvas/index.vue')['default']
     CaptchaInput: typeof import('./../../../shared/components/input/CaptchaInput.vue')['default']
     Container: typeof import('./../components/Container/Container.vue')['default']
     Images: typeof import('./../components/images/Images.vue')['default']
@@ -15,12 +16,7 @@ declare module 'vue' {
     LogoutDialog: typeof import('./../../../shared/components/dialog/LogoutDialog.vue')['default']
     Navigation1: typeof import('./../components/navigation/Navigation1.vue')['default']
     Navigation2: typeof import('./../components/navigation/Navigation2.vue')['default']
-    Particles: typeof import('./../components/particles/Particles.vue')['default']
     QBtn: typeof import('quasar')['QBtn']
-    QItem: typeof import('quasar')['QItem']
-    QItemSection: typeof import('quasar')['QItemSection']
-    QList: typeof import('quasar')['QList']
-    QMenu: typeof import('quasar')['QMenu']
     QRouteTab: typeof import('quasar')['QRouteTab']
     QScrollArea: typeof import('quasar')['QScrollArea']
     QTabs: typeof import('quasar')['QTabs']
@@ -29,7 +25,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SMSInput: typeof import('./../../../shared/components/input/SMSInput.vue')['default']
     Tags: typeof import('./../components/tags/Tags.vue')['default']
-    Test: typeof import('./../components/particles/Test.vue')['default']
     TextBtn: typeof import('./../../../shared/components/btn/TextBtn.vue')['default']
     Title: typeof import('./../components/Title/index.vue')['default']
     Waves: typeof import('./../components/waves/Waves.vue')['default']

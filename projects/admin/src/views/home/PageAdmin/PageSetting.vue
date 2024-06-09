@@ -15,6 +15,7 @@ const { active } = usePageAdmin()
 
 const loading = ref(false)
 const pageCfg = ref<IConfigDto[SysConfig.HOME]>()
+const isDisabled = ref(true)
 
 /** 上传logo图片 */
 const pageImg = ref<File>()
@@ -41,6 +42,7 @@ async function getConfigList() {
   try {
     const data = await getConfigApi(active.value)
     pageCfg.value = data
+    isDisabled.value = true
   }
   catch (error) {}
   finally {
@@ -53,7 +55,6 @@ async function save() {
   loading.value = true
   try {
     const data = await upsertConfigApi({ version: active.value, [props.data.id]: { ...pageCfg.value } })
-
     if (data)
       Notify.create({ message: '修改成功', type: 'success' })
   }
@@ -62,6 +63,13 @@ async function save() {
     loading.value = false
   }
 }
+
+watch(
+  pageCfg,
+  () => {
+    isDisabled.value = false
+  },
+)
 
 onMounted(() => {
   getConfigList()
@@ -74,7 +82,10 @@ onMounted(() => {
     <div v-if="!loading" flex="~ col gap-4">
       <div flex justify-between>
         <h3 v-text="data.label" />
-        <ZBtn min-w-20 label="保存" @click="save()" />
+        <ZBtn
+          :disabled="isDisabled"
+          min-w-20 label="保存" @click="save()"
+        />
       </div>
       <div v-if="pageCfg" flex="~ col gap1">
         <div v-text="'标题'" />

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import ArticleAdmin from '~/views/article/index.vue'
+import ArticleList from '~/views/article/ArticleList.vue'
+import UpsertArticle from '~/views/article/UpsertArticle.vue'
 
 const { menu, active } = useMenu()
 </script>
 
 <template>
   <div v-if="menu?.length">
-    <ArticleAdmin v-if="menu[0].id === active" />
+    <ArticleList v-if="menu[0].id === active" />
+    <UpsertArticle v-if="menu[1].id === active" />
   </div>
 </template>
 

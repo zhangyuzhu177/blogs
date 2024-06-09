@@ -26,6 +26,7 @@ import { SysConfigModule } from './modules/config/config.module'
 import { RedisModule } from './modules/redis/redis.module'
 import { FileModule } from './modules/file/file.module'
 import { WebsocketGateway } from './modules/websocket/websocket.gateway'
+import { ArticleModule } from './modules/article/article.module'
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { WebsocketGateway } from './modules/websocket/websocket.gateway'
     SysConfigModule,
     RedisModule,
     FileModule,
+    // ArticleModule,
     WebsocketGateway,
 
     // External Modules
