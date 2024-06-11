@@ -40,7 +40,7 @@ import { ArticleModule } from './modules/article/article.module'
     SysConfigModule,
     RedisModule,
     FileModule,
-    // ArticleModule,
+    ArticleModule,
     WebsocketGateway,
 
     // External Modules

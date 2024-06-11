@@ -35,6 +35,7 @@ declare global {
   const PHONE_NUMBER_REQUIREMENTS_DESC: typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_REQUIREMENTS_DESC']
   const REMEMBER_LOGIN_INFO_KEY: typeof import('../../../shared/constants/storage')['REMEMBER_LOGIN_INFO_KEY']
   const TABLE_PAGINATION: typeof import('../constants/table')['TABLE_PAGINATION']
+  const TAGS: typeof import('../constants/article')['TAGS']
   const USER_TABLE_COLUMNS: typeof import('../constants/table')['USER_TABLE_COLUMNS']
   const arrayDistinct: typeof import('../../../shared/utils/common/distinct')['arrayDistinct']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
@@ -416,6 +417,7 @@ declare module 'vue' {
     readonly PHONE_NUMBER_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_REQUIREMENTS_DESC']>
     readonly REMEMBER_LOGIN_INFO_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['REMEMBER_LOGIN_INFO_KEY']>
     readonly TABLE_PAGINATION: UnwrapRef<typeof import('../constants/table')['TABLE_PAGINATION']>
+    readonly TAGS: UnwrapRef<typeof import('../constants/article')['TAGS']>
     readonly USER_TABLE_COLUMNS: UnwrapRef<typeof import('../constants/table')['USER_TABLE_COLUMNS']>
     readonly arrayDistinct: UnwrapRef<typeof import('../../../shared/utils/common/distinct')['arrayDistinct']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
@@ -790,6 +792,7 @@ declare module '@vue/runtime-core' {
     readonly PHONE_NUMBER_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_REQUIREMENTS_DESC']>
     readonly REMEMBER_LOGIN_INFO_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['REMEMBER_LOGIN_INFO_KEY']>
     readonly TABLE_PAGINATION: UnwrapRef<typeof import('../constants/table')['TABLE_PAGINATION']>
+    readonly TAGS: UnwrapRef<typeof import('../constants/article')['TAGS']>
     readonly USER_TABLE_COLUMNS: UnwrapRef<typeof import('../constants/table')['USER_TABLE_COLUMNS']>
     readonly arrayDistinct: UnwrapRef<typeof import('../../../shared/utils/common/distinct')['arrayDistinct']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>

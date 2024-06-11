@@ -11,7 +11,7 @@ defineProps<Props>()
 
 <template>
   <div
-    :class="active === tag.id ? 'active' : ''"
+    :class="active === tag.label ? 'active' : ''"
     px-2 py-1 bg="grey-2" b-rd-1 flex-center
     cursor-pointer hover:bg="grey-3"
     v-text="tag.label"

@@ -95,11 +95,9 @@ export class UserController {
   public async updateUserRole(@Param() param: UpdateUserRoleParamDto) {
     const { userId } = param
     const roleId = param.roleId || null
-    console.log(userId,roleId);
 
     // const { list } = await this._cfgSrv.get<{ list: SysAdmin[] }>('sa')
     const user = await this._userSrv.repo().findOne({ where: { id: userId } })
-    console.log(user);
 
     if (!user.account)
       responseError(ErrorCode.USER_NOT_FOUND)
