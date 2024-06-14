@@ -1,14 +1,95 @@
 <script setup lang="ts">
-const value = ref('')
-const title = ref('')
-const img = ref<File>()
+import { cloneDeep } from 'lodash'
+import type { UpsertArticleBodyDto } from 'shared/types/http/article/upsert-body.dto'
+
+const { userInfo } = useUser()
 
 const loading = ref(false)
-const publish = ref(false)
-const active = ref('')
+const dialog = ref(false)
+const opts = ref(TAGS)
+const initData: UpsertArticleBodyDto = {
+  author: userInfo.value?.account as string,
+  title: '',
+  content: '',
+  category: '',
+  tags: '',
+  articleCover: '',
+  type: '',
+  originalUrl: '',
+  status: '',
+}
+const form = ref<UpsertArticleBodyDto>(cloneDeep(initData))
+const isShow = ref(false)
+
+watch(() => form.value.type, (newVal) => {
+  if (newVal === '转载')
+    isShow.value = true
+  else
+    isShow.value = false
+})
+
+const disable = computed(() => {
+  if (
+    form.value.title !== ''
+    && form.value.author !== ''
+    && form.value.content !== ''
+    && form.value.category !== ''
+    && form.value.tags !== ''
+    && form.value.status !== ''
+  ) {
+    if (form.value.type === '转载' && form.value.originalUrl !== '') {
+      return false
+    }
+    else if (form.value.type === '原创') {
+      return false
+    }
+    else {
+      return true
+    }
+  }
+  else {
+    return true
+  }
+})
+
+const img = ref<File>()
+watch(img, async (newVal) => {
+  loading.value = true
+  try {
+    if (newVal) {
+      const formData = new FormData()
+      formData.append('file', newVal as File)
+      const res = await uploadFileApi(formData, `/images/page/${newVal.name}`)
+      form.value!.articleCover = res.url
+    }
+  }
+  catch (e) {}
+  finally {
+    loading.value = false
+    img.value = undefined
+  }
+})
+
+function init() {
+  form.value = cloneDeep(initData)
+}
+
+watch(
+  dialog,
+  (newVal) => {
+    if (newVal) {
+      form.value.category = ''
+      form.value.articleCover = ''
+      form.value.originalUrl = ''
+      form.value.type = ''
+      form.value.tags = ''
+      form.value.status = ''
+    }
+  },
+)
 
 function callback() {
-
+  console.log(form.value)
 }
 </script>
 
@@ -17,26 +98,25 @@ function callback() {
     <ZLoading :value="loading" />
     <div flex gap6 justify-between>
       <ZInput
-        v-model="title" borderless
-        flex-1
+        v-model="form.title" flex-1
         placeholder="输入文章标题..."
       />
-      <ZBtn @click="publish = true">
+      <ZBtn @click="dialog = true">
         <div i-ph:navigation-arrow-bold />
         发布文章
       </ZBtn>
     </div>
     <!-- 文章内容 -->
-    <v-md-editor v-model="value" height="100%" />
+    <v-md-editor v-model="form.content" height="100%" />
 
-    <!-- 发布文章  -->
+    <!-- 发布文章   -->
     <ZDialog
-      v-model="publish"
-      title="发布文章"
+      v-model="dialog" title="发布文章"
       footer scroll
+      :disable-confirm="disable"
       :wrapper-style="{
-        width: '600px',
-        maxWidth: '600px',
+        width: '700px',
+        maxWidth: '700px',
       }"
       @ok="callback"
     >
@@ -46,16 +126,21 @@ function callback() {
           <div flex="~ gap-4 wrap">
             <Tag1
               v-for="i in CLASSIFY" :key="i.id" w-30
-              :tag="i" :active="active" @click="active = i.id"
+              :tag="i" :active="form.category" @click="form.category = i.label"
             />
           </div>
         </div>
         <div flex="~ col gap2">
           文章标签
-          <ZInput
-            v-model="title"
-            flex-1
-            placeholder="输入文章标题..."
+          <ZSelect
+            v-model="form.tags"
+            w-80
+            :options="opts"
+            placeholder="请选择文章标签"
+            required
+            :params="{
+              optionLabel: 'name',
+            }"
           />
         </div>
         <div flex="~ col gap2">
@@ -66,8 +151,20 @@ function callback() {
             accept="image/*"
             w-50 b-rd-4
           >
-            <div b-rd-4 full h-30 flex-center border="1px dashed gray-5">
+            <div
+              v-if="!form.articleCover" flex="~ col gap2 center" b-rd-4 full h-30
+              border="1px dashed gray-5"
+            >
               <div text="6 grey-5" i-ph:plus />
+              <div text="grey-5">
+                上传封面
+              </div>
+            </div>
+            <div
+              v-else flex="~ col gap2 center" b-rd-4 full
+              h-30 overflow-hidden relative
+            >
+              <img full :src="form.articleCover">
             </div>
           </ZUpload>
         </div>
@@ -76,24 +173,22 @@ function callback() {
           <div flex="~ gap-4 wrap">
             <Tag1
               v-for="i in ARTICLE_CLASS" :key="i.id" w-30
-              :tag="i" :active="active" @click="active = i.id"
+              :tag="i" :active="form.type"
+              @click="form.type = i.label"
             />
           </div>
         </div>
-        <div flex="~ col gap2">
+        <div v-if="isShow" flex="~ col gap2">
           转载连接
-          <ZInput
-            v-model="title"
-            flex-1
-            placeholder="输入文章标题..."
-          />
+          <ZInput v-model="form.originalUrl" flex-1 />
         </div>
         <div flex="~ col gap2">
           发布方式
           <div flex="~ gap-4 wrap">
             <Tag1
               v-for="i in BT" :key="i.id" w-30
-              :tag="i" :active="active" @click="active = i.id"
+              :tag="i" :active="form.status"
+              @click="form.status = i.label"
             />
           </div>
         </div>
@@ -103,5 +198,4 @@ function callback() {
 </template>
 
 <style scoped lang="scss">
-
 </style>

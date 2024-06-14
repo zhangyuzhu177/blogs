@@ -46,10 +46,6 @@ export const ARTICLE_CLASS: Classify[] = [
     id: 'reprint',
     label: '转载',
   },
-  {
-    id: 'translate',
-    label: '翻译',
-  },
 ]
 
 export const BT: Classify[] = [
@@ -66,3 +62,5 @@ export const BT: Classify[] = [
     label: '私密',
   },
 ]
+
+export const TAGS:string[]=['Javascript','Java','Vue','Spingboot','CSS','算法','TypeScript','React','Node','HTML']

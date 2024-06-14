@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
-import { Article } from 'src/entities/article'
 import { TypeOrmModule } from '@nestjs/typeorm'
+
+import { Article } from 'src/entities/article'
 import { ArticleService } from './article.service'
 import { ArticleController } from './article.controller'
 

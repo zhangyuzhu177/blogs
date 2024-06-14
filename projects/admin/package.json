@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vite-ssg build",
     "preview": "vite preview",
     "lint": "eslint ."
   },
@@ -21,7 +21,7 @@
     "moment": "^2.29.4",
     "nprogress": "^0.2.0",
     "prismjs": "^1.29.0",
-    "quasar": "^2.12.3",
+    "quasar": "^2.16.4",
     "shared": "workspace:^",
     "socket.io-client": "^4.7.5",
     "vue": "^3.3.4",

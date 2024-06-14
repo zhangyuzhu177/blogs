@@ -21,7 +21,7 @@ export class Article implements IArticle {
     description: '文章标题',
   })
   @Column()
-  articleTitle: string
+  title: string
 
   @ApiProperty({
     description: '文章分类',
@@ -65,7 +65,7 @@ export class Article implements IArticle {
     description: '原文链接 当文章类型为转载时为必填',
     example: 0,
   })
-  @Column()
+  @Column({nullable: true})
   originalUrl?: string
 
   @ApiProperty({
