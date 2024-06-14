@@ -1,6 +1,6 @@
-import quasarLang from 'quasar/lang/zh-CN'
+// import quasarLang from 'quasar/lang/zh-CN'
 import { Dialog, Loading, Notify, Quasar } from 'quasar'
-import quasarIconSet from 'quasar/icon-set/fontawesome-v6'
+// import quasarIconSet from 'quasar/icon-set/fontawesome-v6'
 import type { UserModule } from '~/types'
 
 // Import icon libraries
@@ -18,8 +18,8 @@ export const install: UserModule = ({ app, isClient }) => {
       Dialog,
       Loading,
     },
-    lang: quasarLang,
-    iconSet: quasarIconSet,
+    // lang: quasarLang,
+    // iconSet: quasarIconSet,
     config: {
       dark: false,
     },

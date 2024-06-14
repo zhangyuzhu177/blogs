@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vite-ssg build",
     "preview": "vite preview",
     "lint": "eslint ."
   },

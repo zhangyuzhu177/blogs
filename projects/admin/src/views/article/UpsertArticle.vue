@@ -1,34 +1,32 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash'
-import { UpsertArticleBodyDto } from 'shared/types/http/article/upsert-body.dto'
+import type { UpsertArticleBodyDto } from 'shared/types/http/article/upsert-body.dto'
 
-const img = ref<File>()
+const { userInfo } = useUser()
 
 const loading = ref(false)
 const dialog = ref(false)
-
-const initData: UpsertArticleBodyDto= {
-  author: '11',
+const opts = ref(TAGS)
+const initData: UpsertArticleBodyDto = {
+  author: userInfo.value?.account as string,
   title: '',
   content: '',
-  category:'',
-  tags:'',
-  articleCover:'',
+  category: '',
+  tags: '',
+  articleCover: '',
   type: '',
-  originalUrl:'',
-  status:''
+  originalUrl: '',
+  status: '',
 }
 const form = ref<UpsertArticleBodyDto>(cloneDeep(initData))
 const isShow = ref(false)
 
-watch(() => form.value.type,
-  (newVal) => {
-    if (newVal === '转载')
-      isShow.value=true
-    else
-      isShow.value=false
-  }
-)
+watch(() => form.value.type, (newVal) => {
+  if (newVal === '转载')
+    isShow.value = true
+  else
+    isShow.value = false
+})
 
 const disable = computed(() => {
   if (
@@ -37,19 +35,39 @@ const disable = computed(() => {
     && form.value.content !== ''
     && form.value.category !== ''
     && form.value.tags !== ''
-    && form.value.articleCover !== ''
     && form.value.status !== ''
   ) {
-    if (form.value.type === '转载' && form.value.originalUrl !=='') {
+    if (form.value.type === '转载' && form.value.originalUrl !== '') {
       return false
     }
     else if (form.value.type === '原创') {
       return false
-    }{
+    }
+    else {
       return true
     }
   }
-  else return true
+  else {
+    return true
+  }
+})
+
+const img = ref<File>()
+watch(img, async (newVal) => {
+  loading.value = true
+  try {
+    if (newVal) {
+      const formData = new FormData()
+      formData.append('file', newVal as File)
+      const res = await uploadFileApi(formData, `/images/page/${newVal.name}`)
+      form.value!.articleCover = res.url
+    }
+  }
+  catch (e) {}
+  finally {
+    loading.value = false
+    img.value = undefined
+  }
 })
 
 function init() {
@@ -59,13 +77,19 @@ function init() {
 watch(
   dialog,
   (newVal) => {
-    if (newVal)
-      init()
+    if (newVal) {
+      form.value.category = ''
+      form.value.articleCover = ''
+      form.value.originalUrl = ''
+      form.value.type = ''
+      form.value.tags = ''
+      form.value.status = ''
+    }
   },
 )
 
 function callback() {
-
+  console.log(form.value)
 }
 </script>
 
@@ -74,7 +98,7 @@ function callback() {
     <ZLoading :value="loading" />
     <div flex gap6 justify-between>
       <ZInput
-        v-model="form.title" borderless flex-1
+        v-model="form.title" flex-1
         placeholder="输入文章标题..."
       />
       <ZBtn @click="dialog = true">
@@ -85,7 +109,7 @@ function callback() {
     <!-- 文章内容 -->
     <v-md-editor v-model="form.content" height="100%" />
 
-    <!-- 发布文章  -->
+    <!-- 发布文章   -->
     <ZDialog
       v-model="dialog" title="发布文章"
       footer scroll
@@ -110,7 +134,8 @@ function callback() {
           文章标签
           <ZSelect
             v-model="form.tags"
-            :options="TAGS"
+            w-80
+            :options="opts"
             placeholder="请选择文章标签"
             required
             :params="{
@@ -127,11 +152,19 @@ function callback() {
             w-50 b-rd-4
           >
             <div
-              flex="~ col gap2 center" b-rd-4 full h-30
+              v-if="!form.articleCover" flex="~ col gap2 center" b-rd-4 full h-30
               border="1px dashed gray-5"
             >
               <div text="6 grey-5" i-ph:plus />
-              <div text="grey-5">上传封面</div>
+              <div text="grey-5">
+                上传封面
+              </div>
+            </div>
+            <div
+              v-else flex="~ col gap2 center" b-rd-4 full
+              h-30 overflow-hidden relative
+            >
+              <img full :src="form.articleCover">
             </div>
           </ZUpload>
         </div>
@@ -165,5 +198,4 @@ function callback() {
 </template>
 
 <style scoped lang="scss">
-
 </style>
