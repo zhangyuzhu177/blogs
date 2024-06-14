@@ -1,11 +1,10 @@
-import { IUser } from "../types/entities/user.interface"
-import { useRequest } from "../utils/common/request"
-import { IUserIdDto } from "../types/dto/id/user.interface"
-import type { IGetProfileOwnQueryDto, } from '../types/http/user/get-profile-own.interface'
-import { IUpdateUserBodyDto } from "../types/http/user/update-user.interface"
-import { IUpdatePasswordByEmailCodeBodyDto } from "../types/http/user/update-pswd-by-email-code.interface"
-import type {} from '../types/dto/id/user.interface'
-import { IRoleIdDto } from "../types/dto/id/role.interface"
+import type { IUser } from '../types/entities/user.interface'
+import { useRequest } from '../utils/common/request'
+import type { IUserIdDto } from '../types/dto/id/user.interface'
+import type { IGetProfileOwnQueryDto } from '../types/http/user/get-profile-own.interface'
+import type { IUpdateUserBodyDto } from '../types/http/user/update-user.interface'
+import type { IUpdatePasswordByEmailCodeBodyDto } from '../types/http/user/update-pswd-by-email-code.interface'
+import type { IRoleIdDto } from '../types/dto/id/role.interface'
 
 const { $patch, $get, $delete } = useRequest()
 
@@ -78,7 +77,6 @@ export function getOwnProfileApi(body: IGetProfileOwnQueryDto) {
 export function updateUserRoleApi(userId: IUserIdDto['userId'], roleId: IRoleIdDto['roleId']) {
   return $patch<number>(`/user/${userId}/role/${roleId}`)
 }
-
 
 export function clearUserPasswordApi(body: IUserIdDto['userId'][]) {
   return $delete<number>('/user/delete/password', body)

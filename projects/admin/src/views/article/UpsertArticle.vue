@@ -6,7 +6,6 @@ const { userInfo } = useUser()
 
 const loading = ref(false)
 const dialog = ref(false)
-const opts = ref(TAGS)
 const initData: UpsertArticleBodyDto = {
   author: userInfo.value?.account as string,
   title: '',
@@ -37,15 +36,14 @@ const disable = computed(() => {
     && form.value.tags !== ''
     && form.value.status !== ''
   ) {
-    if (form.value.type === '转载' && form.value.originalUrl !== '') {
+    if (form.value.type === '转载' && form.value.originalUrl !== '')
       return false
-    }
-    else if (form.value.type === '原创') {
+
+    else if (form.value.type === '原创')
       return false
-    }
-    else {
+
+    else
       return true
-    }
   }
   else {
     return true
@@ -103,7 +101,7 @@ function callback() {
       />
       <ZBtn @click="dialog = true">
         <div i-ph:navigation-arrow-bold />
-        发布文章
+        发布博客
       </ZBtn>
     </div>
     <!-- 文章内容 -->
@@ -134,13 +132,13 @@ function callback() {
           文章标签
           <ZSelect
             v-model="form.tags"
-            w-80
-            :options="opts"
+            class="select"
+            :options="TAGS"
             placeholder="请选择文章标签"
             required
             :params="{
               optionLabel: 'name',
-            }"
+            }" w-80
           />
         </div>
         <div flex="~ col gap2">
@@ -198,4 +196,43 @@ function callback() {
 </template>
 
 <style scoped lang="scss">
+.select{
+  :deep(.dropdown-select__popup) {
+    user-select: none;
+    max-height: 148px !important;
+    border: 1px solid var(--primary-1);
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &.q-menu--dark {
+      box-shadow: none;
+      border-radius: 2px;
+      border: 1px solid var(--primary-1);
+    }
+
+    .q-item {
+      min-height: 32px;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      text-align: center;
+      color: rgba($color: #fff, $alpha: 0.5);
+
+      &.q-item--active {
+        color: white;
+        background: #0085E64D;
+        .q-focus-helper::before {
+          opacity: 0;
+        }
+      }
+
+      .q-focus-helper::after {
+        // background: var(--primary);
+        background-color: rgba($color: var(--primary-1), $alpha: 0.3)
+      }
+    }
+  }
+}
 </style>

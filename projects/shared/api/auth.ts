@@ -1,11 +1,10 @@
-import { IRegisterBodyDto } from "../types/http/auth/register.interface";
-import { ILoginByPasswordBodyDto, ILoginSuccessResData } from "../types/http/auth/login-by-password.interface";
-import { authToken } from "../composables/user";
-import { useRequest } from "../utils/common/request";
-import { ILoginByEmailCodeBodyDto } from "types/http/auth/login-by-email-code.interface";
+import type { ILoginByEmailCodeBodyDto } from 'types/http/auth/login-by-email-code.interface'
+import type { IRegisterBodyDto } from '../types/http/auth/register.interface'
+import type { ILoginByPasswordBodyDto, ILoginSuccessResData } from '../types/http/auth/login-by-password.interface'
+import { authToken } from '../composables/user'
+import { useRequest } from '../utils/common/request'
 
-const { $post,$get } = useRequest()
-
+const { $post, $get } = useRequest()
 
 /**
  * 注册
