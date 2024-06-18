@@ -34,7 +34,7 @@ export class DailyCountService {
       const updateRes = await this._dailyCountRepo.increment({ id }, 'access', 1)
       if (!updateRes.affected) {
         await this._dailyCountRepo.insert({ id, year, month, date })
-        this._logger.log('new daily-count record')
+        this._logger.verbose(`新的每日记录 ${id}`)
       }
     }
     catch (e) {

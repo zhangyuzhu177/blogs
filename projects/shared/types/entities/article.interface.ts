@@ -22,5 +22,5 @@ export interface IArticle {
   /** 原文链接 */
   originalUrl?: string
   /** 创建事件 */
-  createTime: Date
+  createTime?: Date
 }

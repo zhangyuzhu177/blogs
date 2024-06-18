@@ -55,6 +55,6 @@ async function bootstrap() {
 
   await app.listen(Number.parseInt(cfgSrv.get('SERVER_PORT')) || 3000, '::')
 
-  logger.log(`App is running on ${await app.getUrl()}${cfgSrv.get('SWAGGER_SERVER_HOST')}${cfgSrv.get('SWAGGER_PATH')}`)
+  logger.verbose(`App is running on ${await app.getUrl()}${cfgSrv.get('SWAGGER_SERVER_HOST')}${cfgSrv.get('SWAGGER_PATH')}`)
 }
 bootstrap()

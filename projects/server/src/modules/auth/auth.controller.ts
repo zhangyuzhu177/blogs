@@ -10,8 +10,6 @@ import { LoginByPasswordBodyDto } from './dto/login-by-password.body.dto';
 import { RegisterBodyDto } from './dto/register.body.dto';
 import { LoginByEmailCodeBodyDto } from './dto/login-by-email-code.body.dto';
 
-import * as NodeRSA from 'node-rsa'
-
 @Controller('auth')
 @ApiTags('Auth | 身份验证')
 export class AuthController {
@@ -75,15 +73,4 @@ export class AuthController {
   public async logout(@Req() req: FastifyRequest) {
     return this._authSrv.logout(req.raw.token)
   }
-
-  /**生成rsa密钥对 */
-  // @Get()
-  // rsa() {
-  //   const nodeRSA = new NodeRSA({ b: 2048 })
-  //   const publicKey = nodeRSA.exportKey('public')
-  //   const privateKey = nodeRSA.exportKey('private')
-  //   console.log(publicKey)
-  //   console.log(privateKey)
-  //   return ''
-  // }
 }

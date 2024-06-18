@@ -19,7 +19,6 @@ declare global {
   const AUTH_TOKEN_KEY: typeof import('../../../shared/constants/storage')['AUTH_TOKEN_KEY']
   const BT: typeof import('../constants/article')['BT']
   const CLASSIFY: typeof import('../constants/article')['CLASSIFY']
-  const ClosePopup: typeof import('quasar')['ClosePopup']
   const EMAIL_MAX_LENGTH: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MAX_LENGTH']
   const EMAIL_MIN_LENGTH: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MIN_LENGTH']
   const EMAIL_REQUIREMENTS_DESC: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']
@@ -65,6 +64,7 @@ declare global {
   const deepCopy: typeof import('../../../shared/utils/common/tool')['deepCopy']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
+  const deleteArticleApi: typeof import('../../../shared/api/article')['deleteArticleApi']
   const deleteUserApi: typeof import('../../../shared/api/user')['deleteUserApi']
   const downloadCsv: typeof import('../../../shared/utils/browser/download/downloadCsv')['downloadCsv']
   const downloadUrl: typeof import('../../../shared/utils/browser/download/downloadUrl')['downloadUrl']
@@ -72,6 +72,7 @@ declare global {
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const fileToUrl: typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']
+  const getArticleListApi: typeof import('../../../shared/api/article')['getArticleListApi']
   const getCaptchaImgApi: typeof import('../../../shared/api/auth')['getCaptchaImgApi']
   const getConfigApi: typeof import('../../../shared/api/config')['getConfigApi']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -177,6 +178,7 @@ declare global {
   const updateUserApi: typeof import('../../../shared/api/user')['updateUserApi']
   const updateUserRoleApi: typeof import('../../../shared/api/user')['updateUserRoleApi']
   const uploadFileApi: typeof import('../../../shared/api/file')['uploadFileApi']
+  const upsertArticleApi: typeof import('../../../shared/api/article')['upsertArticleApi']
   const upsertConfigApi: typeof import('../../../shared/api/config')['upsertConfigApi']
   const upsertRoleApi: typeof import('../../../shared/api/role')['upsertRoleApi']
   const useActiveElement: typeof import('@vueuse/core')['useActiveElement']
@@ -408,6 +410,7 @@ declare module 'vue' {
     readonly EMAIL_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly LEADING_PAGE_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['LEADING_PAGE_KEY']>
+    readonly Notify: UnwrapRef<typeof import('quasar')['Notify']>
     readonly PASSWORD_ALLOW_CHARS: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_ALLOW_CHARS']>
     readonly PASSWORD_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MAX_LENGTH']>
     readonly PASSWORD_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MIN_LENGTH']>
@@ -447,6 +450,7 @@ declare module 'vue' {
     readonly deepCopy: UnwrapRef<typeof import('../../../shared/utils/common/tool')['deepCopy']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
+    readonly deleteArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['deleteArticleApi']>
     readonly deleteUserApi: UnwrapRef<typeof import('../../../shared/api/user')['deleteUserApi']>
     readonly downloadCsv: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadCsv')['downloadCsv']>
     readonly downloadUrl: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadUrl')['downloadUrl']>
@@ -454,6 +458,7 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly fileToUrl: UnwrapRef<typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']>
+    readonly getArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['getArticleListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
@@ -559,6 +564,7 @@ declare module 'vue' {
     readonly updateUserApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserApi']>
     readonly updateUserRoleApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserRoleApi']>
     readonly uploadFileApi: UnwrapRef<typeof import('../../../shared/api/file')['uploadFileApi']>
+    readonly upsertArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['upsertArticleApi']>
     readonly upsertConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['upsertConfigApi']>
     readonly upsertRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['upsertRoleApi']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
@@ -783,6 +789,7 @@ declare module '@vue/runtime-core' {
     readonly EMAIL_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly LEADING_PAGE_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['LEADING_PAGE_KEY']>
+    readonly Notify: UnwrapRef<typeof import('quasar')['Notify']>
     readonly PASSWORD_ALLOW_CHARS: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_ALLOW_CHARS']>
     readonly PASSWORD_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MAX_LENGTH']>
     readonly PASSWORD_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MIN_LENGTH']>
@@ -822,6 +829,7 @@ declare module '@vue/runtime-core' {
     readonly deepCopy: UnwrapRef<typeof import('../../../shared/utils/common/tool')['deepCopy']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
+    readonly deleteArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['deleteArticleApi']>
     readonly deleteUserApi: UnwrapRef<typeof import('../../../shared/api/user')['deleteUserApi']>
     readonly downloadCsv: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadCsv')['downloadCsv']>
     readonly downloadUrl: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadUrl')['downloadUrl']>
@@ -829,6 +837,7 @@ declare module '@vue/runtime-core' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly fileToUrl: UnwrapRef<typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']>
+    readonly getArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['getArticleListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
@@ -934,6 +943,7 @@ declare module '@vue/runtime-core' {
     readonly updateUserApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserApi']>
     readonly updateUserRoleApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserRoleApi']>
     readonly uploadFileApi: UnwrapRef<typeof import('../../../shared/api/file')['uploadFileApi']>
+    readonly upsertArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['upsertArticleApi']>
     readonly upsertConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['upsertConfigApi']>
     readonly upsertRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['upsertRoleApi']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>

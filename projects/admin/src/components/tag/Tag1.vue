@@ -22,5 +22,6 @@ defineProps<Props>()
 .active {
   color:var(--primary-1);
   background-color: var(--primary-1-bg);
+  border:1px solid var(--primary-1);
 }
 </style>

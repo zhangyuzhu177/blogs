@@ -52,7 +52,7 @@ export class AuthService {
 
     // 创建用户
     try {
-      const user = await this._userSrv.createUser(userInfo)
+      // const user = await this._userSrv.createUser(userInfo)
       const sign = await this._jwtAuthSrv.signLoginAuthToken(user)
       return {
         sign,

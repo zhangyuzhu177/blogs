@@ -29,7 +29,9 @@ const dialogType = ref<Type>()
 /** 编辑的用户 */
 const dialogUser = ref<IUser>()
 /** 表格分页信息 */
-const pagination = TABLE_PAGINATION('createdAt', true)
+const pagination = {
+  rowsPerPage: 0,
+}
 
 /** 表格行 */
 const rows = ref<QTableProps['rows']>([])
@@ -131,7 +133,7 @@ provide('callback', callback)
               dialogUser = undefined
             }"
           >
-            <div i-mingcute:file-import-line />
+            <div i-ph:plus-bold />
             添加用户
           </ZBtn>
         </div>
@@ -178,12 +180,14 @@ provide('callback', callback)
     <ZTable
       ref="zTable"
       v-model:pagination="pagination"
+      v-model:selected="selected"
       :rows="rows"
       :cols="cols"
       :params="{
         noDataLabel: '暂无用户信息记录',
-        filter: text,
+        selection: 'multiple',
         binaryStateSort: true,
+        hideBottom: rows.length ? true : false,
       }"
       flex-1 h-0
       fixed-first-column

@@ -31,6 +31,8 @@ export class UserController {
     private readonly _cfgSrv: ConfigService,
   ) { }
 
+  @ApiOperation({summary:'创建用户'})
+
   @ApiOperation({ summary: '获取用户列表' })
   @HasPermission([
     PermissionType.USER_QUERY,

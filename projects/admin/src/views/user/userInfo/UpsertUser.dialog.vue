@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash'
+
 // import { Notify } from 'quasar'
 import type { IUserIdDto } from 'shared/types/dto/id/user.interface'
 import type { IUser } from 'shared/types/entities/user.interface'
@@ -137,7 +138,6 @@ async function upsertUser() {
   >
     <div flex="~ col gap8">
       <div flex="~ col gap6">
-        <SubLabel label="基本信息" />
         <div flex="~ col gap1">
           <ZInput
             v-model="form.account"

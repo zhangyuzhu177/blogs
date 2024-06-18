@@ -136,6 +136,7 @@ const { isAdmin } = useSysConfig()
 }
 
 .z-select-dropdown-menu {
+  max-height: 249px !important;
   box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 6px 16px rgba(0, 0, 0, 0.08), 0px 9px 28px 8px rgba(0, 0, 0, 0.05) !important;
   border-radius: 0 !important;
   padding: 8px 0;

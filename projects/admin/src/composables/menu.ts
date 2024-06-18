@@ -38,7 +38,7 @@ export function useMenu() {
         },
         {
           id: 'articleAdd',
-          label: '发布/编辑文章',
+          label: '发布文章',
           flag: role?.includes(PermissionType.ARTICLE_PUBLISH),
         },
       ],

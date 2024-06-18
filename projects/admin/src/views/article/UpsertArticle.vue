@@ -33,6 +33,7 @@ const disable = computed(() => {
     && form.value.author !== ''
     && form.value.content !== ''
     && form.value.category !== ''
+    && form.value.articleCover !== ''
     && form.value.tags !== ''
     && form.value.status !== ''
   ) {
@@ -86,8 +87,22 @@ watch(
   },
 )
 
-function callback() {
-  console.log(form.value)
+async function callback() {
+  loading.value = true
+  try {
+    const res = await upsertArticleApi(form.value)
+    if (res) {
+      Notify.create({
+        type: 'success',
+        message: '发布成功',
+      })
+      init()
+    }
+  }
+  catch (error) {}
+  finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -113,8 +128,8 @@ function callback() {
       footer scroll
       :disable-confirm="disable"
       :wrapper-style="{
-        width: '700px',
-        maxWidth: '700px',
+        width: '8.75rem',
+        maxWidth: '8.75rem',
       }"
       @ok="callback"
     >
@@ -151,7 +166,7 @@ function callback() {
           >
             <div
               v-if="!form.articleCover" flex="~ col gap2 center" b-rd-4 full h-30
-              border="1px dashed gray-5"
+              border=".0125rem dashed gray-5"
             >
               <div text="6 grey-5" i-ph:plus />
               <div text="grey-5">
@@ -195,44 +210,6 @@ function callback() {
   </div>
 </template>
 
-<style scoped lang="scss">
-.select{
-  :deep(.dropdown-select__popup) {
-    user-select: none;
-    max-height: 148px !important;
-    border: 1px solid var(--primary-1);
+<style lang="scss">
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
-    &.q-menu--dark {
-      box-shadow: none;
-      border-radius: 2px;
-      border: 1px solid var(--primary-1);
-    }
-
-    .q-item {
-      min-height: 32px;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 24px;
-      text-align: center;
-      color: rgba($color: #fff, $alpha: 0.5);
-
-      &.q-item--active {
-        color: white;
-        background: #0085E64D;
-        .q-focus-helper::before {
-          opacity: 0;
-        }
-      }
-
-      .q-focus-helper::after {
-        // background: var(--primary);
-        background-color: rgba($color: var(--primary-1), $alpha: 0.3)
-      }
-    }
-  }
-}
 </style>

@@ -56,30 +56,30 @@ export class UserService {
     )
   }
 
-    /**
-   * 更新某个用户的密码
-   * @param where
-   * @param newPassword
-   * @returns
-   */
-    public async updateUserPassword(
-      where: FindOptionsWhere<User>,
-      newPassword: string,
-    ) {
-      const users = await this._userRepo.find({ where })
-      let success = 0
-      for (const user of users) {
-        try {
-          const updateRes = await this._userRepo.update(
-            { id: user.id },
-            { password: await encryptPassword(newPassword) },
-          )
-          success += updateRes.affected
-        }
-        catch (error) {}
+  /**
+ * 更新某个用户的密码
+ * @param where
+ * @param newPassword
+ * @returns
+ */
+  public async updateUserPassword(
+    where: FindOptionsWhere<User>,
+    newPassword: string,
+  ) {
+    const users = await this._userRepo.find({ where })
+    let success = 0
+    for (const user of users) {
+      try {
+        const updateRes = await this._userRepo.update(
+          { id: user.id },
+          { password: await encryptPassword(newPassword) },
+        )
+        success += updateRes.affected
       }
-      return success
+      catch (error) {}
     }
+    return success
+  }
 
   public qb(alias = 'u') {
     return this._userRepo.createQueryBuilder(alias)
