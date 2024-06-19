@@ -1,19 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SysAdmin } from 'src/config/_sa.config';
 import { User } from 'src/entities/user';
 import { ErrorCode } from 'src/types/enum/error-code.enum';
 import { encryptPassword } from 'src/utils/encrypt/encrypt-password';
 import { responseError } from 'src/utils/response';
 import { parseSqlError } from 'src/utils/response/sql-error/parse-sql-error';
 import { mergeDeep } from 'src/utils/validators/mergeDeep';
-import { FindManyOptions, FindOneOptions, FindOptionsWhere, Repository } from 'typeorm';
+import { FindManyOptions, FindOneOptions, FindOptionsWhere, In, Not, Repository } from 'typeorm';
 
 @Injectable()
-export class UserService {
+export class UserService implements OnModuleInit {
   constructor(
     @InjectRepository(User)
-    private readonly _userRepo: Repository<User>
+    private readonly _userRepo: Repository<User>,
+    private readonly _cfgSrv: ConfigService,
   ) { }
+
+  onModuleInit() {
+    this.initSysAdmin()
+  }
+
+  /**
+   * 初始化系统管理员
+   */
+  public async initSysAdmin() {
+    const superAdminList = this._cfgSrv.get<SysAdmin[]>('sa.list')
+    // 删除无效的超级管理员
+    await this._userRepo.delete({
+      isSysAdmin: true,
+      account: Not(In(superAdminList.map(sa => sa.account))),
+    })
+
+    // 添加新的超级管理员
+    for (const sa of superAdminList) {
+      try {
+        await this._userRepo.save({
+          account: sa.account,
+          password: await encryptPassword(sa.password),
+          isSysAdmin: true,
+        })
+      }
+      catch (e) {
+        await this._userRepo.update(
+          { account: sa.account },
+          {
+            password: await encryptPassword(sa.password),
+            isSysAdmin: true,
+          },
+        )
+      }
+    }
+  }
 
   /** 创建用户 */
   public async createUser(user: Partial<User>) {

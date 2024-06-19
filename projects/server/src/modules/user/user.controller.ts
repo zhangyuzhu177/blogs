@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Query, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Put, Query, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermission } from 'src/guards/permission.guard';
@@ -22,6 +22,8 @@ import { In } from 'typeorm';
 import { UserIdDto } from 'src/dto/id/user.dto';
 import { encryptPassword } from 'src/utils/encrypt/encrypt-password';
 import { UpdateUserBodyDto } from './dto/update-user.body.dto';
+import { SysAdmin } from 'src/config/_sa.config';
+import { CreateUserBodyDto } from './dto/create-user.body.dto';
 
 @Controller('user')
 @ApiTags('User | 用户')
@@ -31,7 +33,14 @@ export class UserController {
     private readonly _cfgSrv: ConfigService,
   ) { }
 
-  @ApiOperation({summary:'创建用户'})
+  @ApiOperation({ summary: '创建用户' })
+  @HasPermission(PermissionType.USER_CREATE)
+  @Put()
+  public async createUser(@Body() body: CreateUserBodyDto) {
+    const { account, email, phone, password, isDeleted} = body
+    const user = await this._userSrv.createUser({ account, email, phone, password, isDeleted })
+    return user
+  }
 
   @ApiOperation({ summary: '获取用户列表' })
   @HasPermission([
@@ -97,14 +106,13 @@ export class UserController {
   public async updateUserRole(@Param() param: UpdateUserRoleParamDto) {
     const { userId } = param
     const roleId = param.roleId || null
-
-    // const { list } = await this._cfgSrv.get<{ list: SysAdmin[] }>('sa')
+    const { list } = await this._cfgSrv.get<{ list: SysAdmin[] }>('sa')
     const user = await this._userSrv.repo().findOne({ where: { id: userId } })
 
     if (!user.account)
       responseError(ErrorCode.USER_NOT_FOUND)
-    // if (list.some(v => v.account === user.account))
-    //   responseError(ErrorCode.ROLE_UPDATE_ROOT)
+    if (list.some(v => v.account === user.account))
+      responseError(ErrorCode.ROLE_UPDATE_ROOT)
 
     try {
       const res = await this._userSrv.repo().update({ id: userId }, { roleId })
@@ -134,7 +142,6 @@ export class UserController {
       phone = null,
       password,
       isDeleted,
-      sendEmail,
     } = body
     const { userId } = param
 
@@ -163,24 +170,6 @@ export class UserController {
       }
       throw err
     }
-    // if (sendEmail) {
-    //   const arr: string[][] = []
-    //   if (user.email !== email)
-    //     arr.push(['邮箱', email])
-    //   if (user.phone !== phone)
-    //     arr.push(['手机号', phone])
-    //   if (password)
-    //     arr.push(['密码', password])
-    //   if (user.isDeleted !== isDeleted)
-    //     arr.push(['账号状态', isDeleted ? '禁用' : '启用'])
-
-    //   if (arr.length) {
-    //     setTimeout(async () => {
-    //       const newUser = await this._userSrv.repo().findOne({ where: { id: userId } })
-    //       this._notifySrv.notifyUserUpdate(newUser, arr)
-    //     })
-    //   }
-    // }
     return true
   }
 

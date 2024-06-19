@@ -90,36 +90,36 @@ watch(() => dialog.value, (newVal) => {
  * 添加/修改用户
  */
 async function upsertUser() {
-  // if (disable.value)
-  //   return
-  // const { type } = props
-  // emits('loading', true)
-  // try {
-  //   const body = deepCopy(form.value)
-  //   const { phone, password } = body
-  //   delete body.repeatPassword
-  //   body.password = password ? await rsaEncrypt(password) : undefined
-  //   body.phone = phone || undefined
+  if (disable.value)
+    return
+  const { type } = props
+  emits('loading', true)
+  try {
+    const body = deepCopy(form.value)
+    const { phone, password } = body
+    delete body.repeatPassword
+    body.password = password ? await rsaEncrypt(password) : undefined
+    body.phone = phone || undefined
 
-  //   let res
-  //   if (type === 'add')
-  //     res = await createUserApi(body)
-  //   else
-  //     res = await updateUserApi(userId.value!, body)
+    let res
+    if (type === 'add')
+      res = await createUserApi(body)
+    else
+      res = await updateUserApi(userId.value!, body)
 
-  //   if (res) {
-  //     Notify.create({
-  //       type: 'success',
-  //       message: `${type === 'add' ? '添加' : '编辑'}成功`,
-  //     })
-  //     emits('callback')
-  //     form.value = deepCopy(initData)
-  //   }
-  // }
-  // catch (error) {}
-  // finally {
-  //   emits('loading', false)
-  // }
+    if (res) {
+      Notify.create({
+        type: 'success',
+        message: `${type === 'add' ? '添加' : '编辑'}成功`,
+      })
+      emits('callback')
+      form.value = deepCopy(initData)
+    }
+  }
+  catch (error) {}
+  finally {
+    emits('loading', false)
+  }
 }
 </script>
 

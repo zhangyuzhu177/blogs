@@ -1,3 +1,4 @@
+import type { ICreateUserBodyDto } from 'types/http/user/create-user.interface'
 import type { IUser } from '../types/entities/user.interface'
 import { useRequest } from '../utils/common/request'
 import type { IUserIdDto } from '../types/dto/id/user.interface'
@@ -6,7 +7,7 @@ import type { IUpdateUserBodyDto } from '../types/http/user/update-user.interfac
 import type { IUpdatePasswordByEmailCodeBodyDto } from '../types/http/user/update-pswd-by-email-code.interface'
 import type { IRoleIdDto } from '../types/dto/id/role.interface'
 
-const { $patch, $get, $delete } = useRequest()
+const { $patch, $get, $delete, $put } = useRequest()
 
 /** 获取用户列表 */
 export function getUserListApi() {
@@ -18,9 +19,9 @@ export function getUserListApi() {
  * @param body
  * @returns
  */
-// export function createUserApi(body: ICreateUserBodyDto) {
-//   return $put<IUser>('/user', body)
-// }
+export function createUserApi(body: ICreateUserBodyDto) {
+  return $put<IUser>('/user', body)
+}
 
 /**
  * 修改指定用户信息
