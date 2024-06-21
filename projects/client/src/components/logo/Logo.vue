@@ -2,10 +2,10 @@
 import * as echarts from 'echarts'
 
 interface Props {
-  title:string
+  title: string
 }
 
-const props=defineProps<Props>()
+const props = defineProps<Props>()
 
 type EChartsOptions = echarts.EChartsOption
 type ECharts = echarts.ECharts
@@ -16,7 +16,7 @@ let instance: ECharts | null = null
 function renderChart() {
   const option: EChartsOptions = {
     graphic: {
-    elements: [
+      elements: [
         {
           type: 'text',
           left: 'center',
@@ -28,7 +28,7 @@ function renderChart() {
             lineDashOffset: 0,
             fill: 'transparent',
             stroke: '#000',
-            lineWidth: 1
+            lineWidth: 1,
           },
           keyframeAnimation: {
             duration: 3000,
@@ -39,26 +39,26 @@ function renderChart() {
                 style: {
                   fill: 'transparent',
                   lineDashOffset: 200,
-                  lineDash: [200, 0]
-                }
+                  lineDash: [200, 0],
+                },
               },
               {
                 percent: 0.8,
                 style: {
-                  fill: 'transparent'
-                }
+                  fill: 'transparent',
+                },
               },
               {
                 percent: 1,
                 style: {
-                  fill: 'black'
-                }
-              }
-            ]
-          }
-        }
-      ]
-    }
+                  fill: 'black',
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
   }
   instance?.setOption(option)
 }

@@ -1,12 +1,12 @@
 {
   "name": "client",
-  "version": "1.0.0",
   "type": "module",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vite-ssg build",
     "preview": "vite preview",
-    "lint": "eslint ."
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@iconify-json/ph": "^1.1.13",
@@ -18,6 +18,7 @@
     "@vueuse/head": "^2.0.0",
     "axios": "^1.6.8",
     "echarts": "^5.5.0",
+    "jquery": "^3.7.1",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
     "particles.vue3": "^2.12.0",

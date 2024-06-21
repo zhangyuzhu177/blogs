@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
+  <div full bg-red>
     没有权限
   </div>
 </template>

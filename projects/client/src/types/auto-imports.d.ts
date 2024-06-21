@@ -54,12 +54,14 @@ declare global {
   const createSharedComposable: typeof import('@vueuse/core')['createSharedComposable']
   const createTemplatePromise: typeof import('@vueuse/core')['createTemplatePromise']
   const createUnrefFn: typeof import('@vueuse/core')['createUnrefFn']
+  const createUserApi: typeof import('../../../shared/api/user')['createUserApi']
   const customRef: typeof import('vue')['customRef']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
   const deepCopy: typeof import('../../../shared/utils/common/tool')['deepCopy']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
+  const deleteArticleApi: typeof import('../../../shared/api/article')['deleteArticleApi']
   const deleteUserApi: typeof import('../../../shared/api/user')['deleteUserApi']
   const distance: typeof import('../utils/vector')['distance']
   const downloadCsv: typeof import('../../../shared/utils/browser/download/downloadCsv')['downloadCsv']
@@ -70,6 +72,7 @@ declare global {
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const fileToUrl: typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']
   const get: typeof import('../utils/vector')['get']
+  const getArticleListApi: typeof import('../../../shared/api/article')['getArticleListApi']
   const getCaptchaImgApi: typeof import('../../../shared/api/auth')['getCaptchaImgApi']
   const getConfigApi: typeof import('../../../shared/api/config')['getConfigApi']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -188,6 +191,7 @@ declare global {
   const updateUserApi: typeof import('../../../shared/api/user')['updateUserApi']
   const updateUserRoleApi: typeof import('../../../shared/api/user')['updateUserRoleApi']
   const uploadFileApi: typeof import('../../../shared/api/file')['uploadFileApi']
+  const upsertArticleApi: typeof import('../../../shared/api/article')['upsertArticleApi']
   const upsertConfigApi: typeof import('../../../shared/api/config')['upsertConfigApi']
   const upsertRoleApi: typeof import('../../../shared/api/role')['upsertRoleApi']
   const useActiveElement: typeof import('@vueuse/core')['useActiveElement']
@@ -444,12 +448,14 @@ declare module 'vue' {
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createTemplatePromise: UnwrapRef<typeof import('@vueuse/core')['createTemplatePromise']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
+    readonly createUserApi: UnwrapRef<typeof import('../../../shared/api/user')['createUserApi']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly deepCopy: UnwrapRef<typeof import('../../../shared/utils/common/tool')['deepCopy']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
+    readonly deleteArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['deleteArticleApi']>
     readonly deleteUserApi: UnwrapRef<typeof import('../../../shared/api/user')['deleteUserApi']>
     readonly downloadCsv: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadCsv')['downloadCsv']>
     readonly downloadUrl: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadUrl')['downloadUrl']>
@@ -457,6 +463,7 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly fileToUrl: UnwrapRef<typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']>
+    readonly getArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['getArticleListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
@@ -562,6 +569,7 @@ declare module 'vue' {
     readonly updateUserApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserApi']>
     readonly updateUserRoleApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserRoleApi']>
     readonly uploadFileApi: UnwrapRef<typeof import('../../../shared/api/file')['uploadFileApi']>
+    readonly upsertArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['upsertArticleApi']>
     readonly upsertConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['upsertConfigApi']>
     readonly upsertRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['upsertRoleApi']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
@@ -810,12 +818,14 @@ declare module '@vue/runtime-core' {
     readonly createSharedComposable: UnwrapRef<typeof import('@vueuse/core')['createSharedComposable']>
     readonly createTemplatePromise: UnwrapRef<typeof import('@vueuse/core')['createTemplatePromise']>
     readonly createUnrefFn: UnwrapRef<typeof import('@vueuse/core')['createUnrefFn']>
+    readonly createUserApi: UnwrapRef<typeof import('../../../shared/api/user')['createUserApi']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
     readonly debouncedRef: UnwrapRef<typeof import('@vueuse/core')['debouncedRef']>
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly deepCopy: UnwrapRef<typeof import('../../../shared/utils/common/tool')['deepCopy']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
+    readonly deleteArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['deleteArticleApi']>
     readonly deleteUserApi: UnwrapRef<typeof import('../../../shared/api/user')['deleteUserApi']>
     readonly downloadCsv: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadCsv')['downloadCsv']>
     readonly downloadUrl: UnwrapRef<typeof import('../../../shared/utils/browser/download/downloadUrl')['downloadUrl']>
@@ -823,6 +833,7 @@ declare module '@vue/runtime-core' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly fileToUrl: UnwrapRef<typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']>
+    readonly getArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['getArticleListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
@@ -928,6 +939,7 @@ declare module '@vue/runtime-core' {
     readonly updateUserApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserApi']>
     readonly updateUserRoleApi: UnwrapRef<typeof import('../../../shared/api/user')['updateUserRoleApi']>
     readonly uploadFileApi: UnwrapRef<typeof import('../../../shared/api/file')['uploadFileApi']>
+    readonly upsertArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['upsertArticleApi']>
     readonly upsertConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['upsertConfigApi']>
     readonly upsertRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['upsertRoleApi']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>

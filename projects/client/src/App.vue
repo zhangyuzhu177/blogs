@@ -50,8 +50,8 @@ watch(
 watch(
   () => route.path,
   () => {
-    scrollEl.value?.setScrollPosition('vertical',0,300)
-  }
+    scrollEl.value?.setScrollPosition('vertical', 0, 300)
+  },
 )
 </script>
 

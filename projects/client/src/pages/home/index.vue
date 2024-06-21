@@ -1,10 +1,10 @@
 <script setup lang="ts">
-
 </script>
 
 <template>
   <Container>
-    首页
+    <div>首页</div>
+    <ScrollTop />
   </Container>
 </template>
 

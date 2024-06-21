@@ -127,7 +127,7 @@ export default ({ mode }: any) => {
 
     ssr: {
       // TODO: workaround until they support native ESM
-      noExternal: ['workbox-window', 'lodash', 'jsencrypt','quasar'],
+      noExternal: ['workbox-window', 'lodash', 'jsencrypt', 'quasar'],
     },
   })
 }

@@ -23,6 +23,7 @@ declare module 'vue' {
     ReadonlyInput: typeof import('./../../../shared/components/input/ReadonlyInput.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ScrollTop: typeof import('./../components/ScrollTop/ScrollTop.vue')['default']
     SMSInput: typeof import('./../../../shared/components/input/SMSInput.vue')['default']
     Tags: typeof import('./../components/tags/Tags.vue')['default']
     TextBtn: typeof import('./../../../shared/components/btn/TextBtn.vue')['default']

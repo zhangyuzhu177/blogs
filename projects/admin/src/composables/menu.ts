@@ -22,7 +22,7 @@ export function useMenu() {
         {
           id: 'home',
           label: '首页',
-          flag: true,
+          flag: role?.includes(PermissionType.CONFIG_QUERY_APP),
         },
         {
           id: 'page',
