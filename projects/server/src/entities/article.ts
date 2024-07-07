@@ -36,6 +36,12 @@ export class Article implements IArticle {
   tags: string
 
   @ApiProperty({
+    description: '文章摘要',
+  })
+  @Column()
+  abstract: string
+
+  @ApiProperty({
     description: '文章内容',
   })
   @Column('longtext')

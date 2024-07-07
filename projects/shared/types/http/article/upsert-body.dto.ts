@@ -9,6 +9,8 @@ export interface UpsertArticleBodyDto {
 
   category: string
 
+  abstract: string
+
   tags: string
 
   articleCover: string

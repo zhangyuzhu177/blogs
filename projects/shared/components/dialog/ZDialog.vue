@@ -61,7 +61,7 @@ defineExpose({
           <div text="sm grey-6" font-400 v-text="caption" />
         </div>
 
-        <q-btn  @click="value=false" dense flat p0 h6 w6 min-h="auto!">
+        <q-btn dense flat p0 h6 w6 min-h="auto!" @click="value = false">
           <div i-mingcute:close-line text-grey-5 text-lg />
         </q-btn>
       </header>
@@ -80,20 +80,20 @@ defineExpose({
 
       <footer v-if="footer" flex="~ row justify-end gap6" px6>
         <ZBtn
-          @click="value=false"
           min-w-28
           :label="cancelText"
           text-color="primary-1"
           :params="{
             outline: true,
           }"
+          @click="value = false"
         />
         <ZBtn
           min-w-28
           :label="confirmText"
           :disable="disableConfirm"
           @click="() => {
-            value=false
+            value = false
             $emit('ok')
           }"
         />

@@ -3,7 +3,6 @@
 @import "shared/style/variables.css";
 @import "shared/style/common.scss";
 @import "shared/style/quasar/index.scss";
-@import "shared/style/theme-shoka.scss";
 @import "./common.scss";
 @import "./imgPreview.scss";
 @import "./quasar/index.scss";

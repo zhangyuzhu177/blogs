@@ -17,6 +17,7 @@ declare module 'vue' {
     Navigation1: typeof import('./../components/navigation/Navigation1.vue')['default']
     Navigation2: typeof import('./../components/navigation/Navigation2.vue')['default']
     QBtn: typeof import('quasar')['QBtn']
+    QInnerLoading: typeof import('quasar')['QInnerLoading']
     QRouteTab: typeof import('quasar')['QRouteTab']
     QScrollArea: typeof import('quasar')['QScrollArea']
     QTabs: typeof import('quasar')['QTabs']

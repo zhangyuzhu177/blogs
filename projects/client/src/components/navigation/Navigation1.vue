@@ -15,8 +15,30 @@ const tab = ref('home')
   .q-tab {
     padding: 0 24px !important;
 
+    // &::after {
+    //   position: absolute;
+    //   content: '';
+    //   top: 5%;
+    //   left: 0;
+    //   width: 100%;
+    //   height: 90%;
+    //   border: 1px solid var(--grey-1);
+    //   background: rgba($color: var(--grey-1), $alpha: 1);
+    //   border-radius: 8px;
+    //   opacity: 0;
+    //   transition: opacity .3s;
+    // }
+
+    // &:hover {
+    //   &::after {
+    //     opacity: 1;
+    //   }
+    // }
+
     .q-focus-helper {
+      display: none;
       border-radius: 10px !important;
+      border: 1px solid var(--grey-3) !important;
     }
 
     .q-tab__label {
@@ -25,7 +47,12 @@ const tab = ref('home')
     }
 
     .q-ripple {
+      display: none;
       border-radius: 10px !important;
+    }
+
+    .q-tab__indicator{
+      display: none;
     }
   }
 }

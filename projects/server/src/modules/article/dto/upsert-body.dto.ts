@@ -13,6 +13,9 @@ export class UpsertBodyDto {
   @ApiPropertyOptional({ description: '文章内容' })
   content: string
 
+  @ApiPropertyOptional({ description: '文章摘要' })
+  abstract: string
+
   @ApiPropertyOptional({ description: '文章分类' })
   category: string
 

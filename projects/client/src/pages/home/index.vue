@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import ArticleList from '~/views/home/ArticleList.vue'
 </script>
 
 <template>
   <Container>
-    <div>首页</div>
-    <ScrollTop />
+    <div flex="~ gap4">
+      <ArticleList />
+    </div>
   </Container>
 </template>
 

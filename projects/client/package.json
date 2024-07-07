@@ -9,10 +9,9 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@iconify-json/mingcute": "^1.1.7",
     "@iconify-json/ph": "^1.1.13",
     "@quasar/extras": "^1.16.11",
-    "@tsparticles/slim": "^3.4.0",
-    "@tsparticles/vue3": "^3.0.1",
     "@unocss/reset": "^0.60.2",
     "@vueuse/core": "^10.9.0",
     "@vueuse/head": "^2.0.0",
@@ -20,8 +19,9 @@
     "echarts": "^5.5.0",
     "jquery": "^3.7.1",
     "lodash": "^4.17.21",
+    "md-editor-v3": "^4.17.2",
+    "moment": "^2.29.4",
     "nprogress": "^0.2.0",
-    "particles.vue3": "^2.12.0",
     "quasar": "^2.12.3",
     "shared": "workspace:^",
     "unocss": "^0.60.2",

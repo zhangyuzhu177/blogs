@@ -52,7 +52,7 @@ h4 {
 
 /* Links */
 a {
-  color: var(--primary-1);
+  /* color: var(--primary-1); */
   text-decoration: none;
 }
 

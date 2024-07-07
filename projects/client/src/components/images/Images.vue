@@ -20,11 +20,13 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="page?.label" relative>
+  <div relative>
     <div relative w-full h="100vh" overflow-hidden>
       <img full :src="page?.url ? page?.url : defaultBg">
     </div>
-    <Title :page="page" />
+    <template v-if="page">
+      <Title :page="page" />
+    </template>
     <!-- <Waves /> -->
     <div class="arrow-down" bg="grey-1" w10 h10 i-ph:caret-double-down-bold @click="arrowDown" />
   </div>
@@ -38,7 +40,6 @@ onMounted(async () => {
   -webkit-animation: arrow-shake 1.5s ease-out infinite;
   animation: arrow-shake 1.5s ease-out infinite;
   cursor: pointer;
-  z-index: 999;
 }
 
 @keyframes arrow-shake {

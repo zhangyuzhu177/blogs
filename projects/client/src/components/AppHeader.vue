@@ -36,8 +36,8 @@ nextTick(() => {
     <!-- <div w-50 bg-red  flex="~ gap2" items-center>
       <Navigation2 v-if="width < 600" />
     </div> -->
-    <Logo w-30 :title="app?.nameEn" />
-    <Navigation1 v-if="width >= 900" />
+    <!-- <Logo w-30 :title="app?.nameEn" /> -->
+    <Navigation1 />
     <Tags />
   </div>
 </template>

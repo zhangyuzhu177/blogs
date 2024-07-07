@@ -152,7 +152,7 @@ async function login() {
           :disable="disable"
           @click="login"
         />
-        <div text="center white-7" font-400>
+        <!-- <div text="center white-7" font-400>
           没有账号？
           <RouterLink
             text-grey-1
@@ -162,7 +162,7 @@ async function login() {
           >
             立即注册
           </RouterLink>
-        </div>
+        </div> -->
       </div>
     </div>
 

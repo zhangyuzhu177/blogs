@@ -23,21 +23,17 @@ watch(() => isDark.value, () => {
 
 <template>
   <div flex="~ gap1" b-rd justify-end items-center>
-    <q-btn flat round>
-      <div w-6 h-6 i-ph:magnifying-glass-bold />
-    </q-btn>
     <q-btn flat round @click="changeTheme">
       <div v-if="!dark" w-6 h-6 i-ph:sun-bold />
       <div v-else w-6 h-6 i-ph:moon-bold />
     </q-btn>
     <q-btn flat round>
-      <div w-6 h-6 i-ph:github-logo-bold />
+      <a href="https://github.com/ZhangYuzhu1" target="_blank">
+        <div w-6 h-6 i-mingcute:github-line />
+      </a>
     </q-btn>
   </div>
 </template>
 
 <style scoped lang="scss">
-.transition {
-  transition: all .3s;
-}
 </style>

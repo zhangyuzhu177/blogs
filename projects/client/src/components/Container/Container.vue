@@ -2,22 +2,14 @@
 </script>
 
 <template>
-  <div full flex="~ col center" overflow-auto>
+  <div full flex="~ col center gap14">
     <Images w-full />
     <div
-      xl="w-1080px" lg="w-800px" w-full
-      h="100vh" border="1px gray-5" z-1
+      xl="w-1280px" lg="px-6" w-full
+      h="100vh" px-4
     >
       <slot />
+      <ScrollTop />
     </div>
-    <!-- <div relative full flex-center>
-      <Test full absolute />
-      <div
-        xl="w-1080px" lg="w-800px" w-full
-        h="100vh" border="1px gray-5" z-1
-      >
-        <slot />
-      </div>
-    </div> -->
   </div>
 </template>

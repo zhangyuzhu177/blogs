@@ -143,7 +143,7 @@ const { isAdmin } = useSysConfig()
   color: var(--grey-8);
 
   .q-item {
-    text-align: center;
+    text-align: left;
 
     .q-focus-helper {
       opacity: 0.1 !important;

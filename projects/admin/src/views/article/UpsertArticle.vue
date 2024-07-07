@@ -2,6 +2,8 @@
 import { cloneDeep } from 'lodash'
 import type { UpsertArticleBodyDto } from 'shared/types/http/article/upsert-body.dto'
 
+import MdEditor from './MdEditor.vue'
+
 const { userInfo } = useUser()
 
 const loading = ref(false)
@@ -11,6 +13,7 @@ const initData: UpsertArticleBodyDto = {
   title: '',
   content: '',
   category: '',
+  abstract: '',
   tags: '',
   articleCover: '',
   type: '',
@@ -27,11 +30,13 @@ watch(() => form.value.type, (newVal) => {
     isShow.value = false
 })
 
+/** 是否禁用 */
 const disable = computed(() => {
   if (
     form.value.title !== ''
     && form.value.author !== ''
     && form.value.content !== ''
+    && form.value.abstract !== ''
     && form.value.category !== ''
     && form.value.articleCover !== ''
     && form.value.tags !== ''
@@ -114,28 +119,32 @@ async function callback() {
         v-model="form.title" flex-1
         placeholder="输入文章标题..."
       />
-      <ZBtn @click="dialog = true">
-        <div i-ph:navigation-arrow-bold />
-        发布博客
+      <ZBtn label="发布文章" @click="dialog = true">
+        <template #left>
+          <div w-5 h-5 i-mdi:plus />
+        </template>
       </ZBtn>
     </div>
     <!-- 文章内容 -->
-    <v-md-editor v-model="form.content" height="100%" />
-
+    <MdEditor v-model="form.content" flex-1 h-0 />
     <!-- 发布文章   -->
     <ZDialog
       v-model="dialog" title="发布文章"
       footer scroll
       :disable-confirm="disable"
       :wrapper-style="{
-        width: '8.75rem',
-        maxWidth: '8.75rem',
+        width: '800px',
+        maxWidth: '800px',
       }"
       @ok="callback"
     >
       <div flex="~ col gap6">
         <div flex="~ col gap2">
-          分类
+          <ZLabel label="摘要" />
+          <ZInput v-model="form.abstract" placeholder="请输入文章摘要" type="textarea" flex-1 />
+        </div>
+        <div flex="~ col gap2">
+          <ZLabel label="分类" />
           <div flex="~ gap-4 wrap">
             <Tag1
               v-for="i in CLASSIFY" :key="i.id" w-30
@@ -144,7 +153,7 @@ async function callback() {
           </div>
         </div>
         <div flex="~ col gap2">
-          文章标签
+          <ZLabel label="文章标签" />
           <ZSelect
             v-model="form.tags"
             class="select"
@@ -153,11 +162,11 @@ async function callback() {
             required
             :params="{
               optionLabel: 'name',
-            }" w-80
+            }"
           />
         </div>
         <div flex="~ col gap2">
-          文章封面
+          <ZLabel label="文章图片" />
           <ZUpload
             v-model="img"
             type="image"
@@ -182,7 +191,7 @@ async function callback() {
           </ZUpload>
         </div>
         <div flex="~ col gap2">
-          文章类型
+          <ZLabel label="文章类型" />
           <div flex="~ gap-4 wrap">
             <Tag1
               v-for="i in ARTICLE_CLASS" :key="i.id" w-30
@@ -192,11 +201,11 @@ async function callback() {
           </div>
         </div>
         <div v-if="isShow" flex="~ col gap2">
-          转载连接
+          <ZLabel label="转载连接" />
           <ZInput v-model="form.originalUrl" flex-1 />
         </div>
         <div flex="~ col gap2">
-          发布方式
+          <ZLabel text-base label="发布方式" />
           <div flex="~ gap-4 wrap">
             <Tag1
               v-for="i in BT" :key="i.id" w-30

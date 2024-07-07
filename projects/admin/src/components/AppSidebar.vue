@@ -31,7 +31,7 @@ watch(
     }"
   >
     <div flex="~ col gap2">
-      <div flex="~ center gap2">
+      <div flex="~ center col gap2" px-4>
         <img b-rd-10 w-10 h-10 :src="app?.icon">
         <h4
           v-if="isShow"

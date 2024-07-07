@@ -144,7 +144,7 @@ onMounted(() => {
       @request="queryArticleList"
     >
       <template #body-cell-operation="{ row }">
-        <q-td flex-center gap2 text-center>
+        <q-td gap2 text-center>
           <ZBtn
             v-if="hasIntersection(
               adminRole ?? [],
@@ -152,7 +152,7 @@ onMounted(() => {
                 PermissionType.ARTICLE_UPDATE,
               ],
             )"
-            label="编辑" size="small"
+            label="编辑" size="small" mr-2
             @click="updateArticle(row.id)"
           />
           <ZBtn
@@ -162,7 +162,7 @@ onMounted(() => {
                 PermissionType.ARTICLE_DELETE,
               ],
             )"
-            label="删除" size="small"
+            label="删除" size="small" ml-2
             color="alerts-error"
             @click="() => {
               deleteDialog = true

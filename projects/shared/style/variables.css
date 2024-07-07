@@ -16,7 +16,7 @@
 
   --grey-1: #FFFFFF;
   --grey-2: #F5F7FA;
-  --grey-3: #D4DDEA;
+  --grey-3: #A6B1C2;
   --grey-4: #A6B1C2;
   --grey-5: #6E7686;
   --grey-6: #575E6A;
@@ -44,4 +44,47 @@
   --sm: 760px;
   --lg: 900px;
   --xl: 1360px;
+}
+
+/* 黑夜颜色 */
+[theme="dark"]:root {
+  --comment-color: var(--grey-1);
+  --grey-1: #292D36;
+  --grey-2: #373C48;;
+  --grey-3: #575E6A;
+  --grey-4: #6E7686;
+  --grey-5: #A6B1C2;
+  --grey-6: #A6B1C2;
+  --grey-7: #F5F7FA;
+  --grey-8: #FFFFFF;
+
+  --grey-1-a7: rgba(34, 34, 34, 0.7);
+  --grey-1-a5: rgba(34, 34, 34, 0.5);
+  --grey-1-a3: rgba(34, 34, 34, 0.3);
+  --grey-1-a0: rgba(34, 34, 34, 0);
+  --grey-9-a1: rgba(51, 51, 51, 0.1);
+  --grey-2-a0: rgba(54, 54, 54, 0);
+  --color-pink-light: #322d31;
+  --color-cyan-light: #2d3230;
+  --color-red: rgba(237, 118, 137, 0.9);
+  --color-pink: rgba(241, 139, 179, 0.8);
+  --color-orange: rgba(240, 163, 135, 0.8);
+  --color-yellow: #ffe175;
+  --color-green: #86c59d;
+  --color-aqua: #97d3d6;
+  --color-blue: #9cd0ed;
+  --color-purple: #cfacc5;
+  --color-grey: #c3c8ca;
+  --body-bg-shadow: #000;
+  --box-bg-shadow: #000;
+  --text-color: var(--grey-5);
+  --header-text-color: var(--grey-9);
+  --note-bg: rgba(48, 49, 50, 0.8);
+  --note-text: rgba(109, 164, 219, 0.8);
+  --note-hover: rgba(168, 49, 72, 0.8);
+  --chat-bg: var(--grey-1);
+
+  img {
+      filter: brightness(0.8);
+  }
 }
