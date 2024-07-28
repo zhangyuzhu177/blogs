@@ -3,16 +3,28 @@ import { MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 import type { IArticle } from 'shared/types/entities/article.interface'
 
-const data = ref<IArticle[]>([])
+const route = useRoute()
+const router = useRouter()
+const { query } = useMyLocalStorage()
+
+const data = ref<IArticle>()
 
 onMounted(async () => {
-  data.value = await getArticleListApi()
+  // 判断本地存储的中是否有query参数
+  const q = JSON.parse(query.value)
+  if (q.id)
+    router.replace({ query: q })
+
+  if (route.query.id) {
+    const { id } = route.query
+    data.value = await gerArticleInfoApi(id as string)
+  }
 })
 </script>
 
 <template>
-  <div v-if="data.length">
-    <MdPreview text="grey-1" :model-value="data[0].content" />
+  <div v-if="data" flex="~ items-center" full>
+    <MdPreview text="grey-1" :model-value="data.content" />
   </div>
 </template>
 

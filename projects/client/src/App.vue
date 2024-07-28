@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { isClient } from '@vueuse/core'
-import { useClientApp } from './composables/app'
 
 const { width } = useWindowSize()
 const { isAdmin, zoomRatio, getAppConfig } = useSysConfig()
@@ -8,6 +7,7 @@ const $router = useRouter()
 const route = useRoute()
 const { updateAppHead } = useApp()
 const { scrollEl } = useClientApp()
+const { query } = useMyLocalStorage()
 
 onBeforeMount(() => {
   isAdmin.value = true
@@ -49,7 +49,9 @@ watch(
 
 watch(
   () => route.path,
-  () => {
+  (newVal) => {
+    if (newVal === '/article')
+      query.value = JSON.stringify({})
     scrollEl.value?.setScrollPosition('vertical', 0, 300)
   },
 )
@@ -68,3 +70,4 @@ watch(
   }
 }
 </style>
+./hooks/app

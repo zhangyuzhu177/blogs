@@ -10,10 +10,11 @@ const tab = ref('home')
 
 <style scoped lang="scss">
 :deep(.q-tabs__content) {
-  gap: 16px;
+  gap: 8px;
 
   .q-tab {
     padding: 0 24px !important;
+    transition: al .3s;
 
     // &::after {
     //   position: absolute;
@@ -23,15 +24,16 @@ const tab = ref('home')
     //   width: 100%;
     //   height: 90%;
     //   border: 1px solid var(--grey-1);
-    //   background: rgba($color: var(--grey-1), $alpha: 1);
+    //   background: rgba($color: var(--grey-1), $alpha: 0.2);
     //   border-radius: 8px;
-    //   opacity: 0;
-    //   transition: opacity .3s;
+    //   display: none;
+    //   transition: opacity .5s;
+    //   z-index: -1;
     // }
 
     // &:hover {
     //   &::after {
-    //     opacity: 1;
+    //     display: block;
     //   }
     // }
 

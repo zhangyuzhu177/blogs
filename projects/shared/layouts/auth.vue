@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
+
 // import { useWindowSize } from '@vueuse/core'
 import { useSysConfig } from '../composables/app'
 import { LEADING_PAGE_KEY } from '../constants/storage'
@@ -29,10 +30,6 @@ onBeforeUnmount(() => localStorage?.removeItem(LEADING_PAGE_KEY))
         @click="$router.push(leadingPage)"
       >
         <h2 v-text="app?.name" />
-        <template v-if="app?.nameEn">
-          <div w3px h8 bg-grey-1 />
-          <div text-lg v-text="app.nameEn" />
-        </template>
       </div>
     </div>
     <div
@@ -40,7 +37,7 @@ onBeforeUnmount(() => localStorage?.removeItem(LEADING_PAGE_KEY))
       lg="max-w-160" xl="max-w-210"
     >
       <div
-        class="auth-card" w150 px10 py6 backdrop-blur-md
+        class="auth-card" w140 px10 py6 backdrop-blur-md
         b="1px solid transparent" overflow-auto
       >
         <RouterView w-full text-sm font-500 />

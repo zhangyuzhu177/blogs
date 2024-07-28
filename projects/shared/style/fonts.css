@@ -30,4 +30,35 @@
   font-family: 'PingFang';
 }
 
+@font-face {
+  font-family: 'Marij';
+  src: url('../assets/fonts/marijosefreepersonalusescript-6rj1y.otf') format('truetype');
+  font-display: swap;
+}
+
+.font-marij {
+  font-family: 'Marij';
+}
+
+@font-face {
+  font-family: 'Subtitle';
+  src: url('../assets/fonts/上首鸿志手写体.ttf') format('truetype');
+  font-display: swap;
+}
+
+.font-subtitle {
+  font-family: 'Subtitle';
+}
+
+@font-face {
+  font-family: 'Title';
+  src: url('../assets/fonts/浪漫奔星月.ttf') format('truetype');
+  font-display: swap;
+}
+
+.font-title {
+  font-family: 'Title';
+}
+
+
 

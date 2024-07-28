@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import ArticleList from '~/views/home/ArticleList.vue'
 </script>
 
 <template>
-  <Container>
-    <div flex="~ gap4">
-      <ArticleList />
-    </div>
-  </Container>
+  <div full flex="~ col center gap14">
+    <Images height="100vh" :arrow="false" w-full />
+  </div>
 </template>
 
 <route lang="yaml">

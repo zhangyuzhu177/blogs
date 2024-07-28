@@ -1,6 +1,6 @@
-import { QuasarResolver } from 'unplugin-vue-components/resolvers';
 import path from 'node:path'
 import process from 'node:process'
+import { QuasarResolver } from 'unplugin-vue-components/resolvers'
 import Unocss from 'unocss/vite'
 import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
@@ -25,7 +25,6 @@ export default ({ mode }: any) => {
     define: {
       'process.env': {},
     },
-
 
     server: {
       host: '0.0.0.0',
@@ -128,7 +127,7 @@ export default ({ mode }: any) => {
 
     ssr: {
       // TODO: workaround until they support native ESM
-      noExternal: ['workbox-window', 'lodash', 'jsencrypt','quasar'],
+      noExternal: ['workbox-window', 'lodash', 'jsencrypt', 'quasar'],
     },
   })
 }

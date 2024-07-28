@@ -24,7 +24,7 @@ watch(() => isDark.value, () => {
 <template>
   <div flex="~ gap1" b-rd justify-end items-center>
     <q-btn flat round @click="changeTheme">
-      <div v-if="!dark" w-6 h-6 i-ph:sun-bold />
+      <div v-if="dark" w-6 h-6 i-ph:sun-bold />
       <div v-else w-6 h-6 i-ph:moon-bold />
     </q-btn>
     <q-btn flat round>

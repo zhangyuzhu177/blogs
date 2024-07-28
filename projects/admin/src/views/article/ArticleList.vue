@@ -52,6 +52,7 @@ const cols = reactive<QTableColumn<IArticle>[]>([
     name: 'operation',
     label: '操作',
     field: 'id',
+    headerStyle: 'width:200px',
   },
 ])
 /** 表格行 */

@@ -3,6 +3,8 @@ import { useWindowSize } from '@vueuse/core'
 
 export type Theme = 'light' | 'dark'
 
+const router = useRouter()
+
 const { width } = useWindowSize()
 const { app } = useSysConfig()
 
@@ -33,11 +35,15 @@ nextTick(() => {
     :border="theme === 'dark' ? 'transparent' : 'grey-3'"
     :bg="theme === 'dark' ? 'transparent' : ''"
   >
-    <!-- <div w-50 bg-red  flex="~ gap2" items-center>
-      <Navigation2 v-if="width < 600" />
-    </div> -->
-    <!-- <Logo w-30 :title="app?.nameEn" /> -->
-    <Navigation1 />
+    <div flex="~ items-center gap4 1">
+      <!-- Logo -->
+      <div
+        class="font-marij" text="32px" cursor-pointer
+        @click="router.push('/')"
+        v-text="app.nameEn"
+      />
+      <Navigation1 />
+    </div>
     <Tags />
   </div>
 </template>

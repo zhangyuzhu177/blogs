@@ -9,7 +9,7 @@ defineProps<{
     v-if="value"
     :showing="value"
     label="加载中..."
-    text-primary-1
+    text-primary-2
     z9
   />
 </template>

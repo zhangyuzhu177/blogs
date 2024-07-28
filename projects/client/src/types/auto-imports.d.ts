@@ -29,9 +29,6 @@ declare global {
   const PHONE_NUMBER_MIN_LENGTH: typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_MIN_LENGTH']
   const PHONE_NUMBER_REQUIREMENTS_DESC: typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_REQUIREMENTS_DESC']
   const REMEMBER_LOGIN_INFO_KEY: typeof import('../../../shared/constants/storage')['REMEMBER_LOGIN_INFO_KEY']
-  const SQRT_2: typeof import('../utils/vector')['SQRT_2']
-  const SQRT_3: typeof import('../utils/vector')['SQRT_3']
-  const addVec: typeof import('../utils/vector')['addVec']
   const arrayDistinct: typeof import('../../../shared/utils/common/distinct')['arrayDistinct']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const authToken: typeof import('../../../shared/composables/user')['authToken']
@@ -63,15 +60,13 @@ declare global {
   const defineComponent: typeof import('vue')['defineComponent']
   const deleteArticleApi: typeof import('../../../shared/api/article')['deleteArticleApi']
   const deleteUserApi: typeof import('../../../shared/api/user')['deleteUserApi']
-  const distance: typeof import('../utils/vector')['distance']
   const downloadCsv: typeof import('../../../shared/utils/browser/download/downloadCsv')['downloadCsv']
   const downloadUrl: typeof import('../../../shared/utils/browser/download/downloadUrl')['downloadUrl']
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
-  const exclude: typeof import('../utils/vector')['exclude']
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const fileToUrl: typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']
-  const get: typeof import('../utils/vector')['get']
+  const gerArticleInfoApi: typeof import('../../../shared/api/article')['gerArticleInfoApi']
   const getArticleListApi: typeof import('../../../shared/api/article')['getArticleListApi']
   const getCaptchaImgApi: typeof import('../../../shared/api/auth')['getCaptchaImgApi']
   const getConfigApi: typeof import('../../../shared/api/config')['getConfigApi']
@@ -86,8 +81,6 @@ declare global {
   const h: typeof import('vue')['h']
   const hasIntersection: typeof import('../../../shared/utils/common/isIntersect')['hasIntersection']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
-  const inbound: typeof import('../utils/vector')['inbound']
-  const initCanvas: typeof import('../utils/canvas')['initCanvas']
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const isDefined: typeof import('@vueuse/core')['isDefined']
@@ -103,7 +96,6 @@ declare global {
   const map: typeof import('../../../shared/utils/common/map')['map']
   const markRaw: typeof import('vue')['markRaw']
   const mergeDeep: typeof import('../../../shared/utils/validators/mergeDeep')['mergeDeep']
-  const next: typeof import('../utils/vector')['next']
   const nextTick: typeof import('vue')['nextTick']
   const objectOmit: typeof import('../../../shared/utils/common/omit')['objectOmit']
   const onActivated: typeof import('vue')['onActivated']
@@ -128,18 +120,9 @@ declare global {
   const onUpdated: typeof import('vue')['onUpdated']
   const parseBoolRaw: typeof import('../../../shared/utils/common/parseBoolRaw')['parseBoolRaw']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
-  const pick: typeof import('../utils/vector')['pick']
-  const polar2cart: typeof import('../utils/vector')['polar2cart']
   const provide: typeof import('vue')['provide']
   const provideLocal: typeof import('@vueuse/core')['provideLocal']
   const pubRouter: typeof import('../../../shared/utils/common/pubRouter')['pubRouter']
-  const r120: typeof import('../utils/vector')['r120']
-  const r15: typeof import('../utils/vector')['r15']
-  const r180: typeof import('../utils/vector')['r180']
-  const r30: typeof import('../utils/vector')['r30']
-  const r360: typeof import('../utils/vector')['r360']
-  const r60: typeof import('../utils/vector')['r60']
-  const r90: typeof import('../utils/vector')['r90']
   const random: typeof import('../../../shared/utils/common/random')['random']
   const reactify: typeof import('@vueuse/core')['reactify']
   const reactifyObject: typeof import('@vueuse/core')['reactifyObject']
@@ -167,7 +150,6 @@ declare global {
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
   const splitString: typeof import('../../../shared/utils/common/tool')['splitString']
-  const square: typeof import('../utils/vector')['square']
   const syncRef: typeof import('@vueuse/core')['syncRef']
   const syncRefs: typeof import('@vueuse/core')['syncRefs']
   const templateRef: typeof import('@vueuse/core')['templateRef']
@@ -288,6 +270,7 @@ declare global {
   const useMouseInElement: typeof import('@vueuse/core')['useMouseInElement']
   const useMousePressed: typeof import('@vueuse/core')['useMousePressed']
   const useMutationObserver: typeof import('@vueuse/core')['useMutationObserver']
+  const useMyLocalStorage: typeof import('../composables/localStorage')['useMyLocalStorage']
   const useNavigatorLanguage: typeof import('@vueuse/core')['useNavigatorLanguage']
   const useNetwork: typeof import('@vueuse/core')['useNetwork']
   const useNow: typeof import('@vueuse/core')['useNow']
@@ -374,7 +357,6 @@ declare global {
   const validateRoleDesc: typeof import('../../../shared/utils/validators/dataRole')['validateRoleDesc']
   const validateRoleName: typeof import('../../../shared/utils/validators/dataRole')['validateRoleName']
   const validateString: typeof import('../../../shared/utils/validators/string.validator')['validateString']
-  const vec2mat: typeof import('../utils/vector')['vec2mat']
   const watch: typeof import('vue')['watch']
   const watchArray: typeof import('@vueuse/core')['watchArray']
   const watchAtMost: typeof import('@vueuse/core')['watchAtMost']
@@ -463,6 +445,7 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly fileToUrl: UnwrapRef<typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']>
+    readonly gerArticleInfoApi: UnwrapRef<typeof import('../../../shared/api/article')['gerArticleInfoApi']>
     readonly getArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['getArticleListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
@@ -666,6 +649,7 @@ declare module 'vue' {
     readonly useMouseInElement: UnwrapRef<typeof import('@vueuse/core')['useMouseInElement']>
     readonly useMousePressed: UnwrapRef<typeof import('@vueuse/core')['useMousePressed']>
     readonly useMutationObserver: UnwrapRef<typeof import('@vueuse/core')['useMutationObserver']>
+    readonly useMyLocalStorage: UnwrapRef<typeof import('../composables/localStorage')['useMyLocalStorage']>
     readonly useNavigatorLanguage: UnwrapRef<typeof import('@vueuse/core')['useNavigatorLanguage']>
     readonly useNetwork: UnwrapRef<typeof import('@vueuse/core')['useNetwork']>
     readonly useNow: UnwrapRef<typeof import('@vueuse/core')['useNow']>
@@ -833,6 +817,7 @@ declare module '@vue/runtime-core' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly fileToUrl: UnwrapRef<typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']>
+    readonly gerArticleInfoApi: UnwrapRef<typeof import('../../../shared/api/article')['gerArticleInfoApi']>
     readonly getArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['getArticleListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
@@ -1036,6 +1021,7 @@ declare module '@vue/runtime-core' {
     readonly useMouseInElement: UnwrapRef<typeof import('@vueuse/core')['useMouseInElement']>
     readonly useMousePressed: UnwrapRef<typeof import('@vueuse/core')['useMousePressed']>
     readonly useMutationObserver: UnwrapRef<typeof import('@vueuse/core')['useMutationObserver']>
+    readonly useMyLocalStorage: UnwrapRef<typeof import('../composables/localStorage')['useMyLocalStorage']>
     readonly useNavigatorLanguage: UnwrapRef<typeof import('@vueuse/core')['useNavigatorLanguage']>
     readonly useNetwork: UnwrapRef<typeof import('@vueuse/core')['useNetwork']>
     readonly useNow: UnwrapRef<typeof import('@vueuse/core')['useNow']>

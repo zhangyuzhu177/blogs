@@ -1,34 +1,51 @@
 <script setup lang="ts">
-import { useClientApp } from '~/composables/app'
-import defaultBg from '~/assets/defaultBg.jpg'
+interface Props {
+  arrow?: boolean
+  height?: string
+}
+
+withDefaults(defineProps<Props>(), {
+  arrow: true,
+  height: '600px',
+})
 
 const route = useRoute()
 const { scrollEl, page, getPageConfig } = useClientApp()
+const el = ref<HTMLElement>()
 
 /** 滚动 */
 function arrowDown() {
-  scrollEl.value?.setScrollPosition(
-    'vertical',
-    document?.documentElement.clientHeight - 64,
-    300,
-  )
+  if (el.value) {
+    scrollEl.value?.setScrollPosition(
+      'vertical',
+      el.value?.clientHeight - 40,
+      300,
+    )
+  }
 }
 
 onMounted(async () => {
-  await getPageConfig(route.path)
+  await getPageConfig(route.path.split('/')[1])
 })
 </script>
 
 <template>
   <div relative>
-    <div relative w-full h="100vh" overflow-hidden>
-      <img full :src="page?.url ? page?.url : defaultBg">
+    <div
+      ref="el"
+      relative w-full overflow-hidden
+      :style="{ height }"
+    >
+      <img full :src="page?.url">
     </div>
     <template v-if="page">
       <Title :page="page" />
     </template>
-    <!-- <Waves /> -->
-    <div class="arrow-down" bg="grey-1" w10 h10 i-ph:caret-double-down-bold @click="arrowDown" />
+    <div
+      v-if="arrow"
+      class="arrow-down" bg="grey-1" w10 h10 i-ph:caret-double-down-bold
+      @click="arrowDown"
+    />
   </div>
 </template>
 
@@ -59,3 +76,4 @@ onMounted(async () => {
   }
 }
 </style>
+~/hooks/app

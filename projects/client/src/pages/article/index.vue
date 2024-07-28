@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import ArticleInfo from '~/views/article/ArticleInfo.vue'
+import ArticleList from '~/views/article/ArticleList.vue'
 </script>
 
 <template>
   <Container>
-    <ScrollTop />
-    <ArticleInfo />
+    <div flex="~ gap4">
+      <ArticleList />
+      <div>
+        <RouterView />
+      </div>
+    </div>
   </Container>
 </template>
 

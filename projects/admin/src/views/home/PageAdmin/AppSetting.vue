@@ -7,6 +7,7 @@ const { active } = usePageAdmin()
 
 const loading = ref(false)
 const appCfg = ref<IConfigDto[SysConfig.APP]>()
+const oldCfg = ref('')
 
 /** 上传logo图片 */
 const logoImg = ref<File>()
@@ -33,6 +34,7 @@ async function getConfigList() {
   try {
     const data = await getConfigApi(active.value)
     appCfg.value = data
+    oldCfg.value = JSON.stringify(data)
   }
   catch (error) {}
   finally {
@@ -65,7 +67,11 @@ onMounted(() => {
     <div v-if="!loading" flex="~ col gap-4">
       <div flex justify-between>
         <h3>APP设置</h3>
-        <ZBtn min-w-20 label="保存" @click="save(SysConfig.APP)" />
+        <ZBtn
+          min-w-20 label="保存"
+          :disable="oldCfg === JSON.stringify(appCfg)"
+          @click="save(SysConfig.APP)"
+        />
       </div>
       <div v-if="appCfg" flex="~ col gap1">
         <div v-text="'名称'" />

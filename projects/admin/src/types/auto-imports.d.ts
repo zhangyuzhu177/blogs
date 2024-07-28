@@ -73,6 +73,7 @@ declare global {
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const fileToUrl: typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']
+  const gerArticleInfoApi: typeof import('../../../shared/api/article')['gerArticleInfoApi']
   const getArticleListApi: typeof import('../../../shared/api/article')['getArticleListApi']
   const getCaptchaImgApi: typeof import('../../../shared/api/auth')['getCaptchaImgApi']
   const getConfigApi: typeof import('../../../shared/api/config')['getConfigApi']
@@ -460,6 +461,7 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly fileToUrl: UnwrapRef<typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']>
+    readonly gerArticleInfoApi: UnwrapRef<typeof import('../../../shared/api/article')['gerArticleInfoApi']>
     readonly getArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['getArticleListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
@@ -840,6 +842,7 @@ declare module '@vue/runtime-core' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly fileToUrl: UnwrapRef<typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']>
+    readonly gerArticleInfoApi: UnwrapRef<typeof import('../../../shared/api/article')['gerArticleInfoApi']>
     readonly getArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['getArticleListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>

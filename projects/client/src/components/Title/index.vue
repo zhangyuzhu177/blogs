@@ -37,12 +37,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="title">
-    <h1 class="artboard" v-text="title" />
-    <h1 class="text">
+  <div class="title" flex="~ col gap2 items-center">
+    <h1 v-if="title" class="artboard" v-text="title" />
+    <h3 v-if="signature" class="font-subtitle">
       {{ signature }}
       <span class="typed-cursor">|</span>
-    </h1>
+    </h3>
   </div>
 </template>
 
@@ -62,18 +62,12 @@ onMounted(() => {
       "PingFang SC",
       "Microsoft YaHei",
       sans-serif;
-    font-size: 82px;
+    font-size: 64px;
     line-height: 1.2;
     /* animation: titleScale 1s; */
     animation: showup 2s linear forwards;
     letter-spacing: -50px;
     text-align: center;
-  }
-
-  .text {
-    font-size: 24px;
-    text-align: center;
-    font-family: "Dream Font",BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
   }
 
   .typed-cursor {

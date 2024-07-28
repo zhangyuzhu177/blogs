@@ -5,6 +5,7 @@ import { UpsertBodyDto } from './dto/upsert-body.dto'
 import { HasPermission } from 'src/guards/permission.guard'
 import { PermissionType } from 'src/types/enum/permission.enum'
 import { IArticle } from 'src/types/entities/article.interface'
+import { ArticleIdDto } from 'src/dto/id/article.dto'
 
 @Controller('article')
 @ApiTags('Article | 文章')
@@ -29,19 +30,19 @@ export class ArticleController {
 
   @ApiOperation({ summary: '删除文章' })
   @HasPermission([PermissionType.ARTICLE_DELETE, PermissionType.ARTICLE_UPDATE, PermissionType.ARTICLE_QUERY])
-  @Delete('delete:id')
-  public async deleteArticle(@Param() param: { id: IArticle['id'] }) {
-    const { id } = param
-    const res = (await this._articleSrv.repo()).delete({id})
+  @Delete('delete:articleId')
+  public async deleteArticle(@Param() param: ArticleIdDto) {
+    const { articleId } = param
+    const res = (await this._articleSrv.repo()).delete({id:articleId})
     return (await res).affected
   }
 
   @ApiOperation({ summary: '获取文章详情' })
-  @Get('detail:id')
-  public async getArticleDetail(@Param() param: { id: IArticle['id'] }) {
-    const { id } = param
+  @Get('detail:articleId')
+  public async getArticleDetail(@Param() param: ArticleIdDto) {
+    const { articleId } = param
     /** 浏览量+1 */
-    await (await this._articleSrv.repo()).increment({ id }, 'pageView', 1)
-    return (await this._articleSrv.repo()).findOne({where:{id}})
+    await (await this._articleSrv.repo()).increment({ id:articleId }, 'pageView', 1)
+    return (await this._articleSrv.repo()).findOne({where:{id:articleId}})
   }
 }

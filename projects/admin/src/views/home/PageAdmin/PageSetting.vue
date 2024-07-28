@@ -15,7 +15,7 @@ const { active } = usePageAdmin()
 
 const loading = ref(false)
 const pageCfg = ref<IConfigDto[SysConfig.HOME]>()
-const isDisabled = ref(true)
+const oldCfg = ref('')
 
 /** 上传logo图片 */
 const pageImg = ref<File>()
@@ -42,7 +42,7 @@ async function getConfigList() {
   try {
     const data = await getConfigApi(active.value)
     pageCfg.value = data
-    isDisabled.value = true
+    oldCfg.value = JSON.stringify(data)
   }
   catch (error) {}
   finally {
@@ -64,13 +64,6 @@ async function save() {
   }
 }
 
-watch(
-  pageCfg,
-  () => {
-    isDisabled.value = false
-  },
-)
-
 onMounted(() => {
   getConfigList()
 })
@@ -83,7 +76,7 @@ onMounted(() => {
       <div flex justify-between>
         <h3 v-text="data.label" />
         <ZBtn
-          :disabled="isDisabled"
+          :disable="oldCfg === JSON.stringify(pageCfg)"
           min-w-20 label="保存" @click="save()"
         />
       </div>
