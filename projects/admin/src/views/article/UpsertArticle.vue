@@ -141,7 +141,16 @@ async function callback() {
       <div flex="~ col gap6">
         <div flex="~ col gap2">
           <ZLabel label="摘要" />
-          <ZInput v-model="form.abstract" placeholder="请输入文章摘要" type="textarea" flex-1 />
+          <ZInput
+            v-model="form.abstract"
+            placeholder="请输入文章摘要"
+            type="textarea"
+            :params="{
+              counter: true,
+              maxlength: '1000',
+            }"
+            flex-1
+          />
         </div>
         <div flex="~ col gap2">
           <ZLabel label="分类" />

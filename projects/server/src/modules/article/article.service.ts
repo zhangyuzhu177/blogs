@@ -16,16 +16,21 @@ export class ArticleService {
    * @param article
    */
   public async upsert(article:UpsertBodyDto) {
-    if (article.id) {
-      return await this._articleRepo.update(article.id, article)
-    } else {
-      const pageView = 0
-      const createTime=new Date()
-      return await this._articleRepo.save({
-        ...article,
-        pageView,
-        createTime
-      })
+    try {
+      if (article.id) {
+        return await this._articleRepo.update(article.id, article)
+      } else {
+        const pageView = 0
+        const createTime=new Date()
+        return await this._articleRepo.save({
+          ...article,
+          pageView,
+          createTime
+        })
+      }
+    } catch (error) {
+      console.log(error);
+
     }
   }
 

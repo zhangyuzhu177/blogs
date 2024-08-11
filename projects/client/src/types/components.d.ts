@@ -15,6 +15,7 @@ declare module 'vue' {
     LogoutDialog: typeof import('./../../../shared/components/dialog/LogoutDialog.vue')['default']
     Navigation1: typeof import('./../components/navigation/Navigation1.vue')['default']
     QBtn: typeof import('quasar')['QBtn']
+    QImg: typeof import('quasar')['QImg']
     QInnerLoading: typeof import('quasar')['QInnerLoading']
     QRouteTab: typeof import('quasar')['QRouteTab']
     QScrollArea: typeof import('quasar')['QScrollArea']

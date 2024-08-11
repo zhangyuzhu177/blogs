@@ -1,12 +1,13 @@
 import { join } from 'node:path'
+import fmp from '@fastify/multipart'
+import * as os from 'node:os'
 import * as dotenvFlow from 'dotenv-flow'
 import { NestFactory } from '@nestjs/core'
+import compression from '@fastify/compress'
 import { ConfigService } from '@nestjs/config'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { FastifyAdapter } from '@nestjs/platform-fastify'
 import type { NestFastifyApplication } from '@nestjs/platform-fastify'
-import compression from '@fastify/compress'
-import fmp from '@fastify/multipart'
 
 import registerSwagger from './bootstrap/register-swagger'
 import { AppModule } from './app.module'
@@ -15,6 +16,7 @@ import { parseBoolRaw } from './utils/parseBoolRaw'
 import { getExceptionFactory } from './utils/response/validate-exception-factory'
 
 async function bootstrap() {
+  console.log(os.version())
   dotenvFlow.config({ path: '../shared' })
 
   const logger = new Logger('Bootstrap')

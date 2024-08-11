@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import About from '~/views/about/index.vue'
 </script>
 
 <template>
   <Container>
-    关于
+    <About />
   </Container>
 </template>
 

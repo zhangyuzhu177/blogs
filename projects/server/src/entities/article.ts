@@ -38,7 +38,7 @@ export class Article implements IArticle {
   @ApiProperty({
     description: '文章摘要',
   })
-  @Column()
+  @Column({type:'text'})
   abstract: string
 
   @ApiProperty({

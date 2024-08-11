@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div full flex="~ col 1 gap4">
+  <div full flex="~ col 1 gap6">
     <template v-if="articlesList.length">
       <div
         v-for="articles in articlesList" :key="articles.id"

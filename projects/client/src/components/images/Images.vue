@@ -36,7 +36,7 @@ onMounted(async () => {
       relative w-full overflow-hidden
       :style="{ height }"
     >
-      <img full :src="page?.url">
+      <q-img loading="lazy" full :src="page?.url" />
     </div>
     <template v-if="page">
       <Title :page="page" />

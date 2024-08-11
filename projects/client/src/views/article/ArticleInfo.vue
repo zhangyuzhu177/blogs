@@ -24,7 +24,10 @@ onMounted(async () => {
 
 <template>
   <div v-if="data" flex="~ items-center" full>
-    <MdPreview text="grey-1" :model-value="data.content" />
+    <MdPreview h-1000 text="grey-1" :model-value="data.content" />
+    <div bg-red w-100>
+      sa
+    </div>
   </div>
 </template>
 
