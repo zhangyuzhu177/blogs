@@ -26,7 +26,7 @@ export class User extends BaseTimeStamp implements IUser {
   password?: string
 
   @ApiPropertyOptional({ description: '邮箱' })
-  @Column()
+  @Column({ nullable: true})
   email?: string
 
   @ApiPropertyOptional({

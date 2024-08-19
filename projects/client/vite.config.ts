@@ -21,7 +21,7 @@ export default ({ mode }: any) => {
   }
 
   return defineConfig({
-    base: process.env.VITE_ADMIN_BASE || '/',
+    base: process.env.VITE_CLIENT_BASE || '/',
     define: {
       'process.env': {},
     },
@@ -33,7 +33,7 @@ export default ({ mode }: any) => {
         [process.env.VITE_API_BASE as string]: {
           target: process.env.VITE_PROXY_TARGET,
           changeOrigin: true,
-          // rewrite: path => path.replace(new RegExp(`^${process.env.VITE_API_BASE}`), ''),
+          rewrite: path => path.replace(new RegExp(`^${process.env.VITE_API_BASE}`), ''),
           secure: false,
         },
       },
@@ -127,7 +127,7 @@ export default ({ mode }: any) => {
 
     ssr: {
       // TODO: workaround until they support native ESM
-      noExternal: ['workbox-window', 'lodash', 'jsencrypt', 'quasar'],
+      noExternal: ['workbox-window', 'lodash', 'jsencrypt', 'quasar', 'md-editor-v3'],
     },
   })
 }

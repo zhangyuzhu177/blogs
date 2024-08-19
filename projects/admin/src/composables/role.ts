@@ -1,6 +1,5 @@
-import { PermissionType } from "shared/types/enum/permission.enum"
-import { PermissionItem } from "~/constants/admin"
-
+import type { PermissionType } from 'shared/types/enum/permission.enum'
+import type { PermissionItem } from '~/constants/admin'
 
 export function useRole() {
   /**
