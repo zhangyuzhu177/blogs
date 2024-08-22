@@ -33,7 +33,7 @@ export default ({ mode }: any) => {
         [process.env.VITE_API_BASE as string]: {
           target: process.env.VITE_PROXY_TARGET,
           changeOrigin: true,
-          // rewrite: path => path.replace(new RegExp(`^${process.env.VITE_API_BASE}`), ''),
+          rewrite: path => path.replace(new RegExp(`^${process.env.VITE_API_BASE}`), ''),
           secure: false,
         },
       },
