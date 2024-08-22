@@ -40,7 +40,8 @@ watch(pageImg, async (newVal) => {
 async function getConfigList() {
   loading.value = true
   try {
-    const data = await getConfigApi(active.value)
+    const data = await getConfigApi(active.value) || {}
+
     pageCfg.value = data
     oldCfg.value = JSON.stringify(data)
   }
@@ -118,7 +119,7 @@ onMounted(() => {
           border="1px gray-4"
           overflow-hidden
         >
-          <img full :src="pageCfg?.url" alt="">
+          <img full :src="pageCfg?.url">
         </div>
       </div>
     </div>

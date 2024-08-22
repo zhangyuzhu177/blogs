@@ -1,7 +1,7 @@
-import { IUpsertConfigBodyDto } from 'types/http/config/upsert-config.interface'
+import type { IUpsertConfigBodyDto } from 'types/http/config/upsert-config.interface'
+import type { IConfigDto } from 'types/dto/config.interface'
+import type { SysConfig } from 'types/enum/config.enum'
 import { useRequest } from '../utils/common/request'
-import { IConfigDto } from 'types/dto/config.interface'
-import { SysConfig } from 'types/enum/config.enum'
 
 const { $get, $post } = useRequest()
 
@@ -9,7 +9,7 @@ const { $get, $post } = useRequest()
  * 创建或更新全局配置
  */
 export function upsertConfigApi(body: IUpsertConfigBodyDto) {
-  return $post<IConfigDto[SysConfig]>(`/config`, body)
+  return $post<IConfigDto[SysConfig]>('/config', body)
 }
 
 /**

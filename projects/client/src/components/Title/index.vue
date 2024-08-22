@@ -32,7 +32,8 @@ function appear(text: string) {
 }
 
 onMounted(() => {
-  appear(props.page!.label as string)
+  if (props.page!.label)
+    appear(props.page!.label as string)
 })
 </script>
 

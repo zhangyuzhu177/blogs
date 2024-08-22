@@ -32,7 +32,7 @@ watch(logoImg, async (newVal) => {
 async function getConfigList() {
   loading.value = true
   try {
-    const data = await getConfigApi(active.value)
+    const data = await getConfigApi(active.value) || {}
     appCfg.value = data
     oldCfg.value = JSON.stringify(data)
   }

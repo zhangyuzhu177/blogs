@@ -4,11 +4,11 @@
 export enum SysConfig {
   /** App配置 */
   APP = 'app',
-  /**首页配置 */
+  /** 首页配置 */
   HOME = 'home',
-  /**文章页面配置 */
+  /** 文章页面配置 */
   ARTICLE = 'article',
-  /**关于页面配置 */
+  /** 关于页面配置 */
   ABOUT = 'about',
 }
 

@@ -24,7 +24,6 @@ declare global {
   const EMAIL_REQUIREMENTS_DESC: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']
   const EffectScope: typeof import('vue')['EffectScope']
   const LEADING_PAGE_KEY: typeof import('../../../shared/constants/storage')['LEADING_PAGE_KEY']
-  const Notify: typeof import('quasar')['Notify']
   const PASSWORD_ALLOW_CHARS: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_ALLOW_CHARS']
   const PASSWORD_MAX_LENGTH: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MAX_LENGTH']
   const PASSWORD_MIN_LENGTH: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MIN_LENGTH']
