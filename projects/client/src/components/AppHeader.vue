@@ -34,6 +34,7 @@ nextTick(() => {
     :class="theme === 'dark' ? 'transparent' : 'bg'"
     :border="theme === 'dark' ? 'transparent' : 'grey-3'"
     :bg="theme === 'dark' ? 'transparent' : ''"
+    style="color:var(--grey-1)"
   >
     <div flex="~ items-center gap4 1">
       <!-- Logo -->

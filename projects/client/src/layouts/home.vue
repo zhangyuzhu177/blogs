@@ -12,6 +12,6 @@
 
 <style lang="scss">
 .bg {
-  background-color:var(--grey-2);
+  background-color: var(--grey-1);
 }
 </style>

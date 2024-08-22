@@ -43,7 +43,8 @@ onMounted(async () => {
     </template>
     <div
       v-if="arrow"
-      class="arrow-down" bg="grey-1" w10 h10 i-ph:caret-double-down-bold
+      class="arrow-down" w10 h10 i-ph:caret-double-down-bold
+      style="background-color: var(--grey-1);"
       @click="arrowDown"
     />
   </div>
@@ -76,4 +77,3 @@ onMounted(async () => {
   }
 }
 </style>
-~/hooks/app

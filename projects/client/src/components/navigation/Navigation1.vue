@@ -4,7 +4,14 @@ const tab = ref('home')
 
 <template>
   <q-tabs v-model="tab" inline-label>
-    <q-route-tab v-for="item in NAV" :key="item.id" :name="item.id" :label="item.label" :to="item.path" exact />
+    <q-route-tab
+      v-for="item in NAV"
+      :key="item.id"
+      :name="item.id"
+      :label="item.label"
+      :to="item.path"
+      exact
+    />
   </q-tabs>
 </template>
 
@@ -14,7 +21,7 @@ const tab = ref('home')
 
   .q-tab {
     padding: 0 24px !important;
-    transition: al .3s;
+    transition: all .3s;
 
     // &::after {
     //   position: absolute;

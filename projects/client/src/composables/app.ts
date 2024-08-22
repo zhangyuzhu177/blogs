@@ -8,6 +8,8 @@ const page = ref<IConfigDto[SysConfig.HOME] | null>(null)
 
 export function useClientApp() {
   async function getPageConfig(path: string) {
+    if (path === '')
+      path = 'home'
     page.value = null
     const data = await getConfigApi(path) || {}
     if (data)

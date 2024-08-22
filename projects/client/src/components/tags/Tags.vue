@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useDark, useStorage, useToggle } from '@vueuse/core'
 
+const router = useRouter()
+
 const isDark = useDark({
   selector: 'html',
   attribute: 'theme',
@@ -12,8 +14,41 @@ const dark = useStorage('dark', isDark.value)
 
 const toggle = useToggle(isDark)
 
-function changeTheme() {
-  toggle()
+function toggleTheme(event: any) {
+  const x = event.clientX
+  const y = event.clientY
+  const endRadius = Math.hypot(
+    Math.max(x, innerWidth - x),
+    Math.max(y, innerHeight - y),
+  )
+
+  // 兼容性处理
+  if (!(document as any).startViewTransition) {
+    toggle()
+    return
+  }
+  const transition = (document as any).startViewTransition(async () => {
+    toggle()
+  })
+
+  transition.ready.then(() => {
+    const clipPath = [
+      `circle(0px at ${x}px ${y}px)`,
+      `circle(${endRadius}px at ${x}px ${y}px)`,
+    ]
+    document.documentElement.animate(
+      {
+        clipPath: isDark.value ? [...clipPath].reverse() : clipPath,
+      },
+      {
+        duration: 400,
+        easing: 'ease-in',
+        pseudoElement: isDark.value
+          ? '::view-transition-old(root)'
+          : '::view-transition-new(root)',
+      },
+    )
+  })
 }
 
 watch(() => isDark.value, () => {
@@ -23,14 +58,17 @@ watch(() => isDark.value, () => {
 
 <template>
   <div flex="~ gap1" b-rd justify-end items-center>
-    <q-btn flat round @click="changeTheme">
-      <div v-if="dark" w-6 h-6 i-ph:sun-bold />
-      <div v-else w-6 h-6 i-ph:moon-bold />
+    <q-btn flat round @click="toggleTheme">
+      <div v-if="dark" size-6 i-ph:sun-bold />
+      <div v-else size-6 i-ph:moon-bold />
     </q-btn>
     <q-btn flat round>
       <a href="https://github.com/ZhangYuzhu1" target="_blank">
-        <div w-6 h-6 i-mingcute:github-line />
+        <div size-6 i-mingcute:github-line />
       </a>
+    </q-btn>
+    <q-btn flat round @click="router.push('/about')">
+      <div size-6 i-mingcute:user-2-line />
     </q-btn>
   </div>
 </template>

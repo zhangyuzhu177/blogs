@@ -15,10 +15,4 @@ export const NAV: Nav[] = [
     label: '文章',
     path: '/article',
   },
-
-  {
-    id: 'about',
-    label: '关于',
-    path: '/about',
-  },
 ]

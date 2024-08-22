@@ -23,6 +23,7 @@ export default defineConfig({
     ['text-lg', 'text-18px leading-26px'],
     ['text-xl', 'text-20px leading-30px'],
     ['text-2xl', 'text-24px leading-36px'],
+    ['size-6', 'w-6 h-6'],
   ],
   rules: [
     [/^flex-([.\d]+)$/, ([_, num]) => ({ flex: `${num} ${num} 0%` })],
