@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useDark, useStorage, useToggle } from '@vueuse/core'
 
-const router = useRouter()
-
 const isDark = useDark({
   selector: 'html',
   attribute: 'theme',
@@ -57,7 +55,7 @@ watch(() => isDark.value, () => {
 </script>
 
 <template>
-  <div flex="~ gap1" b-rd justify-end items-center>
+  <div class="tags" flex="~ gap2" b-rd justify-end items-center>
     <q-btn flat round @click="toggleTheme">
       <div v-if="dark" size-6 i-ph:sun-bold />
       <div v-else size-6 i-ph:moon-bold />
@@ -67,11 +65,21 @@ watch(() => isDark.value, () => {
         <div size-6 i-mingcute:github-line />
       </a>
     </q-btn>
-    <q-btn flat round @click="router.push('/about')">
-      <div size-6 i-mingcute:user-2-line />
-    </q-btn>
   </div>
 </template>
 
 <style scoped lang="scss">
+:deep(.q-btn){
+  .q-focus-helper {
+    display: none;
+  }
+
+  .q-ripple {
+    display: none;
+  }
+
+  .q-tab__indicator{
+    display: none;
+  }
+}
 </style>

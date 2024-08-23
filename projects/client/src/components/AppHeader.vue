@@ -25,27 +25,28 @@ nextTick(() => {
 })
 </script>
 
+<!--
+    :class="theme === 'dark' ? 'transparent' : 'bg'"
+    :border="theme === 'dark' ? 'transparent' : 'grey-3'"
+    :bg="theme === 'dark' ? 'transparent' : ''"
+-->
 <template>
   <div
     v-if="app?.nameEn"
     w-full h-16 flex="~ gap10"
     justify-between items-center px-6
-    fixed z-9 top-0 left-0
-    :class="theme === 'dark' ? 'transparent' : 'bg'"
-    :border="theme === 'dark' ? 'transparent' : 'grey-3'"
-    :bg="theme === 'dark' ? 'transparent' : ''"
-    style="color:var(--grey-1)"
+    absolute z-9 top-0 left-0
   >
-    <div flex="~ items-center gap4 1">
-      <!-- Logo -->
-      <div
-        class="font-marij" text="32px" cursor-pointer
-        @click="router.push('/')"
-        v-text="app.nameEn"
-      />
-      <Navigation1 />
+    <!-- Logo -->
+    <div
+      class="font-marij" text="32px" cursor-pointer
+      @click="router.push('/')"
+      v-text="app.nameEn"
+    />
+    <div flex="~ gap2">
+      <Navigation />
+      <Tags />
     </div>
-    <Tags />
   </div>
 </template>
 

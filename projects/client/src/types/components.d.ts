@@ -13,6 +13,7 @@ declare module 'vue' {
     Container: typeof import('./../components/Container/Container.vue')['default']
     Images: typeof import('./../components/images/Images.vue')['default']
     LogoutDialog: typeof import('./../../../shared/components/dialog/LogoutDialog.vue')['default']
+    Navigation: typeof import('./../components/navigation/Navigation.vue')['default']
     Navigation1: typeof import('./../components/navigation/Navigation1.vue')['default']
     QBtn: typeof import('quasar')['QBtn']
     QImg: typeof import('quasar')['QImg']

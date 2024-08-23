@@ -34,9 +34,11 @@ onMounted(async () => {
     <div
       ref="el"
       relative w-full overflow-hidden
+      bg="cover center"
       :style="{ height }"
     >
-      <q-img loading="lazy" full :src="page?.url" />
+      <img full style="object-fit: cover" :src="page?.url">
+      <div class="mask" />
     </div>
     <template v-if="page">
       <Title :page="page" />
@@ -44,7 +46,7 @@ onMounted(async () => {
     <div
       v-if="arrow"
       class="arrow-down" w10 h10 i-ph:caret-double-down-bold
-      style="background-color: var(--grey-1);"
+      style="background-color: var(--grey-9);"
       @click="arrowDown"
     />
   </div>
@@ -53,11 +55,22 @@ onMounted(async () => {
 <style scoped lang="scss">
 .arrow-down {
   position: absolute;
+  z-index: 999;
   bottom: 80px;
   left: 49%;
   -webkit-animation: arrow-shake 1.5s ease-out infinite;
   animation: arrow-shake 1.5s ease-out infinite;
   cursor: pointer;
+}
+
+.mask {
+  position: absolute;
+  left: 0px;
+  right: 0;
+  bottom: -100px;
+  height: 200px;
+  opacity: 1;
+  background: linear-gradient(180deg, var(--grey-1-a0) 0%, var(--grey-1) 50%);
 }
 
 @keyframes arrow-shake {

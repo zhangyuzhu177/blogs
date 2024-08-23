@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { NAV } from '~/constants/nav'
+
 const tab = ref('home')
 </script>
 
@@ -20,7 +22,7 @@ const tab = ref('home')
   gap: 8px;
 
   .q-tab {
-    padding: 0 24px !important;
+    padding: 0 8px !important;
     transition: all .3s;
 
     // &::after {

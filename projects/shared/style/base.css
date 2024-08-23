@@ -22,7 +22,7 @@ body,
 
 body {
   transform-origin: top left;
-  color: var(--grey-8);
+  color: var(--grey-9);
 }
 
 /* Styling for heading tags */

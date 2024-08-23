@@ -7,12 +7,12 @@ export interface Nav {
 export const NAV: Nav[] = [
   {
     id: 'home',
-    label: '首页',
+    label: '博客',
     path: '/home',
   },
   {
-    id: 'article',
-    label: '文章',
-    path: '/article',
+    id: 'about',
+    label: '关于',
+    path: '/about',
   },
 ]
