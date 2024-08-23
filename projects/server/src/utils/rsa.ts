@@ -17,6 +17,9 @@ export function rsaEncrypt(password: string, publicKey = process.env.VITE_PUBLIC
  * 对密文进行rsa解密
  */
 export function rsaDecrypt(hash: string, privateKey = process.env.VITE_PRIVATE_KEY, key = 'blogsUsO') {
+  console.log(hash, key);
+  console.log(privateKey);
+
   try {
     const rsa = new NodeRSA()
     rsa.setOptions({ encryptionScheme: 'pkcs1' })
@@ -28,6 +31,8 @@ export function rsaDecrypt(hash: string, privateKey = process.env.VITE_PRIVATE_K
     return str.replace(key, '').split('').map(char => String.fromCharCode(char.charCodeAt(0) - 1)).join('')
   }
   catch (e) {
+    console.log(e);
+
     return hash
   }
 }

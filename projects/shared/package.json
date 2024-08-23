@@ -13,7 +13,7 @@
     "alea": "^1.0.1",
     "axios": "^1.4.0",
     "hsl-to-hex": "^1.0.0",
-    "jsencrypt": "^3.3.2",
+    "jsencrypt": "3.3.2",
     "pixi.js": "7.4.2",
     "quasar": "^2.12.3",
     "simplex-noise": "^4.0.1",
