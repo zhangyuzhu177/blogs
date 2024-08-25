@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AppFooter: typeof import('./../components/AppFooter.vue')['default']
     AppHeader: typeof import('./../components/AppHeader.vue')['default']
     Canvas: typeof import('./../../../shared/components/canvas/index.vue')['default']
     CaptchaInput: typeof import('./../../../shared/components/input/CaptchaInput.vue')['default']
@@ -14,9 +15,7 @@ declare module 'vue' {
     Images: typeof import('./../components/images/Images.vue')['default']
     LogoutDialog: typeof import('./../../../shared/components/dialog/LogoutDialog.vue')['default']
     Navigation: typeof import('./../components/navigation/Navigation.vue')['default']
-    Navigation1: typeof import('./../components/navigation/Navigation1.vue')['default']
     QBtn: typeof import('quasar')['QBtn']
-    QImg: typeof import('quasar')['QImg']
     QRouteTab: typeof import('quasar')['QRouteTab']
     QScrollArea: typeof import('quasar')['QScrollArea']
     QTabs: typeof import('quasar')['QTabs']

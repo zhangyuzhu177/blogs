@@ -20,7 +20,7 @@ function goInfo(id: IArticle['id']) {
   query.value = JSON.stringify({ id })
 
   router.push({
-    path: 'article/info',
+    path: 'article',
     query: {
       id,
     },
@@ -33,7 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div full flex="~ col 1 gap6">
+  <div full flex="~ col 1 gap6" pb-14>
     <template v-if="articlesList.length">
       <div
         v-for="articles in articlesList" :key="articles.id"
@@ -42,10 +42,10 @@ onMounted(() => {
         @click="goInfo(articles.id)"
       >
         <div flex="~ 1 flex">
-          <div flex-0.5 overflow-hidden>
-            <img w-full h-50 :src="articles.articleCover" alt="">
+          <div lg="w-70" w-40 h-35 overflow-hidden>
+            <img full :src="articles.articleCover">
           </div>
-          <div p4 flex="~ col 1.25 gap2">
+          <div p4 flex="~ col 1 gap2">
             <div flex>
               <h3
                 class="title"
@@ -57,7 +57,7 @@ onMounted(() => {
             <div flex="~ 1 col gap2 justify-between">
               <div
                 class="abstract"
-                line-clamp-3
+                truncate
                 v-text="articles.abstract"
               />
               <div class="info" flex="~ justify-between">
@@ -107,7 +107,7 @@ onMounted(() => {
       left: 0;
       width: 0;
       height: 2px;
-      background-color: var(--grey-8);
+      background-color: var(--grey-7);
       transition: all .3s;
     }
   }
@@ -125,7 +125,7 @@ onMounted(() => {
       color: var(--grey-5);
       div {
         &:hover {
-          color: var(--grey-8);
+          color: var(--grey-7);
         }
       }
     }

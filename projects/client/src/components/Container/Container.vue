@@ -1,12 +1,21 @@
 <script setup lang="ts">
+interface Props {
+  height?: string
+  arrow?: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+  height: '600px',
+  arrow: true,
+})
 </script>
 
 <template>
   <div full flex="~ col center gap14">
-    <Images w-full />
+    <Images :height :arrow w-full />
     <div
-      xl="w-1280px" lg="px-6" w-full
-      h="100vh" px-4
+      xl="w-1200px" lg="px-6"
+      px-4 w-full
     >
       <slot />
       <ScrollTop />

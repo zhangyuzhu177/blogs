@@ -33,9 +33,14 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 :deep(.md-editor-preview-wrapper) {
-  background-color: var(--grey-2);
-  .md-editor-preview h1{
-    color: var(--grey-0);
+  background-color: var(--grey-1);
+  .md-editor-preview {
+    h1 {
+      color: var(--grey-9);
+    }
+    p {
+      color: var(--grey-9);
+    }
   }
 }
 </style>

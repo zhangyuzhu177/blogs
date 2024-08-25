@@ -7,6 +7,7 @@
   <div class="bg" full>
     <AppHeader />
     <RouterView full />
+    <AppFooter />
   </div>
 </template>
 
