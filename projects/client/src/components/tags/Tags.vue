@@ -60,10 +60,8 @@ watch(() => isDark.value, () => {
       <div v-if="dark" size-6 i-ph:sun-bold />
       <div v-else size-6 i-ph:moon-bold />
     </q-btn>
-    <q-btn flat round>
-      <a href="https://github.com/ZhangYuzhu1" target="_blank">
-        <div size-6 i-mingcute:github-line />
-      </a>
+    <q-btn flat round href="https://github.com/ZhangYuzhu1" target="_blank">
+      <div size-6 i-mingcute:github-line />
     </q-btn>
   </div>
 </template>

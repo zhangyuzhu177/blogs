@@ -4,9 +4,7 @@ import ArticleInfo from '~/views/article/ArticleInfo.vue'
 
 <template>
   <Container :arrow="false">
-    <div flex="~ gap4">
-      <ArticleInfo />
-    </div>
+    <ArticleInfo />
   </Container>
 </template>
 

@@ -53,8 +53,9 @@ const tab = ref('home')
     }
 
     .q-tab__label {
-      font-size: 16px;
+      font-size: 18px;
       line-height: 24px;
+      font-weight: 700;
     }
 
     .q-ripple {

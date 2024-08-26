@@ -4,7 +4,7 @@
 <!-- https://github.com/antfu/100/blob/main/src/utils/dark.ts -->
 
 <template>
-  <div class="bg" full>
+  <div class="bg" full flex="~ col gap-14">
     <AppHeader />
     <RouterView full />
     <AppFooter />

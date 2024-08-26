@@ -32,13 +32,15 @@ nextTick(() => {
 -->
 <template>
   <div
-    v-if="app?.nameEn"
-    w-full h-16 flex="~ gap10"
-    justify-between items-center px-6
-    absolute z-9 top-0 left-0
+    flex="~ gap10" fixed z-9 top-0 left-0
+    justify-between items-center px-6 w-full h-16
+    :class="theme === 'dark' ? 'transparent' : 'bg'"
+    :border="theme === 'dark' ? 'transparent' : 'grey-3'"
+    :bg="theme === 'dark' ? 'transparent' : ''"
   >
     <!-- Logo -->
     <div
+      v-if="app?.nameEn"
       class="font-marij" text="32px" cursor-pointer
       @click="router.push('/')"
       v-text="app.nameEn"
@@ -51,8 +53,8 @@ nextTick(() => {
 </template>
 
 <style scoped lang="scss">
-.bg{
-  background-color: rgba(255, 255, 255, 0.2);
+.bg {
+  background-color: var(--grey-1-a2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
