@@ -14,7 +14,7 @@ withDefaults(defineProps<Props>(), {
   <div full flex="~ col center gap14">
     <Images :height :arrow w-full />
     <div
-      xl="w-1200px" lg="px-6"
+      xl="w-1080px" lg="px-6"
       px-4 w-full
     >
       <slot />

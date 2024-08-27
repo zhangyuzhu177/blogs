@@ -40,7 +40,7 @@ onMounted(() => {
 <template>
   <div class="title" flex="~ col gap2 items-center">
     <h1 v-if="title" class="artboard" v-text="title" />
-    <h3 v-if="signature" class="font-subtitle">
+    <h3 v-if="signature">
       {{ signature }}
       <span class="typed-cursor">|</span>
     </h3>
@@ -53,16 +53,9 @@ onMounted(() => {
   left: 50%;
   top: 50%;
   transform: translateX(-50%) translateY(-60%);
-  color: white;
+  color: var(--grey-1);
 
   .artboard {
-    font-family:
-      "Fredericka the Great",
-      Mulish,
-      -apple-system,
-      "PingFang SC",
-      "Microsoft YaHei",
-      sans-serif;
     font-size: 64px;
     line-height: 1.2;
     /* animation: titleScale 1s; */

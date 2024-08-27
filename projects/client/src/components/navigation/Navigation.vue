@@ -25,42 +25,18 @@ const tab = ref('home')
     padding: 0 8px !important;
     transition: all .3s;
 
-    // &::after {
-    //   position: absolute;
-    //   content: '';
-    //   top: 5%;
-    //   left: 0;
-    //   width: 100%;
-    //   height: 90%;
-    //   border: 1px solid var(--grey-1);
-    //   background: rgba($color: var(--grey-1), $alpha: 0.2);
-    //   border-radius: 8px;
-    //   display: none;
-    //   transition: opacity .5s;
-    //   z-index: -1;
-    // }
-
-    // &:hover {
-    //   &::after {
-    //     display: block;
-    //   }
-    // }
-
     .q-focus-helper {
       display: none;
-      border-radius: 10px !important;
-      border: 1px solid var(--grey-3) !important;
     }
 
     .q-tab__label {
-      font-size: 18px;
+      font-size: 16px;
       line-height: 24px;
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .q-ripple {
       display: none;
-      border-radius: 10px !important;
     }
 
     .q-tab__indicator{
