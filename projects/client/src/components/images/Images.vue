@@ -46,7 +46,7 @@ onMounted(async () => {
     <div
       v-if="arrow"
       class="arrow-down" w10 h10 i-ph:caret-double-down-bold
-      style="background-color: var(--grey-9);"
+      bg-grey-1
       @click="arrowDown"
     />
   </div>

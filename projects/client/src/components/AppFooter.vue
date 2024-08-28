@@ -3,12 +3,17 @@
 </script>
 
 <template>
-  <div
+  <footer
+    class="footer"
     flex="~ center" b-t="1 grey-3"
     text-grey-5 py-16 px-4 w-full
   >
     Footer
-  </div>
+  </footer>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.footer {
+  background-color: var(--grey-2);
+}
+</style>

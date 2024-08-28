@@ -31,7 +31,7 @@ nextTick(() => {
     :bg="theme === 'dark' ? 'transparent' : ''"
 -->
 <template>
-  <div
+  <header
     flex="~ gap10" fixed z-9 top-0 left-0
     justify-between items-center px-6 w-full h-16
     :class="theme === 'dark' ? 'transparent' : 'bg'"
@@ -49,7 +49,7 @@ nextTick(() => {
       <Navigation />
       <Tags />
     </div>
-  </div>
+  </header>
 </template>
 
 <style scoped lang="scss">

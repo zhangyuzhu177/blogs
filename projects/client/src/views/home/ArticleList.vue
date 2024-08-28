@@ -36,15 +36,15 @@ onMounted(() => {
   <div full flex="~ col 1 gap6">
     <template v-if="articlesList.length">
       <div
-        v-for="articles in articlesList" :key="articles.id"
+        v-for="(articles, index) in articlesList" :key="articles.id"
         class="article group" flex="~ col 1 gap4"
-        cursor-pointer full b-rd-4 overflow-hidden
+        cursor-pointer full b-rd-2 overflow-hidden
         @click="goInfo(articles.id)"
       >
-        <div flex="~ 1 flex">
-          <div lg="w-70" w-40 h-35 overflow-hidden>
-            <img full :src="articles.articleCover">
-          </div>
+        <div
+          flex="~ 1 flex"
+          :style="{ flexDirection: index % 2 ? 'row-reverse' : 'row' }"
+        >
           <div p4 flex="~ col 1 gap2">
             <div flex>
               <h3
@@ -83,6 +83,16 @@ onMounted(() => {
               </div>
             </div>
           </div>
+          <div
+            flex-0.5 h-40 overflow-hidden
+            :style="{
+              clipPath: index % 2
+                ? 'polygon(0 0,92% 0,100% 100%,0 100%)'
+                : 'polygon(0 0,100% 0,100% 100%,8% 100%)',
+            }"
+          >
+            <img full :src="articles.articleCover">
+          </div>
         </div>
       </div>
     </template>
@@ -107,7 +117,7 @@ onMounted(() => {
       left: 0;
       width: 0;
       height: 2px;
-      background-color: var(--grey-7);
+      background-color: var(--grey-9);
       transition: all .3s;
     }
   }
@@ -139,7 +149,7 @@ onMounted(() => {
     }
 
     .title{
-      color: var(--grey-8);
+      color: var(--grey-9);
       &::after {
         width: 100%;
       }

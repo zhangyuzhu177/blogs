@@ -38,31 +38,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="title" flex="~ col gap2 items-center">
-    <h1 v-if="title" class="artboard" v-text="title" />
-    <h3 v-if="signature">
+  <div
+    class="title" flex="~ col gap2 center"
+    absolute inset-0 text="grey-1  center" px-6
+  >
+    <h1 v-if="title" v-text="title" />
+    <h2 v-if="signature">
       {{ signature }}
       <span class="typed-cursor">|</span>
-    </h3>
+    </h2>
   </div>
 </template>
 
 <style scoped lang="scss">
 .title {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-60%);
-  color: var(--grey-1);
-
-  .artboard {
-    font-size: 64px;
-    line-height: 1.2;
-    /* animation: titleScale 1s; */
-    animation: showup 2s linear forwards;
-    letter-spacing: -50px;
-    text-align: center;
-  }
 
   .typed-cursor {
     opacity: 1;
