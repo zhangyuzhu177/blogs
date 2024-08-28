@@ -27,7 +27,7 @@ function goToTop() {
 <template>
   <Transition name="slide-fade">
     <div
-      v-if="show" fixed bg="grey-1"
+      v-if="show" fixed
       p2 w-10 h-10 flex-center text="grey-8"
       cursor-pointer shadow-md
       b-rd="50%" bottom-5 right-6

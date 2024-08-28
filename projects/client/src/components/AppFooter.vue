@@ -13,7 +13,5 @@
 </template>
 
 <style scoped lang="scss">
-.footer {
-  background-color: var(--grey-2);
-}
+
 </style>

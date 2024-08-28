@@ -38,7 +38,6 @@ onMounted(async () => {
       :style="{ height }"
     >
       <img full style="object-fit: cover" :src="page?.url">
-      <!-- <div class="mask" /> -->
     </div>
     <template v-if="page">
       <Title :page="page" />
@@ -61,16 +60,6 @@ onMounted(async () => {
   -webkit-animation: arrow-shake 1.5s ease-out infinite;
   animation: arrow-shake 1.5s ease-out infinite;
   cursor: pointer;
-}
-
-.mask {
-  position: absolute;
-  left: 0px;
-  right: 0;
-  bottom: -100px;
-  height: 200px;
-  opacity: 1;
-  background: linear-gradient(180deg, var(--grey-1-a0) 0%, var(--grey-1) 70%);
 }
 
 @keyframes arrow-shake {
