@@ -24,7 +24,7 @@ function arrowDown() {
   }
 }
 
-onMounted(async () => {
+onBeforeMount(async () => {
   await getPageConfig(route.path.split('/')[1])
 })
 </script>

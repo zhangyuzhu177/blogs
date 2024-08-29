@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { scrollEl } = useClientApp()
+const { width } = useWindowSize()
 
 const show = ref(false)
 nextTick(() => {
@@ -7,7 +8,7 @@ nextTick(() => {
   watch(
     () => y.value,
     (newVal) => {
-      if (newVal > 400)
+      if (newVal > 400 && width.value >= 900)
         show.value = true
       else
         show.value = false
@@ -33,13 +34,14 @@ function goToTop() {
       b-rd="50%" bottom-5 right-6
       @click="goToTop"
     >
-      <div flex-center i-ph:rocket-bold />
+      <div style="background-color: var(--grey-9);" flex-center i-ph:rocket-bold />
     </div>
   </Transition>
 </template>
 
 <style scoped lang="scss">
 .slide-fade-enter-active {
+  box-shadow: 0 2px 8px rgba(50,50,50,.04);
   transition: all 0.3s ease-out;
 }
 
@@ -49,7 +51,7 @@ function goToTop() {
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translateX(20px);
+  transform: translateX(30px);
   opacity: 0;
 }
 </style>

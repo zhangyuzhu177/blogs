@@ -25,11 +25,6 @@ nextTick(() => {
 })
 </script>
 
-<!--
-    :class="theme === 'dark' ? 'transparent' : 'bg'"
-    :border="theme === 'dark' ? 'transparent' : 'grey-3'"
-    :bg="theme === 'dark' ? 'transparent' : ''"
--->
 <template>
   <header
     flex="~ gap10" fixed z-9 top-0 left-0
