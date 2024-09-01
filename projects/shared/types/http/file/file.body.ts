@@ -1,5 +1,4 @@
-
-export interface FileBodyDto{
+export interface FileBodyDto {
   url: string
-  path:string
+  path: string
 }

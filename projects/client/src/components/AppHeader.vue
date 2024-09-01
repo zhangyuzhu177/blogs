@@ -1,21 +1,16 @@
 <script setup lang="ts">
-import { useWindowSize } from '@vueuse/core'
-
 export type Theme = 'light' | 'dark'
 
 const router = useRouter()
-
-const { width } = useWindowSize()
-const { app } = useSysConfig()
 
 const theme = ref<Theme>('dark')
 
 nextTick(() => {
   const { y } = useScroll(document?.querySelector('.q-scrollarea__container') as HTMLElement)
   watch(
-    [width, y],
-    ([newWidth, newY]) => {
-      if (newWidth >= 900 && newY <= 100)
+    y,
+    (newValue) => {
+      if (newValue <= 600)
         theme.value = 'dark'
       else
         theme.value = 'light'
@@ -27,22 +22,22 @@ nextTick(() => {
 
 <template>
   <header
-    flex="~ gap10" fixed z-9 top-0 left-0
-    justify-between items-center px-6 w-full h-16
+    fixed z-9 top-0 left-0 px-6 w-full h-16
     :class="theme === 'dark' ? 'transparent' : 'bg'"
     :border="theme === 'dark' ? 'transparent' : 'grey-3'"
     :bg="theme === 'dark' ? 'transparent' : ''"
   >
     <!-- Logo -->
-    <div
-      v-if="app?.nameEn"
-      class="font-marij" text="32px" cursor-pointer
-      @click="router.push('/')"
-      v-text="app.nameEn"
-    />
-    <div flex="~ gap2">
-      <Navigation />
-      <Tags />
+    <div full flex="~ justify-end items-center" relative>
+      <ArtLogo
+        absolute left-0 top-0
+        cursor-pointer
+        @click="router.push('/')"
+      />
+      <div flex="~ gap2">
+        <Navigation />
+        <Tags />
+      </div>
     </div>
   </header>
 </template>
@@ -52,5 +47,6 @@ nextTick(() => {
   background-color: var(--grey-1-a2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--grey-3);
 }
 </style>

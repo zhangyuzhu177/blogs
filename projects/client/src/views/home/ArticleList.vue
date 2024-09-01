@@ -3,7 +3,7 @@ import moment from 'moment'
 import type { IArticle } from 'shared/types/entities/article.interface'
 
 const router = useRouter()
-const { query } = useMyLocalStorage()
+const { articleId } = useMyLocalStorage()
 
 const articlesList = ref<IArticle[]>([])
 
@@ -17,10 +17,9 @@ async function getArticlesList() {
 }
 
 function goInfo(id: IArticle['id']) {
-  query.value = JSON.stringify({ id })
-
+  articleId.value = id
   router.push({
-    path: 'article',
+    path: '/article',
     query: {
       id,
     },
@@ -38,7 +37,7 @@ onBeforeMount(() => {
     full flex="~ col 1 gap6"
   >
     <div
-      v-for="(articles, index) in articlesList" :key="articles.id"
+      v-for="(articles, index) in articlesList.reverse()" :key="articles.id"
       class="article group" flex="~ col 1 gap4"
       cursor-pointer full b-rd-2 overflow-hidden
       @click="goInfo(articles.id)"

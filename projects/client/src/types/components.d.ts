@@ -9,7 +9,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./../components/AppFooter.vue')['default']
     AppHeader: typeof import('./../components/AppHeader.vue')['default']
-    ArtPlum: typeof import('./../components/ArtPlum/ArtPlum.vue')['default']
+    ArtLogo: typeof import('./../components/Art/ArtLogo.vue')['default']
+    ArtPlum: typeof import('./../components/Art/ArtPlum.vue')['default']
     Canvas: typeof import('./../../../shared/components/canvas/index.vue')['default']
     CaptchaInput: typeof import('./../../../shared/components/input/CaptchaInput.vue')['default']
     Container: typeof import('./../components/Container/Container.vue')['default']
@@ -17,6 +18,7 @@ declare module 'vue' {
     LogoutDialog: typeof import('./../../../shared/components/dialog/LogoutDialog.vue')['default']
     Navigation: typeof import('./../components/navigation/Navigation.vue')['default']
     QBtn: typeof import('quasar')['QBtn']
+    QImg: typeof import('quasar')['QImg']
     QRouteTab: typeof import('quasar')['QRouteTab']
     QScrollArea: typeof import('quasar')['QScrollArea']
     QTabs: typeof import('quasar')['QTabs']

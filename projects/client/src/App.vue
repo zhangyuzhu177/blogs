@@ -7,7 +7,6 @@ const $router = useRouter()
 const route = useRoute()
 const { updateAppHead } = useApp()
 const { scrollEl } = useClientApp()
-const { query } = useMyLocalStorage()
 
 onBeforeMount(() => {
   isAdmin.value = true
@@ -44,15 +43,6 @@ watch(
   },
   {
     immediate: true,
-  },
-)
-
-watch(
-  () => route.path,
-  (newVal) => {
-    if (newVal === '/article')
-      query.value = JSON.stringify({})
-    scrollEl.value?.setScrollPosition('vertical', 0, 300)
   },
 )
 </script>

@@ -33,11 +33,10 @@ onBeforeMount(async () => {
   <div relative>
     <div
       ref="el"
-      relative w-full overflow-hidden
-      bg="cover center"
+      w-full overflow-hidden bg="cover center"
       :style="{ height }"
     >
-      <img full style="object-fit: cover" :src="page?.url">
+      <q-img full :src="page?.url" />
     </div>
     <template v-if="page">
       <Title :page="page" />
@@ -52,6 +51,16 @@ onBeforeMount(async () => {
 </template>
 
 <style scoped lang="scss">
+:deep(.q-img) {
+  .q-img__container{
+    background-size: cover;
+    background-position: center;
+    .q-img__image {
+      object-fit: cover !important;
+    }
+  }
+}
+
 .arrow-down {
   position: absolute;
   z-index: 999;

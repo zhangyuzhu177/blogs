@@ -63,7 +63,7 @@ watch(img, async (newVal) => {
     if (newVal) {
       const formData = new FormData()
       formData.append('file', newVal as File)
-      const res = await uploadFileApi(formData, `/images/page/${newVal.name}`)
+      const res = await uploadFileApi(formData, `/images/article/${newVal.name}`)
       form.value!.articleCover = res.url
     }
   }

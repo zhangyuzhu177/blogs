@@ -139,7 +139,7 @@ async function init() {
 }
 
 onMounted(async () => {
-  setTimeout(init, 200)
+  setTimeout(init, 1000)
 })
 const mask = computed(() => 'radial-gradient(circle, transparent, black);')
 </script>
