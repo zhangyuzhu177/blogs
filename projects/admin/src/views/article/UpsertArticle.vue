@@ -1,59 +1,40 @@
 <script setup lang="ts">
+import { Notify } from 'quasar'
 import { cloneDeep } from 'lodash'
 import type { UpsertArticleBodyDto } from 'shared/types/http/article/upsert-body.dto'
 
+import { ArticleStatus } from 'shared/types/enum/article-status.enum'
 import MdEditor from './MdEditor.vue'
-
-const { userInfo } = useUser()
+import { CLASSIFY, TAGS } from '~/constants/article'
 
 const loading = ref(false)
 const dialog = ref(false)
 const initData: UpsertArticleBodyDto = {
-  author: userInfo.value?.account as string,
   title: '',
   content: '',
   category: '',
   abstract: '',
   tags: '',
   articleCover: '',
-  type: '',
-  originalUrl: '',
   status: '',
 }
 const form = ref<UpsertArticleBodyDto>(cloneDeep(initData))
-const isShow = ref(false)
-
-watch(() => form.value.type, (newVal) => {
-  if (newVal === '转载')
-    isShow.value = true
-  else
-    isShow.value = false
-})
 
 /** 是否禁用 */
 const disable = computed(() => {
   if (
     form.value.title !== ''
-    && form.value.author !== ''
     && form.value.content !== ''
     && form.value.abstract !== ''
     && form.value.category !== ''
     && form.value.articleCover !== ''
     && form.value.tags !== ''
     && form.value.status !== ''
-  ) {
-    if (form.value.type === '转载' && form.value.originalUrl !== '')
-      return false
+  )
+    return false
 
-    else if (form.value.type === '原创')
-      return false
-
-    else
-      return true
-  }
-  else {
+  else
     return true
-  }
 })
 
 const img = ref<File>()
@@ -84,8 +65,6 @@ watch(
     if (newVal) {
       form.value.category = ''
       form.value.articleCover = ''
-      form.value.originalUrl = ''
-      form.value.type = ''
       form.value.tags = ''
       form.value.status = ''
     }
@@ -200,26 +179,19 @@ async function callback() {
           </ZUpload>
         </div>
         <div flex="~ col gap2">
-          <ZLabel label="文章类型" />
-          <div flex="~ gap-4 wrap">
-            <Tag1
-              v-for="i in ARTICLE_CLASS" :key="i.id" w-30
-              :tag="i" :active="form.type"
-              @click="form.type = i.label"
-            />
-          </div>
-        </div>
-        <div v-if="isShow" flex="~ col gap2">
-          <ZLabel label="转载连接" />
-          <ZInput v-model="form.originalUrl" flex-1 />
-        </div>
-        <div flex="~ col gap2">
           <ZLabel text-base label="发布方式" />
           <div flex="~ gap-4 wrap">
-            <Tag1
-              v-for="i in BT" :key="i.id" w-30
-              :tag="i" :active="form.status"
-              @click="form.status = i.label"
+            <ZRadio
+              :model-value="form.status"
+              :val="ArticleStatus.PUBLIC"
+              label="公开"
+              @update:model-value="form.status = ArticleStatus.PUBLIC"
+            />
+            <ZRadio
+              :model-value="form.status"
+              :val="ArticleStatus.DRAFT"
+              label="草稿"
+              @update:model-value="form.status = ArticleStatus.DRAFT"
             />
           </div>
         </div>

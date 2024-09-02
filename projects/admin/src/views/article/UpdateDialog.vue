@@ -4,7 +4,9 @@ import { Notify } from 'quasar'
 import { cloneDeep } from 'lodash'
 import type { IArticle } from 'shared/types/entities/article.interface'
 import type { UpsertArticleBodyDto } from 'shared/types/http/article/upsert-body.dto'
+import { ArticleStatus } from 'shared/types/enum/article-status.enum'
 import MdEditor from './MdEditor.vue'
+import { CLASSIFY, TAGS } from '~/constants/article'
 
 interface Props {
   modelValue: boolean
@@ -14,23 +16,18 @@ interface Props {
 const props = defineProps<Props>()
 const emit = defineEmits(['update:modelValue', 'submit'])
 
-const { userInfo } = useUser()
 const value = useModel(props, 'modelValue')
 const loading = ref(false)
 const initData: UpsertArticleBodyDto = {
-  author: userInfo.value?.account as string,
   title: '',
   content: '',
   category: '',
   abstract: '',
   tags: '',
   articleCover: '',
-  type: '',
-  originalUrl: '',
   status: '',
 }
 const form = ref<UpsertArticleBodyDto>(cloneDeep(initData))
-const isShow = ref(false)
 
 const img = ref<File>()
 watch(img, async (newVal) => {
@@ -50,13 +47,6 @@ watch(img, async (newVal) => {
   }
 })
 
-watch(() => form.value.type, (newVal) => {
-  if (newVal === '转载')
-    isShow.value = true
-  else
-    isShow.value = false
-})
-
 watch(
   () => value.value,
   (newVal) => {
@@ -68,25 +58,15 @@ watch(
 const disable = computed(() => {
   if (
     form.value.title !== ''
-    && form.value.author !== ''
     && form.value.content !== ''
     && form.value.category !== ''
     && form.value.articleCover !== ''
     && form.value.tags !== ''
     && form.value.status !== ''
-  ) {
-    if (form.value.type === '转载' && form.value.originalUrl !== '')
-      return false
-
-    else if (form.value.type === '原创')
-      return false
-
-    else
-      return true
-  }
-  else {
+  )
+    return false
+  else
     return true
-  }
 })
 
 async function callback() {
@@ -130,10 +110,6 @@ async function callback() {
           placeholder="输入文章标题..."
         />
       </div>
-      <div flex="~ col gap2" px-1>
-        <ZLabel label="文章内容" />
-        <MdEditor v-model="form.content" />
-      </div>
       <div flex="~ col gap2">
         <ZLabel label="摘要" />
         <ZInput
@@ -151,8 +127,10 @@ async function callback() {
         <ZLabel label="分类" />
         <div flex="~ gap-4 wrap">
           <Tag1
-            v-for="i in CLASSIFY" :key="i.id" w-30
-            :tag="i" :active="form.category" @click="form.category = i.label"
+            v-for="i in CLASSIFY" :key="i.id"
+            :tag="i" :active="form.category"
+            w-30
+            @click="form.category = i.label"
           />
         </div>
       </div>
@@ -169,6 +147,10 @@ async function callback() {
           }"
         />
       </div>
+      <div flex="~ col gap2" px-1>
+        <ZLabel label="文章内容" />
+        <MdEditor v-model="form.content" />
+      </div>
       <div flex="~ col gap2">
         <ZLabel label="文章图片" />
         <ZUpload
@@ -178,7 +160,8 @@ async function callback() {
           w-50 b-rd-4
         >
           <div
-            v-if="!form.articleCover" flex="~ col gap2 center" b-rd-4 full h-30
+            v-if="!form.articleCover"
+            flex="~ col gap2 center" b-rd-4 full h-30
             border="1px dashed gray-5"
           >
             <div text="6 grey-5" i-ph:plus />
@@ -195,26 +178,19 @@ async function callback() {
         </ZUpload>
       </div>
       <div flex="~ col gap2">
-        <ZLabel label="文章类型" />
-        <div flex="~ gap-4 wrap">
-          <Tag1
-            v-for="i in ARTICLE_CLASS" :key="i.id" w-30
-            :tag="i" :active="form.type"
-            @click="form.type = i.label"
-          />
-        </div>
-      </div>
-      <div v-if="isShow" flex="~ col gap2">
-        <ZLabel label="转载连接" />
-        <ZInput v-model="form.originalUrl" flex-1 />
-      </div>
-      <div flex="~ col gap2">
         <ZLabel label="发布方式" />
         <div flex="~ gap-4 wrap">
-          <Tag1
-            v-for="i in BT" :key="i.id" w-30
-            :tag="i" :active="form.status"
-            @click="form.status = i.label"
+          <ZRadio
+            :model-value="form.status"
+            :val="ArticleStatus.PUBLIC"
+            label="公开"
+            @update:model-value="form.status = ArticleStatus.PUBLIC"
+          />
+          <ZRadio
+            :model-value="form.status"
+            :val="ArticleStatus.DRAFT"
+            label="草稿"
+            @update:model-value="form.status = ArticleStatus.DRAFT"
           />
         </div>
       </div>

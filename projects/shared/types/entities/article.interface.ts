@@ -1,8 +1,9 @@
-export interface IArticle {
+import type { ArticleStatus } from 'types/enum/article-status.enum'
+import type { ICreatedAt, IUpdatedAt } from './_timestamp.interface'
+
+export interface IArticle extends ICreatedAt, IUpdatedAt {
   /** 文章唯一标识 */
   id: string
-  /** 作者 */
-  author: string
   /** 文章标题 */
   title: string
   /** 文章分类 */
@@ -18,11 +19,5 @@ export interface IArticle {
   /** 文章访问量 */
   pageView?: number
   /** 文章状态 */
-  status: string
-  /** 文章类型 */
-  type: string
-  /** 原文链接 */
-  originalUrl?: string
-  /** 创建事件 */
-  createTime?: Date
+  status: ArticleStatus
 }

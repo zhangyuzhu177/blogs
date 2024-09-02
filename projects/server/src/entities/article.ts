@@ -1,21 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger'
 import type { IArticle } from 'src/types/entities/article.interface'
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseTimeStamp } from './_timestamp'
+import { ArticleStatus } from 'src/types/enum/article-status.enum'
 
 @Entity()
-export class Article implements IArticle {
+export class Article extends BaseTimeStamp implements IArticle {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty({
     description: '文章唯一标识',
     example: '00000000-0000-0000-0000-000000000000',
   })
   id: string
-
-  @ApiProperty({
-    description: '文章作者',
-  })
-  @Column()
-  author: string
 
   @ApiProperty({
     description: '文章标题',
@@ -54,31 +50,11 @@ export class Article implements IArticle {
   articleCover: string
 
   @ApiProperty({
-    description: '文章状态 0:公开 | 1:私有 | 2:草稿',
-    example: 0,
+    description: '文章状态 public:公开 | draft:草稿',
+    example: ArticleStatus.PUBLIC,
   })
   @Column()
-  status: string
-
-  @ApiProperty({
-    description: '文章类型 0:原创 | 1:转载',
-    example: 0,
-  })
-  @Column()
-  type: string
-
-  @ApiProperty({
-    description: '原文链接 当文章类型为转载时为必填',
-    example: 0,
-  })
-  @Column({nullable: true})
-  originalUrl?: string
-
-  @ApiProperty({
-    description: '发布时间',
-  })
-  @Column()
-  createTime: Date
+  status: ArticleStatus
 
   @ApiProperty({
     description: '访问量',

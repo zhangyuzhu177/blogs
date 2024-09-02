@@ -1,11 +1,9 @@
 import { ApiPropertyOptional } from '@nestjs/swagger'
+import { ArticleStatus } from 'src/types/enum/article-status.enum'
 
 export class UpsertBodyDto {
   @ApiPropertyOptional({ description: '文章id' })
   id?: string
-
-  @ApiPropertyOptional({ description: '文章作者' })
-  author: string
 
   @ApiPropertyOptional({ description: '文章标题' })
   title: string
@@ -25,12 +23,6 @@ export class UpsertBodyDto {
   @ApiPropertyOptional({ description: '文章封面' })
   articleCover: string
 
-  @ApiPropertyOptional({ description: '文章类型' })
-  type: string
-
-  @ApiPropertyOptional({ description: '转载连接' })
-  originalUrl?: string
-
   @ApiPropertyOptional({ description: '文章状态' })
-  status: string
+  status: ArticleStatus
 }

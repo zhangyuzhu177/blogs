@@ -37,30 +37,4 @@ export const CLASSIFY: Classify[] = [
   },
 ]
 
-export const ARTICLE_CLASS: Classify[] = [
-  {
-    id: 'original',
-    label: '原创',
-  },
-  {
-    id: 'reprint',
-    label: '转载',
-  },
-]
-
-export const BT: Classify[] = [
-  {
-    id: 'public',
-    label: '公开',
-  },
-  {
-    id: 'draft',
-    label: '草稿',
-  },
-  {
-    id: 'private',
-    label: '私密',
-  },
-]
-
-export const TAGS:string[]=['Javascript','Java','Vue','Spingboot','CSS','算法','TypeScript','React','Node','HTML']
+export const TAGS: string[] = ['Javascript', 'Java', 'Vue', 'Spingboot', 'CSS', '算法', 'TypeScript', 'React', 'Node', 'HTML']

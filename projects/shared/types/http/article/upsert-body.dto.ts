@@ -1,7 +1,7 @@
+import type { ArticleStatus } from 'types/enum/article-status.enum'
+
 export interface UpsertArticleBodyDto {
   id?: string
-
-  author: string
 
   title: string
 
@@ -15,9 +15,5 @@ export interface UpsertArticleBodyDto {
 
   articleCover: string
 
-  type: string
-
-  originalUrl?: string
-
-  status: string
+  status: ArticleStatus
 }

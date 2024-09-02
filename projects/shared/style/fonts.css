@@ -23,14 +23,4 @@
   font-family: 'PingFang';
 }
 
-@font-face {
-  font-family: 'Marij';
-  src: url('../assets/fonts/marijosefreepersonalusescript-6rj1y.otf') format('truetype');
-  font-display: swap;
-}
-
-.font-marij {
-  font-family: 'Marij';
-}
-
 

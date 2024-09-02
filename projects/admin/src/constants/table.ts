@@ -1,5 +1,5 @@
 import type { QTableColumn, QTableProps } from 'quasar'
-import { IUser } from 'shared/types/entities/user.interface'
+import type { IUser } from 'shared/types/entities/user.interface'
 
 /**
  * 返回表格分页配置

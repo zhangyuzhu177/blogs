@@ -75,7 +75,7 @@ export default ({ mode }: any) => {
         dirs: [
           'src/composables',
           'src/constants',
-          'src/utils',
+          'src/utils/**',
           '../shared/api',
           '../shared/composables',
           '../shared/constants',

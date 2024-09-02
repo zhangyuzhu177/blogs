@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { PermissionType } from 'shared/types/enum/permission.enum'
 import moment from 'moment'
 import { Notify } from 'quasar'
 import type { QTableColumn, QTableProps } from 'quasar'
+import { PermissionType } from 'shared/types/enum/permission.enum'
+import { ArticleStatus, articleStatusDescriptions } from 'shared/types/enum/article-status.enum'
+import { hasIntersection } from 'shared/utils/common/isIntersect'
 import type { IArticle } from 'shared/types/entities/article.interface'
 import UpdateDialog from './UpdateDialog.vue'
 import ZTable from '~/components/table/ZTable.vue'
@@ -41,15 +43,15 @@ const cols = reactive<QTableColumn<IArticle>[]>([
   {
     name: 'pageView',
     label: '发布时间',
-    field: row => moment(row.createTime).format('YYYY-MM-DD'),
+    field: row => moment(row.createdAt).format('YYYY-MM-DD'),
   },
   {
     name: 'status',
     label: '文章状态',
-    field: 'status',
+    field: 'id',
   },
   {
-    name: 'operation',
+    name: 'action',
     label: '操作',
     field: 'id',
     headerStyle: 'width:200px',
@@ -96,6 +98,12 @@ async function deleteArticle() {
         message: '删除成功',
       })
       queryArticleList()
+    }
+    else {
+      Notify.create({
+        type: 'error',
+        message: '删除失败',
+      })
     }
   }
   catch (error) {}
@@ -144,7 +152,22 @@ onMounted(() => {
       fixed-last-column
       @request="queryArticleList"
     >
-      <template #body-cell-operation="{ row }">
+      <template #body-cell-status="{ row }">
+        <q-td gap2 text-center>
+          <div flex="~ items-center gap-2">
+            <div
+              w-2 h-2 b-rd-10
+              :style="{
+                backgroundColor: row.status === ArticleStatus.PUBLIC
+                  ? 'var(--alerts-success)'
+                  : 'var(--alerts-error)',
+              }"
+            />
+            <div v-text="articleStatusDescriptions[row.status as ArticleStatus]" />
+          </div>
+        </q-td>
+      </template>
+      <template #body-cell-action="{ row }">
         <q-td gap2 text-center>
           <ZBtn
             v-if="hasIntersection(

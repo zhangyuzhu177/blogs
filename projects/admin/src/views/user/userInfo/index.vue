@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import moment from 'moment'
 import { cloneDeep } from 'lodash'
 import { Notify, type QTableColumn, type QTableProps } from 'quasar'
-import moment from 'moment'
 import type { IUser } from 'shared/types/entities/user.interface'
 import { PermissionType } from 'shared/types/enum/permission.enum'
+import { hasIntersection } from 'shared/utils/common/isIntersect'
 
 import UserDetails from '../UserDetails.vue'
 import UpsertUserDialog from './UpsertUser.dialog.vue'

@@ -21,5 +21,5 @@ export function upsertArticleApi(body: UpsertArticleBodyDto) {
 
 /** 删除文章  */
 export function deleteArticleApi(id: IArticle['id']) {
-  return $delete(`/article/delete${id}}`)
+  return $delete(`/article/delete${id}`)
 }

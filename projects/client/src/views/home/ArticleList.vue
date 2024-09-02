@@ -10,8 +10,7 @@ const articlesList = ref<IArticle[]>([])
 async function getArticlesList() {
   try {
     const res = await getArticleListApi()
-    if (res.length)
-      articlesList.value = res
+    articlesList.value = res
   }
   catch (error) { }
 }
@@ -26,8 +25,8 @@ function goInfo(id: IArticle['id']) {
   })
 }
 
-onBeforeMount(() => {
-  getArticlesList()
+onBeforeMount(async () => {
+  await getArticlesList()
 })
 </script>
 
@@ -37,10 +36,10 @@ onBeforeMount(() => {
     full flex="~ col 1 gap6"
   >
     <div
-      v-for="(articles, index) in articlesList.reverse()" :key="articles.id"
+      v-for="(article, index) in articlesList" :key="article.id"
       class="article group" flex="~ col 1 gap4"
       cursor-pointer full b-rd-2 overflow-hidden
-      @click="goInfo(articles.id)"
+      @click="goInfo(article.id)"
     >
       <div
         flex="~ 1 flex"
@@ -52,35 +51,35 @@ onBeforeMount(() => {
               class="title"
               whitespace-nowrap relative
               transition="300"
-              v-text="articles.title"
+              v-text="article.title"
             />
           </div>
           <div flex="~ 1 col gap2 justify-between">
             <div
               class="abstract" line-clamp-2
-              v-text="articles.abstract"
+              v-text="article.abstract"
             />
             <div class="info" flex="~ justify-between">
               <div class="info_left" text-grey-5 flex="~ gap4">
                 <div
-                  v-if="articles.createTime"
-                  v-text="moment(articles.createTime).format('YYYY-MM-DD')"
+                  v-if="article.createTime"
+                  v-text="moment(article.createTime).format('YYYY-MM-DD')"
                 />
-                <div v-if="articles.pageView" flex="~ items-center gap1">
+                <div v-if="article.pageView" flex="~ items-center gap1">
                   <div i-mdi:eye-outline />
-                  <div v-text="articles.pageView" />
+                  <div v-text="article.pageView" />
                 </div>
               </div>
               <div class="info_right" flex="~ gap4">
                 <div
                   transition="300"
                   hover:text-grey-8
-                  v-text="articles.category"
+                  v-text="article.category"
                 />
                 <div
                   transition="300"
                   hover:text-grey-8
-                  v-text="articles.tags"
+                  v-text="article.tags"
                 />
               </div>
             </div>
@@ -94,7 +93,7 @@ onBeforeMount(() => {
               : 'polygon(0 0,100% 0,100% 100%,8% 100%)',
           }"
         >
-          <img full :src="articles.articleCover">
+          <img full :src="article.articleCover">
         </div>
       </div>
     </div>
@@ -104,7 +103,6 @@ onBeforeMount(() => {
 <style scoped lang="scss">
 .article{
   border:1px solid var(--grey-3);
-  // box-shadow: 0 0 8px var(--grey-3);
   transition: all .3s;
 
   img {
@@ -145,7 +143,6 @@ onBeforeMount(() => {
   }
 
   &:hover {
-    // box-shadow: 0 0 8px var(--grey-4);
 
     img {
       transform: scale(1.2);
