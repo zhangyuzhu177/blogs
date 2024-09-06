@@ -4,7 +4,7 @@ import { computed, ref } from 'vue'
 import { APP_ICON, APP_MIN_WIDTH, APP_NAME, APP_NAME_EN } from '../constants/app'
 import { getConfigApi } from '../api/config'
 import { SysConfig } from '../types/enum/config.enum'
-import { IConfigDto } from '../types/dto/config.interface'
+import type { IConfigDto } from '../types/dto/config.interface'
 
 const { width } = useWindowSize()
 

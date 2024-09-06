@@ -15,8 +15,8 @@ withDefaults(defineProps<Props>(), {
     <Images :height :arrow w-full />
     <div relative z-1 w-full py-16 flex="~ center">
       <div
-        xl="w-1080px" lg="px-8"
-        px-6 full
+        xl="w-1080px" lg="px-8" sm="px-6"
+        px-4 full
       >
         <slot />
         <ScrollTop />

@@ -4,12 +4,11 @@ import { isClient } from '@vueuse/core'
 const { width } = useWindowSize()
 const { isAdmin, zoomRatio, getAppConfig } = useSysConfig()
 const $router = useRouter()
-const route = useRoute()
 const { updateAppHead } = useApp()
 const { scrollEl } = useClientApp()
 
 onBeforeMount(() => {
-  isAdmin.value = true
+  isAdmin.value = false
   $router.replace({ query: undefined })
   getAppConfig()
 

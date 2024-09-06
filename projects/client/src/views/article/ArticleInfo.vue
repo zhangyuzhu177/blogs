@@ -29,7 +29,7 @@ nextTick(() => {
   )
 })
 
-const scrollElement = document?.querySelector('.q-scrollarea__container')
+const scrollElement = document?.querySelector('.q-scrollarea__container') as HTMLElement
 
 function mdHeadingId(_text: string, _level: number, index: number) {
   return `h-${_level}-${index}`
