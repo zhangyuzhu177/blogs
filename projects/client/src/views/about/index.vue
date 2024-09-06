@@ -3,13 +3,17 @@ import img from '~/assets/defaultBg.jpg'
 </script>
 
 <template>
-  <div flex="~ gap-4" lg="gap-6">
-    <div flex="~  col gap-4 items-center" min-w-40 p-2>
-      <img
-        class="avatar" b-rd="50%"
-        w-25 h-25 cursor-pointer
-        :src="img"
+  <div flex="~ col gap-4" lg="gap-6" style="">
+    <div
+      relative p-2 pt-19
+      flex="~ col gap-4 items-center"
+    >
+      <div
+        absolute-x-center top--15
+        w-30 h-30 cursor-pointer
       >
+        <img class="avatar" b-rd="50%" full :src="img">
+      </div>
       <div flex="~ gap-4">
         <a href="tel:18727384722" target="_blank">
           <div transition-all hover:bg="grey-5" size-6 i-mingcute:phone-line />
@@ -20,6 +24,9 @@ import img from '~/assets/defaultBg.jpg'
         <a href="https://github.com/ZhangYuzhu1" target="_blank">
           <div transition-all hover:bg="grey-5" size-6 i-mingcute:github-line />
         </a>
+      </div>
+      <div>
+        <pre>欲买桂花同载酒，终不似，少年游。</pre>
       </div>
     </div>
     <div flex="~ 1.5">

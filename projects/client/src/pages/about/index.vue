@@ -3,7 +3,7 @@ import About from '~/views/about/index.vue'
 </script>
 
 <template>
-  <Container :arrow="false">
+  <Container padding-top="0" :arrow="false">
     <About />
   </Container>
 </template>
