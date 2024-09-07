@@ -5,7 +5,6 @@ import { cloneDeep } from 'lodash'
 import type { IArticle } from 'shared/types/entities/article.interface'
 import type { UpsertArticleBodyDto } from 'shared/types/http/article/upsert-body.dto'
 import { ArticleStatus } from 'shared/types/enum/article-status.enum'
-import MdEditor from './MdEditor.vue'
 import { CLASSIFY, TAGS } from '~/constants/article'
 
 interface Props {

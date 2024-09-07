@@ -9,7 +9,7 @@ import 'md-editor-v3/lib/style.css'
 import type { FileBodyDto } from 'shared/types/http/file/file.body'
 
 interface Props {
-  modelValue: string
+  modelValue?: string
 }
 const props = defineProps<Props>()
 defineEmits(['update:modelValue'])

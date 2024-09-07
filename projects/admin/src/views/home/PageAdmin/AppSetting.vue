@@ -65,7 +65,7 @@ onMounted(() => {
   <div full>
     <ZLoading :value="loading" />
     <div v-if="!loading" flex="~ col gap-4">
-      <div flex justify-between>
+      <div flex items-center justify-between>
         <h3>APP设置</h3>
         <ZBtn
           min-w-20 label="保存"
@@ -74,7 +74,7 @@ onMounted(() => {
         />
       </div>
       <div v-if="appCfg" flex="~ col gap1">
-        <div v-text="'名称'" />
+        <ZLabel label="名称" />
         <ZInput
           ref="inputRef"
           v-model="appCfg.name"
@@ -87,7 +87,7 @@ onMounted(() => {
         />
       </div>
       <div v-if="appCfg" flex="~ col gap1">
-        <div v-text="'英文名'" />
+        <ZLabel label="英文名" />
         <ZInput
           v-model="appCfg.nameEn"
           placeholder="输入APP名称"
@@ -99,8 +99,8 @@ onMounted(() => {
         />
       </div>
       <div flex="~ col">
-        <div flex justify-between>
-          <div>LOGO</div>
+        <div flex items-center justify-between>
+          <ZLabel label="logo" />
           <ZUpload
             v-model="logoImg"
             type="image"
@@ -114,11 +114,11 @@ onMounted(() => {
           </ZUpload>
         </div>
         <div
-          w-30 h-30 b-rd-5
-          border="1px gray-4"
+          w-30 h-30 b-rd-2
+          b="1 gray-3"
           overflow-hidden
         >
-          <img full :src="appCfg?.icon">
+          <img v-iof="appCfg?.icon" full :src="appCfg?.icon">
         </div>
       </div>
     </div>

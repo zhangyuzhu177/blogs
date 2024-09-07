@@ -384,7 +384,6 @@ declare global {
 // for vue template auto import
 import { UnwrapRef } from 'vue'
 declare module 'vue' {
-  interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly $http: UnwrapRef<typeof import('../../../shared/api/index')['$http']>
     readonly ACCOUNT_ALLOW_CHARS: UnwrapRef<typeof import('../../../shared/utils/validators/account.validator')['ACCOUNT_ALLOW_CHARS']>

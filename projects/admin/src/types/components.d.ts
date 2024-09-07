@@ -16,6 +16,7 @@ declare module 'vue' {
     HintMessageItem: typeof import('./../components/item/HintMessageItem.vue')['default']
     HomeMenu: typeof import('./../components/menu/HomeMenu.vue')['default']
     LogoutDialog: typeof import('./../../../shared/components/dialog/LogoutDialog.vue')['default']
+    MdEditor: typeof import('./../components/mdEditor/MdEditor.vue')['default']
     MenuItem: typeof import('./../components/menu/MenuItem.vue')['default']
     QBtn: typeof import('quasar')['QBtn']
     QCard: typeof import('quasar')['QCard']

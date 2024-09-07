@@ -37,9 +37,16 @@ export class UpsertConfigBodyDto  extends VersionDto {
   @ApiPropertyOptional({
     description: '关于页配置',
     example: {
-      title:'string',
-      label: 'string',
-      url:'',
+    title: "",
+    label: "",
+    url: "",
+    avatar: "",
+    name: "",
+    phone: "",
+    email: "",
+    github:"",
+    motto: "",
+    content: "",
     },
   })
   about?: IConfigDto[SysConfig.ABOUT]

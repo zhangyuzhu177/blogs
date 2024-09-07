@@ -25,7 +25,7 @@ watch(pageImg, async (newVal) => {
     if (newVal) {
       const formData = new FormData()
       formData.append('file', newVal as File)
-      const res = await uploadFileApi(formData, `/images/article/${newVal.name}`)
+      const res = await uploadFileApi(formData, `/images/page/${newVal.name}`)
       pageCfg.value!.url = res.url
     }
   }
@@ -74,7 +74,7 @@ onMounted(() => {
   <div class="">
     <ZLoading :value="loading" />
     <div v-if="!loading" flex="~ col gap-4">
-      <div flex justify-between>
+      <div flex items-center justify-between>
         <h3 v-text="data.label" />
         <ZBtn
           :disable="oldCfg === JSON.stringify(pageCfg)"
@@ -82,7 +82,7 @@ onMounted(() => {
         />
       </div>
       <div v-if="pageCfg" flex="~ col gap1">
-        <div v-text="'标题'" />
+        <ZLabel label="标题" />
         <ZInput
           v-model="pageCfg.title"
           size="medium"
@@ -93,15 +93,15 @@ onMounted(() => {
         />
       </div>
       <div v-if="pageCfg" flex="~ col gap1">
-        <div v-text="'简介'" />
+        <ZLabel label="简介" />
         <ZInput
           v-model="pageCfg.label" flex-1
           size="medium"
         />
       </div>
       <div flex="~ col">
-        <div flex justify-between>
-          <div>背景图片</div>
+        <div flex items-center justify-between>
+          <ZLabel label="背景图片" />
           <ZUpload
             v-model="pageImg"
             type="image"
@@ -115,11 +115,11 @@ onMounted(() => {
           </ZUpload>
         </div>
         <div
-          w-55 h-30 b-rd-5
-          border="1px gray-4"
+          w-55 h-30 b-rd-2
+          b="1 gray-3"
           overflow-hidden
         >
-          <img full :src="pageCfg?.url">
+          <img v-if="pageCfg?.url" full :src="pageCfg?.url">
         </div>
       </div>
     </div>

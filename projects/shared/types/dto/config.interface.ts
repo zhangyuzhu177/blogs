@@ -37,7 +37,21 @@ export interface IConfigDto {
     title?: string
     /** 页面描述 */
     label?: string
-    /** 页面图片 */
+    /** 页面背景图片 */
     url?: string
+    /** 头像 */
+    avatar?: string
+    /** 姓名 */
+    name?: string
+    /** 手机号 */
+    phone?: string
+    /** 邮箱 */
+    email?: string
+    /** github地址 */
+    github?: string
+    /** 座右铭 */
+    motto?: string
+    /** 内容 */
+    content?: string
   }
 }

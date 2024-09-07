@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import img from '~/assets/defaultBg.jpg'
+import { MdPreview } from 'md-editor-v3'
+
+const { page } = useClientApp()
 </script>
 
 <template>
@@ -12,25 +14,28 @@ import img from '~/assets/defaultBg.jpg'
         absolute-x-center top--15
         w-30 h-30 cursor-pointer
       >
-        <img class="avatar" b-rd="50%" full :src="img">
+        <q-img v-if="page?.avatar" class="avatar" b-rd="50%" full :src="page?.avatar" />
       </div>
+      <div v-if="page?.name" v-text="page?.name" />
       <div flex="~ gap-4">
-        <a href="tel:18727384722" target="_blank">
+        <a v-if="page?.phone" :href="`tel:${page.phone}`" target="_blank">
           <div transition-all hover:bg="grey-5" size-6 i-mingcute:phone-line />
         </a>
-        <a href="mailto:zhangyuzhu0177@163.com" target="_blank">
+        <a v-if="page?.email" :href="`mailto:${page.email}`" target="_blank">
           <div transition-all hover:bg="grey-5" size-6 i-mingcute:mail-line />
         </a>
-        <a href="https://github.com/ZhangYuzhu1" target="_blank">
+        <a v-if="page?.github" :href="page?.github" target="_blank">
           <div transition-all hover:bg="grey-5" size-6 i-mingcute:github-line />
         </a>
       </div>
-      <div>
-        <pre>欲买桂花同载酒，终不似，少年游。</pre>
+      <div v-if="page?.motto">
+        <pre v-text="page?.motto" />
       </div>
     </div>
-    <div flex="~ 1.5">
-      <h3>content</h3>
+    <div v-if="page?.content">
+      <MdPreview
+        :model-value="page?.content"
+      />
     </div>
   </div>
 </template>
@@ -57,6 +62,22 @@ import img from '~/assets/defaultBg.jpg'
 
   .q-tab__indicator{
     display: none;
+  }
+}
+
+:deep(.md-editor) {
+  background-color: transparent !important;
+
+  .md-editor-preview-wrapper{
+    padding: 0;
+    .md-editor-preview {
+      h1 {
+        color: var(--grey-9);
+      }
+      p {
+        color: var(--grey-9);
+      }
+    }
   }
 }
 </style>
