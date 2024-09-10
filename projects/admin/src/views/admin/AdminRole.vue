@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { Notify, type QTableColumn, type QTableProps } from 'quasar'
-import { PermissionType } from 'shared/types/enum/permission.enum'
-import type { IRole } from 'shared/types/entities/role.interface'
+import { Notify } from 'quasar'
+import type { QTableColumn, QTableProps } from 'quasar'
+
+import type { IRole } from 'shared/types/entities'
+import { PermissionType } from 'shared/types/enum'
+
 import AdminRoleDialog from './dialog/AdminRole.vue'
 
 const { adminRole } = useUser()

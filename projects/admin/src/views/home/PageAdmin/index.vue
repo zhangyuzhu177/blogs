@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { SysConfig } from 'shared/types/enum/config.enum'
+import { SysConfig } from 'shared/types/enum'
+
 import AppSetting from './AppSetting.vue'
 import PageSetting from './PageSetting.vue'
 import AboutSetting from './AboutSetting.vue'

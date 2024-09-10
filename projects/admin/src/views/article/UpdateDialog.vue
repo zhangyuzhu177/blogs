@@ -2,10 +2,12 @@
 import { useModel } from 'vue'
 import { Notify } from 'quasar'
 import { cloneDeep } from 'lodash'
-import type { IArticle } from 'shared/types/entities/article.interface'
+
+import { ArticleStatus } from 'shared/types/enum'
+import type { IArticle } from 'shared/types/entities'
 import type { UpsertArticleBodyDto } from 'shared/types/http/article/upsert-body.dto'
-import { ArticleStatus } from 'shared/types/enum/article-status.enum'
-import { CLASSIFY, TAGS } from '~/constants/article'
+
+import { CLASSIFY } from '~/constants/article'
 
 interface Props {
   modelValue: boolean
@@ -94,7 +96,7 @@ async function callback() {
     :disable-confirm="disable"
     :wrapper-style="{
       width: '100%',
-      maxWidth: '100%',
+      maxWidth: '80%',
       height: '100%',
       maxHeight: '100%',
     }"
@@ -135,15 +137,10 @@ async function callback() {
       </div>
       <div flex="~ col gap2">
         <ZLabel label="文章标签" />
-        <ZSelect
+        <ZInput
           v-model="form.tags"
-          class="select"
-          :options="TAGS"
           placeholder="请选择文章标签"
           required
-          :params="{
-            optionLabel: 'name',
-          }"
         />
       </div>
       <div flex="~ col gap2" px-1>

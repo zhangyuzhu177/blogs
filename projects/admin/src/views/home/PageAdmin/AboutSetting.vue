@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { Notify } from 'quasar'
-import { validatePhone } from 'shared/utils/validators/phone.validator'
-import { validateEmail } from 'shared/utils/validators/email.validator'
+import { validateEmail, validatePhone } from 'shared/utils/validators'
 import type { IConfigDto } from 'shared/types/dto/config.interface'
-import { SysConfig } from 'shared/types/enum/config.enum'
+import { SysConfig } from 'shared/types/enum'
 
 const { active } = usePageAdmin()
 

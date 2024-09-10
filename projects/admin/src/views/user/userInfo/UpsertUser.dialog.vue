@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash'
 
-// import { Notify } from 'quasar'
+import type { IUser } from 'shared/types/entities'
 import type { IUserIdDto } from 'shared/types/dto/id/user.interface'
-import type { IUser } from 'shared/types/entities/user.interface'
-import { validateAccount } from 'shared/utils/validators/account.validator'
-import { validatePassword } from 'shared/utils/validators/password.validator'
-import { validatePhone } from 'shared/utils/validators/phone.validator'
-import { validateEmail } from 'shared/utils/validators/email.validator'
 import type { ICreateUserBodyDto } from 'shared/types/http/user/create-user.interface'
 import type { IUpdateUserBodyDto } from 'shared/types/http/user/update-user.interface'
+import { validateAccount, validateEmail, validatePassword, validatePhone } from 'shared/utils/validators'
 
 export type Type = 'add' | 'edit'
 interface Props {

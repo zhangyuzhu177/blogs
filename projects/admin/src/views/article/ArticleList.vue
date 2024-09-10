@@ -2,10 +2,11 @@
 import moment from 'moment'
 import { Notify } from 'quasar'
 import type { QTableColumn, QTableProps } from 'quasar'
-import { PermissionType } from 'shared/types/enum/permission.enum'
-import { ArticleStatus, articleStatusDescriptions } from 'shared/types/enum/article-status.enum'
-import { hasIntersection } from 'shared/utils/common/isIntersect'
-import type { IArticle } from 'shared/types/entities/article.interface'
+
+import { hasIntersection } from 'shared/utils/common'
+import type { IArticle } from 'shared/types/entities'
+import { ArticleStatus, PermissionType, articleStatusDescriptions } from 'shared/types/enum'
+
 import UpdateDialog from './UpdateDialog.vue'
 import ZTable from '~/components/table/ZTable.vue'
 

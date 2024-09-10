@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash'
 import { Notify } from 'quasar'
-import type { PermissionType } from 'shared/types/enum/permission.enum'
-import type { IRole } from 'shared/types/entities/role.interface'
+
+import type { IRole } from 'shared/types/entities'
+import { validateRoleDesc, validateRoleName } from 'shared/utils/validators'
+import type { PermissionType } from 'shared/types/enum'
 import type { IUpsertRoleBodyDto } from 'shared/types/http/role/upsert-role.interface'
+
 import RolePermission from './RolePermission.vue'
 
 export type Type = 'add' | 'edit' | 'view'
@@ -153,5 +156,3 @@ watch(
     </div>
   </ZDialog>
 </template>
-
-<style  scoped></style>

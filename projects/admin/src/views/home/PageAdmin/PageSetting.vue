@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Notify } from 'quasar'
+
+import type { SysConfig } from 'shared/types/enum'
 import type { IConfigDto } from 'shared/types/dto/config.interface'
-import type { SysConfig } from 'shared/types/enum/config.enum'
 
 interface Props {
   data: {

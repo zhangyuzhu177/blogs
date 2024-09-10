@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { cloneDeep } from 'lodash'
-import { Notify, type QTableColumn, type QTableProps } from 'quasar'
-import type { IUser } from 'shared/types/entities/user.interface'
-import { PermissionType } from 'shared/types/enum/permission.enum'
-import { hasIntersection } from 'shared/utils/common/isIntersect'
+import { Notify } from 'quasar'
+import type { QTableColumn, QTableProps } from 'quasar'
+
+import type { IUser } from 'shared/types/entities'
+import { hasIntersection } from 'shared/utils/common'
+import { PermissionType } from 'shared/types/enum'
 
 import UserDetails from '../UserDetails.vue'
-import UpsertUserDialog from './UpsertUser.dialog.vue'
 import type { Type } from './UpsertUser.dialog.vue'
+import UpsertUserDialog from './UpsertUser.dialog.vue'
 import ZTable from '~/components/table/ZTable.vue'
 
 const { adminRole } = useUser()

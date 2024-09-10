@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Notify } from 'quasar'
 import type { IConfigDto } from 'shared/types/dto/config.interface'
-import { SysConfig } from 'shared/types/enum/config.enum'
+import { SysConfig } from 'shared/types/enum'
 
 const { active } = usePageAdmin()
 

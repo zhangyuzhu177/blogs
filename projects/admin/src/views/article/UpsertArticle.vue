@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Notify } from 'quasar'
 import { cloneDeep } from 'lodash'
+
+import { ArticleStatus } from 'shared/types/enum'
 import type { UpsertArticleBodyDto } from 'shared/types/http/article/upsert-body.dto'
 
-import { ArticleStatus } from 'shared/types/enum/article-status.enum'
-import { CLASSIFY, TAGS } from '~/constants/article'
+import { CLASSIFY } from '~/constants/article'
 
 const loading = ref(false)
 const dialog = ref(false)
@@ -92,16 +93,12 @@ async function callback() {
 <template>
   <div full flex="~ col gap-4">
     <ZLoading :value="loading" />
-    <div flex gap6 justify-between>
+    <div flex gap6 items-center justify-between>
       <ZInput
         v-model="form.title" flex-1
         placeholder="输入文章标题..."
       />
-      <ZBtn label="发布文章" @click="dialog = true">
-        <template #left>
-          <div w-5 h-5 i-mdi:plus />
-        </template>
-      </ZBtn>
+      <ZBtn label="发布文章" @click="dialog = true" />
     </div>
     <!-- 文章内容 -->
     <MdEditor v-model="form.content" flex-1 h-0 />
@@ -141,15 +138,10 @@ async function callback() {
         </div>
         <div flex="~ col gap2">
           <ZLabel label="文章标签" />
-          <ZSelect
+          <ZInput
             v-model="form.tags"
-            class="select"
-            :options="TAGS"
-            placeholder="请选择文章标签"
+            placeholder="请输入文章标签"
             required
-            :params="{
-              optionLabel: 'name',
-            }"
           />
         </div>
         <div flex="~ col gap2">
@@ -198,7 +190,3 @@ async function callback() {
     </ZDialog>
   </div>
 </template>
-
-<style lang="scss">
-
-</style>

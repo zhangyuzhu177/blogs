@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import moment from 'moment'
-import type { IUser } from 'shared/types/entities/user.interface'
+import type { IUser } from 'shared/types/entities'
 
 interface Props {
   user?: IUser
@@ -22,13 +22,9 @@ const props = withDefaults(defineProps<Props>(), {
   label: '查看完整信息',
 })
 
-// const { adminRole } = useUser()
-
 /** 对话框 */
 const dialog = ref(false)
 
-/** 用户id */
-// const userId = computed(() => props.user?.id)
 /** 用户信息 */
 const userInfo = computed<UserInfo[]>(() => {
   const base = props.user
@@ -71,7 +67,7 @@ const userInfo = computed<UserInfo[]>(() => {
 </script>
 
 <template>
-  <div class="">
+  <div>
     <TextBtn :label="label" @click="dialog = true" />
 
     <ZDialog

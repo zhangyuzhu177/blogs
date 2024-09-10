@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { cloneDeep } from 'lodash'
 import moment from 'moment'
-import { Notify, type QTableColumn, type QTableProps } from 'quasar'
+import { cloneDeep } from 'lodash'
+import { Notify } from 'quasar'
+import type { QTableColumn, QTableProps } from 'quasar'
 
-import type { IUser } from 'shared/types/entities/user.interface'
-import type { IRole } from 'shared/types/entities/role.interface'
-import { PermissionType } from 'shared/types/enum/permission.enum'
-import AdminRoleDialog from './dialog/AdminRole.vue'
+import { PermissionType } from 'shared/types/enum'
+import type { IRole, IUser } from 'shared/types/entities'
+
 import type { Type } from './dialog/AdminRole.vue'
-import UserDetails from '~/views/user/UserDetails.vue'
+import AdminRoleDialog from './dialog/AdminRole.vue'
 import ZTable from '~/components/table/ZTable.vue'
+import UserDetails from '~/views/user/UserDetails.vue'
 
 const { adminRole } = useUser()
 
