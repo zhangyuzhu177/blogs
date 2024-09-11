@@ -6,7 +6,7 @@ import SMSInput from '../../components/input/SMSInput.vue'
 import ZBtn from '../../components/btn/ZBtn.vue'
 import { validateEmail } from '../../utils/validators/email.validator'
 import { validatePassword } from '../../utils/validators/password.validator'
-import { IUpdatePasswordByEmailCodeBodyDto } from '../../types/http/user/update-pswd-by-email-code.interface'
+import type { IUpdatePasswordByEmailCodeBodyDto } from '../../types/http/user/update-pswd-by-email-code.interface'
 import { CodeAction } from '../../types/enum/code-action.enum'
 
 const { loading, updatePasswordByEmailCode } = useUser()

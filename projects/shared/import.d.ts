@@ -24,6 +24,9 @@ interface Env extends ImportMetaEnv {
   /** api基础路径 */
   VITE_API_BASE?: string
 
+  /** 后端url */
+  VITE_SERVER_URL?: string
+
   /** RSA密钥对 */
   VITE_PUBLIC_KEY: string
   VITE_PRIVATE_KEY: string

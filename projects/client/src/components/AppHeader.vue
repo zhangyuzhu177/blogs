@@ -47,6 +47,6 @@ nextTick(() => {
   background-color: var(--grey-1-a2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--grey-3);
+  // border-bottom: 1px solid var(--grey-3);
 }
 </style>
