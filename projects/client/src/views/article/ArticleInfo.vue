@@ -16,20 +16,7 @@ const state = reactive({
   id: 'my-editor',
 })
 const fixed = ref(false)
-nextTick(() => {
-  const { y } = useScroll(document?.querySelector('.q-scrollarea__container') as HTMLElement)
-  watch(
-    () => y.value,
-    (newVal) => {
-      if (newVal > 600)
-        fixed.value = true
-      else
-        fixed.value = false
-    },
-  )
-})
-
-const scrollElement = document?.querySelector('.q-scrollarea__container') as HTMLElement
+const scrollElement = ref<HTMLElement | null>(null)
 
 function mdHeadingId(_text: string, _level: number, index: number) {
   return `h-${_level}-${index}`
@@ -59,6 +46,23 @@ onMounted(async () => {
     data.value = await gerArticleInfoApi(id as string)
   }
 
+  nextTick(() => {
+    const { y } = useScroll(document?.querySelector('.q-scrollarea__container') as HTMLElement)
+    watch(
+      () => y.value,
+      (newVal) => {
+        if (newVal > 600)
+          fixed.value = true
+        else
+          fixed.value = false
+      },
+    )
+  })
+
+  nextTick(() => {
+    scrollElement.value = document?.querySelector('.q-scrollarea__container') as HTMLElement
+  })
+
   scrollEl.value?.setScrollPosition(
     'vertical',
     0,
@@ -68,20 +72,24 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="data" flex="~  gap-6" class="el" full>
-    <MdPreview
-      :model-value="data.content"
-      preview-theme="github"
-      :editor-id="state.id"
-      :md-heading-id="mdHeadingId"
-      :theme="dark ? 'dark' : 'light'"
-    />
-    <div v-if="width >= 900" flex overflow-hidden min-w-60>
+  <div v-if="data" class="el" flex="~ gap-6 justify-between" full>
+    <div v-if="width >= 1200" w-60 />
+    <div xxl="max-w-1080px" flex="~ 1" w-0>
+      <MdPreview
+        :model-value="data.content"
+        preview-theme="github"
+        :editor-id="state.id"
+        :md-heading-id="mdHeadingId"
+        :theme="dark ? 'dark' : 'light'"
+      />
+    </div>
+    <div v-if="width >= 1200" w-60>
       <div
-        w-60 h-100 overflow-y-auto flex-1 top-20
-        :style="{ position: fixed ? 'fixed' : 'static' }"
+        w-60 top-20 right-0 truncate
+        :class="fixed ? 'fixed ' : ''"
       >
         <MdCatalog
+          v-if="scrollElement"
           :editor-id="state.id"
           :md-heading-id="mdHeadingId"
           :offset-top="100"
@@ -111,6 +119,8 @@ onMounted(async () => {
 }
 
 :deep(.md-editor-catalog) {
+  width: 100%;
+
   .md-editor-catalog-link {
     span {
       color: var(--grey-6);

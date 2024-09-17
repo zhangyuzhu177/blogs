@@ -1,6 +1,5 @@
 import { join } from 'node:path'
 import fmp from '@fastify/multipart'
-import * as os from 'node:os'
 import * as dotenvFlow from 'dotenv-flow'
 import { NestFactory } from '@nestjs/core'
 import compression from '@fastify/compress'
@@ -16,7 +15,6 @@ import { parseBoolRaw } from './utils/parseBoolRaw'
 import { getExceptionFactory } from './utils/response/validate-exception-factory'
 
 async function bootstrap() {
-  console.log(os.version())
   dotenvFlow.config({ path: '../shared' })
 
   const logger = new Logger('Bootstrap')

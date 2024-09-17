@@ -18,8 +18,8 @@ export class ArticleController {
   @ApiOperation({ summary: '获取文章列表' })
   @Get('list')
   public async getArticleList() {
-    const res=await (await this._articleSrv.repo()).find({where:{status:ArticleStatus.PUBLIC}})
-    return res.reverse()
+    const res = await (await this._articleSrv.repo()).find({where:{status:ArticleStatus.PUBLIC}})
+    return res
   }
 
   @HasPermission([PermissionType.ARTICLE_PUBLISH,PermissionType.ARTICLE_UPDATE,PermissionType.ARTICLE_QUERY])
