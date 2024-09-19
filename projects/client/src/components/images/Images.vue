@@ -30,10 +30,10 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div relative>
+  <div full relative>
     <div
       ref="el"
-      w-full overflow-hidden bg="cover center"
+      full overflow-hidden bg="cover center"
       :style="{ height }"
     >
       <q-img full :src="page?.url" />

@@ -55,7 +55,7 @@ onMounted(() => {
 
   .typed-cursor {
     opacity: 1;
-    animation: blink 0.7s infinite;
+    animation: blink 0.5s infinite;
   }
 
   @keyframes showup {

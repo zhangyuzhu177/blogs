@@ -59,4 +59,3 @@ watch(
   }
 }
 </style>
-./hooks/app
