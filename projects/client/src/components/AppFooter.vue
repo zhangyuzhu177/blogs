@@ -19,13 +19,19 @@ onMounted(() => {
 <template>
   <footer
     class="footer"
-    flex="~ center"
+    flex="~ gap-2 center"
     text-grey-5 py-8 px-4 w-full
   >
-    <div>Footer</div>
     <div text-sm>
-      -当前网站在线人数:{{ onlineNumber }}
+      当前网站在线人数:{{ onlineNumber }}
     </div>
+    <div>|</div>
+    <a
+      text-sm hover:text-grey-4
+      href="https://beian.miit.gov.cn"
+      target="_blank"
+      v-text="'鄂ICP备2024072756号-1'"
+    />
   </footer>
 </template>
 
