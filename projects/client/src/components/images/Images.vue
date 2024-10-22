@@ -31,6 +31,7 @@ onBeforeMount(async () => {
 
 <template>
   <div full relative>
+    <!-- <ArtFountain z-9 absolute bottom-0 :height="height" /> -->
     <div
       ref="el"
       full overflow-hidden bg="cover center"

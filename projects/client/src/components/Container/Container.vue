@@ -15,6 +15,7 @@ withDefaults(defineProps<Props>(), {
 <template>
   <div full flex="~ col center">
     <Images :height :arrow w-full />
+
     <div
       relative z-1 w-full pb-16 flex="~ center"
       :style="{ paddingTop }"

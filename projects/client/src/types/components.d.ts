@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./../components/AppFooter.vue')['default']
     AppHeader: typeof import('./../components/AppHeader.vue')['default']
+    ArtFountain: typeof import('./../components/Art/ArtFountain.vue')['default']
     ArtLogo: typeof import('./../components/Art/ArtLogo.vue')['default']
     ArtPlum: typeof import('./../components/Art/ArtPlum.vue')['default']
     Canvas: typeof import('./../../../shared/components/canvas/index.vue')['default']
