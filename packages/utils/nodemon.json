@@ -1,0 +1,17 @@
+{
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "watch": [
+    "esm",
+    "esm/*",
+    "esm/**/*",
+    "src/*/*.doc.md",
+    "src/**/*.doc.md",
+    "scripts/auto-create-docs.js"
+  ]
+}

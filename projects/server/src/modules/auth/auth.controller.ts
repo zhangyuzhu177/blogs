@@ -1,21 +1,22 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { Throttle } from '@nestjs/throttler';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import * as svgCaptcha from 'svg-captcha'
-import { CodeService } from '../code/code.service';
-import { ApiSuccessResponse } from 'src/utils/response';
-import { LoginSuccessResDto } from './dto/login-success.res.dto';
-import { LoginByPasswordBodyDto } from './dto/login-by-password.body.dto';
-import { RegisterBodyDto } from './dto/register.body.dto';
-import { LoginByEmailCodeBodyDto } from './dto/login-by-email-code.body.dto';
+import { Throttle } from '@nestjs/throttler'
+import { ApiSuccessResponse } from 'src/utils/response'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Get, Post, Req } from '@nestjs/common'
+
+import { AuthService } from './auth.service'
+import { CodeService } from '../code/code.service'
+import { RegisterBodyDto } from './dto/register.body.dto'
+import { LoginSuccessResDto } from './dto/login-success.res.dto'
+import { LoginByPasswordBodyDto } from './dto/login-by-password.body.dto'
+import { LoginByEmailCodeBodyDto } from './dto/login-by-email-code.body.dto'
 
 @Controller('auth')
 @ApiTags('Auth | 身份验证')
 export class AuthController {
   constructor(
     private readonly _authSrv: AuthService,
-    private readonly _codeSrv: CodeService
+    private readonly _codeSrv: CodeService,
   ) { }
 
   @ApiOperation({ summary: '注册（邮箱+验证码）' })
@@ -24,10 +25,10 @@ export class AuthController {
     @Body() body: RegisterBodyDto,
     @Req() req: FastifyRequest
   ) {
-    return this._authSrv.register(body,req)
+    return this._authSrv.register(body, req.raw.ip)
   }
 
-  @ApiOperation({ summary: '账号/邮箱+密码登录' })
+  @ApiOperation({ summary: '账号/邮箱 + 密码登录' })
   @ApiSuccessResponse(LoginSuccessResDto)
   @Post('login/password')
   public async loginByPassword(
@@ -41,12 +42,15 @@ export class AuthController {
   @ApiOperation({ summary: '邮箱 + 验证码 登录' })
   @ApiSuccessResponse(LoginSuccessResDto)
   @Post('login/email/code')
-  public async loginByEmailCode(@Body() body: LoginByEmailCodeBodyDto) {
-    return await this._authSrv.loginByEmailCode(body)
+  public async loginByEmailCode(
+    @Body() body: LoginByEmailCodeBodyDto,
+    @Req() req: FastifyRequest
+  ) {
+    return await this._authSrv.loginByEmailCode(body, req.raw.ip)
   }
 
-  @Throttle(1, 1)
   @ApiOperation({ summary: '获取图形验证码' })
+  @Throttle(1, 1)
   @Get('captcha')
   public async getCaptcha(@Req() req: FastifyRequest) {
     const ip = req.raw.ip

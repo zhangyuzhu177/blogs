@@ -3,7 +3,8 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { SendEmailCodeBodyDto } from './dto/send-email-code.body.dto'
 import { CodeService } from '../code/code.service'
-import { CodeAction } from 'src/types/enum/code-action.enum'
+import { CodeAction } from 'types'
+
 
 @Injectable()
 export class EmailService {

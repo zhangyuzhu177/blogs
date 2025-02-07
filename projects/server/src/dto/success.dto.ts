@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IBasicResponse } from 'src/types/http/basic.interface'
+import type { IBasicResponse } from 'types'
 
 export class SuccessDto<T = any> implements IBasicResponse<T> {
   @ApiProperty({
@@ -10,15 +10,39 @@ export class SuccessDto<T = any> implements IBasicResponse<T> {
   status: number
 
   @ApiProperty({
-    description: '请求错误时的错误信息',
-    example: 'success',
+    description: '"请求成功" 或 请求失败时的错误信息',
+    example: '请求成功',
     type: 'string',
   })
-  message?: string
+  message: string
 
   @ApiProperty({
-    description: '请求返回的数据',
-    example: '参见 \'Schema\' 选项卡',
+    description: '详细数据',
+    example: 'See \'Schema\' tab',
   })
   data: T
+}
+
+export class SuccessStringDto extends SuccessDto<string> implements IBasicResponse<string> {
+  @ApiProperty({
+    description: '文本信息',
+    example: 'string',
+  })
+  data: string
+}
+
+export class SuccessBooleanDto extends SuccessDto<boolean> implements IBasicResponse<boolean> {
+  @ApiProperty({
+    description: '布尔信息',
+    example: true,
+  })
+  data: boolean
+}
+
+export class SuccessNumberDto extends SuccessDto<number> implements IBasicResponse<number> {
+  @ApiProperty({
+    description: '数字信息',
+    example: 0,
+  })
+  data: number
 }

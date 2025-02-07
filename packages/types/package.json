@@ -1,0 +1,33 @@
+{
+  "name": "types",
+  "version": "1.0.0",
+  "description": "类型定义合集",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    }
+  },
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/esm/index.js",
+  "scripts": {
+    "dev": "concurrently \"pnpm run auto-export\" \"pnpm run dev:esm\" \"pnpm run dev:cjs\"",
+    "dev:esm": "rimraf dist/esm && tsc -w -p \"tsconfig.json\"",
+    "dev:cjs": "rimraf dist/cjs && tsc -w -p \"tsconfig.cjs.json\"",
+    "build": "pnpm run generate:export && pnpm run build:esm && pnpm run build:cjs",
+    "build:esm": "rimraf dist/esm && tsc -p \"tsconfig.json\"",
+    "build:cjs": "rimraf dist/cjs && tsc -p \"tsconfig.cjs.json\"",
+    "generate:export": "node ./scripts/auto-export.mjs",
+    "auto-export": "nodemon  --config nodemon.json --exec \"pnpm run generate:export\""
+  },
+  "dependencies": {
+    "typeorm": "^0.3.17"
+  },
+  "devDependencies": {
+    "@nestjs/common": "^10.1.2",
+    "concurrently": "^8.0.1",
+    "glob": "^10.3.3",
+    "nodemon": "^2.0.22",
+    "rimraf": "^5.0.0"
+  }
+}

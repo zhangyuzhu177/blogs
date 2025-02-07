@@ -1,9 +1,10 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IConfigDto } from "src/types/dto/config.interface";
-import { VersionDto } from "src/types/dto/version.dto";
-import { SysConfig } from "src/types/enum/config.enum";
+import { ApiPropertyOptional } from "@nestjs/swagger"
+import { VersionDto } from "src/dto/version.dto"
+import { IConfigDto, IUpsertConfigBodyDto, SysConfig } from "types"
 
-export class UpsertConfigBodyDto  extends VersionDto {
+export class UpsertConfigBodyDto
+  extends VersionDto
+  implements IUpsertConfigBodyDto{
   @ApiPropertyOptional({
     description: 'App配置',
     example: {

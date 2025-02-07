@@ -1,6 +1,6 @@
+import { IDailyCount } from 'types'
 import { ApiProperty } from '@nestjs/swagger'
 import { Column, Entity, PrimaryColumn } from 'typeorm'
-import { IDailyCount } from 'src/types/entities/daily-count.interface'
 
 @Entity()
 export class DailyCount implements IDailyCount {

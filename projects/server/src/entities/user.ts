@@ -1,15 +1,24 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import type { IUser } from 'src/types/entities/user.interface'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from 'typeorm'
+
 import { Role } from './role'
 import { Login } from './login'
 import { BaseTimeStamp } from './_timestamp'
+import { ID_EXAMPLE, IUser } from 'types'
+import { EMAIL_MAX_LENGTH } from 'utils'
 
 @Entity()
 export class User extends BaseTimeStamp implements IUser {
   @ApiProperty({
     description: '用户唯一标识',
-    example: '00000000-0000-0000-0000-000000000000',
+    example: ID_EXAMPLE,
   })
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -22,25 +31,34 @@ export class User extends BaseTimeStamp implements IUser {
   account: string
 
   @ApiProperty({ description: '密码' })
-  @Column({ nullable: true, select: false })
-  password?: string
+  @Column({select: false })
+  password: string
 
-  @ApiPropertyOptional({ description: '邮箱' })
-  @Column({ nullable: true })
-  email?: string
+  @ApiPropertyOptional({
+    description: '邮箱',
+    example: '1580006194@qq.com',
+  })
+  @Column({
+    unique: true,
+    length: EMAIL_MAX_LENGTH,
+  })
+  email: string
 
   @ApiPropertyOptional({
     description: '手机号码',
     example: '18888888888',
   })
-  @Column({ nullable: true, unique: true })
+  @Column({
+    nullable: true,
+    unique: true
+  })
   phone?: string
 
   @Column({ default: false })
-  isDeleted?: boolean
+  status: boolean
 
   @Column({ select: false, default: false })
-  isSysAdmin?: boolean
+  sysAdmin: boolean
 
   @ManyToOne(() => Role, role => role.users)
   @JoinColumn()
@@ -49,6 +67,10 @@ export class User extends BaseTimeStamp implements IUser {
   @Column({ nullable: true })
   roleId?: Role['id']
 
-  @OneToMany(() => Login, login => login.user, { cascade: true })
+  @OneToMany(
+    () => Login,
+    login => login.user,
+    { cascade: true }
+  )
   logins?: Login[]
 }

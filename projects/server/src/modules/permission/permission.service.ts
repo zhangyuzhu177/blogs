@@ -6,8 +6,8 @@ import type { OnModuleInit } from '@nestjs/common'
 import { Permission } from 'src/entities/permission'
 import { RoleService } from '../role/role.service'
 import { objectEntries, objectKeys } from '@catsjuice/utils'
-import { permissionDescriptions } from 'src/types/enum/permission.enum'
-import { parseSqlError } from 'src/utils/response/sql-error/parse-sql-error'
+import { parseSqlError } from 'src/utils/sql-error/parse-sql-error'
+import { permissionDescriptions } from 'types'
 
 @Injectable()
 export class PermissionService implements OnModuleInit {

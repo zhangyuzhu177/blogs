@@ -1,10 +1,9 @@
 import { IsArray, IsEnum, IsOptional, IsString } from 'class-validator'
 import { Type } from 'class-transformer'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { PermissionType } from 'src/types/enum/permission.enum'
-import { ICreateRoleBodyDto } from 'src/types/http/role/create-role.interface'
+import { IUpsertRoleBodyDto, PermissionType } from 'types'
 
-export class UpsertRoleBodyDto implements ICreateRoleBodyDto {
+export class UpsertRoleBodyDto implements IUpsertRoleBodyDto {
   @ApiPropertyOptional({ description: '角色的唯一标识' })
   @IsString()
   @IsOptional()

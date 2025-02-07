@@ -53,7 +53,7 @@ export class AuthMiddleware implements NestMiddleware {
       info = await _jwtAuthSrv.validateLoginAuthToken(access_token)
     }
     catch (e) {
-      req.accessTokenExpired = true
+      req.tokenExpired = true
       this.logger.error('解析 access_token 时出现错误', e)
     }
     try {
@@ -69,7 +69,7 @@ export class AuthMiddleware implements NestMiddleware {
     if (!user)
       return next()
 
-    if (user.isDeleted) {
+    if (user.status) {
       this.logger.error(`用户 ${user.account}, ${user.id} 已被删除，无法登录`)
       return next()
     }
@@ -82,7 +82,7 @@ export class AuthMiddleware implements NestMiddleware {
     }
     else {
       // 如果账号不一致，判定用户已更新了账号，旧的登录授权 token 全部销毁
-      req.accessTokenExpired = true
+      req.tokenExpired = true
       this.logger.warn(
         `User[${info?.id}]'s account in db[${user.account}] not match account in token[${info.account}]`,
       )

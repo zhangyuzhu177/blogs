@@ -3,8 +3,7 @@ import { IsEnum } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 import { objectEntries } from '@catsjuice/utils'
 import { sharedVariableMarkdown } from 'src/utils/docs/shared-variable'
-import { ICodeActionDto } from 'src/types/dto/code-action.interface'
-import { CodeAction, codeActionDescriptions } from 'src/types/enum/code-action.enum'
+import { CodeAction, codeActionDescriptions, ICodeActionDto } from 'types'
 
 export class CodeActionDto implements ICodeActionDto {
   @decorate(ApiProperty({

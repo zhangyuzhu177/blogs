@@ -1,15 +1,22 @@
 import { ApiProperty } from '@nestjs/swagger'
-import type { IArticle } from 'src/types/entities/article.interface'
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { ArticleStatus, IArticle, ID_EXAMPLE } from 'types'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm'
+
 import { BaseTimeStamp } from './_timestamp'
-import { ArticleStatus } from 'src/types/enum/article-status.enum'
+import { ArticleType } from './article-type'
 
 @Entity()
 export class Article extends BaseTimeStamp implements IArticle {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty({
     description: '文章唯一标识',
-    example: '00000000-0000-0000-0000-000000000000',
+    example: ID_EXAMPLE,
   })
   id: string
 
@@ -17,25 +24,19 @@ export class Article extends BaseTimeStamp implements IArticle {
     description: '文章标题',
   })
   @Column()
-  title: string
+  name: string
 
   @ApiProperty({
-    description: '文章分类',
+    description: '所属的文章分类 Id',
   })
   @Column()
-  category: string
+  articleTypeId: string
 
   @ApiProperty({
     description: '文章标签',
   })
   @Column()
-  tags: string
-
-  @ApiProperty({
-    description: '文章摘要',
-  })
-  @Column({type:'text'})
-  abstract: string
+  tags: string[]
 
   @ApiProperty({
     description: '文章内容',
@@ -47,7 +48,13 @@ export class Article extends BaseTimeStamp implements IArticle {
     description: '文章封面',
   })
   @Column()
-  articleCover: string
+  cover: string
+
+  @ApiProperty({
+    description: '访问量',
+  })
+  @Column()
+  pageView?: number
 
   @ApiProperty({
     description: '文章状态 public:公开 | draft:草稿',
@@ -57,8 +64,12 @@ export class Article extends BaseTimeStamp implements IArticle {
   status: ArticleStatus
 
   @ApiProperty({
-    description: '访问量',
+    description: '文章分类',
   })
-  @Column()
-  pageView?: number
+  @ManyToOne(
+    () => ArticleType,
+    articleType => articleType.articles,
+  )
+  @JoinColumn()
+  articleType: ArticleType
 }

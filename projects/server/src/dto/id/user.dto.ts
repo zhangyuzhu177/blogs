@@ -1,27 +1,16 @@
 import { decorate } from 'ts-mixer'
-import { IsString } from 'class-validator'
-import { ApiProperty } from '@nestjs/swagger'
-import { GenerateParamsDecorator } from 'src/utils/validators/params-decorator-gen'
-import { IUserIdDto, IUserIdOptionalDto } from 'src/types/dto/id/user.interface'
+import { ID_EXAMPLE } from 'types'
+import { GenerateStringDecorator } from 'src/utils'
+import type { IUserIdDto, IUserIdOptionalDto } from 'types'
 
-
-function Decorator(optional = false) {
-  return GenerateParamsDecorator([
-    ApiProperty({
-      description: '用户的唯一标识',
-      type: () => String,
-      example: '00000000-0000-0000-0000-000000000000',
-    }),
-    IsString(),
-  ], optional)
-}
+const DESC = '个人用户的唯一标识'
 
 export class UserIdDto implements IUserIdDto {
-  @decorate(Decorator(false))
+  @decorate(GenerateStringDecorator(DESC, ID_EXAMPLE))
   userId: string
 }
 
 export class UserIdOptionalDto implements IUserIdOptionalDto {
-  @decorate(Decorator(true))
+  @decorate(GenerateStringDecorator(DESC, ID_EXAMPLE, true))
   userId?: UserIdDto['userId']
 }

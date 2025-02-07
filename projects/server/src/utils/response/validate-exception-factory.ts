@@ -1,27 +1,41 @@
-import { ErrorCode } from 'src/types/enum/error-code.enum'
+import { objectKeys } from 'utils'
+import { ErrorCode } from 'types'
+import type { ValidationError } from '@nestjs/common'
+
 import { responseError } from '.'
 
-interface IValidateError {
-  property: string
-  constraints: Record<string, string>
-}
 
-export function getExceptionFactory() {
-  return (errs: IValidateError[]) => {
-    return responseError(
-      ErrorCode.COMMON_PARAMS_NOT_VALID,
-      errs.reduce(
-        (res: Array<string>, err) => [
-          ...res,
-          ...Object.keys(err.constraints).map(key => ({
-            property: err.property,
-            message: err.constraints[key],
-          })),
-        ],
-        [],
-      ),
-    )
+export function exceptionFactory(errs: ValidationError[]) {
+  const detail: {
+    property: string
+    message: string
+  }[] = []
+
+  function handleError(errs?: ValidationError[], path: string[] = []) {
+    if (!errs)
+      return
+    for (const err of errs) {
+      const { property, constraints, children } = err
+      const params = [...path, property]
+      if (constraints) {
+        detail.push(...objectKeys(constraints).map(v => ({
+          property: params.join('.'),
+          message: constraints[v],
+        })))
+      }
+      handleError(children, params)
+    }
   }
+
+  handleError(errs)
+
+  return responseError(
+    ErrorCode.COMMON_PARAMS_NOT_VALID,
+    detail,
+  )
 }
 
-export const responseParamsError = getExceptionFactory()
+/**
+ * 给客户端返回参数错误
+ */
+export const responseParamsError = exceptionFactory

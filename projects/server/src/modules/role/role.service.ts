@@ -3,12 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Role } from 'src/entities/role';
 import { Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
-import { defaultRoles } from 'src/types/enum/role.enum';
 import { UpsertRoleBodyDto } from './dto/upsert-role.body.dto';
 import { responseError } from 'src/utils/response';
-import { ErrorCode } from 'src/types/enum/error-code.enum';
 import { PermissionService } from '../permission/permission.service';
 import { RoleIdDto } from 'src/dto/id/role.dto';
+import { DEFAULT_ADMIN_ROLES, ErrorCode } from 'types';
+import { randomId } from 'utils';
 
 @Injectable()
 export class RoleService {
@@ -22,11 +22,11 @@ export class RoleService {
   /** 初始化默认角色 */
   public async initDefaultRoles() {
     // 初始化所有的默认角色
-    await this._roleRepo.save(defaultRoles)
+    await this._roleRepo.save(DEFAULT_ADMIN_ROLES)
     // 将所有超级管理员的角色设置为 root
     await this._userSrv.repo().update(
-      { isSysAdmin: true },
-      { roleId: defaultRoles[0].id },
+      { sysAdmin: true },
+      { roleId: DEFAULT_ADMIN_ROLES[0].id },
     )
   }
 
@@ -37,13 +37,13 @@ export class RoleService {
       responseError(ErrorCode.ROLE_NAME_IS_EXIST)
 
     // 检测是否更新root角色
-    if (role.id && defaultRoles.some(r => r.id === role.id))
+    if (role.id && DEFAULT_ADMIN_ROLES.some(r => r.id === role.id))
       responseError(ErrorCode.ROLE_UPDATE_ROOT)
 
     const permission = await this._permissionSrv.repo().find()
-    const saveInfo: Role = {
+    const saveInfo = {
       ...role,
-      id: role.id,
+      id: role.id || randomId(),
       permissions:permission.filter(p=>role.permissions.includes(p.name))
     }
 
@@ -54,7 +54,7 @@ export class RoleService {
 
   /** 删除角色 */
   public async deleteRole(param: RoleIdDto) {
-    if (defaultRoles.some(r => r.id === param.roleId))
+    if (DEFAULT_ADMIN_ROLES.some(r => r.id === param.roleId))
       responseError(ErrorCode.ROLE_DELETE_ROOT)
 
     const res = await this._roleRepo.delete({id:param.roleId})

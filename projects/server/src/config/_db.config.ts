@@ -1,23 +1,28 @@
 import { registerAs } from '@nestjs/config'
+import { parseBoolRaw, parseIntRaw } from 'utils'
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm'
-import { parseBoolRaw } from 'src/utils/parseBoolRaw'
 
 export default registerAs('db', () => {
+
+  const {
+    DB_HOST, DB_PORT, DB_USER, DB_PSWD,
+    DB_NAME, DB_CONNECT_TIMEOUT,
+    DB_CONN_LIMIT, DB_ORM_ENABLE_SYNC,
+  } = process.env
+
   return <TypeOrmModuleOptions>{
-    type: process.env.DB_TYPE || 'mysql',
-    host: process.env.DB_HOST,
-    port: Number.parseInt(process.env.DB_PORT),
-    username: process.env.DB_USER,
-    password: process.env.DB_PSWD,
-    database: process.env.DB_NAME,
+    type: 'mysql',
+    host: DB_HOST || 'localhost',
+    port: parseIntRaw(DB_PORT, 3306),
+    username: DB_USER,
+    password: DB_PSWD,
+    database: DB_NAME,
+    connectTimeout: parseIntRaw(DB_CONNECT_TIMEOUT, 60000),
     extra: {
-      connectionLimit: Number.parseInt(process.env.DB_CONN_LIMIT) || 100,
+      connectionLimit: parseIntRaw(DB_CONN_LIMIT, 100),
     },
-    logger: 'file',
-    logging: true,
     autoLoadEntities: true,
-    migrations: ['src/migration/*.js'],
-    synchronize: parseBoolRaw(process.env.ORM_ENABLE_SYNC) || false,
+    synchronize: parseBoolRaw(DB_ORM_ENABLE_SYNC, false),
     legacySpatialSupport: false,
   }
 })

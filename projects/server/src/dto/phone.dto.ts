@@ -1,28 +1,21 @@
 import { decorate } from 'ts-mixer'
 import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
-import { MaxLength, MinLength } from 'class-validator'
+import { IsValidPhone } from 'src/decorators'
+import { GenerateParamsDecorator } from 'src/utils'
+import type { IPhoneDto, IPhoneOptionalDto } from 'types'
+import { PHONE_NUMBER_MAX_LENGTH, PHONE_NUMBER_MIN_LENGTH } from 'utils'
 
-import { sharedVariableMarkdown } from 'src/utils/docs/shared-variable'
-import { GenerateParamsDecorator } from 'src/utils/validators/params-decorator-gen'
-import { PHONE_NUMBER_MAX_LENGTH, PHONE_NUMBER_MIN_LENGTH, PHONE_NUMBER_REQUIREMENTS_DESC } from 'src/decorators/validators/phone.validator'
-import { IPhoneDto, IPhoneOptionalDto } from 'src/types/dto/phone.interface'
-import { IsValidPhone } from 'src/decorators/validators/is-valid-phone'
-
-
-
-function Decorator(optional = false) {
+export function PhoneDecorator(optional = false, description = '手机号码') {
   return GenerateParamsDecorator(
     [
       ApiProperty({
-        description: `手机号码, ${PHONE_NUMBER_REQUIREMENTS_DESC}` + `\n${sharedVariableMarkdown('PHONE_NUMBER_REQUIREMENTS_DESC')}`,
+        description,
         maxLength: PHONE_NUMBER_MAX_LENGTH,
         minLength: PHONE_NUMBER_MIN_LENGTH,
-        type: () => String,
+        type: String,
         example: '18888888888',
       }),
-      MinLength(PHONE_NUMBER_MIN_LENGTH, { message: `手机号码长度不能小于${PHONE_NUMBER_MIN_LENGTH}` }),
-      MaxLength(PHONE_NUMBER_MAX_LENGTH, { message: `手机号码长度不能大于${PHONE_NUMBER_MAX_LENGTH}` }),
       IsValidPhone(),
       Transform(({ value }) => value.toString()),
     ],
@@ -31,11 +24,11 @@ function Decorator(optional = false) {
 }
 
 export class PhoneDto implements IPhoneDto {
-  @decorate(Decorator())
+  @decorate(PhoneDecorator())
   phone: string
 }
 
 export class PhoneOptionalDto implements IPhoneOptionalDto {
-  @decorate(Decorator(true))
-  declare phone?: string
+  @decorate(PhoneDecorator(true))
+  phone?: PhoneDto['phone']
 }

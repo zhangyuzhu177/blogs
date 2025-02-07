@@ -1,32 +1,34 @@
 import { join } from 'node:path'
-import type { MiddlewareConsumer, NestModule } from '@nestjs/common'
-import { Module, RequestMethod } from '@nestjs/common'
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import type { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
 import { ScheduleModule } from '@nestjs/schedule'
+import { Module, RequestMethod } from '@nestjs/common'
 import { ServeStaticModule } from '@nestjs/serve-static'
-
+import type { TypeOrmModuleOptions } from '@nestjs/typeorm'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler'
+import type { MiddlewareConsumer, NestModule } from '@nestjs/common'
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
+
 import allConfig from './config'
-import { validatePath } from './utils/validatePath'
+import { LogModule } from './modules/log/log.module'
+import { UserModule } from './modules/user/user.module'
+import { AuthModule } from './modules/auth/auth.module'
+import { FileModule } from './modules/file/file.module'
+import { RoleModule } from './modules/role/role.module'
+import { RedisModule } from './modules/redis/redis.module'
+import { EmailModule } from './modules/email/email.module'
+import { AuthMiddleware } from './middleware/auth.middleware'
+import { InfoMiddleware } from './middleware/info.middleware'
+import { ArticleModule } from './modules/article/article.module'
+import { SysConfigModule } from './modules/config/config.module'
+import { AccessMiddleware } from './middleware/access.middleware'
+import { WebsocketGateway } from './modules/websocket/websocket.gateway'
+import { PermissionModule } from './modules/permission/permission.module'
 import { ResponseInterceptor } from './interceptors/response.interceptor'
 import { ThrottlerExceptionFilter } from './filter/throttler-exception.filter'
-import { InfoMiddleware } from './middleware/info.middleware'
-import { AuthMiddleware } from './middleware/auth.middleware'
-import { AccessMiddleware } from './middleware/access.middleware'
-import { AuthModule } from './modules/auth/auth.module'
-import { UserModule } from './modules/user/user.module'
-import { RoleModule } from './modules/role/role.module'
-import { LogModule } from './modules/log/log.module'
-import { PermissionModule } from './modules/permission/permission.module'
-import { EmailModule } from './modules/email/email.module'
-import { SysConfigModule } from './modules/config/config.module'
-import { RedisModule } from './modules/redis/redis.module'
-import { FileModule } from './modules/file/file.module'
-import { WebsocketGateway } from './modules/websocket/websocket.gateway'
-import { ArticleModule } from './modules/article/article.module'
+import { validatePath } from 'utils'
+import { JwtAuthModule } from './modules/jwt-auth/jwt-auth.module'
+import { CodeModule } from './modules/code/code.module'
 
 @Module({
   imports: [
@@ -35,29 +37,36 @@ import { ArticleModule } from './modules/article/article.module'
     AuthModule,
     UserModule,
     RoleModule,
-    PermissionModule,
-    EmailModule,
-    SysConfigModule,
     RedisModule,
+    EmailModule,
     FileModule,
-    ArticleModule,
+    CodeModule,
+    JwtAuthModule,
+    // ArticleModule,
+    SysConfigModule,
+    PermissionModule,
     WebsocketGateway,
 
     // External Modules
+    // 定时任务
     ScheduleModule.forRoot(),
+    // 请求限流
     ThrottlerModule.forRoot({ ttl: 10, limit: 30 }),
+    // 环境配置
     ConfigModule.forRoot({
       envFilePath: ['.env.local', '.env.dev', '.env.staging', '.env.production', '.env'],
       isGlobal: true,
       cache: true,
       load: [...allConfig],
     }),
+    // 数据库
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (_cfgSrv: ConfigService) =>
         _cfgSrv.get<TypeOrmModuleOptions>('db'),
     }),
+    // 静态资源服务
     ServeStaticModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -87,7 +96,7 @@ export class AppModule implements NestModule {
     })
     consumer.apply(AccessMiddleware)
       .exclude(
-        { path: 'log/(.*)', method: RequestMethod.ALL },
+        { path: 'email/(.*)', method: RequestMethod.ALL },
       ).forRoutes({
         path: '*',
         method: RequestMethod.ALL,

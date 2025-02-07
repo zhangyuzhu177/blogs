@@ -1,15 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
+import { VersionDto } from 'src/dto/version.dto';
 import { Config } from 'src/entities/config';
-import { IConfigDto } from 'src/types/dto/config.interface';
-import { VersionDto } from 'src/types/dto/version.dto';
-import { IUser } from 'src/types/entities/user.interface';
-import { SysConfig } from 'src/types/enum/config.enum';
-import { ErrorCode } from 'src/types/enum/error-code.enum';
-import { PermissionType } from 'src/types/enum/permission.enum';
 import { responseError } from 'src/utils/response';
 import { Repository } from 'typeorm';
+import { ErrorCode, IConfigDto, IUser, PermissionType, SysConfig } from 'types';
 
 @Injectable()
 export class SysConfigService {

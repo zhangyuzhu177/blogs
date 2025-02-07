@@ -1,20 +1,21 @@
 import { join } from 'node:path'
+
 import fmp from '@fastify/multipart'
 import * as dotenvFlow from 'dotenv-flow'
 import { NestFactory } from '@nestjs/core'
 import compression from '@fastify/compress'
 import { ConfigService } from '@nestjs/config'
+import { parseBoolRaw, validatePath } from 'utils'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { FastifyAdapter } from '@nestjs/platform-fastify'
 import type { NestFastifyApplication } from '@nestjs/platform-fastify'
 
-import registerSwagger from './bootstrap/register-swagger'
 import { AppModule } from './app.module'
-import { validatePath } from './utils/validatePath'
-import { parseBoolRaw } from './utils/parseBoolRaw'
-import { getExceptionFactory } from './utils/response/validate-exception-factory'
+import { exceptionFactory } from './utils'
+import registerSwagger from './bootstrap/register-swagger'
 
 async function bootstrap() {
+  // 添加环境变量
   dotenvFlow.config({ path: '../shared' })
 
   const logger = new Logger('Bootstrap')
@@ -46,15 +47,23 @@ async function bootstrap() {
 
   /** 启用 validation */
   app.useGlobalPipes(
-    new ValidationPipe({ exceptionFactory: getExceptionFactory() }),
+    new ValidationPipe({ exceptionFactory }),
   )
 
   // Global variables
   globalThis.prefix = globalPrefix
   globalThis.version = packageJson.version
 
+  // 启动服务
   await app.listen(Number.parseInt(cfgSrv.get('SERVER_PORT')) || 3000, '::')
-
   logger.verbose(`App is running on ${await app.getUrl()}${cfgSrv.get('SWAGGER_SERVER_HOST')}${cfgSrv.get('SWAGGER_PATH')}`)
+
+  // 关闭应用及数据库连接
+  async function close() {
+    await app.close()
+    process.exit(0)
+  }
+  process.on('SIGINT', close)
+  process.on('SIGTERM', close)
 }
 bootstrap()

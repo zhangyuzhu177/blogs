@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IConfigDto } from 'src/types/dto/config.interface'
-import { SuccessDto } from 'src/types/dto/success.dto'
-import { SysConfig } from 'src/types/enum/config.enum'
+import { SuccessDto } from 'src/dto'
+
 import { sharedVariableMarkdown } from 'src/utils/docs/shared-variable'
+import { IConfigDto, SysConfig } from 'types'
 
 export class ConfigResDto extends SuccessDto {
   @ApiProperty({

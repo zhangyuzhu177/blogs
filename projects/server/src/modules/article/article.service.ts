@@ -2,39 +2,23 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Article } from 'src/entities/article'
 import type { Repository } from 'typeorm'
-import { UpsertBodyDto } from './dto/upsert-body.dto'
+import { UpsertBodyDto } from './entities/dto/upsert-body.dto'
+import { ArticleType } from 'src/entities/article-type'
 
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private readonly _articleRepo: Repository<Article>,
+    @InjectRepository(ArticleType)
+    private readonly _articleTypeRepo: Repository<ArticleType>,
   ) { }
 
-  /**
-   * 发布/编辑文章
-   * @param article
-   */
-  public async upsert(article:UpsertBodyDto) {
-    try {
-      if (article.id) {
-        return await this._articleRepo.update(article.id, article)
-      } else {
-        const pageView = 0
-        const createTime=new Date()
-        return await this._articleRepo.save({
-          ...article,
-          pageView,
-          createTime
-        })
-      }
-    } catch (error) {
-      console.log(error);
-
-    }
+  public async entitiesRepo() {
+    return this._articleRepo
   }
 
-  public async repo() {
-    return this._articleRepo
+  public async articleTypeRepo() {
+    return this._articleTypeRepo
   }
 }

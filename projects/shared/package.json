@@ -17,6 +17,8 @@
     "pixi.js": "7.4.2",
     "quasar": "^2.12.3",
     "simplex-noise": "^4.0.1",
+    "types": "workspace:^",
+    "utils": "workspace:^",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
   },

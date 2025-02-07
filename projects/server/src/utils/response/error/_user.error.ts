@@ -1,6 +1,5 @@
 import { HttpStatus } from '@nestjs/common'
-import { ErrorCode } from 'src/types/enum/error-code.enum'
-import type { ErrorMessageCollection } from 'src/types/enum/error-code.enum'
+import { ErrorCode } from 'types'
 
 const _userErrors: ErrorMessageCollection = {
   [ErrorCode.USER_NOT_FOUND]: {
@@ -63,7 +62,10 @@ const _userErrors: ErrorMessageCollection = {
     httpStatus: HttpStatus.BAD_REQUEST,
     message: '用户手机号不匹配',
   },
-
+  [ErrorCode.USER_UPDATE_DISABLE]: {
+    httpStatus: HttpStatus.BAD_REQUEST,
+    message: '禁止更新系统管理员',
+  }
 }
 
 export default _userErrors

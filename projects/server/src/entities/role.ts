@@ -1,12 +1,14 @@
+import { IRole } from 'types'
 import { ApiProperty } from '@nestjs/swagger'
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
-import { IRole } from 'src/types/entities/role.interface'
+
 import { Permission } from './permission'
 import { User } from './user'
+import { BaseTimeStamp } from './_timestamp'
 
 @Entity()
-export class Role implements IRole {
+export class Role extends BaseTimeStamp implements IRole {
   @ApiProperty({ description: '管理角色的唯一标识' })
   @PrimaryGeneratedColumn('uuid')
   id: string

@@ -25,7 +25,9 @@
     "quasar": "^2.12.3",
     "shared": "workspace:^",
     "socket.io-client": "^4.7.5",
+    "types": "workspace:^",
     "unocss": "^0.60.2",
+    "utils": "workspace:^",
     "vue": "^3.4.21",
     "vue-router": "^4.2.4"
   },

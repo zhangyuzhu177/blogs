@@ -3,11 +3,10 @@ import { Injectable, SetMetadata, UseGuards, applyDecorators } from '@nestjs/com
 import { Reflector } from '@nestjs/core'
 
 import { UserService } from 'src/modules/user/user.service'
-import { CodeAction, codeActionDescriptions } from 'src/types/enum/code-action.enum'
-import { ErrorCode } from 'src/types/enum/error-code.enum'
-import { getReflectorValue } from 'src/utils/reflector-value'
+import { getReflectorValue } from 'src/utils'
 import { ApiErrorResponse, responseError } from 'src/utils/response'
 import { responseParamsError } from 'src/utils/response/validate-exception-factory'
+import { CodeAction, codeActionDescriptions, ErrorCode } from 'types'
 
 @Injectable()
 export class EmailCodeSendableGuard implements CanActivate {
@@ -72,7 +71,7 @@ export class EmailCodeSendableGuard implements CanActivate {
     if (registerRequiredActions.includes(action) && !user)
       responseError(ErrorCode.USER_EMAIL_NOT_REGISTERED)
 
-    if (registerRequiredActions.includes(action) && user && user.isDeleted)
+    if (registerRequiredActions.includes(action) && user && user.status)
       responseError(ErrorCode.USER_ACCOUNT_IS_DELETED)
 
     if (notRegisterRequiredActions.includes(action) && user)

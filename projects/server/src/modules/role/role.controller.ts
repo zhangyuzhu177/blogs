@@ -2,12 +2,11 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { RoleService } from './role.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HasPermission } from 'src/guards/permission.guard';
-import { PermissionType } from 'src/types/enum/permission.enum';
 import { UpsertRoleBodyDto } from './dto/upsert-role.body.dto';
 import { RoleIdDto } from 'src/dto/id/role.dto';
-import { parseSqlError } from 'src/utils/response/sql-error/parse-sql-error';
-import { ErrorCode } from 'src/types/enum/error-code.enum';
+import { parseSqlError } from 'src/utils/sql-error/parse-sql-error';
 import { responseError } from 'src/utils/response';
+import { ErrorCode, PermissionType } from 'types';
 
 @Controller('role')
 @ApiTags('Role | 角色')

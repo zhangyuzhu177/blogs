@@ -1,7 +1,5 @@
-import { IConfigDto } from "src/types/dto/config.interface";
-import { ISysConfig } from "src/types/entities/sys-config.interface";
-import { SysConfig } from "src/types/enum/config.enum";
 import { Column, Entity, PrimaryColumn } from "typeorm";
+import { IConfigDto, ISysConfig, SysConfig } from "types";
 
 @Entity()
 export class Config implements ISysConfig<SysConfig> {
