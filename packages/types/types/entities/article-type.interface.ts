@@ -8,5 +8,5 @@ export interface IArticleType extends ICreatedAt, IUpdatedAt, IDescOptionalDto {
   /** 文章类型的名称 */
   name: string
   /** 文章类型的文章列表 */
-  articles: IArticle[]
+  articles?: IArticle[]
 }

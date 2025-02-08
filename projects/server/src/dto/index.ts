@@ -1,5 +1,6 @@
 export * from './id'
 export * from './ip.dto'
+export * from './name.dto'
 export * from './desc.dto'
 export * from './sort.dto'
 export * from './email.dto'

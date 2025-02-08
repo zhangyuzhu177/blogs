@@ -1,28 +1,32 @@
+import { Mixin } from 'ts-mixer'
+import { IUpsertArticleBodyDto } from 'types'
+import { IsArray,IsString } from 'src/decorators'
 import { ApiPropertyOptional } from '@nestjs/swagger'
-import { ArticleStatus } from 'types'
+import { ArticleTypeIdDto, NameDto, StatusDto } from 'src/dto'
 
-export class UpsertBodyDto {
-  @ApiPropertyOptional({ description: '文章id' })
-  id?: string
-
-  @ApiPropertyOptional({ description: '文章标题' })
-  title: string
-
-  @ApiPropertyOptional({ description: '文章内容' })
+export class UpsertArticleBodyDto
+  extends Mixin(
+    NameDto,
+    StatusDto,
+    ArticleTypeIdDto
+  )
+  implements IUpsertArticleBodyDto {
+  @ApiPropertyOptional({
+    description: '文章内容'
+  })
+  @IsString()
   content: string
 
-  @ApiPropertyOptional({ description: '文章摘要' })
-  abstract: string
+  @ApiPropertyOptional({
+    description: '文章标签'
+  })
+  @IsArray()
+  @IsString({ each: true })
+  tags: string[]
 
-  @ApiPropertyOptional({ description: '文章分类' })
-  category: string
-
-  @ApiPropertyOptional({ description: '文章标签' })
-  tags: string
-
-  @ApiPropertyOptional({ description: '文章封面' })
-  articleCover: string
-
-  @ApiPropertyOptional({ description: '文章状态' })
-  status: ArticleStatus
+  @ApiPropertyOptional({
+    description: '文章封面'
+  })
+  @IsString()
+  cover: string
 }

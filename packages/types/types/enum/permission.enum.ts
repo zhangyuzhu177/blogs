@@ -49,6 +49,17 @@ export enum PermissionType {
   ARTICLE_UPDATE = 'article:update',
   /** 查询文章 */
   ARTICLE_QUERY = 'article:query',
+  /* 修改文章状态 */
+  ARTICLE_UPDATE_STATUS = 'article:update-status',
+
+  /** 查询文章类别 */
+  ARTICLE_TYPE_QUERY = 'article-type:query',
+  /** 创建文章类别 */
+  ARTICLE_TYPE_CREATE = 'article-type:create',
+  /** 更新文章类别 */
+  ARTICLE_TYPE_UPDATE = 'article-type:update',
+  /** 删除文章类别 */
+  ARTICLE_TYPE_DELETE = 'article-type:delete',
 }
 
 /**
@@ -75,4 +86,10 @@ export const permissionDescriptions: Record<PermissionType, string> = {
   [PermissionType.ARTICLE_DELETE]: '删除文章',
   [PermissionType.ARTICLE_UPDATE]: '更新文章',
   [PermissionType.ARTICLE_QUERY]: '查询文章',
+  [PermissionType.ARTICLE_UPDATE_STATUS]: '修改文章状态',
+
+  [PermissionType.ARTICLE_TYPE_QUERY]: '查询文章类别',
+  [PermissionType.ARTICLE_TYPE_CREATE]: '创建文章类别',
+  [PermissionType.ARTICLE_TYPE_UPDATE]: '更新文章类别',
+  [PermissionType.ARTICLE_TYPE_DELETE]: '删除文章类别',
 }

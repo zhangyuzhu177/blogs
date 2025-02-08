@@ -17,7 +17,9 @@ export class ArticleType extends BaseTimeStamp implements IArticleType {
   @ApiProperty({
     description: '文章类别名称',
   })
-  @Column()
+  @Column({
+    unique: true,
+  })
   name: string
 
   @ApiProperty({

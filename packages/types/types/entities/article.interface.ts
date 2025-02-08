@@ -1,6 +1,6 @@
-import type { ArticleStatus } from '../enum/article-status.enum'
 import type { INameDto } from '../dto/name.interface'
 import type { IArticleTypeIdDto } from '../dto/id/article-type.interface'
+import type { IStatusDto } from '../dto/status.interface'
 import type { IArticleType } from './article-type.interface'
 import type { ICreatedAt, IUpdatedAt } from './_timestamp.interface'
 
@@ -9,6 +9,7 @@ export interface IArticle
   INameDto,
   ICreatedAt,
   IUpdatedAt,
+  IStatusDto,
   IArticleTypeIdDto {
   /** 文章唯一标识 */
   id: string
@@ -22,6 +23,4 @@ export interface IArticle
   cover: string
   /** 文章访问量 */
   pageView?: number
-  /** 文章状态 */
-  status: ArticleStatus
 }

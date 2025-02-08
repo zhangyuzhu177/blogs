@@ -1,4 +1,4 @@
-import type { ISendEmailCodeBodyDto, ISendEmailCodeResData } from '../types/http/email/send-email-code.interface'
+import type { ISendEmailCodeBodyDto, ISendEmailCodeResData } from 'types'
 import { useRequest } from '../utils/common/request'
 
 const { $post } = useRequest()

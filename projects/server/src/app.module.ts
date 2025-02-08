@@ -42,7 +42,7 @@ import { CodeModule } from './modules/code/code.module'
     FileModule,
     CodeModule,
     JwtAuthModule,
-    // ArticleModule,
+    ArticleModule,
     SysConfigModule,
     PermissionModule,
     WebsocketGateway,

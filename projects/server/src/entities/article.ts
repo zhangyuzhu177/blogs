@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { ArticleStatus, IArticle, ID_EXAMPLE } from 'types'
+import { IArticle, ID_EXAMPLE } from 'types'
 import {
   Column,
   Entity,
@@ -35,7 +35,9 @@ export class Article extends BaseTimeStamp implements IArticle {
   @ApiProperty({
     description: '文章标签',
   })
-  @Column()
+  @Column({
+    type: 'simple-array',
+  })
   tags: string[]
 
   @ApiProperty({
@@ -57,11 +59,10 @@ export class Article extends BaseTimeStamp implements IArticle {
   pageView?: number
 
   @ApiProperty({
-    description: '文章状态 public:公开 | draft:草稿',
-    example: ArticleStatus.PUBLIC,
+    description: '文章状态',
   })
   @Column()
-  status: ArticleStatus
+  status: boolean
 
   @ApiProperty({
     description: '文章分类',

@@ -46,7 +46,7 @@ export class UserController {
   @Throttle(10000, 60)
   @HasPermission(PermissionType.USER_CREATE)
   @Post('create')
-  public async createUser(
+  public createUser(
     @Body() body: CreateUserBodyDto
   ) {
     return this._userSrv.createUser(body)
@@ -61,7 +61,7 @@ export class UserController {
     PermissionType.ROLE_ASSIGN_QUERY,
   ])
   @Post('query')
-  public async queryUserList(
+  public queryUserList(
     @Body() body: QueryDto<User>,
   ) {
     return getQuery(
@@ -84,7 +84,7 @@ export class UserController {
   @ApiOperation({ summary: '通过 邮箱 + 验证码 修改密码（不需要登录）' })
   @ApiSuccessResponse(SuccessBooleanDto)
   @Patch('own/password/email')
-  public async changePasswordByEmailCode(
+  public changePasswordByEmailCode(
     @Body() body: UpdatePasswordByEmailCodeBodyDto
   ) {
     return this._userSrv.changeOwnPasswordByCode(body)
@@ -96,17 +96,20 @@ export class UserController {
   @ApiSuccessResponse(SuccessStringDto)
   @HasPermission(PermissionType.USER_UPDATE)
   @Patch('update/:userId')
-  public async updateUser(
+  public updateUser(
     @Param() {userId}: UserIdDto,
     @Body() body: UpdateUserBodyDto,
   ) {
     return this._userSrv.updateUser(userId, body)
   }
 
-  @ApiOperation({ summary: '批量停用用户' })
+  @ApiOperation({
+    summary: '批量修改用户状态'
+  })
+  @ApiSuccessResponse(SuccessNumberDto)
   @HasPermission(PermissionType.USER_CHANGE_STATUS)
   @Post('status')
-  public async changeUserStatus(
+  public changeUserStatus(
     @Body() body: ChangeStatusBodyDto,
   ) {
     return this._userSrv.changeUserStatus(body)
@@ -118,7 +121,7 @@ export class UserController {
   @ApiSuccessResponse(SuccessNumberDto)
   @HasPermission(PermissionType.USER_UPDATE_ROLE)
   @Patch('assign')
-  public async updateUserRole(
+  public updateUserRole(
     @Body() body:AssignRoleBodyDto
   ) {
     return this._userSrv.assignRole(body)

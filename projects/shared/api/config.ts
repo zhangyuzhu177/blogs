@@ -1,6 +1,4 @@
-import type { IUpsertConfigBodyDto } from 'types/http/config/upsert-config.interface'
-import type { IConfigDto } from 'types/dto/config.interface'
-import type { SysConfig } from 'types/enum/config.enum'
+import type { IConfigDto, IUpsertConfigBodyDto, SysConfig } from 'types'
 import { useRequest } from '../utils/common/request'
 
 const { $get, $post } = useRequest()

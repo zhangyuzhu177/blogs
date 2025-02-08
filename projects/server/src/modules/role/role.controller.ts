@@ -1,12 +1,15 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { RoleService } from './role.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { HasPermission } from 'src/guards/permission.guard';
-import { UpsertRoleBodyDto } from './dto/upsert-role.body.dto';
-import { RoleIdDto } from 'src/dto/id/role.dto';
-import { parseSqlError } from 'src/utils/sql-error/parse-sql-error';
-import { responseError } from 'src/utils/response';
-import { ErrorCode, PermissionType } from 'types';
+import { getQuery } from 'src/utils'
+import { PermissionType } from 'types'
+import { Role } from 'src/entities/role'
+import { RoleIdDto } from 'src/dto/id/role.dto'
+import { IdsDto, QueryDto, QueryResDto, SuccessStringDto } from 'src/dto'
+import { ApiSuccessResponse } from 'src/utils/response'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { HasPermission } from 'src/guards/permission.guard'
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common'
+
+import { RoleService } from './role.service'
+import { UpsertRoleBodyDto } from './dto/upsert-role.body.dto'
 
 @Controller('role')
 @ApiTags('Role | 角色')
@@ -15,38 +18,80 @@ export class RoleController {
     private readonly _roleSrv: RoleService
   ) { }
 
-  @ApiOperation({ summary: '获取角色列表' })
+  @ApiOperation({ summary: '查询管理员角色列表' })
+  @ApiSuccessResponse(QueryResDto<Role>)
   @HasPermission([
     PermissionType.ROLE_QUERY,
     PermissionType.ROLE_ASSIGN_QUERY,
   ])
-  @Get('list')
-  async getRoles() {
-    return await this._roleSrv.repo().find({relations:{permissions:true}})
+  @Post('query')
+  public queryRoles(
+    @Body() body: QueryDto<Role>,
+  ) {
+    return getQuery(
+      this._roleSrv.repo(),
+      body,
+    )
   }
 
   @ApiOperation({
-    summary: '创建/更新角色',
-    description: 'id为角色的唯一标识，如果id存在，则会更新角色信息',
+    summary: '创建角色',
   })
-  @Post('upsert')
-  async upsertRole(@Body() body:UpsertRoleBodyDto) {
-    return await this._roleSrv.upsertRole(body)
+  @ApiSuccessResponse(SuccessStringDto)
+  @HasPermission(PermissionType.ROLE_CREATE)
+  @Post('create')
+  public createRole(
+    @Body() body: UpsertRoleBodyDto
+  ) {
+    return this._roleSrv.createRole(body)
   }
 
   @ApiOperation({
-    summary: '删除角色',
-    description: '删除角色，如果角色下有用户，则不允许删除',
+    summary: '更新角色',
   })
-  @Post(':roleId')
-  async deleteRole(@Param() param: RoleIdDto) {
-    try {
-      return await this._roleSrv.deleteRole(param)
-    } catch (e) {
-      const sqlError = parseSqlError(e)
-      if (sqlError === SqlError.FOREIGN_KEY_CONSTRAINT_FAILS)
-        responseError(ErrorCode.ROLE_IN_USAGE)
-      throw e
+  @ApiSuccessResponse(SuccessStringDto)
+  @Patch('update/:roleId')
+  @HasPermission(PermissionType.ROLE_UPDATE)
+  public upsertRole(
+    @Body() body: UpsertRoleBodyDto,
+    @Param() {roleId}: RoleIdDto
+  ) {
+    return this._roleSrv.updateRole(body,roleId)
+  }
+
+  @ApiOperation({
+    summary: '批量删除指定管理员角色',
+    description: '删除管理员角色时，如果角色已关联用户，则会删除失败',
+  })
+  @Delete('delete')
+  public async deleteRoles(
+    @Body() { ids }: IdsDto
+  ) {
+    if (ids.length === 1) {
+      return await this._roleSrv.deleteRole(ids[0])
+        ? 1
+        : 0
     }
+
+    let success = 0
+    for (const id of ids) {
+      try {
+        const deleteRes = await this._roleSrv.deleteRole(id)
+        deleteRes && success++
+      }
+      catch (_) { }
+    }
+    return success
+  }
+
+  @ApiOperation({
+    summary: '删除指定管理员角色',
+    description: '删除管理员角色时，如果角色已关联用户，则会删除失败',
+  })
+  @Delete('delete/:roleId')
+  public deleteRole(
+    @Param() { roleId }: RoleIdDto
+  ) {
+    return this._roleSrv.deleteRole(roleId)
   }
 }

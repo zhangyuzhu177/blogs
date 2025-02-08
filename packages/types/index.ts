@@ -7,11 +7,11 @@ export * from './types/enum/config.enum'
 export * from './types/enum/error-code.enum'
 export * from './types/enum/permission.enum'
 export * from './types/enum/code-action.enum'
-export * from './types/enum/article-status.enum'
 
 // Constants
 export * from './types/constant/id.constant'
 export * from './types/constant/role.constant'
+export * from './types/constant/article.constant'
 
 // Interfaces
 export * from './types/dto/ip.interface'
@@ -62,4 +62,5 @@ export * from './types/http/article/upsert-article.interface'
 export * from './types/http/auth/login-by-password.interface'
 export * from './types/http/auth/login-by-email-code.interface'
 export * from './types/http/common/other/change-status.interface'
+export * from './types/http/article/upsert-article-type.interface'
 export * from './types/http/user/update-pswd-by-email-code.interface'

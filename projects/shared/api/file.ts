@@ -1,4 +1,4 @@
-import type { FileBodyDto } from 'types/http/file/file.body'
+import type { FileBodyDto } from 'types'
 import { useRequest } from '../utils/common/request'
 
 const { $post } = useRequest()

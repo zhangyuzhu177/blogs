@@ -74,6 +74,18 @@ export enum ErrorCode {
   ROLE_NAME_IS_EXIST = 500004,
   /** 管理员角色不存在 */
   ROLE_NOT_EXISTS = 500005,
+
+  // ---- 文章相关相关错误码 ----
+  /** 文章不存在 */
+  ARTICLE_NOT_EXISTS = 600001,
+  /** 文章类型不存在 */
+  ARTICLE_TYPE_NOT_EXISTS = 600002,
+  /** 文章类型已存在 */
+  ARTICLE_TYPE_IS_EXIST = 600003,
+  /** 禁止删除默认文章类型 */
+  ARTICLE_TYPE_DEFAULT_DELETE = 600004,
+  /** 文章类型下有文章 */
+  ARTICLE_TYPE_HAS_ARTICLE = 600005,
 }
 
 export type ErrorMessageCollection = Partial<

@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Article } from 'src/entities/article'
 import type { Repository } from 'typeorm'
-import { UpsertBodyDto } from './entities/dto/upsert-body.dto'
+import { Injectable } from '@nestjs/common'
+import { Article } from 'src/entities/article'
+import { InjectRepository } from '@nestjs/typeorm'
 import { ArticleType } from 'src/entities/article-type'
 
 @Injectable()
@@ -14,11 +13,11 @@ export class ArticleService {
     private readonly _articleTypeRepo: Repository<ArticleType>,
   ) { }
 
-  public async entitiesRepo() {
+  public entitiesRepo() {
     return this._articleRepo
   }
 
-  public async articleTypeRepo() {
+  public articleTypeRepo() {
     return this._articleTypeRepo
   }
 }

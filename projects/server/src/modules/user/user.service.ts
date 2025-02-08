@@ -199,7 +199,7 @@ export class UserService implements OnModuleInit {
   }
 
   /**
-   * 批量份额诶管理员角色
+   * 批量分配管理员角色
    */
   public async assignRole(body:AssignRoleBodyDto) {
     const { ids, roleId } = body
