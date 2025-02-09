@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useVModel } from '@vueuse/core'
 import { ref } from 'vue'
 import { QFile } from 'quasar'
+import { useVModel } from '@vueuse/core'
 import type { QFileProps } from 'quasar'
 
 import ZLabel from '../label/ZLabel.vue'

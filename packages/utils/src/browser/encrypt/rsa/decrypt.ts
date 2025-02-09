@@ -10,7 +10,7 @@ import { getRsaClient } from '.'
 export async function rsaDecrypt(
   hash: string,
   privateKey: string,
-  key = 'ZyzRsa',
+  key = 'zhangyuzhu',
 ) {
   const rsa = await getRsaClient()
   try {

@@ -22,7 +22,6 @@ export class RoleController {
   @ApiSuccessResponse(QueryResDto<Role>)
   @HasPermission([
     PermissionType.ROLE_QUERY,
-    PermissionType.ROLE_ASSIGN_QUERY,
   ])
   @Post('query')
   public queryRoles(

@@ -1,4 +1,4 @@
-import { SysConfig } from 'shared/types/enum/config.enum'
+import { SysConfig } from 'types'
 
 interface Nav {
   id: SysConfig
@@ -13,10 +13,6 @@ const PAGE_NAV: Nav[] = [
   {
     id: SysConfig.HOME,
     label: '首页设置',
-  },
-  {
-    id: SysConfig.ARTICLE,
-    label: '文章页设置',
   },
   {
     id: SysConfig.ABOUT,

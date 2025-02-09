@@ -95,7 +95,7 @@ export class AuthService {
 
 
     // 用户是否被禁用
-    if (user.status)
+    if (!user.status)
       responseError(ErrorCode.USER_ACCOUNT_IS_DELETED)
 
     if (!user.password)
@@ -119,7 +119,7 @@ export class AuthService {
     const user = await this._userSrv.repo().findOneBy({ email })
     if (!user)
       responseError(ErrorCode.USER_EMAIL_NOT_REGISTERED)
-    if (user.status)
+    if (!user.status)
       responseError(ErrorCode.USER_ACCOUNT_IS_DELETED)
 
     return this._jwtAuthSrv.signLoginAuthToken(user, ip)

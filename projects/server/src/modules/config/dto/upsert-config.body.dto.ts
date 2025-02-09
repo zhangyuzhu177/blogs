@@ -26,16 +26,6 @@ export class UpsertConfigBodyDto
   home?: IConfigDto[SysConfig.HOME]
 
   @ApiPropertyOptional({
-    description: '文章页配置',
-    example: {
-      title:'string',
-      label: 'string',
-      url:'',
-    },
-  })
-  article?: IConfigDto[SysConfig.ARTICLE]
-
-  @ApiPropertyOptional({
     description: '关于页配置',
     example: {
     title: "",

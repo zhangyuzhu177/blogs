@@ -8,7 +8,7 @@ import { random } from '../../utils/common/random'
 
 // Orb class
 export class Orb {
-  bounds: { x: { min: number, max: number }, y: { min: number, max: number } }
+  bounds: { x: { min: number; max: number }; y: { min: number; max: number } }
   x: number
   y: number
   scale: number

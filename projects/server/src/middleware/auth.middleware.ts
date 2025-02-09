@@ -69,7 +69,7 @@ export class AuthMiddleware implements NestMiddleware {
     if (!user)
       return next()
 
-    if (user.status) {
+    if (!user.status) {
       this.logger.error(`用户 ${user.account}, ${user.id} 已被删除，无法登录`)
       return next()
     }

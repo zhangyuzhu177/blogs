@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { useVModel } from '@vueuse/core'
 import { ref } from 'vue'
 import { QFile } from 'quasar'
+import { browser } from 'utils'
+import { useVModel } from '@vueuse/core'
 import type { QFileProps } from 'quasar'
+
 import ZBtn from '../btn/ZBtn.vue'
-import { fileToUrl } from '../../utils/browser'
 import ZLabel from '../label/ZLabel.vue'
 import type { ZLabelProps } from '../label/ZLabel.vue'
 import { type hint, onRejected } from '../../utils/common/uploadFile'
@@ -124,7 +125,7 @@ function deleteFile(index: number) {
           :key="index"
           relative
         >
-          <img :src="fileToUrl(file)" w16 h16>
+          <img :src="browser.fileToUrl(file)" w16 h16>
           <div
             h6 w6 cursor-pointer flex-center
             bg="black/30" hover:bg="black/40"

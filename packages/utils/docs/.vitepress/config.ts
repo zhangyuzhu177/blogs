@@ -36,7 +36,7 @@ export default defineConfig({
     socialLinks: [
       {
         icon: 'github',
-        link: 'https://codeup.aliyun.com/62cea2b83e81781f3ad23a2f/qiyandata/qiyandata-internal.git',
+        link: 'https://github.com/zhangyuzhu177/blogs',
       },
     ],
   },

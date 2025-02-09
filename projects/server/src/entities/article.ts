@@ -55,7 +55,9 @@ export class Article extends BaseTimeStamp implements IArticle {
   @ApiProperty({
     description: '访问量',
   })
-  @Column()
+  @Column({
+    default: 0,
+  })
   pageView?: number
 
   @ApiProperty({

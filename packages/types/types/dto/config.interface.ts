@@ -21,16 +21,6 @@ export interface IConfigDto {
     url?: string
   }
 
-  /** 文章页配置 */
-  [SysConfig.ARTICLE]?: {
-    /** 页面标题 */
-    title?: string
-    /** 页面描述 */
-    label?: string
-    /** 页面图片 */
-    url?: string
-  }
-
   /** 关于页配置 */
   [SysConfig.ABOUT]?: {
     /** 页面标题 */

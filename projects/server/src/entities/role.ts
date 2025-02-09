@@ -19,7 +19,7 @@ export class Role extends BaseTimeStamp implements IRole {
 
   @ApiProperty({ description: '角色的描述信息' })
   @Column({ nullable: true })
-  description?: string
+  desc?: string
 
   @ManyToMany(
     () => Permission,

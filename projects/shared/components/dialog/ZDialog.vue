@@ -1,15 +1,21 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useVModel } from '@vueuse/core'
 import { QScrollArea } from 'quasar'
+import { useVModel } from '@vueuse/core'
 import type { QDialogProps } from 'quasar'
+
 import ZBtn from '../btn/ZBtn.vue'
 import ZLoading from '../loading/ZLoading.vue'
 import { useSysConfig } from '../../composables/app'
 
 interface ZDialogProps {
   modelValue?: boolean
-  title: string
+  /**
+   * 对话框标题
+   *
+   * 或使用 `title` 插槽代替
+   */
+  title?: string
   caption?: string
   footer?: boolean
   disableConfirm?: boolean

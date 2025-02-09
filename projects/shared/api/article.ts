@@ -1,18 +1,19 @@
 import type {
   IArticle,
+  IChangeStatusBodyDto,
   IIdsDto,
   IQueryDto,
   IQueryPaginatedResData,
   IUpsertArticleBodyDto,
 } from 'types'
-import { useRequest } from '../utils/common/request'
+import { useRequest } from '../composables/request'
 
 const { $post, $get, $patch, $delete } = useRequest()
 
 /**
  * 获取文章列表
  */
-export function getArticleListApi(body: IQueryDto<IArticle>) {
+export function queryArticleListApi(body: IQueryDto<IArticle>) {
   return $post<IQueryPaginatedResData<IArticle>>('/article/entities/query', body)
 }
 
@@ -35,6 +36,13 @@ export function createArticleApi(body: IUpsertArticleBodyDto) {
  */
 export function updateArticleApi(body: IUpsertArticleBodyDto, articleId: string) {
   return $patch<string>(`/article/entities/update/${articleId}`, body)
+}
+
+/**
+ * 修改文章状态
+ */
+export function changeArticleStatusApi(body: IChangeStatusBodyDto) {
+  return $post<string>('/article/entities/status', body)
 }
 
 /**

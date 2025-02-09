@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import { SysConfig } from 'shared/types/enum'
+import { SysConfig } from 'types'
 
 import AppSetting from './AppSetting.vue'
-import PageSetting from './PageSetting.vue'
+import HomeSetting from './HomeSetting.vue'
 import AboutSetting from './AboutSetting.vue'
 
 const { PAGE_NAV, active } = usePageAdmin()
 </script>
 
 <template>
-  <div full flex="~ gap4">
-    <q-card p-4 w-60 h-full min-w-50 flex="~ col gap2">
+  <div full flex="~ gap4" relative>
+    <div
+      b="1 grey-3" p-4 w-60 b-rd-2
+      h-full min-w-50 flex="~ col gap2"
+    >
       <div v-for="item in PAGE_NAV" :key="item.id">
         <div
           :class="item.id === active ? 'active' : ''"
@@ -18,17 +21,12 @@ const { PAGE_NAV, active } = usePageAdmin()
           @click="active = item.id" v-text="item.label"
         />
       </div>
-    </q-card>
-    <q-card p-4 flex-1 h-full overflow-auto>
+    </div>
+    <div flex-1 overflow-auto>
       <AppSetting v-if="active === SysConfig.APP" />
-      <template v-for="item in PAGE_NAV.slice(1, 3)" :key="item.id">
-        <PageSetting
-          v-if="active === item.id"
-          :data="item"
-        />
-      </template>
+      <HomeSetting v-if="active === SysConfig.HOME" />
       <AboutSetting v-if="active === SysConfig.ABOUT" />
-    </q-card>
+    </div>
   </div>
 </template>
 

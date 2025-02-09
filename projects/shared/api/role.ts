@@ -5,14 +5,14 @@ import type {
   IRole,
   IUpsertRoleBodyDto,
 } from 'types'
-import { useRequest } from '../utils/common/request'
+import { useRequest } from '../composables/request'
 
 const { $post, $delete } = useRequest()
 
 /**
  * 获取管理角色列表
  */
-export function getRolesApi(body: IQueryDto<IRole>) {
+export function queryRolesApi(body: IQueryDto<IRole>) {
   return $post<IQueryPaginatedResData<IRole>>('/role/query', body)
 }
 

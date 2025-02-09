@@ -1,10 +1,10 @@
 import { useFavicon, useTitle, useWindowSize } from '@vueuse/core'
 import { useHead } from '@vueuse/head'
 import { computed, ref } from 'vue'
+import type { IConfigDto } from 'types'
+import { SysConfig } from 'types'
 import { APP_ICON, APP_MIN_WIDTH, APP_NAME, APP_NAME_EN } from '../constants/app'
 import { getConfigApi } from '../api/config'
-import { SysConfig } from '../types/enum/config.enum'
-import type { IConfigDto } from '../types/dto/config.interface'
 
 const { width } = useWindowSize()
 

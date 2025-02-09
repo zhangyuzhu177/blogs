@@ -10,13 +10,13 @@ import { getRsaClient } from '.'
 export async function rsaEncrypt(
   value: string,
   publicKey: string,
-  key = 'ZyzRsa',
+  key = 'zhangyuzhu',
 ) {
   const rsa = await getRsaClient()
   try {
     rsa?.setPublicKey(publicKey)
     const hash = rsa?.encrypt(
-      `${key}${value.split('').map(char => String.fromCharCode(char.charCodeAt(0) + 1)).join('')}`,
+      `${key}${value.split('').map(char => String.fromCharCode(char.charCodeAt(0))).join('')}`,
     )
     if (!hash)
       return value

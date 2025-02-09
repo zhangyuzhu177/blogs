@@ -14,21 +14,40 @@ import Components from 'unplugin-vue-components/vite'
 import { QuasarResolver } from 'unplugin-vue-components/resolvers'
 
 export default ({ mode }: any) => {
+  // 默认环境配置
+  const defaultEnv = {
+    VITE_CLIENT_PORT: '5000',
+    VITE_CLIENT_BASE: '/',
+    VITE_API_BASE: '/api',
+  }
+
+  // 后端服务读取的配置
+  const nodeEnv = {
+    ...loadEnv(mode, path.relative(__dirname, '../gateway'), 'APP'),
+    ...loadEnv(mode, path.relative(__dirname, '../gateway'), 'RSA_PUBLIC'),
+  }
+
   process.env = {
     ...process.env,
+    ...defaultEnv,
+    ...Object.keys(nodeEnv).reduce((newObj, key) => {
+      newObj[`VITE_${key}`] = nodeEnv[key]
+      return newObj
+    }, {} as Record<string, string>),
+    // 环境变量
     ...loadEnv(mode, path.relative(__dirname, '../shared')),
     VITE_MODE: mode,
   }
 
   return defineConfig({
-    base: process.env.VITE_CLIENT_BASE || '/',
+    base: process.env.VITE_CLIENT_BASE,
     define: {
       'process.env': {},
     },
 
     server: {
       host: '0.0.0.0',
-      port: Number.parseInt(process.env.VITE_CLIENT_PORT || '3334'),
+      port: Number.parseInt(process.env.VITE_CLIENT_PORT!),
       proxy: {
         [process.env.VITE_API_BASE as string]: {
           target: process.env.VITE_PROXY_TARGET,
@@ -41,7 +60,7 @@ export default ({ mode }: any) => {
 
     resolve: {
       alias: {
-        '~/': `${path.resolve(__dirname, 'src')}/`,
+        '~': path.resolve(__dirname, 'src'),
       },
     },
 
@@ -127,7 +146,14 @@ export default ({ mode }: any) => {
 
     ssr: {
       // TODO: workaround until they support native ESM
-      noExternal: ['workbox-window', 'lodash', 'jsencrypt', 'quasar', 'md-editor-v3', '@vavt/v3-extension'],
+      noExternal: [
+        'workbox-window',
+        'lodash',
+        'jsencrypt',
+        'quasar',
+        'md-editor-v3',
+        '@vavt/v3-extension',
+      ],
     },
   })
 }

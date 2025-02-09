@@ -10,6 +10,7 @@ import { RegisterBodyDto } from './dto/register.body.dto'
 import { LoginSuccessResDto } from './dto/login-success.res.dto'
 import { LoginByPasswordBodyDto } from './dto/login-by-password.body.dto'
 import { LoginByEmailCodeBodyDto } from './dto/login-by-email-code.body.dto'
+import { text } from 'node:stream/consumers'
 
 @Controller('auth')
 @ApiTags('Auth | 身份验证')
@@ -32,7 +33,7 @@ export class AuthController {
   @ApiSuccessResponse(LoginSuccessResDto)
   @Post('login/password')
   public async loginByPassword(
-    @Body() body:LoginByPasswordBodyDto,
+    @Body() body: LoginByPasswordBodyDto,
     @Req() req: FastifyRequest
   ) {
 
@@ -67,6 +68,7 @@ export class AuthController {
     const { bizId } = await this._codeSrv.createCaptcha(ip, captcha.text)
     return {
       bizId,
+      text: captcha.text,
       img: captcha.data,
     }
   }

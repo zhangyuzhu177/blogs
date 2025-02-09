@@ -1,124 +1,144 @@
 <script setup lang="ts">
+import { cloneDeep } from 'lodash'
 import { Notify } from 'quasar'
-import type { IConfigDto } from 'shared/types/dto/config.interface'
-import { SysConfig } from 'shared/types/enum'
+import { SysConfig } from 'types'
+import type { IConfigDto } from 'types'
 
 const { active } = usePageAdmin()
 
+/** 加载中 */
 const loading = ref(false)
-const appCfg = ref<IConfigDto[SysConfig.APP]>()
-const oldCfg = ref('')
+/** 初始化配置 */
+const initData: IConfigDto[SysConfig.APP] = {
+  name: '',
+  nameEn: '',
+  icon: '',
+}
+/** app配置 */
+const appCfg = ref<IConfigDto[SysConfig.APP]>(cloneDeep(initData))
 
 /** 上传logo图片 */
 const logoImg = ref<File>()
-watch(logoImg, async (newVal) => {
-  loading.value = true
-  try {
-    if (newVal) {
-      const formData = new FormData()
-      formData.append('file', newVal as File)
-      const res = await uploadFileApi(formData, `/images/page/${newVal.name}`)
-      appCfg.value!.icon = res.url
+watch(
+  logoImg,
+  async (newVal) => {
+    loading.value = true
+    try {
+      if (newVal) {
+        const formData = new FormData()
+        formData.append('file', newVal as File)
+        const res = await uploadFileApi(formData, `/images/page/${newVal.name}`)
+        appCfg.value!.icon = res.url
+      }
     }
-  }
-  catch (e) {}
-  finally {
-    loading.value = false
-    logoImg.value = undefined
-  }
-})
+    finally {
+      loading.value = false
+      logoImg.value = undefined
+    }
+  })
 
 /** 获取数据 */
 async function getConfigList() {
   loading.value = true
   try {
-    const data = await getConfigApi(active.value) || {}
-    appCfg.value = data
-    oldCfg.value = JSON.stringify(data)
+    const data = await getConfigApi(active.value) || initData
+    appCfg.value = data as IConfigDto[SysConfig.APP]
   }
-  catch (error) {}
-  finally {
-    loading.value = false
-  }
-}
-const inputRef = ref()
-/** 保存修改 */
-async function save(val: SysConfig) {
-  loading.value = true
-  try {
-    const data = await upsertConfigApi({ version: val, [SysConfig.APP]: { ...appCfg.value } })
-    if (data)
-      Notify.create({ message: '修改成功', type: 'success' })
-  }
-  catch (error) {}
   finally {
     loading.value = false
   }
 }
 
-onMounted(() => {
-  getConfigList()
+/** 保存修改 */
+async function save() {
+  loading.value = true
+  try {
+    const data = await upsertConfigApi({
+      version: active.value,
+      [SysConfig.APP]: {
+        ...appCfg.value,
+      },
+    })
+    if (data) {
+      Notify.create({
+        message: '修改成功',
+        type: 'success',
+      })
+    }
+  }
+  finally {
+    loading.value = false
+  }
+}
+
+onBeforeMount(async () => {
+  await getConfigList()
 })
 </script>
 
 <template>
-  <div full>
+  <div flex="~ col gap4" full>
     <ZLoading :value="loading" />
-    <div v-if="!loading" flex="~ col gap-4">
-      <div flex items-center justify-between>
-        <h3>APP设置</h3>
-        <ZBtn
-          min-w-20 label="保存"
-          :disable="oldCfg === JSON.stringify(appCfg)"
-          @click="save(SysConfig.APP)"
-        />
+
+    <!-- 标题 -->
+    <div flex="~ items-center justify-between">
+      <h3 v-text="'APP设置'" />
+      <ZBtn
+        label="保存"
+        @click="save()"
+      >
+        <template #left>
+          <div size-5 i-mingcute:save-2-line />
+        </template>
+      </ZBtn>
+    </div>
+
+    <div flex="~ col gap-4" overflow-auto>
+      <!-- 基础设置 -->
+      <div flex="~ items-center gap2">
+        <div w-2 h-2 b-rd-0.5 bg-primary-1 />
+        <div subtitle-2 v-text="'基础设置'" />
       </div>
-      <div v-if="appCfg" flex="~ col gap1">
-        <ZLabel label="名称" />
+
+      <div flex="~ col gap1">
         <ZInput
-          ref="inputRef"
-          v-model="appCfg.name"
+          v-model="appCfg!.name"
+          label="名称"
           placeholder="输入APP名称"
-          size="medium"
-          :params="{
-            counter: true,
-            maxlength: '12',
-          }"
+          :max="12"
+          mb5
         />
-      </div>
-      <div v-if="appCfg" flex="~ col gap1">
-        <ZLabel label="英文名" />
         <ZInput
-          v-model="appCfg.nameEn"
+          v-model="appCfg!.nameEn"
+          label="英文名"
           placeholder="输入APP名称"
-          size="medium"
-          :params="{
-            counter: true,
-            maxlength: '12',
-          }"
+          :max="12"
+          mb5
         />
-      </div>
-      <div flex="~ col">
-        <div flex items-center justify-between>
+        <div flex="~ col gap2" mb5>
           <ZLabel label="logo" />
           <ZUpload
             v-model="logoImg"
             type="image"
             accept="image/*"
+            w-30 b-rd-4
           >
-            <ZBtn label="上传图片">
-              <template #left>
-                <div w-5 h-5 i-mdi:file-image-outline />
-              </template>
-            </ZBtn>
+            <div
+              v-if="!appCfg?.icon"
+              flex="~ col gap2 center"
+              b-rd-4 full h-30
+              border="1px dashed gray-5"
+            >
+              <div text="6 grey-5" i-ph:plus />
+              <div text="grey-5" v-text="'上传logo'" />
+            </div>
+            <div
+              v-else flex="~ col gap2 center" b-rd-4 full
+              h-30 overflow-hidden relative
+            >
+              <img full :src="appCfg?.icon">
+            </div>
           </ZUpload>
-        </div>
-        <div
-          w-30 h-30 b-rd-2
-          b="1 gray-3"
-          overflow-hidden
-        >
-          <img v-iof="appCfg?.icon" full :src="appCfg?.icon">
         </div>
       </div>
     </div>

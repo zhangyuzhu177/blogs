@@ -1,20 +1,33 @@
-import { computed, getCurrentInstance, ref } from 'vue'
+import { Notify } from 'quasar'
+import { browser } from 'utils'
 import { useRouter } from 'vue-router'
 import type { Router } from 'vue-router'
 import { useStorage } from '@vueuse/core'
-import { Notify } from 'quasar'
+import { computed, getCurrentInstance, ref } from 'vue'
+import type {
+  ILoginByEmailCodeBodyDto,
+  ILoginByPasswordBodyDto,
+  ILoginSuccessResData,
+  IRegisterBodyDto,
+  IUpdatePasswordByEmailCodeBodyDto,
+  IUser,
+  PermissionType,
+} from 'types'
 
+import { AES_KEY, RSA_KEY } from '../constants/encrypt'
 import { getOwnProfileApi, updateOwnPasswordByEmailCodeApi } from '../api/user'
-import { rsaEncrypt } from '../utils/common/rsa'
-import { getEnvVariable } from '../utils/common/env'
-import type { IUser } from '../types/entities/user.interface'
-import { loginByEmailCodeApi, loginByPasswordApi, logoutApi, registerApi } from '../api/auth'
-import type { PermissionType } from '../types/enum/permission.enum'
-import { AUTH_TOKEN_KEY, LEADING_PAGE_KEY, REMEMBER_LOGIN_INFO_KEY } from '../constants/storage'
-import type { IRegisterBodyDto } from '../types/http/auth/register.interface'
-import type { ILoginByEmailCodeBodyDto } from '../types/http/auth/login-by-email-code.interface'
-import type { ILoginByPasswordBodyDto, ILoginSuccessResData } from '../types/http/auth/login-by-password.interface'
-import type { IUpdatePasswordByEmailCodeBodyDto } from '../types/http/user/update-pswd-by-email-code.interface'
+import {
+  loginByEmailCodeApi,
+  loginByPasswordApi,
+  logoutApi,
+  registerApi,
+} from '../api/auth'
+import {
+  AUTH_TOKEN_KEY,
+  LEADING_PAGE_KEY,
+  REMEMBER_LOGIN_INFO_KEY,
+} from '../constants/storage'
+
 import { useSysConfig } from './app'
 
 /** 用户token */
@@ -37,15 +50,22 @@ export function useUser($router?: Router) {
   async function loginByPassword(body: ILoginByPasswordBodyDto, remember = false) {
     loading.value = true
     try {
-      const res = await loginByPasswordApi({ ...body, password: await rsaEncrypt(body.password!) })
+      const res = await loginByPasswordApi({
+        ...body,
+        password: await browser.rsaEncrypt(body.password!, RSA_KEY),
+      })
       if (res && remember) {
         // 记住密码
         localStorage.setItem(
           REMEMBER_LOGIN_INFO_KEY,
-          JSON.stringify({
-            userCode: body.account || body.email,
-            password: await rsaEncrypt(body.password!),
-          }),
+          browser.aesEncrypt(
+            JSON.stringify({
+              userCode: body.account || body.email,
+              password: body.password,
+            }),
+            AES_KEY,
+          ),
+
         )
       }
       else {
@@ -102,7 +122,7 @@ export function useUser($router?: Router) {
   async function register(body: IRegisterBodyDto) {
     loading.value = true
     try {
-      const res = await registerApi({ ...body, password: await rsaEncrypt(body.password) })
+      const res = await registerApi({ ...body, password: await browser.rsaEncrypt(body.password!, RSA_KEY) })
       if (res) {
         Notify.create({
           type: 'success',
@@ -157,21 +177,37 @@ export function useUser($router?: Router) {
   }
 
   /**
-   * 用户是否使用手机号
+   * 管理员权限
    */
-  const isPhone = computed(() => getEnvVariable('VITE_USER_PHONE', false))
+  const userPermission = computed(() => userInfo.value?.role?.permissions?.map(({ name }) => name))
+
+  /**
+   * 判断管理员有无指定权限
+   */
+  function hasPermission(
+    permissions: PermissionType | PermissionType[],
+    relation: 'OR' | 'AND' = 'OR',
+  ) {
+    if (!Array.isArray(permissions))
+      permissions = [permissions]
+    return userPermission.value?.length
+      ? permissions[relation === 'OR' ? 'some' : 'every'](
+        permission => userPermission.value?.includes(permission),
+      )
+      : false
+  }
 
   return {
     loading,
     authToken,
     adminRole,
     userInfo,
-    isPhone,
     logout,
     register,
     getOwnProfile,
     loginByPassword,
     loginByEmailCode,
     updatePasswordByEmailCode,
+    hasPermission,
   }
 }

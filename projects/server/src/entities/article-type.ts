@@ -25,7 +25,9 @@ export class ArticleType extends BaseTimeStamp implements IArticleType {
   @ApiProperty({
     description: '描述',
   })
-  @Column()
+  @Column({
+    nullable: true
+  })
   desc?: string
 
   @OneToMany(() => Article, (article) => article.articleType)

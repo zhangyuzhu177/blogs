@@ -58,7 +58,6 @@ export class UserController {
   @ApiSuccessResponse(QueryResDto<User>)
   @HasPermission([
     PermissionType.USER_QUERY,
-    PermissionType.ROLE_ASSIGN_QUERY,
   ])
   @Post('query')
   public queryUserList(

@@ -9,14 +9,14 @@ import type {
   IUpdateUserBodyDto,
   IUser,
 } from 'types'
-import { useRequest } from '../utils/common/request'
+import { useRequest } from '../composables/request'
 
 const { $post, $patch, $get } = useRequest()
 
 /**
  * 获取用户列表
  */
-export function getUserListApi(body: IQueryDto<IUser>) {
+export function queryUserListApi(body: IQueryDto<IUser>) {
   return $post<IQueryPaginatedResData<IUser>>('/user/query', body)
 }
 

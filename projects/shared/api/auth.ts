@@ -1,6 +1,6 @@
 import type { ILoginByEmailCodeBodyDto, ILoginByPasswordBodyDto, ILoginSuccessResData, IRegisterBodyDto } from 'types'
+import { useRequest } from '../composables/request'
 import { authToken } from '../composables/user'
-import { useRequest } from '../utils/common/request'
 
 const { $post, $get } = useRequest()
 

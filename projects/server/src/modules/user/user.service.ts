@@ -50,6 +50,7 @@ export class UserService implements OnModuleInit {
           email:'',
           password: await encryptPassword(password),
           sysAdmin: true,
+          status: true,
         })
       }
       catch (e) {
@@ -204,10 +205,10 @@ export class UserService implements OnModuleInit {
   public async assignRole(body:AssignRoleBodyDto) {
     const { ids, roleId } = body
     if (ids.length === 1) {
-      const admin = await this._userRepo.findOneBy({ id: ids[0] })
-      if (!admin)
+      const user = await this._userRepo.findOneBy({ id: ids[0] })
+      if (!user)
         responseError(ErrorCode.USER_NOT_FOUND)
-      if (admin.sysAdmin)
+      if (user.sysAdmin)
         responseError(ErrorCode.USER_UPDATE_DISABLE)
     }
     try {
@@ -218,6 +219,7 @@ export class UserService implements OnModuleInit {
         },
         { roleId: roleId || null },
       )
+
       return updateRes.affected
     }
     catch (e) {

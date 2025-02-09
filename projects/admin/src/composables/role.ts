@@ -1,4 +1,5 @@
-import type { PermissionType } from 'shared/types/enum/permission.enum'
+import type { PermissionType } from 'types'
+import { arrayDistinct, arrayHasIntersection, objectOmit } from 'utils'
 import type { PermissionItem } from '~/constants/admin'
 
 export function useRole() {
@@ -15,7 +16,7 @@ export function useRole() {
    */
   function getMenu(permission?: PermissionType[]) {
     return ADMIN_MENU_LIST.filter(({ value, flag }) => (
-      hasIntersection(value ?? [], permission ?? [])
+      arrayHasIntersection(value ?? [], permission ?? [])
       && flag !== false
     ))
       .map(v => objectOmit(v, 'children'))

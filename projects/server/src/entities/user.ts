@@ -57,7 +57,10 @@ export class User extends BaseTimeStamp implements IUser {
   @Column({ default: false })
   status: boolean
 
-  @Column({ select: false, default: false })
+  @Column({
+    select: false,
+    default: false
+  })
   sysAdmin: boolean
 
   @ManyToOne(() => Role, role => role.users)

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Notify } from 'quasar'
 import { useSysConfig } from '../composables/app'
 import { authToken, useUser } from '../composables/user'
-import { pubRouter } from '../utils/common/pubRouter'
+import { pubRouter } from '../composables/pubRouter'
 
 const $http = axios.create({
   baseURL: import.meta.env.VITE_API_BASE,

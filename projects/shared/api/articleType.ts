@@ -1,12 +1,12 @@
 import type { IArticleType, IIdsDto, IQueryDto, IQueryPaginatedResData, IUpsertArticleTypeBodyDto } from 'types'
-import { useRequest } from 'utils/common'
+import { useRequest } from '../composables/request'
 
 const { $post, $patch, $delete } = useRequest()
 
 /**
  * 获取文章类别列表
  */
-export function getArticleTypeListApi(body: IQueryDto<IArticleType>) {
+export function queryArticleTypeListApi(body: IQueryDto<IArticleType>) {
   return $post<IQueryPaginatedResData<IArticleType>>('/article/type/query', body)
 }
 

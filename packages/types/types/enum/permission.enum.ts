@@ -31,8 +31,6 @@ export enum PermissionType {
   ROLE_UPDATE = 'role:update',
   /** 查询管理角色 */
   ROLE_QUERY = 'role:query',
-  /** 查询管理角色分配列表 */
-  ROLE_ASSIGN_QUERY = 'role:assign-query',
 
   // ------------------ 全局配置 ---------------------
   /** 查询应用全局配置 */
@@ -77,7 +75,6 @@ export const permissionDescriptions: Record<PermissionType, string> = {
   [PermissionType.ROLE_DELETE]: '删除角色权限',
   [PermissionType.ROLE_UPDATE]: '更新角色权限',
   [PermissionType.ROLE_QUERY]: '查询角色权限',
-  [PermissionType.ROLE_ASSIGN_QUERY]: '查询角色权限分配列表',
 
   [PermissionType.CONFIG_QUERY_APP]: '查询应用全局配置',
   [PermissionType.CONFIG_UPSERT_APP]: '创建/更新应用全局配置',

@@ -1,4 +1,4 @@
-import { PermissionType } from 'shared/types/enum/permission.enum'
+import { PermissionType } from 'types'
 
 interface MenuItem {
   id: string
@@ -20,11 +20,6 @@ export function useMenu() {
     const menu: Record<string, MenuItem[]> = {
       home: [
         {
-          id: 'home',
-          label: '首页',
-          flag: role?.includes(PermissionType.CONFIG_QUERY_APP),
-        },
-        {
           id: 'page',
           label: '页面配置',
           flag: role?.includes(PermissionType.CONFIG_QUERY_APP),
@@ -33,32 +28,25 @@ export function useMenu() {
       article: [
         {
           id: 'article',
-          label: '文章信息管理',
+          label: '文章信息',
           flag: role?.includes(PermissionType.ARTICLE_QUERY),
         },
         {
-          id: 'articleAdd',
-          label: '发布文章',
-          flag: role?.includes(PermissionType.ARTICLE_PUBLISH),
+          id: 'articleType',
+          label: '文章分类',
+          flag: role?.includes(PermissionType.ARTICLE_TYPE_QUERY),
         },
       ],
       user: [
         {
-          id: 'userInfo',
-          label: '用户信息管理',
+          id: 'user',
+          label: '用户信息',
           flag: role?.includes(PermissionType.USER_QUERY),
         },
-      ],
-      admin: [
         {
-          id: 'adminRole',
-          label: '设置管理角色',
+          id: 'role',
+          label: '管理角色',
           flag: role?.includes(PermissionType.ROLE_QUERY),
-        },
-        {
-          id: 'adminAssign',
-          label: '分配管理角色',
-          flag: role?.includes(PermissionType.ROLE_ASSIGN_QUERY),
         },
       ],
     }

@@ -1,5 +1,5 @@
 import type { IConfigDto, IUpsertConfigBodyDto, SysConfig } from 'types'
-import { useRequest } from '../utils/common/request'
+import { useRequest } from '../composables/request'
 
 const { $get, $post } = useRequest()
 

@@ -50,7 +50,7 @@ export class SysConfigService {
     public hasPermission(version: SysConfig, user: Partial<IUser>) {
       const permissions = user.role?.permissions.map(v => v.name)
       if (
-        ((version === SysConfig.APP || version === SysConfig.HOME|| version === SysConfig.ARTICLE|| version === SysConfig.ABOUT)
+        ((version === SysConfig.APP || version === SysConfig.HOME|| version === SysConfig.ABOUT)
           && !permissions.includes(PermissionType.CONFIG_UPSERT_APP))
       )
         responseError(ErrorCode.PERMISSION_DENIED)
