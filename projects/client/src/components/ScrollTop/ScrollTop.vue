@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { isClient } from '@vueuse/core'
+
 const { scrollEl } = useClientApp()
 
 const show = ref(false)
 nextTick(() => {
+  if (!isClient)
+    return
   const { y } = useScroll(document?.querySelector('.q-scrollarea__container') as HTMLElement)
   watch(
     () => y.value,

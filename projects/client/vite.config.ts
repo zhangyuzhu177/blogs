@@ -12,7 +12,6 @@ import AutoImport from 'unplugin-auto-import/vite'
 import VueDevTools from 'vite-plugin-vue-devtools'
 import WebfontDownload from 'vite-plugin-webfont-dl'
 import Components from 'unplugin-vue-components/vite'
-import { QuasarResolver } from 'unplugin-vue-components/resolvers'
 
 export default ({ mode }: any) => {
   // 默认环境配置
@@ -115,7 +114,6 @@ export default ({ mode }: any) => {
           'src/components',
           '../shared/components',
         ],
-        resolvers: [QuasarResolver()],
       }),
 
       // https://github.com/antfu/unocss
@@ -137,10 +135,7 @@ export default ({ mode }: any) => {
         reduceInlineStyles: false,
       },
       onFinished() {
-        const flag = process.env.VITE_SITEMAP ?? false
-        const truly = [true, 'true', 'yes', '1', 'TRUE', 'YES', 'True', 'Yes']
-        if (truly.includes(flag))
-          generateSitemap()
+        generateSitemap()
       },
     },
 

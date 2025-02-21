@@ -4,6 +4,7 @@ import type { TocItem } from 'md-editor-v3/lib/types/MdCatalog/MdCatalog'
 
 import 'md-editor-v3/lib/style.css'
 import { MdCatalog, MdPreview } from 'md-editor-v3'
+import { isClient } from '@vueuse/core'
 
 interface ArticleDetailProps {
   article?: IArticle
@@ -26,7 +27,7 @@ function mdHeadingId(_text: string, _level: number, index: number) {
 }
 
 function onClick(e: MouseEvent, t: TocItem) {
-  const el = document.getElementById(`h-${t.level}-${t.index}`)
+  const el = document?.getElementById(`h-${t.level}-${t.index}`)
 
   if (el) {
     scrollEl.value?.setScrollPosition(
@@ -39,6 +40,8 @@ function onClick(e: MouseEvent, t: TocItem) {
 
 onBeforeMount(async () => {
   nextTick(() => {
+    if (!isClient)
+      return
     const { y } = useScroll(document?.querySelector('.q-scrollarea__container') as HTMLElement)
     watch(
       () => y.value,

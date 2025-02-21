@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { isClient } from '@vueuse/core'
+
 export type Theme = 'light' | 'dark'
 
 const router = useRouter()
@@ -6,6 +8,9 @@ const router = useRouter()
 const theme = ref<Theme>('dark')
 
 nextTick(() => {
+  if (!isClient)
+    return
+
   const { y } = useScroll(document?.querySelector('.q-scrollarea__container') as HTMLElement)
   watch(
     y,
