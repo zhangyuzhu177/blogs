@@ -43,6 +43,7 @@ declare module 'vue' {
     ZCheckbox: typeof import('./../../../shared/components/checkbox/ZCheckbox.vue')['default']
     ZDialog: typeof import('./../../../shared/components/dialog/ZDialog.vue')['default']
     ZDragUpload: typeof import('./../../../shared/components/upload/ZDragUpload.vue')['default']
+    ZEmpty: typeof import('./../../../shared/components/empty/ZEmpty.vue')['default']
     ZIconBtn: typeof import('./../../../shared/components/btn/ZIconBtn.vue')['default']
     ZInfo: typeof import('./../../../shared/components/info/ZInfo.vue')['default']
     ZInput: typeof import('./../../../shared/components/input/ZInput.vue')['default']
