@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { IConfigDto } from 'shared/types/dto/config.interface'
-import type { SysConfig } from 'shared/types/enum/config.enum'
+import type { IConfigDto, SysConfig } from 'types'
 
 interface Props {
   page: IConfigDto[SysConfig.HOME]

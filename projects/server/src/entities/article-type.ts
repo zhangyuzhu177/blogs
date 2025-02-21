@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger"
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
 import { IArticleType, ID_EXAMPLE } from "types"
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 
@@ -22,13 +22,21 @@ export class ArticleType extends BaseTimeStamp implements IArticleType {
   })
   name: string
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: '描述',
   })
   @Column({
     nullable: true
   })
   desc?: string
+
+  @ApiPropertyOptional({
+    description: '排序',
+  })
+  @Column({
+    default: 1,
+  })
+  order?: number
 
   @OneToMany(() => Article, (article) => article.articleType)
   articles: Article[]

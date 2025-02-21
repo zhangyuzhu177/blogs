@@ -54,9 +54,9 @@ export default defineConfig({
   safelist: 'prose m-auto text-left'.split(' '),
   theme: {
     colors: {
-      primary: { 1: '#0E419C', 2: '#004C9A' },
+      primary: { 1: '#0068B8', 2: '#257EDA', 3: '#004C9A', 4: '#E3EFFD' },
       secondary: { 1: '#F99E34' },
-      grey: { 1: '#FFFFFF', 2: '#F5F7FA', 3: '#D4DDEA', 4: '#A6B1C2', 5: '#6E7686', 6: '#575E6A', 7: '#373C48', 8: '#292D36' },
+      grey: { 1: '#FFFFFF', 2: '#F5F7FA', 3: '#D4DDEA', 4: '#A6B1C2', 5: '#6E7686', 6: '#575E6A', 7: '#373C48', 8: '#292D36', 9: '#12161E' },
       alerts: { success: '#22B07D', error: '#F44336', warning: '#FFBA2F' },
       white: { 1: '#FFFFFF1A', 2: '#FFFFFF33', 3: '#FFFFFF4d', 4: '#FFFFFF66', 5: '#FFFFFF80', 6: '#FFFFFF99', 7: '#FFFFFFB3', 8: '#FFFFFFCC', 9: '#FFFFFFE6' },
     },

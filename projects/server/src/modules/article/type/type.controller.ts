@@ -20,6 +20,23 @@ export class ArticleTypeController {
   @ApiOperation({
     summary: '获取文章类型列表'
   })
+  @Get('list')
+  public async getArticleTypeList(
+  ) {
+    return await this._articleSrv.articleTypeRepo().find({
+      order: {
+        order:'asc'
+      },
+      select: {
+        id: true,
+        name:true
+      }
+    })
+  }
+
+  @ApiOperation({
+    summary: '获取文章类型列表'
+  })
   @ApiSuccessResponse(QueryResDto<ArticleType>)
   @HasPermission(PermissionType.ARTICLE_TYPE_QUERY)
   @Post('query')

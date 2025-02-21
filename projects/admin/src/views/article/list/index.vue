@@ -110,7 +110,10 @@ const queryArticleList: QTableProps['onRequest'] = async (props) => {
       body.where = { name: Like(`%${filter}%`) }
     if (sortBy) {
       const sort = descending ? 'desc' : 'asc'
-      body.order = { [sortBy]: sort }
+      if (sortBy === 'type')
+        body.order = { articleType: { name: sort } }
+      else
+        body.order = { [sortBy]: sort }
     }
     const { total, data } = await queryArticleListApi(body)
     pagination.value.rowsNumber = total
@@ -200,6 +203,9 @@ onBeforeMount(async () => {
   articleTypeList.value = (await queryArticleTypeListApi({
     pagination: {
       pageSize: 'all',
+    },
+    order: {
+      order: 'asc',
     },
   })).data
 })

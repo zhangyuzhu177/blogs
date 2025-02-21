@@ -36,25 +36,21 @@ const cols: QTableColumn<IArticleType>[] = [
     name: 'name',
     label: '分类名称',
     field: 'name',
-    sortable: true,
   },
   {
     name: 'desc',
     label: '描述',
     field: 'desc',
-    sortable: true,
   },
   {
     name: 'createdAt',
     label: '创建时间',
     field: row => moment(row.createdAt).format('YYYY-MM-DD HH:mm:ss'),
-    sortable: true,
   },
   {
     name: 'count',
     label: '文章数量',
     field: row => `${row.articles?.length} 篇`,
-    sortable: true,
   },
   {
     name: 'info',
@@ -63,7 +59,7 @@ const cols: QTableColumn<IArticleType>[] = [
   },
 ]
 /** 表格分页信息 */
-const pagination = TABLE_PAGINATION('createdAt')
+const pagination = TABLE_PAGINATION()
 /** 表格筛选文本 */
 const filterText = ref()
 /** 多选 */
@@ -74,7 +70,7 @@ const selected = ref<IArticleType[]>()
  */
 const queryQueryArticleTypeList: QTableProps['onRequest'] = async (props) => {
   const { filter } = props
-  const { page, rowsPerPage, sortBy, descending } = props.pagination
+  const { page, rowsPerPage } = props.pagination
   loading.value = true
   try {
     const body: IQueryDto<IArticleType> = {
@@ -85,13 +81,12 @@ const queryQueryArticleTypeList: QTableProps['onRequest'] = async (props) => {
       relations: {
         articles: true,
       },
+      order: {
+        order: 'asc',
+      },
     }
     if (filter)
       body.where = { name: Like(`%${filter}%`) }
-    if (sortBy) {
-      const sort = descending ? 'desc' : 'asc'
-      body.order = { [sortBy]: sort }
-    }
     const { total, data } = await queryArticleTypeListApi(body)
     pagination.value.rowsNumber = total
     rows.value = data

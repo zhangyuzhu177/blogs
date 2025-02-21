@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import { MdCatalog, MdPreview } from 'md-editor-v3'
-import 'md-editor-v3/lib/style.css'
+import type { IArticle } from 'types'
 import type { TocItem } from 'md-editor-v3/lib/types/MdCatalog/MdCatalog'
-import type { IArticle } from 'shared/types/entities/article.interface'
 
-const route = useRoute()
-const router = useRouter()
-const { articleId } = useMyLocalStorage()
+import 'md-editor-v3/lib/style.css'
+import { MdCatalog, MdPreview } from 'md-editor-v3'
+
+interface ArticleDetailProps {
+  article?: IArticle
+}
+
+defineProps<ArticleDetailProps>()
+
 const { width } = useWindowSize()
 const { scrollEl } = useClientApp()
 
-const data = ref<IArticle>()
 const dark = useDark()
 const state = reactive({
   id: 'my-editor',
@@ -34,18 +37,7 @@ function onClick(e: MouseEvent, t: TocItem) {
   }
 }
 
-onMounted(async () => {
-  // 先判断本地是否有文章id，没有重定向到首页
-  if (!articleId.value)
-    router.replace('/')
-
-  router.replace({ query: { id: articleId.value } })
-
-  if (route.query.id) {
-    const { id } = route.query
-    data.value = await gerArticleInfoApi(id as string)
-  }
-
+onBeforeMount(async () => {
   nextTick(() => {
     const { y } = useScroll(document?.querySelector('.q-scrollarea__container') as HTMLElement)
     watch(
@@ -57,9 +49,7 @@ onMounted(async () => {
           fixed.value = false
       },
     )
-  })
 
-  nextTick(() => {
     scrollElement.value = document?.querySelector('.q-scrollarea__container') as HTMLElement
   })
 
@@ -72,11 +62,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="data" class="el" flex="~ gap-6 justify-between" full>
+  <div class="el" flex="~ gap-6 justify-between" full>
     <div v-if="width >= 1200" w-60 />
     <div xxl="max-w-1080px" flex="~ 1" w-0>
       <MdPreview
-        :model-value="data.content"
+        :model-value="article?.content"
         preview-theme="github"
         :editor-id="state.id"
         :md-heading-id="mdHeadingId"

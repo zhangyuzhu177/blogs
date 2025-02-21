@@ -46,6 +46,7 @@ const loading = ref(false)
 /** 初始数据 */
 const initData: IUpsertArticleTypeBodyDto = {
   name: '',
+  order: 1,
 }
 /** 添加/编辑用户 form 表单 */
 const form = ref(cloneDeep(initData))
@@ -62,7 +63,7 @@ watch(
         form.value = {
           ...objectPick(
             articleType,
-            'name', 'desc',
+            'name', 'desc', 'order',
           ),
         }
       }
@@ -87,17 +88,22 @@ async function upsertArticleType() {
   const { type, articleType, onCallback } = props
   loading.value = true
 
-  if (type === '添加')
-    await createArticleTypeApi(form.value)
-  else if (type === '编辑')
-    await updateArticleTypeApi(form.value, articleType!.id)
+  try {
+    if (type === '添加')
+      await createArticleTypeApi(form.value)
+    else if (type === '编辑')
+      await updateArticleTypeApi(form.value, articleType!.id)
 
-  Notify.create({
-    type: 'success',
-    message: `${type}成功`,
-  })
+    Notify.create({
+      type: 'success',
+      message: `${type}成功`,
+    })
 
-  onCallback?.()
+    onCallback?.()
+  }
+  finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -124,6 +130,14 @@ async function upsertArticleType() {
         :rules="[
           (val: string) => validateName(val) || true,
         ]"
+      />
+      <ZInput
+        v-model="form.order"
+        label="排序"
+        placeholder="请输入排序"
+        type="number"
+        required :readonly
+        mb5
       />
       <ZInput
         v-model="form.desc"

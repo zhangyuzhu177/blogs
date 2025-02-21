@@ -77,6 +77,7 @@ declare global {
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const gerArticleInfoApi: typeof import('../../../shared/api/article')['gerArticleInfoApi']
+  const getArticleTypeListApi: typeof import('../../../shared/api/articleType')['getArticleTypeListApi']
   const getCaptchaImgApi: typeof import('../../../shared/api/auth')['getCaptchaImgApi']
   const getConfigApi: typeof import('../../../shared/api/config')['getConfigApi']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -127,6 +128,7 @@ declare global {
   const provideLocal: typeof import('@vueuse/core')['provideLocal']
   const pubRouter: typeof import('../../../shared/composables/pubRouter')['pubRouter']
   const queryArticleListApi: typeof import('../../../shared/api/article')['queryArticleListApi']
+  const queryArticleListByTypeApi: typeof import('../../../shared/api/article')['queryArticleListByTypeApi']
   const queryArticleTypeListApi: typeof import('../../../shared/api/articleType')['queryArticleTypeListApi']
   const queryRolesApi: typeof import('../../../shared/api/role')['queryRolesApi']
   const queryUserListApi: typeof import('../../../shared/api/user')['queryUserListApi']
@@ -467,6 +469,7 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly gerArticleInfoApi: UnwrapRef<typeof import('../../../shared/api/article')['gerArticleInfoApi']>
+    readonly getArticleTypeListApi: UnwrapRef<typeof import('../../../shared/api/articleType')['getArticleTypeListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
@@ -517,6 +520,7 @@ declare module 'vue' {
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly pubRouter: UnwrapRef<typeof import('../../../shared/composables/pubRouter')['pubRouter']>
     readonly queryArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['queryArticleListApi']>
+    readonly queryArticleListByTypeApi: UnwrapRef<typeof import('../../../shared/api/article')['queryArticleListByTypeApi']>
     readonly queryArticleTypeListApi: UnwrapRef<typeof import('../../../shared/api/articleType')['queryArticleTypeListApi']>
     readonly queryRolesApi: UnwrapRef<typeof import('../../../shared/api/role')['queryRolesApi']>
     readonly queryUserListApi: UnwrapRef<typeof import('../../../shared/api/user')['queryUserListApi']>

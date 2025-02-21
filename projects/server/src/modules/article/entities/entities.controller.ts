@@ -2,13 +2,15 @@ import { PermissionType } from 'types'
 import { Article } from 'src/entities/article'
 import { ChangeStatusBodyDto } from 'src/dto/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { ApiSuccessResponse, getQuery } from 'src/utils'
+import { ApiSuccessResponse, getQuery, getQueryPaging } from 'src/utils'
 import { HasPermission } from 'src/guards/permission.guard'
-import { Body, Controller,Delete,Param,Patch,Post } from '@nestjs/common'
+import { Body, Controller,Delete,Get,Param,Patch,Post } from '@nestjs/common'
 import {
   ArticleIdDto,
+  ArticleTypeIdDto,
   IdsDto,
   QueryDto,
+  QueryPagination,
   QueryResDto,
   SuccessNumberDto,
   SuccessStringDto
@@ -27,6 +29,55 @@ export class ArticleEntitiesController {
   ) { }
 
   @ApiOperation({
+    summary: '根据文章类型查询文章列表'
+  })
+  @ApiSuccessResponse(QueryResDto<Article>)
+  @Post('query/:articleTypeId')
+  public async queryArticleListByArticleType(
+    @Body() body: QueryPagination,
+    @Param() { articleTypeId }: ArticleTypeIdDto
+  ) {
+    const { total,page,pageSize } = await getQueryPaging(
+      this._articleSrv.entitiesRepo(),
+      {
+        pagination:body,
+        where: {
+          articleTypeId,
+          status:true
+        },
+      },
+    )
+    const data = await this._articleSrv.entitiesRepo().find({
+      where: {
+        articleTypeId,
+        status:true
+      },
+      ...(
+        body.pageSize !== 'all'
+          ? {
+              skip: (body.page - 1) * body.pageSize,
+              take: body.pageSize,
+            }
+          : {}
+      ),
+      select: {
+        id: true,
+        name: true,
+        cover: true,
+        pageView: true,
+        tags: true,
+        createdAt: true,
+      }
+    })
+    return {
+      page,
+      pageSize,
+      total,
+      data,
+    }
+  }
+
+  @ApiOperation({
     summary: '获取文章列表'
   })
   @ApiSuccessResponse(QueryResDto<Article>)
@@ -39,6 +90,16 @@ export class ArticleEntitiesController {
       this._articleSrv.entitiesRepo(),
       body,
     )
+  }
+
+  @ApiOperation({
+    summary: '获取文章详情'
+  })
+  @Get('detail/:articleId')
+  public getArticleDetail(
+    @Param() { articleId }: ArticleIdDto
+  ) {
+    return this._entitiesSrv.getArticleDetail(articleId)
   }
 
   @ApiOperation({

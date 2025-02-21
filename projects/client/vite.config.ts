@@ -23,8 +23,8 @@ export default ({ mode }: any) => {
 
   // 后端服务读取的配置
   const nodeEnv = {
-    ...loadEnv(mode, path.relative(__dirname, '../gateway'), 'APP'),
-    ...loadEnv(mode, path.relative(__dirname, '../gateway'), 'RSA_PUBLIC'),
+    ...loadEnv(mode, path.relative(__dirname, '../server'), 'APP'),
+    ...loadEnv(mode, path.relative(__dirname, '../server'), 'RSA_PUBLIC'),
   }
 
   process.env = {

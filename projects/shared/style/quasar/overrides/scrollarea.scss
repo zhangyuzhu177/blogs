@@ -1,0 +1,28 @@
+/** 重写 scrollarea 样式 */
+.q-scrollarea {
+  // 禁用横向滚动
+  &.disable-horizontal-scroll {
+    > .q-scrollarea__container {
+      overflow-x: hidden;
+
+      > .q-scrollarea__content {
+        max-width: 100%;
+      }
+    }
+  }
+
+  // 禁用纵向滚动
+  &.disable-vertical-scroll {
+    > .q-scrollarea__container {
+      overflow-y: hidden;
+
+      > .q-scrollarea__content {
+        max-height: 100%;
+      }
+    }
+  }
+
+  .q-scrollarea__thumb {
+    z-index: 6000;
+  }
+}

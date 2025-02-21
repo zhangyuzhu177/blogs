@@ -4,11 +4,19 @@ import type {
   IIdsDto,
   IQueryDto,
   IQueryPaginatedResData,
+  IQueryPagination,
   IUpsertArticleBodyDto,
 } from 'types'
 import { useRequest } from '../composables/request'
 
 const { $post, $get, $patch, $delete } = useRequest()
+
+/**
+ * 根据文章类型查询文章
+ */
+export function queryArticleListByTypeApi(articleTypeId: string, body: IQueryPagination) {
+  return $post<IQueryPaginatedResData<IArticle>>(`/article/entities/query/${articleTypeId}`, body)
+}
 
 /**
  * 获取文章列表
@@ -20,8 +28,8 @@ export function queryArticleListApi(body: IQueryDto<IArticle>) {
 /**
  * 获取文章详情
  */
-export function gerArticleInfoApi(id: IArticle['id']) {
-  return $get<IArticle>(`/article/detail${id}`)
+export function gerArticleDetailApi(articleId: string) {
+  return $get<IArticle>(`/article/entities/detail/${articleId}`)
 }
 
 /**

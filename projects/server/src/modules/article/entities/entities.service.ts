@@ -13,6 +13,20 @@ export class ArticleEntitiesService {
   ) { }
 
   /**
+   * 获取文章详情
+   */
+  public async getArticleDetail(id: string) {
+    const article = await this._articleSrv.entitiesRepo().findOneBy({ id })
+
+    if (!article)
+      responseError(ErrorCode.ARTICLE_NOT_EXISTS)
+
+    await this._articleSrv.entitiesRepo().increment({ id }, 'pageView', 1)
+
+    return article
+  }
+
+  /**
    * 发布文章
    */
   public async createArticle(body: UpsertArticleBodyDto) {

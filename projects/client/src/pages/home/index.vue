@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import ArticleList from '~/views/home/ArticleList.vue'
+import ArticleList from '~/views/home/index.vue'
 </script>
 
 <template>
-  <Container height="100vh">
+  <Container arrow height="100vh">
     <ArticleList />
   </Container>
 </template>

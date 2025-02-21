@@ -7,7 +7,6 @@ import type { IQueryDto, IRole } from 'types'
 
 import ZTable from 'shared/components/table/ZTable.vue'
 
-import moment from 'moment'
 import AdminRoleDialog from './dialog/AdminRole.vue'
 
 const zTable = ref<InstanceType<typeof ZTable>>()
@@ -52,19 +51,13 @@ const cols = reactive<QTableColumn<IRole>[]>([
     field: row => getMenu(row.permissions?.map(v => v.name)).map(v => v.name).join('、'),
   },
   {
-    name: 'createdAt',
-    label: '创建时间',
-    field: row => moment(row.createdAt).format('YYYY-MM-DD HH:mm:ss'),
-    sortable: true,
-  },
-  {
     name: 'info',
     label: '完整信息',
     field: 'id',
   },
 ])
 /** 表格分页信息 */
-const pagination = TABLE_PAGINATION('createdAt')
+const pagination = TABLE_PAGINATION()
 /** 表格筛选文本 */
 const filterText = ref()
 

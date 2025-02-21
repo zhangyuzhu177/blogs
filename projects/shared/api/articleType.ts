@@ -1,10 +1,23 @@
-import type { IArticleType, IIdsDto, IQueryDto, IQueryPaginatedResData, IUpsertArticleTypeBodyDto } from 'types'
+import type {
+  IArticleType,
+  IIdsDto,
+  IQueryDto,
+  IQueryPaginatedResData,
+  IUpsertArticleTypeBodyDto,
+} from 'types'
 import { useRequest } from '../composables/request'
 
-const { $post, $patch, $delete } = useRequest()
+const { $get, $post, $patch, $delete } = useRequest()
 
 /**
- * 获取文章类别列表
+ * 获取文章分类列表
+ */
+export function getArticleTypeListApi() {
+  return $get<IArticleType[]>('/article/type/list')
+}
+
+/**
+ * 查询文章类别列表
  */
 export function queryArticleTypeListApi(body: IQueryDto<IArticleType>) {
   return $post<IQueryPaginatedResData<IArticleType>>('/article/type/query', body)
