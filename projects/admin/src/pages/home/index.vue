@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Home from '~/views/home/Home/index.vue'
 import PageAdmin from '~/views/home/PageAdmin/index.vue'
 
 const { active, menu } = useMenu()
@@ -7,8 +6,7 @@ const { active, menu } = useMenu()
 
 <template>
   <div v-if="menu?.length">
-    <Home v-if="active === menu[0].id" />
-    <PageAdmin v-if="active === menu[1].id" />
+    <PageAdmin v-if="active === menu[0].id" />
   </div>
 </template>
 

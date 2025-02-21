@@ -1,10 +1,29 @@
-<script setup lang="ts">
+<script lang="ts" setup>
+import ZInfo from '../info/ZInfo.vue'
+
 export interface ZLabelProps {
+  /**
+   * `label`
+   *
+   * 或使用默认插槽代替
+   */
   label?: string
-  caption?: string
-  dark?: boolean
+  /**
+   * 是否为必填项
+  */
   required?: boolean
-  aligning?: boolean
+  /**
+   * 当 `required` 为 `false` 时，`label` 是否对齐
+  */
+  aligned?: boolean
+  /**
+   * `label` 说明
+   */
+  explain?: string
+  /**
+   * 冒号
+   */
+  colon?: boolean
 }
 
 defineProps<ZLabelProps>()
@@ -13,24 +32,23 @@ defineProps<ZLabelProps>()
 <template>
   <div
     v-if="label"
-    text-sm font-500 flex="~ gap1 wrap"
-    :text="dark ? 'grey-1' : 'grey-8'"
+    class="z-label" font-500 h5
+    text="sm grey-9" flex="~ items-center"
   >
-    <div
-      v-if="required || aligning"
-      text-alerts-error
-      :style="{
-        visibility: required ? 'visible' : 'hidden',
-      }"
-    >
-      *
+    <div flex="~ items-center gap1">
+      <div
+        v-if="required || aligned"
+        text-alerts-error
+        :style="{
+          visibility: required ? 'visible' : 'hidden',
+        }"
+        v-text="'*'"
+      />
+      <slot>
+        <div truncate v-text="label" />
+      </slot>
+      <ZInfo v-if="explain" :description="explain" />
     </div>
-    {{ label }}
-    <div
-      v-if="caption"
-      :text="dark ? 'white-7' : 'grey-6'"
-      font-400
-      v-text="caption"
-    />
+    <div v-if="colon" v-text="`：`" />
   </div>
 </template>

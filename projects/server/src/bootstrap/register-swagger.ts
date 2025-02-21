@@ -2,8 +2,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import type { ConfigService } from '@nestjs/config'
 import type { INestApplication } from '@nestjs/common'
 import type { SwaggerCustomOptions } from '@nestjs/swagger'
-import { validatePath } from 'src/utils/validatePath'
-
+import { validatePath } from 'utils'
 /**
  * 注册
  */

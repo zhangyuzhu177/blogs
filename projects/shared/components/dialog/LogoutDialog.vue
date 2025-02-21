@@ -10,7 +10,6 @@ defineEmits(['update:modelValue'])
 
 const { logout } = useUser()
 const value = useVModel(props, 'modelValue')
-
 </script>
 
 <template>

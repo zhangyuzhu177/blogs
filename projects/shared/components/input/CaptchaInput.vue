@@ -57,11 +57,9 @@ defineExpose({
     v-model="value"
     label="验证码"
     placeholder="请输入验证码"
-    :params="{
-      rules: [
-        (val: string) => val.length === 6 || '请输入 6 位验证码',
-      ],
-    }"
+    :rules="[
+      (val: string) => val.length === 6 || '请输入 6 位验证码',
+    ]"
     :dark="dark"
     v-bind="params"
   >

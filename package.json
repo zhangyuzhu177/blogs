@@ -5,9 +5,14 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
+    "dev:types": "pnpm --filter types dev",
+    "dev:utils": "pnpm --filter utils dev",
     "dev:admin": "pnpm --filter admin dev",
     "dev:client": "pnpm --filter client dev",
     "dev:server": "pnpm --filter server dev",
+    "build:types": "pnpm --filter types build",
+    "build:utils": "pnpm --filter utils build",
+    "build:packages": "pnpm run build:utils && pnpm run build:types",
     "build:admin": "pnpm --filter admin build",
     "build:client": "pnpm --filter client build",
     "build:server": "pnpm --filter server build"

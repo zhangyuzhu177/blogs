@@ -3,11 +3,9 @@ import { Injectable, SetMetadata, UseGuards, applyDecorators } from '@nestjs/com
 import type { CanActivate, ExecutionContext } from '@nestjs/common'
 
 import { RoleService } from 'src/modules/role/role.service'
-import { getReflectorValue } from 'src/utils/reflector-value'
-import { ApiErrorResponse, responseError } from 'src/utils/response'
 import { IsLoginApis, LoginGuard } from './login.guard'
-import { ErrorCode } from 'src/types/enum/error-code.enum'
-import { PermissionType } from 'src/types/enum/permission.enum'
+import { ApiErrorResponse, getReflectorValue, responseError } from 'src/utils'
+import { ErrorCode, PermissionType } from 'types'
 
 type PermissionRelation = 'OR' | 'AND'
 

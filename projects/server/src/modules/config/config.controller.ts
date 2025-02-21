@@ -2,12 +2,12 @@ import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { SysConfigService } from './config.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiSuccessResponse } from 'src/utils/response';
-import { VersionDto } from 'src/types/dto/version.dto';
 import { ConfigResDto } from './dto/config.res.dto';
 import { UpsertConfigBodyDto } from './dto/upsert-config.body.dto';
 import { Config } from 'src/entities/config';
 import { HasPermission } from 'src/guards/permission.guard';
-import { PermissionType } from 'src/types/enum/permission.enum';
+import { PermissionType } from 'types';
+import { VersionDto } from 'src/dto/version.dto';
 
 @Controller('config')
 @ApiTags('Config | 全局配置')

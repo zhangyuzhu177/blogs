@@ -1,16 +1,16 @@
 import hsl from 'hsl-to-hex'
-import { random } from '../../utils/common/random'
+import { random } from '../../utils/common'
 
 // ColorPalette class
 export class ColorPalette {
-  hue: number = 0
-  complimentaryHue1: number = 0
-  complimentaryHue2: number = 0
-  saturation: number = 0
-  lightness: number = 0
-  baseColor: string = ''
-  complimentaryColor1: string = ''
-  complimentaryColor2: string = ''
+  hue = 0
+  complimentaryHue1 = 0
+  complimentaryHue2 = 0
+  saturation = 0
+  lightness = 0
+  baseColor = ''
+  complimentaryColor1 = ''
+  complimentaryColor2 = ''
   colorChoices: string[] = []
 
   constructor() {

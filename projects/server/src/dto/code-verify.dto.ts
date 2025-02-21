@@ -1,41 +1,30 @@
 import { decorate } from 'ts-mixer'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsString, MaxLength, MinLength } from 'class-validator'
-import { GenerateParamsDecorator } from 'src/utils/validators/params-decorator-gen'
-import { ICodeVerifyDto, ICodeVerifyOptionalDto } from 'src/types/dto/code-verify.interface'
+import { IsString, MaxLength, MinLength } from 'src/decorators'
+import type { ICodeVerifyDto, ICodeVerifyOptionalDto } from 'types'
+import { GenerateParamsDecorator, GenerateStringDecorator } from 'src/utils'
 
-function BizIdDecorator(optional = false) {
-  return GenerateParamsDecorator(
-    [
-      ApiProperty({
-        description: '获取验证码时获取到的唯一标识',
-        type: () => String,
-      }),
-      IsString(),
-    ],
-    optional,
-  )
-}
+const DESC = '发送验证码后获取到的唯一标识'
 
 function CodeDecorator(optional = false) {
   return GenerateParamsDecorator(
     [
       ApiProperty({
-        description: '发送到邮箱的验证码/图片验证码',
+        description: '收到的验证码',
         maxLength: 6,
         minLength: 6,
-        type: () => String,
+        type: String,
       }),
+      IsString(),
       MaxLength(6),
       MinLength(6),
-      IsString(),
     ],
     optional,
   )
 }
 
 export class CodeVerifyDto implements ICodeVerifyDto {
-  @decorate(BizIdDecorator())
+  @decorate(GenerateStringDecorator(DESC))
   bizId: string
 
   @decorate(CodeDecorator())
@@ -43,9 +32,9 @@ export class CodeVerifyDto implements ICodeVerifyDto {
 }
 
 export class CodeVerifyOptionalDto implements ICodeVerifyOptionalDto {
-  @decorate(BizIdDecorator(true))
-  bizId?: string
+  @decorate(GenerateStringDecorator(DESC, undefined, true))
+  bizId?: CodeVerifyDto['bizId']
 
   @decorate(CodeDecorator(true))
-  code?: string
+  code?: CodeVerifyDto['code']
 }

@@ -49,19 +49,21 @@ function toggleTheme(event: any) {
   })
 }
 
-watch(() => isDark.value, () => {
-  dark.value = isDark.value
-})
+watch(isDark,
+  () => {
+    dark.value = isDark.value
+  },
+)
 </script>
 
 <template>
   <div class="tags" flex="~ gap2" b-rd justify-end items-center>
     <q-btn flat round @click="toggleTheme">
-      <div v-if="dark" size-6 i-ph:sun-bold />
-      <div v-else size-6 i-ph:moon-bold />
+      <div v-if="dark" size-5 i-ph:sun-bold />
+      <div v-else size-5 i-ph:moon-bold />
     </q-btn>
-    <q-btn flat round href="https://github.com/ZhangYuzhu1" target="_blank">
-      <div size-6 i-mingcute:github-line />
+    <q-btn flat round href="https://github.com/zhangyuzhu177" target="_blank">
+      <div size-5 i-mingcute:github-line />
     </q-btn>
   </div>
 </template>

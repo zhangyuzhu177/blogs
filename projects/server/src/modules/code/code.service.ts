@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common'
+import { CodeAction, ErrorCode } from 'types'
 import { randomString } from '@catsjuice/utils'
-
 import { responseError } from 'src/utils/response'
+
 import { RedisService } from '../redis/redis.service'
-import { CodeAction } from 'src/types/enum/code-action.enum'
-import { ErrorCode } from 'src/types/enum/error-code.enum'
 
 @Injectable()
 export class CodeService {
@@ -14,10 +13,6 @@ export class CodeService {
 
   /**
    * 创建一个验证码并存入 redis
-   * @param platformId
-   * @param action
-   * @param expireInMinutes
-   * @returns
    */
   public async createCode(
     platformId: string,
@@ -29,7 +24,7 @@ export class CodeService {
       code = Math.random().toString().slice(-6)
     const bizId = randomString(24, 24, '') + Date.now().toString(36)
     // save code to redis
-    const client = await this._redisSrv.getClient(RedisType.CODE)
+    const client = this._redisSrv.getClient(RedisType.CODE)
 
     await client.setEx(bizId, expireInMinutes * 60, JSON.stringify([
       platformId,
@@ -53,7 +48,7 @@ export class CodeService {
   ) {
     const bizId = randomString(24, 24, '') + Date.now().toString(36)
     // save code to redis
-    const client = await this._redisSrv.getClient(RedisType.CODE)
+    const client = this._redisSrv.getClient(RedisType.CODE)
 
     await client.setEx(bizId, expireInMinutes * 60, JSON.stringify([
       ip,
@@ -63,26 +58,30 @@ export class CodeService {
   }
 
   /**
-   * 校验一个验证码是否正确
-   * @param bizId
-   * @param compareInfo
-   * @param deleteAfterVerify
+   * 校验邮件/短信验证码是否正确
    */
   public async verifyCode(
     bizId: string,
     compareInfo: [string, CodeAction, string],
     deleteAfterVerify = true,
   ) {
-    const client = await this._redisSrv.getClient(RedisType.CODE)
+    const client = this._redisSrv.getClient(RedisType.CODE)
     const codeInfo = await client.get(bizId)
-    if (!codeInfo)
-      return false
-    const codeInfoArr = JSON.parse(codeInfo) as [string, CodeAction, string]
-    if (codeInfoArr.some((v, i) => v !== compareInfo[i]))
-      return false
-    if (deleteAfterVerify)
-      client.del(bizId)
-    return true
+
+    try {
+      if (
+        codeInfo
+        && (JSON.parse(codeInfo) as string[]).every((v, i) => v === compareInfo[i])
+      ) {
+        if (deleteAfterVerify)
+          client.del(bizId)
+        return true
+      }
+      throw new Error('验证码校验失败')
+    }
+    catch (_) {
+      responseError(ErrorCode.AUTH_CODE_NOT_MATCHED)
+    }
   }
 
   /**
@@ -96,7 +95,7 @@ export class CodeService {
     compareInfo: [string, string],
     deleteAfterVerify = true,
   ) {
-    const client = await this._redisSrv.getClient(RedisType.CODE)
+    const client = this._redisSrv.getClient(RedisType.CODE)
     const codeInfo = await client.get(bizId)
     if (!codeInfo)
       return false

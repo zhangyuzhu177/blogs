@@ -1,5 +1,5 @@
 import type { QTableColumn, QTableProps } from 'quasar'
-import type { IUser } from 'shared/types/entities/user.interface'
+import type { IUser } from 'types'
 
 /**
  * 返回表格分页配置
@@ -22,11 +22,13 @@ export const USER_TABLE_COLUMNS: QTableColumn<IUser>[] = [
     name: 'account',
     label: '用户',
     field: 'account',
+    sortable: true,
   },
   {
     name: 'email',
     label: '邮箱',
     field: row => row.email ? row.email : '—',
+    sortable: true,
   },
   {
     name: 'role',

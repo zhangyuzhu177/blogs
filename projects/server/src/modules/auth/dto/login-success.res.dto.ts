@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { SuccessDto } from 'src/dto'
 import { User } from 'src/entities/user'
-import { SuccessDto } from 'src/types/dto/success.dto'
-import { ILoginSuccessResData, ILoginSuccessResDto } from 'src/types/http/auth/login-by-password.interface'
+import { ILoginSuccessResData, ILoginSuccessResDto } from 'types'
 
 class Sing {
   @ApiProperty({
@@ -23,7 +23,9 @@ class LoginSuccessResData implements ILoginSuccessResData {
   user: User
 }
 
-export class LoginSuccessResDto extends SuccessDto implements ILoginSuccessResDto {
+export class LoginSuccessResDto
+  extends SuccessDto
+  implements ILoginSuccessResDto {
   @ApiProperty({ type: () => LoginSuccessResData })
   data: LoginSuccessResData
 }

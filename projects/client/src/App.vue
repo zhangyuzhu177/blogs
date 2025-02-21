@@ -3,18 +3,10 @@ import { isClient } from '@vueuse/core'
 
 const { width } = useWindowSize()
 const { isAdmin, zoomRatio, getAppConfig } = useSysConfig()
-const $router = useRouter()
-const { updateAppHead } = useApp()
-const { scrollEl } = useClientApp()
 
 onBeforeMount(() => {
   isAdmin.value = false
-  $router.replace({ query: undefined })
   getAppConfig()
-
-  const { VITE_CLIENT_APP_NAME, VITE_CLIENT_APP_ICON } = import.meta.env
-
-  updateAppHead(VITE_CLIENT_APP_NAME, VITE_CLIENT_APP_ICON)
 })
 
 /** 监听窗口大小，缩放页面 */
@@ -47,15 +39,5 @@ watch(
 </script>
 
 <template>
-  <QScrollArea ref="scrollEl" full>
-    <RouterView min-w-600px />
-  </QScrollArea>
+  <RouterView full />
 </template>
-
-<style lang="scss" scoped>
-.q-scrollarea {
-  :deep(.q-scrollarea__content) {
-    width: 100% !important;
-  }
-}
-</style>

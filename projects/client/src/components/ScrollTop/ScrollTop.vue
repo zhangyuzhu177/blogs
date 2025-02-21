@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { scrollEl } = useClientApp()
-const { width } = useWindowSize()
 
 const show = ref(false)
 nextTick(() => {
@@ -8,7 +7,7 @@ nextTick(() => {
   watch(
     () => y.value,
     (newVal) => {
-      if (newVal > 400 && width.value >= 900)
+      if (newVal > 400)
         show.value = true
       else
         show.value = false
@@ -31,11 +30,12 @@ function goToTop() {
       v-if="show" fixed
       p2 w-10 h-10 flex-center text="grey-8"
       cursor-pointer
-      b-rd="50%" bottom-5 right-6
+      b-rd="50%" bottom-15 right-6
       @click="goToTop"
     >
       <div
-        style="background-color: var(--grey-9);"
+        icon
+        hover:color="primary-1"
         flex-center i-ph:rocket-bold
       />
     </div>

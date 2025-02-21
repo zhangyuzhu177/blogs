@@ -1,0 +1,41 @@
+{
+  "name": "utils",
+  "version": "1.0.0",
+  "description": "工具函数集合",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    }
+  },
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:tsc\" \"npm run dev:tsc:cjs\" \"npm run dev:auto-build\" \"npm run docs:dev\"",
+    "dev:tsc": "rimraf dist/esm && tsc -w",
+    "dev:tsc:cjs": "rimraf dist/cjs && tsc -w -p \"tsconfig.cjs.json\"",
+    "dev:auto-build": "nodemon --config nodemon.json --exec \"npm run auto-build\"",
+    "auto-build": "node ./scripts/auto-create-docs.js",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "build": "concurrently \"npm run build:esm\" \"npm run build:cjs\" \"npm run build:docs\"",
+    "build:esm": "rimraf dist/esm && tsc -p \"tsconfig.json\"",
+    "build:cjs": "rimraf dist/cjs && tsc -p \"tsconfig.cjs.json\"",
+    "build:docs": "npm run docs:build"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "jsencrypt": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "18.16.18",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "concurrently": "^8.0.1",
+    "nodemon": "^2.0.22",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.1.6",
+    "vitepress": "1.0.0-alpha.75"
+  }
+}

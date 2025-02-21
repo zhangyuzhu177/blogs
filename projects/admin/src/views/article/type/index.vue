@@ -1,0 +1,261 @@
+<script setup lang="ts">
+import moment from 'moment'
+import { Like } from 'typeorm'
+import { PermissionType } from 'types'
+import type { IArticleType, IQueryDto } from 'types'
+import type { QTableColumn, QTableProps } from 'quasar'
+import ZTable from 'shared/components/table/ZTable.vue'
+
+import ArticleTypeDialog from './articleType.dialog.vue'
+
+const zTable = ref<InstanceType<typeof ZTable>>()
+
+const { hasPermission } = useUser()
+
+/** 是否可添加 */
+const isCreate = hasPermission(PermissionType.ARTICLE_TYPE_CREATE)
+/** 是否可编辑 */
+const isUpdate = hasPermission(PermissionType.ARTICLE_TYPE_UPDATE)
+/** 是否可删除 */
+const isDelete = hasPermission(PermissionType.ARTICLE_TYPE_DELETE)
+
+/** 加载中 */
+const loading = ref(false)
+/** 文章分类 */
+const articleType = ref<IArticleType>()
+/** 文章分类对话框类型 */
+const dialogType = ref<DialogType>()
+/** 删除对话框  */
+const deleteDialog = ref(false)
+
+/** 表格行 */
+const rows = ref<IArticleType[]>()
+/** 表格列 */
+const cols: QTableColumn<IArticleType>[] = [
+  {
+    name: 'name',
+    label: '分类名称',
+    field: 'name',
+  },
+  {
+    name: 'desc',
+    label: '描述',
+    field: 'desc',
+  },
+  {
+    name: 'createdAt',
+    label: '创建时间',
+    field: row => moment(row.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+  },
+  {
+    name: 'count',
+    label: '文章数量',
+    field: row => `${row.articles?.length} 篇`,
+  },
+  {
+    name: 'info',
+    label: '完整信息',
+    field: 'id',
+  },
+]
+/** 表格分页信息 */
+const pagination = TABLE_PAGINATION()
+/** 表格筛选文本 */
+const filterText = ref()
+/** 多选 */
+const selected = ref<IArticleType[]>()
+
+/**
+ * 查询文章分类列表
+ */
+const queryQueryArticleTypeList: QTableProps['onRequest'] = async (props) => {
+  const { filter } = props
+  const { page, rowsPerPage } = props.pagination
+  loading.value = true
+  try {
+    const body: IQueryDto<IArticleType> = {
+      pagination: {
+        page,
+        pageSize: rowsPerPage,
+      },
+      relations: {
+        articles: true,
+      },
+      order: {
+        order: 'asc',
+      },
+    }
+    if (filter)
+      body.where = { name: Like(`%${filter}%`) }
+    const { total, data } = await queryArticleTypeListApi(body)
+    pagination.value.rowsNumber = total
+    rows.value = data
+  }
+  catch (_) {
+    rows.value = undefined
+  }
+  finally {
+    pagination.value = {
+      ...props.pagination,
+      rowsNumber: pagination.value.rowsNumber,
+    }
+    selected.value = undefined
+    loading.value = false
+  }
+}
+
+/**
+ * 回调函数，重新获取用户列表
+ */
+function callback() {
+  zTable.value?.tableRef?.requestServerInteraction()
+}
+
+/**
+ * 删除分类
+ */
+async function deleteArticleType() {
+  if (!selected.value?.length)
+    return
+
+  loading.value = true
+  let res
+  try {
+    res = await deleteArticleTypeApi({
+      ids: selected.value.map(v => v.id),
+    })
+    Notify.create({
+      type: 'success',
+      message: '操作成功',
+    })
+  }
+  finally {
+    selected.value = undefined
+    if (res)
+      callback()
+    else
+      loading.value = false
+  }
+}
+
+onBeforeMount(async () => {
+  if (isUpdate) {
+    cols.push({
+      name: 'action',
+      label: '操作',
+      field: 'id',
+    })
+  }
+  cols.forEach(v => v.align = 'center')
+})
+</script>
+
+<template>
+  <div flex="~ col gap4" full relative>
+    <ZLoading :value="loading" />
+
+    <div flex="~ justify-between gap4">
+      <div
+        v-if="isCreate && isDelete"
+        flex="~ wrap gap4"
+      >
+        <ZBtn
+          v-if="isCreate"
+          label="添加分类"
+          size="small"
+          @click="dialogType = '添加'"
+        >
+          <template #left>
+            <div size-5 i-mingcute:add-line />
+          </template>
+        </ZBtn>
+        <ZBtn
+          v-if="isDelete"
+          label="删除分类"
+          size="small"
+          text-color="primary-1"
+          :params="{
+            outline: true,
+          }"
+          :disable="!selected?.length"
+          @click="deleteDialog = true"
+        >
+          <template #left>
+            <div size-5 i-mingcute:delete-2-line />
+          </template>
+        </ZBtn>
+      </div>
+      <ZInput
+        v-model="filterText"
+        class="rounded"
+        placeholder="搜索文章分类"
+        size="small"
+        :debounce="500"
+        w70
+      >
+        <template #prepend>
+          <div icon i-mingcute:search-line />
+        </template>
+      </ZInput>
+    </div>
+
+    <ZTable
+      ref="zTable"
+      v-model:pagination="pagination"
+      v-model:selected="selected"
+      :rows :cols
+      :filter="filterText"
+      no-data-label="暂无分类记录"
+      selection="multiple"
+      flex-1 h-0
+      fixed-first-column
+      :fixed-last-column="isUpdate"
+      @request="queryQueryArticleTypeList"
+    >
+      <!-- 详情 -->
+      <template #body-cell-info="{ row }">
+        <q-td text-center>
+          <TextBtn
+            label="查看完整信息"
+            @click="() => {
+              dialogType = '查看'
+              articleType = row
+            }"
+          />
+        </q-td>
+      </template>
+
+      <!-- 操作 -->
+      <template #body-cell-action="{ row }">
+        <q-td text-center>
+          <ZBtn
+            v-if="isUpdate"
+            label="编辑"
+            size="small"
+            @click="() => {
+              dialogType = '编辑'
+              articleType = row
+            }"
+          />
+        </q-td>
+      </template>
+    </ZTable>
+
+    <!-- 删除对话框 -->
+    <ZDialog
+      v-model="deleteDialog"
+      title="删除分类"
+      footer
+      @ok="deleteArticleType"
+    >
+      该操作将删除已选的分类，是否继续？
+    </ZDialog>
+
+    <!-- 文章分类对话框 -->
+    <ArticleTypeDialog
+      v-model:type="dialogType"
+      :article-type
+      @callback="callback"
+    />
+  </div>
+</template>

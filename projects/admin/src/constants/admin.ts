@@ -1,4 +1,4 @@
-import { PermissionType } from 'shared/types/enum/permission.enum'
+import { PermissionType } from 'types'
 
 export interface PermissionItem {
   name: string
@@ -19,9 +19,6 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
       PermissionType.CONFIG_QUERY_APP,
     ],
     children: [
-      {
-        name: '首页',
-      },
       {
         name: '页面配置',
         children: [
@@ -49,6 +46,7 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
     to: '/article',
     value: [
       PermissionType.ARTICLE_QUERY,
+      PermissionType.ARTICLE_TYPE_QUERY,
     ],
     children: [
       {
@@ -61,7 +59,7 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
           },
           {
-            name: '发布/编辑文章',
+            name: '添加/编辑文章',
             premise: [
               PermissionType.ARTICLE_QUERY,
             ],
@@ -81,6 +79,36 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
           },
         ],
       },
+      {
+        name: '文章分类管理',
+        children: [
+          {
+            name: '只读访问文章分类',
+            value: [
+              PermissionType.ARTICLE_TYPE_QUERY,
+            ],
+          },
+          {
+            name: '添加/编辑文章',
+            premise: [
+              PermissionType.ARTICLE_TYPE_QUERY,
+            ],
+            value: [
+              PermissionType.ARTICLE_TYPE_CREATE,
+              PermissionType.ARTICLE_TYPE_UPDATE,
+            ],
+          },
+          {
+            name: '删除文章分类',
+            premise: [
+              PermissionType.ARTICLE_TYPE_QUERY,
+            ],
+            value: [
+              PermissionType.ARTICLE_TYPE_DELETE,
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -88,6 +116,7 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
     to: '/user',
     value: [
       PermissionType.USER_QUERY,
+      PermissionType.ROLE_QUERY,
     ],
     children: [
       {
@@ -118,27 +147,16 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
           },
           {
-            name: '停用和启用用户',
+            name: '修改用户状态',
             premise: [
               PermissionType.USER_QUERY,
             ],
             value: [
-              PermissionType.USER_DELETE,
-              PermissionType.USER_UPDATE,
+              PermissionType.USER_CHANGE_STATUS,
             ],
           },
         ],
       },
-    ],
-  },
-  {
-    name: '管理员配置',
-    to: '/admin',
-    value: [
-      PermissionType.ROLE_QUERY,
-      PermissionType.ROLE_ASSIGN_QUERY,
-    ],
-    children: [
       {
         name: '设置管理角色',
         children: [
@@ -149,34 +167,22 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
           },
           {
-            name: '设置管理角色',
+            name: '添加/编辑管理角色',
             premise: [
               PermissionType.ROLE_QUERY,
             ],
             value: [
               PermissionType.ROLE_CREATE,
               PermissionType.ROLE_UPDATE,
-              PermissionType.ROLE_DELETE,
-            ],
-          },
-        ],
-      },
-      {
-        name: '分配管理角色',
-        children: [
-          {
-            name: '只读访问用户管理列表',
-            value: [
-              PermissionType.ROLE_ASSIGN_QUERY,
             ],
           },
           {
-            name: '分配管理角色',
+            name: '删除管理角色',
             premise: [
-              PermissionType.ROLE_ASSIGN_QUERY,
+              PermissionType.ROLE_QUERY,
             ],
             value: [
-              PermissionType.USER_UPDATE_ROLE,
+              PermissionType.ROLE_DELETE,
             ],
           },
         ],

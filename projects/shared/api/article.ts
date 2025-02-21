@@ -1,25 +1,68 @@
-import type { UpsertArticleBodyDto } from '../types/http/article/upsert-body.dto'
-import type { IArticle } from '../types/entities/article.interface'
-import { useRequest } from '../utils/common/request'
+import type {
+  IArticle,
+  IChangeStatusBodyDto,
+  IIdsDto,
+  IQueryDto,
+  IQueryPaginatedResData,
+  IQueryPagination,
+  IUpsertArticleBodyDto,
+} from 'types'
+import { useRequest } from '../composables/request'
 
-const { $post, $get, $delete } = useRequest()
+const { $post, $get, $patch, $delete } = useRequest()
 
-/** 获取文章列表 */
-export function getArticleListApi() {
-  return $get<IArticle[]>('/article/list')
+/**
+ * 根据文章类型查询文章
+ */
+export function queryArticleListByTypeApi(articleTypeId: string, body: IQueryPagination) {
+  return $post<IQueryPaginatedResData<IArticle>>(`/article/entities/query/${articleTypeId}`, body)
 }
 
-/** 获取文章详情  */
-export function gerArticleInfoApi(id: IArticle['id']) {
-  return $get<IArticle>(`/article/detail${id}`)
+/**
+ * 获取文章列表
+ */
+export function queryArticleListApi(body: IQueryDto<IArticle>) {
+  return $post<IQueryPaginatedResData<IArticle>>('/article/entities/query', body)
 }
 
-/** 添加/编辑文章 */
-export function upsertArticleApi(body: UpsertArticleBodyDto) {
-  return $post<IArticle>('/article/upsert', body)
+/**
+ * 获取文章详情
+ */
+export function gerArticleDetailApi(articleId: string) {
+  return $get<IArticle>(`/article/entities/detail/${articleId}`)
 }
 
-/** 删除文章  */
-export function deleteArticleApi(id: IArticle['id']) {
-  return $delete(`/article/delete${id}`)
+/**
+ * 发布文章
+ */
+export function createArticleApi(body: IUpsertArticleBodyDto) {
+  return $post<string>('/article/entities/create', body)
+}
+
+/**
+ * 编辑文章
+ */
+export function updateArticleApi(body: IUpsertArticleBodyDto, articleId: string) {
+  return $patch<string>(`/article/entities/update/${articleId}`, body)
+}
+
+/**
+ * 修改文章状态
+ */
+export function changeArticleStatusApi(body: IChangeStatusBodyDto) {
+  return $post<string>('/article/entities/status', body)
+}
+
+/**
+ * 删除文章
+ */
+export function deleteArticleApi(body: IIdsDto) {
+  return $delete<number>('/article/entities/delete', body)
+}
+
+/**
+ * 删除指定文章
+ */
+export function deleteArticleByIdApi(articleId: string) {
+  return $delete<number>(`/article/entities/delete/${articleId}`)
 }

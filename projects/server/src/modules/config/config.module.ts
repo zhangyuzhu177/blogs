@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { SysConfigService } from './config.service';
 import { ConfigController } from './config.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Config } from 'src/entities/config';
 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forFeature([Config])

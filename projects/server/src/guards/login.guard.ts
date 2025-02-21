@@ -2,9 +2,8 @@ import { Reflector } from '@nestjs/core'
 import { ApiBearerAuth } from '@nestjs/swagger'
 import { Injectable, UseGuards, applyDecorators } from '@nestjs/common'
 import type { CanActivate, ExecutionContext } from '@nestjs/common'
-import { ApiErrorResponse, responseError } from 'src/utils/response'
-import { getReflectorValue } from 'src/utils/reflector-value'
-import { ErrorCode } from 'src/types/enum/error-code.enum'
+import { ApiErrorResponse, getReflectorValue, responseError } from 'src/utils'
+import { ErrorCode } from 'types'
 
 @Injectable()
 export class LoginGuard implements CanActivate {
@@ -23,7 +22,7 @@ export class LoginGuard implements CanActivate {
     )
 
     if (!req.raw.user && loginRequired)
-      responseError(req.raw.accessTokenExpired ? ErrorCode.AUTH_LOGIN_EXPIRED : ErrorCode.AUTH_LOGIN_REQUIRED)
+      responseError(req.raw.tokenDisable ? ErrorCode.AUTH_LOGIN_EXPIRED : ErrorCode.AUTH_LOGIN_REQUIRED)
 
     return !!req.raw.user
   }

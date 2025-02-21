@@ -1,8 +1,13 @@
+import { ILogin } from 'types'
 import { ApiProperty } from '@nestjs/swagger'
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn
+} from 'typeorm'
 
-import { IUser } from 'src/types/entities/user.interface'
-import { ILogin } from 'src/types/entities/login.interface'
 import { User } from './user'
 import { CreatedAt } from './_timestamp'
 
@@ -27,11 +32,11 @@ export class Login extends CreatedAt implements ILogin {
     { onDelete: 'CASCADE' },
   )
   @JoinColumn()
-  user?: IUser
+  user: User
 
   @ApiProperty({ description: '用户唯一标识' })
   @Column()
-  userId: IUser['id']
+  userId: User['id']
 
   @ApiProperty({ description: '登录的 ip' })
   @Column({ nullable: true })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { QBtnToggleProps } from 'quasar'
 import { useVModel } from '@vueuse/core'
+import type { QBtnToggleProps } from 'quasar'
 
 interface ZBtnToggleProps {
   modelValue: any
