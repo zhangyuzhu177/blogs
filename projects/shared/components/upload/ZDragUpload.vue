@@ -80,7 +80,7 @@ function dragFile(e: DragEvent) {
             w14 h14 flex-center b="1px primary-1" transition
             :bg="active ? 'primary-1/20' : 'primary-1/12'"
           >
-            <div w6 h6 i-mdi:plus />
+            <div w6 h6 i-mingcute:add-line />
           </div>
           <div font-500 v-text="hint" />
         </div>
@@ -89,11 +89,11 @@ function dragFile(e: DragEvent) {
           flex="center gap4"
         >
           <div flex="~ items-center gap1" style="max-width: calc(100% - 40px)">
-            <div min-w-4 i-mdi:file-outline text-grey-5 />
+            <div min-w-4 i-mingcute:document-2-line text-grey-5 />
             <div truncate v-text="value.name" />
           </div>
           <div
-            i-mdi:close-circle
+            i-mingcute:close-circle-line
             text-grey-4 hover:text-grey-5
             cursor-pointer
             @click="value = undefined"

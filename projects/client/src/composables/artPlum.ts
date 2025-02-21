@@ -1,9 +1,12 @@
-import type { Fn } from '@vueuse/core'
+import { type Fn, isClient } from '@vueuse/core'
 
 const contentEl = ref<HTMLElement | null>(null)
 const el = ref<HTMLCanvasElement | null>(null)
 
 export function useArtPlum() {
+  if (!isClient)
+    return
+
   const r180 = Math.PI
   const r90 = Math.PI / 2
   const r15 = Math.PI / 12
@@ -21,7 +24,7 @@ export function useArtPlum() {
   function initCanvas(canvas: HTMLCanvasElement, width = 400, height = 400, _dpi?: number) {
     const ctx = canvas.getContext('2d')!
 
-    const dpr = window.devicePixelRatio || 1
+    const dpr = window?.devicePixelRatio || 1
     // @ts-expect-error vendor
     const bsr = ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1
 

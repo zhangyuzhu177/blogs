@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
+import { CodeAction, type IRegisterBodyDto } from 'types'
 import { useUser } from '../../composables/user'
 import ZInput from '../../components/input/ZInput.vue'
 import SMSInput from '../../components/input/SMSInput.vue'
@@ -8,8 +9,6 @@ import ZBtn from '../../components/btn/ZBtn.vue'
 import { validateAccount } from '../../utils/validators/account.validator'
 import { validatePassword } from '../../utils/validators/password.validator'
 import { validateEmail } from '../../utils/validators/email.validator'
-import type { IRegisterBodyDto } from '../../types/http/auth/register.interface'
-import { CodeAction } from '../../types/enum/code-action.enum'
 
 const { loading, register } = useUser()
 
@@ -68,45 +67,37 @@ const formArg = computed<IRegisterBodyDto>(() => {
           label="用户名称"
           placeholder="请输入用户名称"
           dark
-          :params="{
-            rules: [
-              (val: string) => validateAccount(val) || true,
-            ],
-          }"
+          :rules="[
+            (val: string) => validateAccount(val) || true,
+          ]"
         />
         <ZInput
           v-model="password"
           label="密码"
           placeholder="请输入密码"
           dark password
-          :params="{
-            rules: [
-              (val: string) => validatePassword(val) || true,
-            ],
-          }"
+          :rules="[
+            (val: string) => validatePassword(val) || true,
+          ]"
         />
         <ZInput
           v-model="repeatPassword"
           label="确认密码"
           placeholder="请确认密码"
           dark password
-          :params="{
-            rules: [
-              (val: string) => val === password || '两次密码不一致',
-            ],
-            reactiveRules: true,
-          }"
+          reactive-rules
+          :rules="[
+            (val: string) => val === password || '两次密码不一致',
+          ]"
         />
         <ZInput
           v-model="email"
           label="邮箱"
           placeholder="请输入邮箱"
           dark
-          :params="{
-            rules: [
-              (val: string) => validateEmail(val) || true,
-            ],
-          }"
+          :rules="[
+            (val: string) => validateEmail(val) || true,
+          ]"
         />
         <SMSInput
           v-model="code"

@@ -1,5 +1,6 @@
 import path from 'node:path'
 import process from 'node:process'
+
 import Unocss from 'unocss/vite'
 import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
@@ -64,6 +65,8 @@ export default ({ mode }: any) => {
       },
     },
 
+    publicDir: path.resolve(__dirname, '../shared/public/'),
+
     plugins: [
       VueMacros({
         plugins: {
@@ -86,9 +89,7 @@ export default ({ mode }: any) => {
         imports: [
           'vue',
           'vue-router',
-          '@vueuse/head',
           '@vueuse/core',
-          'quasar',
         ],
         dts: 'src/types/auto-imports.d.ts',
         dirs: [
@@ -101,7 +102,6 @@ export default ({ mode }: any) => {
           '../shared/utils/**',
         ],
         vueTemplate: true,
-        resolvers: [QuasarResolver()],
       }),
 
       // https://github.com/antfu/unplugin-vue-components
@@ -147,12 +147,11 @@ export default ({ mode }: any) => {
     ssr: {
       // TODO: workaround until they support native ESM
       noExternal: [
-        'workbox-window',
         'lodash',
-        'jsencrypt',
-        'quasar',
+        'moment',
+        'crypto-js',
         'md-editor-v3',
-        '@vavt/v3-extension',
+        'workbox-window',
       ],
     },
   })

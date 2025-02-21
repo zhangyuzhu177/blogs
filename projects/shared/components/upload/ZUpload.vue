@@ -108,11 +108,11 @@ function deleteFile(index: number) {
           flex="~ justify-between items-center"
         >
           <div flex="~ items-center gap1">
-            <div i-mdi:file-outline text-grey-5 />
+            <div i-mingcute:document-2-line text-grey-5 />
             <div v-text="file.name" />
           </div>
           <div
-            i-mdi:close-circle
+            i-mingcute:close-circle-line
             text-grey-4 hover:text-grey-5
             cursor-pointer
             @click="deleteFile(index)"
@@ -132,7 +132,7 @@ function deleteFile(index: number) {
             absolute top-0 right-0
             @click="deleteFile(index)"
           >
-            <div i-mdi:close text-grey-1 />
+            <div i-mingcute:close-line text-grey-1 />
           </div>
         </div>
       </div>

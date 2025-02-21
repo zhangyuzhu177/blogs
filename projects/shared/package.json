@@ -19,8 +19,8 @@
     "simplex-noise": "^4.0.1",
     "types": "workspace:^",
     "utils": "workspace:^",
-    "vue": "^3.3.4",
-    "vue-router": "^4.2.4"
+    "vue": "3.4.35",
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.18",

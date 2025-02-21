@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js'
 import { nextTick, onMounted, ref } from 'vue'
 import { KawaseBlurFilter } from '@pixi/filter-kawase-blur'
 
+import { isClient } from '@vueuse/core'
 import { Orb } from './Orb'
 import { ColorPalette } from './ColorPalette'
 
@@ -14,6 +15,9 @@ const container = ref<HTMLDivElement>()
 const hue = ref(180)
 
 async function renderOrb() {
+  if (!isClient)
+    return
+
   // Create PixiJS app
   const app = new PIXI.Application({
     // render to <canvas class="orb-canvas"></canvas>

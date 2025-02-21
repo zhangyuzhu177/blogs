@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import type { ILoginByEmailCodeBodyDto } from 'types'
+import { CodeAction } from 'types'
 import { useUser } from '../../composables/user'
 import ZInput from '../../components/input/ZInput.vue'
 import ZBtn from '../../components/btn/ZBtn.vue'
 import { validateEmail } from '../../utils/validators/email.validator'
-import type { ILoginByEmailCodeBodyDto } from '../../types/http/auth/login-by-email-code.interface'
-import { CodeAction } from '../../types/enum/code-action.enum'
 
 const { loading, loginByEmailCode } = useUser()
 
@@ -70,11 +70,9 @@ function confirm() {
           label="邮箱"
           placeholder="请输入邮箱"
           dark
-          :params="{
-            rules: [
-              (val: string) => validateEmail(val) || true,
-            ],
-          }"
+          :rules="[
+            (val: string) => validateEmail(val) || true,
+          ]"
         />
         <!-- <ZInput
           v-else

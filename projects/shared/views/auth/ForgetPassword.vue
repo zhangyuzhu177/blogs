@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { CodeAction, type IUpdatePasswordByEmailCodeBodyDto } from 'types'
 import { useUser } from '../../composables/user'
 import ZInput from '../../components/input/ZInput.vue'
 import SMSInput from '../../components/input/SMSInput.vue'
 import ZBtn from '../../components/btn/ZBtn.vue'
 import { validateEmail } from '../../utils/validators/email.validator'
 import { validatePassword } from '../../utils/validators/password.validator'
-import type { IUpdatePasswordByEmailCodeBodyDto } from '../../types/http/user/update-pswd-by-email-code.interface'
-import { CodeAction } from '../../types/enum/code-action.enum'
 
 const { loading, updatePasswordByEmailCode } = useUser()
 
@@ -79,11 +78,9 @@ function confirm() {
           label="邮箱"
           placeholder="请输入邮箱"
           dark
-          :params="{
-            rules: [
-              (val: string) => validateEmail(val) || true,
-            ],
-          }"
+          :rules="[
+            (val: string) => validateEmail(val) || true,
+          ]"
         />
         <!-- <ZInput
           v-else
@@ -111,23 +108,19 @@ function confirm() {
           label="密码"
           placeholder="请输入密码"
           dark password
-          :params="{
-            rules: [
-              (val: string) => validatePassword(val) || true,
-            ],
-          }"
+          :rules="[
+            (val: string) => validatePassword(val) || true,
+          ]"
         />
         <ZInput
           v-model="repeatPassword"
           label="确认密码"
           placeholder="请确认密码"
           dark password
-          :params="{
-            rules: [
-              (val: string) => val === password || '两次密码不一致',
-            ],
-            reactiveRules: true,
-          }"
+          :rules="[
+            (val: string) => val === password || '两次密码不一致',
+          ]"
+          reactive-rules
         />
         <!-- <div
           v-if="isPhone"

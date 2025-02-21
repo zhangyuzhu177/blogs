@@ -88,9 +88,7 @@ export default ({ mode }: any) => {
         imports: [
           'vue',
           'vue-router',
-          '@vueuse/head',
           '@vueuse/core',
-          'quasar',
         ],
         dts: 'src/types/auto-imports.d.ts',
         dirs: [
@@ -103,7 +101,6 @@ export default ({ mode }: any) => {
           '../shared/utils/**',
         ],
         vueTemplate: true,
-        resolvers: [QuasarResolver()],
       }),
 
       // https://github.com/antfu/unplugin-vue-components
@@ -139,20 +136,17 @@ export default ({ mode }: any) => {
         reduceInlineStyles: false,
       },
       onFinished() {
-        const flag = process.env.VITE_SITEMAP ?? false
-        const truly = [true, 'true', 'yes', '1', 'TRUE', 'YES', 'True', 'Yes']
-        if (truly.includes(flag))
-          generateSitemap()
+        generateSitemap()
       },
     },
 
     ssr: {
       // TODO: workaround until they support native ESM
       noExternal: [
-        'workbox-window',
         'lodash',
-        'jsencrypt',
-        'quasar',
+        'moment',
+        'crypto-js',
+        'workbox-window',
         '@vavt/v3-extension',
       ],
     },

@@ -3,7 +3,6 @@ import moment from 'moment'
 import type { IArticle, IArticleType } from 'types'
 
 const router = useRouter()
-const { artPlumInit } = useArtPlum()
 const { scrollEl } = useClientApp()
 
 /** 加载中 */
@@ -49,8 +48,6 @@ watch(
  */
 function changeArticleType(id: string) {
   articleTypeId.value = id
-
-  artPlumInit()
 
   scrollEl.value?.setScrollPosition(
     'vertical',
@@ -141,7 +138,7 @@ onBeforeMount(async () => {
                       v-if="article.pageView"
                       flex="~ items-center gap1"
                     >
-                      <div i-mdi:eye-outline />
+                      <div i-mingcute:eye-2-line />
                       <div v-text="article.pageView" />
                     </div>
                   </div>
