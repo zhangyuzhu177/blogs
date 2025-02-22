@@ -20,14 +20,14 @@ watch(
 </script>
 
 <template>
-  <div full flex="~ col">
+  <div class="body" full flex="~ col">
     <header ref="header" z-5000>
       <AppHeader />
     </header>
 
     <QScrollArea
       ref="scrollEl"
-      class="disable-horizontal-scroll"
+      class="disable-horizontal-scroll "
       flex-1
     >
       <RouterView
@@ -41,3 +41,9 @@ watch(
     </QScrollArea>
   </div>
 </template>
+
+<style scoped lang="scss">
+.body {
+  background-color: var(--grey-1);
+}
+</style>

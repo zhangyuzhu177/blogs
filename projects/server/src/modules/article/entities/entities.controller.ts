@@ -60,6 +60,9 @@ export class ArticleEntitiesController {
             }
           : {}
       ),
+      order: {
+        createdAt: 'DESC',
+      },
       select: {
         id: true,
         name: true,

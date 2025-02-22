@@ -80,8 +80,8 @@ onBeforeMount(async () => {
     <div>
       <div
         class="hide-scrollbar sticky top-18"
-        flex="~ gap2 lg:col row"
-        lg="w-45 p2" b="1 grey-3"
+        flex="~ gap2 lg:col row" lg="w-45 p2 px0"
+        px-2
         overflow-x-auto b-rd-2
       >
         <div
@@ -89,7 +89,7 @@ onBeforeMount(async () => {
           p="x4 y2" text-center cursor-pointer h-10
           subtitle-2 transition-300 select-none
           :class="articleTypeId === id
-            ? 'bg-primary-4 text-primary-1'
+            ? 'text-primary-1'
             : 'hover:bg-#575E6A1A hover:text-primary-1'"
           @click="changeArticleType(id)"
           v-text="name"
@@ -106,8 +106,8 @@ onBeforeMount(async () => {
             :key="article.id"
             class="article"
             flex="~ justify-between gap4"
-            b="1 grey-3" h-30 p-2
-            cursor-pointer b-rd-2 overflow-hidden
+            h-30 p-2 cursor-pointer b-rd-2
+            b="1 transparent" overflow-hidden
             @click="jumpArticle(article.id)"
           >
             <div overflow-hidden>
@@ -119,15 +119,17 @@ onBeforeMount(async () => {
                 <h3
                   class="title"
                   whitespace-nowrap relative
-                  transition="300" text-grey-7
+                  transition="300"
+                  style="color:var(--grey-7)"
                   v-text="article.name"
                 />
               </div>
 
               <div flex="~ col gap2 justify-between">
                 <div
-                  subtitle-3 text-grey-5
+                  subtitle-3
                   flex="~ justify-between"
+                  text="grey-5 dark:grey-5"
                 >
                   <div flex="~ gap4">
                     <div
@@ -169,7 +171,7 @@ onBeforeMount(async () => {
             :max="Math.ceil(rowsNumber / pagination.pageSize)"
             :max-pages="6"
             direction-links flat
-            color="grey-9"
+            color="dark:grey-1"
             active-color="none"
             active-text-color="primary-1"
           />
@@ -193,14 +195,16 @@ onBeforeMount(async () => {
       left: 0;
       width: 0;
       height: 2px;
-      background-color: var(--grey-9);
+      background-color: var(--grey-7);
       transition: all .5s;
     }
   }
 
   &:hover {
+    background-color: var(--grey-2);
+    border-color: var(--grey-3);
     .title{
-      color: var(--grey-9);
+      color: var(--grey-7);
       &::after {
         width: 100%;
       }
