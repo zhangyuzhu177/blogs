@@ -19,7 +19,7 @@ const dark = useDark()
 const state = reactive({
   id: 'my-editor',
 })
-const fixed = ref(false)
+const sticky = ref(false)
 const scrollElement = ref<HTMLElement | null>(null)
 
 function mdHeadingId(_text: string, _level: number, index: number) {
@@ -27,7 +27,7 @@ function mdHeadingId(_text: string, _level: number, index: number) {
 }
 
 function onClick(e: MouseEvent, t: TocItem) {
-  const el = document?.getElementById(`h-${t.level}-${t.index}`)
+  const el = document?.getElementById(`h-${t.level}-${t.index + 1}`)
 
   if (el) {
     scrollEl.value?.setScrollPosition(
@@ -47,12 +47,11 @@ onBeforeMount(async () => {
       () => y.value,
       (newVal) => {
         if (newVal > 600)
-          fixed.value = true
+          sticky.value = true
         else
-          fixed.value = false
+          sticky.value = false
       },
     )
-
     scrollElement.value = document?.querySelector('.q-scrollarea__container') as HTMLElement
   })
 
@@ -65,32 +64,36 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="el" flex="~ gap-6 justify-between" full>
-    <div v-if="width >= 1200" w-60 />
-    <div xxl="max-w-1080px" flex="~ 1" w-0>
-      <MdPreview
-        :model-value="article?.content"
-        preview-theme="github"
-        :editor-id="state.id"
-        :md-heading-id="mdHeadingId"
-        :theme="dark ? 'dark' : 'light'"
-      />
-    </div>
-    <div v-if="width >= 1200" w-60>
-      <div
-        w-60 top-20 right-0 truncate
-        :class="fixed ? 'fixed ' : ''"
-      >
-        <MdCatalog
-          v-if="scrollElement"
+  <div flex="~ col">
+    <div class="el" flex="~ gap-6 justify-between" full>
+      <div xxl="max-w-1080px" flex="~ 1" w-0>
+        <MdPreview
+          :model-value="article?.content"
+          preview-theme="github"
           :editor-id="state.id"
           :md-heading-id="mdHeadingId"
-          :offset-top="100"
-          :scroll-element="scrollElement"
-          @on-click="onClick"
+          :theme="dark ? 'dark' : 'light'"
         />
       </div>
+      <div v-if="width >= 1200" w-60>
+        <div
+          top-20 right-0 max-h-100
+          overflow-y-auto overflow-x-auto
+          :class="sticky ? 'sticky ' : ''"
+        >
+          <MdCatalog
+            v-if="scrollElement"
+            :editor-id="state.id"
+            :md-heading-id="mdHeadingId"
+            :offset-top="100"
+            :scroll-element="scrollElement"
+            @on-click="onClick"
+          />
+        </div>
+      </div>
     </div>
+
+    <div h-100 />
   </div>
 </template>
 

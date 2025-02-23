@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Notify } from 'quasar'
 import { cloneDeep } from 'lodash'
 
 import type { IArticle, IArticleType, IUpsertArticleBodyDto } from 'types'
@@ -144,6 +145,9 @@ async function callback() {
       maxWidth: '80%',
       height: '100%',
       maxHeight: '100%',
+    }"
+    :params="{
+      allowFocusOutside: true,
     }"
     @ok="callback"
   >

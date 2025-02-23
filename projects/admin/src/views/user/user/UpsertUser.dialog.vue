@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Notify } from 'quasar'
 import { cloneDeep } from 'lodash'
 import { browser, objectPick } from 'utils'
 import type { IUpdateUserBodyDto, IUser } from 'types'

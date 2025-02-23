@@ -77,6 +77,7 @@ const queryQueryUserList: QTableProps['onRequest'] = async (props) => {
   const { filter } = props
   const { page, rowsPerPage, sortBy, descending } = props.pagination
   loading.value = true
+
   try {
     const body: IQueryDto<IUser> = {
       pagination: {

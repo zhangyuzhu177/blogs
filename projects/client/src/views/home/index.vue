@@ -134,7 +134,7 @@ onBeforeMount(async () => {
                   <div flex="~ gap4">
                     <div
                       v-if="article.createdAt"
-                      v-text="moment(article.createdAt).format('YYYY-MM-DD')"
+                      v-text="moment.utc(article.createdAt).format('YYYY-MM-DD')"
                     />
                     <div
                       v-if="article.pageView"

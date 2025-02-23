@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { Like } from 'typeorm'
+import { Notify } from 'quasar'
 import { PermissionType } from 'types'
 import type { IArticle, IArticleType, IQueryDto } from 'types'
 import type { QTableColumn, QTableProps } from 'quasar'
@@ -64,7 +65,7 @@ const cols = reactive<QTableColumn<IArticle>[]>([
   {
     name: 'createdAt',
     label: '发布时间',
-    field: row => moment(row.createdAt).format('YYYY-MM-DD'),
+    field: row => moment(row.createdAt).format('YYYY-MM-DD HH:mm:ss'),
     sortable: true,
   },
   {
@@ -95,6 +96,7 @@ const queryArticleList: QTableProps['onRequest'] = async (props) => {
   const { filter } = props
   const { page, rowsPerPage, sortBy, descending } = props.pagination
   loading.value = true
+  console.log(descending)
 
   try {
     const body: IQueryDto<IArticle> = {
@@ -123,8 +125,10 @@ const queryArticleList: QTableProps['onRequest'] = async (props) => {
     rows.value = undefined
   }
   finally {
-    pagination.value.page = page
-    pagination.value.rowsPerPage = rowsPerPage
+    pagination.value = {
+      ...props.pagination,
+      rowsNumber: pagination.value.rowsNumber,
+    }
     selected.value = undefined
     loading.value = false
   }

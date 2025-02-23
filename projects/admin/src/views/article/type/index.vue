@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { Like } from 'typeorm'
+import { Notify } from 'quasar'
 import { PermissionType } from 'types'
 import type { IArticleType, IQueryDto } from 'types'
 import type { QTableColumn, QTableProps } from 'quasar'

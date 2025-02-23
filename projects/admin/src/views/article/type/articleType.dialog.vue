@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash'
+import { Notify } from 'quasar'
 import type { IArticleType, IUpsertArticleTypeBodyDto } from 'types'
 import { objectPick } from 'utils'
 import { validateDesc, validateName } from 'shared/utils/validators'
