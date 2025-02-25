@@ -36,6 +36,11 @@ export function useMenu() {
           label: '文章分类',
           flag: role?.includes(PermissionType.ARTICLE_TYPE_QUERY),
         },
+        {
+          id: 'articleTag',
+          label: '文章标签',
+          flag: role?.includes(PermissionType.ARTICLE_TAG_QUERY),
+        },
       ],
       user: [
         {

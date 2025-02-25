@@ -37,7 +37,7 @@ export class ArticleEntitiesController {
     @Body() body: QueryPagination,
     @Param() { articleTypeId }: ArticleTypeIdDto
   ) {
-    const { total,page,pageSize } = await getQueryPaging(
+    const { total, page, pageSize } = await getQueryPaging(
       this._articleSrv.entitiesRepo(),
       {
         pagination:body,
@@ -51,6 +51,9 @@ export class ArticleEntitiesController {
       where: {
         articleTypeId,
         status:true
+      },
+      relations: {
+        tags:true
       },
       ...(
         body.pageSize !== 'all'

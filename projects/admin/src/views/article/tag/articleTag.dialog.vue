@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import { cloneDeep } from 'lodash'
 import { Notify } from 'quasar'
-import type { IArticleType, IUpsertArticleTypeBodyDto } from 'types'
+import { cloneDeep } from 'lodash'
 import { objectPick } from 'utils'
+import type { IArticleTag, IUpsertArticleTagBodyDto } from 'types'
 import { validateDesc, validateName } from 'shared/utils/validators'
 
-interface ArticleTypeProps {
+interface ArticleTagProps {
   /**
-   * 分类信息对话框的操作类型
+   * 标签信息对话框的操作类型
    */
   type?: DialogType
   /**
-   * 分类信息
+   * 标签信息
    */
-  articleType?: IArticleType
+  articleTag?: IArticleTag
   /**
    * 在更新、插入后的回调
    */
   onCallback?: () => void
 }
 
-const props = defineProps<ArticleTypeProps>()
+const props = defineProps<ArticleTagProps>()
 const emits = defineEmits<{
   /**
-   * 更新标签对话框的操作类型
+   * 更新标签信息对话框的操作类型
    */
-  'update:type': [ArticleTypeProps['type']]
+  'update:type': [ArticleTagProps['type']]
 }>()
 
 /** 对话框 */
 const dialog = computed({
   get() {
-    const { type, articleType } = props
-    return type === '添加' || (!!type && !!articleType)
+    const { type, articleTag } = props
+    return type === '添加' || (!!type && !!articleTag)
   },
   set() {
     emits('update:type', undefined)
@@ -44,9 +44,8 @@ const readonly = computed(() => props.type === '查看')
 /** 加载中 */
 const loading = ref(false)
 /** 初始数据 */
-const initData: IUpsertArticleTypeBodyDto = {
+const initData: IUpsertArticleTagBodyDto = {
   name: '',
-  order: 1,
 }
 /** 添加/编辑用户 form 表单 */
 const form = ref(cloneDeep(initData))
@@ -55,15 +54,15 @@ watch(
   () => dialog.value,
   (newVal) => {
     if (newVal) {
-      const { type, articleType } = props
+      const { type, articleTag } = props
       if (type === '添加') {
         form.value = cloneDeep(initData)
       }
-      else if (articleType) {
+      else if (articleTag) {
         form.value = {
           ...objectPick(
-            articleType,
-            'name', 'desc', 'order',
+            articleTag,
+            'name', 'desc',
           ),
         }
       }
@@ -81,18 +80,18 @@ const disable = computed(() => {
 /**
  * 添加/编辑类别
  */
-async function upsertArticleType() {
+async function upsertArticleTag() {
   if (disable.value)
     return
 
-  const { type, articleType, onCallback } = props
+  const { type, articleTag, onCallback } = props
   loading.value = true
 
   try {
     if (type === '添加')
-      await createArticleTypeApi(form.value)
+      await createArticleTagApi(form.value)
     else if (type === '编辑')
-      await updateArticleTypeApi(form.value, articleType!.id)
+      await updateArticleTagApi(form.value, articleTag!.id)
 
     Notify.create({
       type: 'success',
@@ -119,25 +118,17 @@ async function upsertArticleType() {
       maxWidth: '900px',
     }"
     :disable-confirm="disable"
-    @ok="upsertArticleType"
+    @ok="upsertArticleTag"
   >
     <div flex="~ col gap1">
       <ZInput
         v-model="form.name"
-        label="分类名称"
-        placeholder="请输入分类名称"
+        label="标签名称"
+        placeholder="请输入标签名称"
         required :readonly
         :rules="[
           (val: string) => validateName(val) || true,
         ]"
-      />
-      <ZInput
-        v-model="form.order"
-        label="排序"
-        placeholder="请输入排序"
-        type="number"
-        required :readonly
-        mb5
       />
       <ZInput
         v-model="form.desc"

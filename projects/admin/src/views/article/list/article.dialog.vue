@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { Notify } from 'quasar'
-import { cloneDeep } from 'lodash'
-
-import type { IArticle, IArticleType, IUpsertArticleBodyDto } from 'types'
 import { objectPick } from 'utils'
+import { cloneDeep } from 'lodash'
+import type {
+  IArticle,
+  IArticleTag,
+  IArticleType,
+  IUpsertArticleBodyDto,
+} from 'types'
 
 interface ArticleDialogProps {
   /**
@@ -18,6 +22,10 @@ interface ArticleDialogProps {
    * 文章分类列表
    */
   articleTypeList?: IArticleType[]
+  /**
+   * 文章标签列表
+   */
+  articleTagList?: IArticleTag[]
   /**
    * 在更新、插入后的回调
    */
@@ -54,7 +62,6 @@ const initData: IUpsertArticleBodyDto = {
   name: '',
   articleTypeId: '',
   content: '',
-  tags: [],
   cover: '',
   status: true,
 }
@@ -102,8 +109,8 @@ watch(
 )
 
 const disable = computed(() => {
-  const { name, articleTypeId, content, cover, tags } = form.value
-  return !name || !articleTypeId || !content || !cover || !tags.length
+  const { name, articleTypeId, content, cover, tagIds } = form.value
+  return !name || !articleTypeId || !content || !cover || !tagIds?.length
 })
 
 /**
@@ -180,7 +187,18 @@ async function callback() {
         />
       </div>
 
-      <div flex="~ col gap2">
+      <ZSelect
+        v-model="form.tagIds"
+        label="标签"
+        required :readonly multiple
+        placeholder="请选择文章标签"
+        :options="articleTagList"
+        option-value="id"
+        option-label="name"
+        mb5
+      />
+
+      <!-- <div flex="~ col gap2">
         <div flex="~ justify-between">
           <ZLabel
             required
@@ -214,7 +232,7 @@ async function callback() {
             </template>
           </ZInput>
         </div>
-      </div>
+      </div> -->
 
       <div flex="~ col gap2" mb5>
         <ZLabel required label="文章封面" />

@@ -4,7 +4,7 @@ import { validateLength } from 'utils'
  * 校验名称
  */
 export function validateName(name?: string) {
-  return validateLength('名称', name, 2, 10)
+  return validateLength('名称', name, 2, 20)
 }
 
 /**

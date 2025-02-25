@@ -165,6 +165,7 @@ onBeforeMount(() => {
         <ZBtn
           v-if="isCreate"
           label="添加角色"
+          size="small"
           @click="dialogType = '添加'"
         >
           <template #left>
@@ -174,6 +175,7 @@ onBeforeMount(() => {
         <ZBtn
           v-if="isDelete"
           label="删除角色"
+          size="small"
           text-color="primary-1"
           :params="{
             outline: true,

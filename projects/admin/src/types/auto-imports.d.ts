@@ -50,6 +50,7 @@ declare global {
   const controlledRef: typeof import('@vueuse/core')['controlledRef']
   const createApp: typeof import('vue')['createApp']
   const createArticleApi: typeof import('../../../shared/api/article')['createArticleApi']
+  const createArticleTagApi: typeof import('../../../shared/api/articleTag')['createArticleTagApi']
   const createArticleTypeApi: typeof import('../../../shared/api/articleType')['createArticleTypeApi']
   const createEventHook: typeof import('@vueuse/core')['createEventHook']
   const createGlobalState: typeof import('@vueuse/core')['createGlobalState']
@@ -69,6 +70,8 @@ declare global {
   const defineComponent: typeof import('vue')['defineComponent']
   const deleteArticleApi: typeof import('../../../shared/api/article')['deleteArticleApi']
   const deleteArticleByIdApi: typeof import('../../../shared/api/article')['deleteArticleByIdApi']
+  const deleteArticleTagApi: typeof import('../../../shared/api/articleTag')['deleteArticleTagApi']
+  const deleteArticleTagByIdApi: typeof import('../../../shared/api/articleTag')['deleteArticleTagByIdApi']
   const deleteArticleTypeApi: typeof import('../../../shared/api/articleType')['deleteArticleTypeApi']
   const deleteArticleTypeByIdApi: typeof import('../../../shared/api/articleType')['deleteArticleTypeByIdApi']
   const deleteRoleApi: typeof import('../../../shared/api/role')['deleteRoleApi']
@@ -131,6 +134,7 @@ declare global {
   const pubRouter: typeof import('../../../shared/composables/pubRouter')['pubRouter']
   const queryArticleListApi: typeof import('../../../shared/api/article')['queryArticleListApi']
   const queryArticleListByTypeApi: typeof import('../../../shared/api/article')['queryArticleListByTypeApi']
+  const queryArticleTagListApi: typeof import('../../../shared/api/articleTag')['queryArticleTagListApi']
   const queryArticleTypeListApi: typeof import('../../../shared/api/articleType')['queryArticleTypeListApi']
   const queryRolesApi: typeof import('../../../shared/api/role')['queryRolesApi']
   const queryUserListApi: typeof import('../../../shared/api/user')['queryUserListApi']
@@ -179,6 +183,7 @@ declare global {
   const unrefElement: typeof import('@vueuse/core')['unrefElement']
   const until: typeof import('@vueuse/core')['until']
   const updateArticleApi: typeof import('../../../shared/api/article')['updateArticleApi']
+  const updateArticleTagApi: typeof import('../../../shared/api/articleTag')['updateArticleTagApi']
   const updateArticleTypeApi: typeof import('../../../shared/api/articleType')['updateArticleTypeApi']
   const updateOwnPasswordByEmailCodeApi: typeof import('../../../shared/api/user')['updateOwnPasswordByEmailCodeApi']
   const updateRoleApi: typeof import('../../../shared/api/role')['updateRoleApi']
@@ -446,6 +451,7 @@ declare module 'vue' {
     readonly controlledRef: UnwrapRef<typeof import('@vueuse/core')['controlledRef']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['createArticleApi']>
+    readonly createArticleTagApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['createArticleTagApi']>
     readonly createArticleTypeApi: UnwrapRef<typeof import('../../../shared/api/articleType')['createArticleTypeApi']>
     readonly createEventHook: UnwrapRef<typeof import('@vueuse/core')['createEventHook']>
     readonly createGlobalState: UnwrapRef<typeof import('@vueuse/core')['createGlobalState']>
@@ -465,6 +471,8 @@ declare module 'vue' {
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly deleteArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['deleteArticleApi']>
     readonly deleteArticleByIdApi: UnwrapRef<typeof import('../../../shared/api/article')['deleteArticleByIdApi']>
+    readonly deleteArticleTagApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['deleteArticleTagApi']>
+    readonly deleteArticleTagByIdApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['deleteArticleTagByIdApi']>
     readonly deleteArticleTypeApi: UnwrapRef<typeof import('../../../shared/api/articleType')['deleteArticleTypeApi']>
     readonly deleteArticleTypeByIdApi: UnwrapRef<typeof import('../../../shared/api/articleType')['deleteArticleTypeByIdApi']>
     readonly deleteRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['deleteRoleApi']>
@@ -526,6 +534,7 @@ declare module 'vue' {
     readonly pubRouter: UnwrapRef<typeof import('../../../shared/composables/pubRouter')['pubRouter']>
     readonly queryArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['queryArticleListApi']>
     readonly queryArticleListByTypeApi: UnwrapRef<typeof import('../../../shared/api/article')['queryArticleListByTypeApi']>
+    readonly queryArticleTagListApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['queryArticleTagListApi']>
     readonly queryArticleTypeListApi: UnwrapRef<typeof import('../../../shared/api/articleType')['queryArticleTypeListApi']>
     readonly queryRolesApi: UnwrapRef<typeof import('../../../shared/api/role')['queryRolesApi']>
     readonly queryUserListApi: UnwrapRef<typeof import('../../../shared/api/user')['queryUserListApi']>
@@ -572,6 +581,7 @@ declare module 'vue' {
     readonly unrefElement: UnwrapRef<typeof import('@vueuse/core')['unrefElement']>
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
     readonly updateArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['updateArticleApi']>
+    readonly updateArticleTagApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['updateArticleTagApi']>
     readonly updateArticleTypeApi: UnwrapRef<typeof import('../../../shared/api/articleType')['updateArticleTypeApi']>
     readonly updateOwnPasswordByEmailCodeApi: UnwrapRef<typeof import('../../../shared/api/user')['updateOwnPasswordByEmailCodeApi']>
     readonly updateRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['updateRoleApi']>

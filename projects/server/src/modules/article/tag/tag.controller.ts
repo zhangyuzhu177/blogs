@@ -2,7 +2,7 @@ import { PermissionType } from 'types'
 import { HasPermission } from 'src/guards'
 import { IdsDto, QueryDto, QueryResDto, SuccessNumberDto, SuccessStringDto } from 'src/dto'
 import { ArticleTag } from 'src/entities/article-tag'
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { ApiSuccessResponse, getQuery } from 'src/utils'
 
@@ -29,7 +29,7 @@ export class ArticleTagController {
     @Body() body: QueryDto<ArticleTag>,
   ) {
     return getQuery(
-      this._articleSrv.articleTypeRepo(),
+      this._articleSrv.articleTagRepo(),
       body,
     )
   }
@@ -51,7 +51,7 @@ export class ArticleTagController {
   })
   @ApiSuccessResponse(SuccessStringDto)
   @HasPermission(PermissionType.ARTICLE_TAG_UPDATE)
-  @Post('update:/articleTagId')
+  @Patch('update/:articleTagId')
   public updateArticleTag(
     @Body() body: UpsertArticleTagBodyDto,
     @Param() {articleTagId}:ArticleTagIdDto
@@ -64,7 +64,7 @@ export class ArticleTagController {
   })
   @ApiSuccessResponse(SuccessNumberDto)
   @HasPermission(PermissionType.ARTICLE_TAG_DELETE)
-  @Post('delete')
+  @Delete('delete')
   public async deleteArticleTag(
     @Body() {ids}: IdsDto,
   ) {

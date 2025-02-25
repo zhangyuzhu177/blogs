@@ -1,41 +1,40 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { Like } from 'typeorm'
-import { Notify } from 'quasar'
 import { PermissionType } from 'types'
-import type { IArticleType, IQueryDto } from 'types'
+import type { IArticleTag, IQueryDto } from 'types'
 import type { QTableColumn, QTableProps } from 'quasar'
 import ZTable from 'shared/components/table/ZTable.vue'
 
-import ArticleTypeDialog from './articleType.dialog.vue'
+import ArticleTagDialog from './articleTag.dialog.vue'
 
 const zTable = ref<InstanceType<typeof ZTable>>()
 
 const { hasPermission } = useUser()
 
 /** 是否可添加 */
-const isCreate = hasPermission(PermissionType.ARTICLE_TYPE_CREATE)
+const isCreate = hasPermission(PermissionType.ARTICLE_TAG_CREATE)
 /** 是否可编辑 */
-const isUpdate = hasPermission(PermissionType.ARTICLE_TYPE_UPDATE)
+const isUpdate = hasPermission(PermissionType.ARTICLE_TAG_UPDATE)
 /** 是否可删除 */
-const isDelete = hasPermission(PermissionType.ARTICLE_TYPE_DELETE)
+const isDelete = hasPermission(PermissionType.ARTICLE_TAG_DELETE)
 
 /** 加载中 */
 const loading = ref(false)
-/** 文章分类 */
-const articleType = ref<IArticleType>()
+/** 文章标签 */
+const articleTag = ref<IArticleTag>()
 /** 文章分类对话框类型 */
 const dialogType = ref<DialogType>()
 /** 删除对话框  */
 const deleteDialog = ref(false)
 
 /** 表格行 */
-const rows = ref<IArticleType[]>()
+const rows = ref<IArticleTag[]>()
 /** 表格列 */
-const cols: QTableColumn<IArticleType>[] = [
+const cols: QTableColumn<IArticleTag>[] = [
   {
     name: 'name',
-    label: '分类名称',
+    label: '标签名称',
     field: 'name',
     sortable: true,
   },
@@ -67,26 +66,23 @@ const pagination = TABLE_PAGINATION('createdAt', true)
 /** 表格筛选文本 */
 const filterText = ref()
 /** 多选 */
-const selected = ref<IArticleType[]>()
+const selected = ref<IArticleTag[]>()
 
 /**
  * 查询文章分类列表
  */
-const queryQueryArticleTypeList: QTableProps['onRequest'] = async (props) => {
+const queryQueryArticleTagList: QTableProps['onRequest'] = async (props) => {
   const { filter } = props
   const { page, rowsPerPage, sortBy, descending } = props.pagination
   loading.value = true
   try {
-    const body: IQueryDto<IArticleType> = {
+    const body: IQueryDto<IArticleTag> = {
       pagination: {
         page,
         pageSize: rowsPerPage,
       },
       relations: {
         articles: true,
-      },
-      order: {
-        order: 'asc',
       },
     }
     if (filter)
@@ -95,7 +91,7 @@ const queryQueryArticleTypeList: QTableProps['onRequest'] = async (props) => {
       const sort = descending ? 'desc' : 'asc'
       body.order = { [sortBy]: sort }
     }
-    const { total, data } = await queryArticleTypeListApi(body)
+    const { total, data } = await queryArticleTagListApi(body)
     pagination.value.rowsNumber = total
     rows.value = data
   }
@@ -113,7 +109,7 @@ const queryQueryArticleTypeList: QTableProps['onRequest'] = async (props) => {
 }
 
 /**
- * 回调函数，重新获取文章分类列表
+ * 回调函数，重新获取文章标签列表
  */
 function callback() {
   zTable.value?.tableRef?.requestServerInteraction()
@@ -122,14 +118,14 @@ function callback() {
 /**
  * 删除分类
  */
-async function deleteArticleType() {
+async function deleteArticleTag() {
   if (!selected.value?.length)
     return
 
   loading.value = true
   let res
   try {
-    res = await deleteArticleTypeApi({
+    res = await deleteArticleTagApi({
       ids: selected.value.map(v => v.id),
     })
     Notify.create({
@@ -162,14 +158,14 @@ onBeforeMount(async () => {
   <div flex="~ col gap4" full relative>
     <ZLoading :value="loading" />
 
-    <div flex="~ justify-between">
+    <div flex="~ justify-between gap4">
       <div
         v-if="isCreate && isDelete"
         flex="~ wrap gap4"
       >
         <ZBtn
           v-if="isCreate"
-          label="添加分类"
+          label="添加标签"
           size="small"
           @click="dialogType = '添加'"
         >
@@ -179,7 +175,7 @@ onBeforeMount(async () => {
         </ZBtn>
         <ZBtn
           v-if="isDelete"
-          label="删除分类"
+          label="删除标签"
           size="small"
           text-color="primary-1"
           :params="{
@@ -196,7 +192,7 @@ onBeforeMount(async () => {
       <ZInput
         v-model="filterText"
         class="rounded"
-        placeholder="搜索文章分类"
+        placeholder="搜索文章标签"
         size="small"
         :debounce="500"
         w70
@@ -218,7 +214,7 @@ onBeforeMount(async () => {
       flex-1 h-0
       fixed-first-column
       :fixed-last-column="isUpdate"
-      @request="queryQueryArticleTypeList"
+      @request="queryQueryArticleTagList"
     >
       <!-- 详情 -->
       <template #body-cell-info="{ row }">
@@ -227,7 +223,7 @@ onBeforeMount(async () => {
             label="查看完整信息"
             @click="() => {
               dialogType = '查看'
-              articleType = row
+              articleTag = row
             }"
           />
         </q-td>
@@ -242,7 +238,7 @@ onBeforeMount(async () => {
             size="small"
             @click="() => {
               dialogType = '编辑'
-              articleType = row
+              articleTag = row
             }"
           />
         </q-td>
@@ -252,17 +248,17 @@ onBeforeMount(async () => {
     <!-- 删除对话框 -->
     <ZDialog
       v-model="deleteDialog"
-      title="删除分类"
+      title="删除标签"
       footer
-      @ok="deleteArticleType"
+      @ok="deleteArticleTag"
     >
-      该操作将删除已选的分类，是否继续？
+      该操作将删除已选的标签，是否继续？
     </ZDialog>
 
-    <!-- 文章分类对话框 -->
-    <ArticleTypeDialog
+    <!-- 文章标签对话框 -->
+    <ArticleTagDialog
       v-model:type="dialogType"
-      :article-type
+      :article-tag
       @callback="callback"
     />
   </div>

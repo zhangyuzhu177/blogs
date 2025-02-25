@@ -3,7 +3,7 @@ import type {
   IIdsDto,
   IQueryDto,
   IQueryPaginatedResData,
-  IUpsertArticleTypeBodyDto,
+  IUpsertArticleTagBodyDto,
 } from 'types'
 import { useRequest } from '../composables/request'
 
@@ -19,27 +19,27 @@ export function queryArticleTagListApi(body: IQueryDto<IArticleTag>) {
 /**
  * 添加文章类别
  */
-export function createArticleTypeApi(body: IUpsertArticleTypeBodyDto) {
-  return $post<string>('/article/type/create', body)
+export function createArticleTagApi(body: IUpsertArticleTagBodyDto) {
+  return $post<string>('/article/tag/create', body)
 }
 
 /**
  * 编辑文章类别
  */
-export function updateArticleTypeApi(body: IUpsertArticleTypeBodyDto, articleTypeId: string) {
-  return $patch<string>(`/article/type/update/${articleTypeId}`, body)
+export function updateArticleTagApi(body: IUpsertArticleTagBodyDto, articleTagId: string) {
+  return $patch<string>(`/article/tag/update/${articleTagId}`, body)
 }
 
 /**
  * 删除文章类别
  */
-export function deleteArticleTypeApi(body: IIdsDto) {
-  return $delete<number>('/article/type/delete', body)
+export function deleteArticleTagApi(body: IIdsDto) {
+  return $delete<number>('/article/tag/delete', body)
 }
 
 /**
  * 删除指定文章类别
  */
-export function deleteArticleTypeByIdApi(articleTypeId: string) {
-  return $delete<number>(`/article/type/delete/${articleTypeId}`)
+export function deleteArticleTagByIdApi(articleTagId: string) {
+  return $delete<number>(`/article/tag/delete/${articleTagId}`)
 }

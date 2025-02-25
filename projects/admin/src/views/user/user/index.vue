@@ -214,6 +214,7 @@ provide('callback', callback)
         <ZBtn
           v-if="isStatus"
           label="修改状态"
+          size="small"
           text-color="primary-1"
           :disable="!selected?.length"
           :params="{
@@ -231,6 +232,7 @@ provide('callback', callback)
         <ZBtn
           v-if="isAssignRole"
           label="分配管理角色"
+          size="small"
           text-color="primary-1"
           :disable="!selected?.length"
           :params="{

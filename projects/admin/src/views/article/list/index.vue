@@ -3,7 +3,7 @@ import moment from 'moment'
 import { Like } from 'typeorm'
 import { Notify } from 'quasar'
 import { PermissionType } from 'types'
-import type { IArticle, IArticleType, IQueryDto } from 'types'
+import type { IArticle, IArticleTag, IArticleType, IQueryDto } from 'types'
 import type { QTableColumn, QTableProps } from 'quasar'
 
 import ZTable from 'shared/components/table/ZTable.vue'
@@ -28,6 +28,8 @@ const loading = ref(false)
 const article = ref<IArticle>()
 /** 分类列表 */
 const articleTypeList = ref<IArticleType[]>()
+/** 标签列表 */
+const articleTagList = ref<IArticleTag[]>()
 /** 对话框操作类型 */
 const dialogType = ref<DialogType>()
 /** 删除对话框 */
@@ -53,7 +55,7 @@ const cols = reactive<QTableColumn<IArticle>[]>([
   {
     name: 'tags',
     label: '文章标签',
-    field: row => row.tags.join('\n') || undefined,
+    field: row => row.tags?.map(v => v.name).join('\n') || '-',
     sortable: true,
   },
   {
@@ -105,6 +107,7 @@ const queryArticleList: QTableProps['onRequest'] = async (props) => {
       },
       relations: {
         articleType: true,
+        tags: true,
       },
     }
     if (filter)
@@ -203,14 +206,25 @@ onBeforeMount(async () => {
   }
   cols.forEach(col => col.align = 'center')
 
-  articleTypeList.value = (await queryArticleTypeListApi({
-    pagination: {
-      pageSize: 'all',
-    },
-    order: {
-      order: 'asc',
-    },
-  })).data
+  loading.value = true
+  try {
+    articleTypeList.value = (await queryArticleTypeListApi({
+      pagination: {
+        pageSize: 'all',
+      },
+      order: {
+        order: 'asc',
+      },
+    })).data
+    articleTagList.value = (await queryArticleTagListApi({
+      pagination: {
+        pageSize: 'all',
+      },
+    })).data
+  }
+  finally {
+    loading.value = false
+  }
 })
 </script>
 
@@ -226,6 +240,7 @@ onBeforeMount(async () => {
         <ZBtn
           v-if="isCreate"
           label="添加文章"
+          size="small"
           @click="dialogType = '添加'"
         >
           <template #left>
@@ -235,6 +250,7 @@ onBeforeMount(async () => {
         <ZBtn
           v-if="isStatus"
           label="修改状态"
+          size="small"
           text-color="primary-1"
           :disable="!selected?.length"
           :params="{
@@ -253,6 +269,7 @@ onBeforeMount(async () => {
           v-if="isDelete"
           label="删除文章"
           text-color="primary-1"
+          size="small"
           :params="{
             outline: true,
           }"
@@ -340,6 +357,7 @@ onBeforeMount(async () => {
     <ArticleDialog
       v-model:type="dialogType"
       :article :article-type-list
+      :article-tag-list
       @callback="callback"
     />
 

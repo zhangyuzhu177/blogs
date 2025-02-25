@@ -59,12 +59,20 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
           },
           {
-            name: '添加/编辑文章',
+            name: '添加文章',
             premise: [
               PermissionType.ARTICLE_QUERY,
             ],
             value: [
               PermissionType.ARTICLE_PUBLISH,
+            ],
+          },
+          {
+            name: '编辑文章',
+            premise: [
+              PermissionType.ARTICLE_QUERY,
+            ],
+            value: [
               PermissionType.ARTICLE_UPDATE,
             ],
           },
@@ -89,12 +97,20 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
           },
           {
-            name: '添加/编辑文章',
+            name: '添加文章分类',
             premise: [
               PermissionType.ARTICLE_TYPE_QUERY,
             ],
             value: [
               PermissionType.ARTICLE_TYPE_CREATE,
+            ],
+          },
+          {
+            name: '编辑文章分类',
+            premise: [
+              PermissionType.ARTICLE_TYPE_QUERY,
+            ],
+            value: [
               PermissionType.ARTICLE_TYPE_UPDATE,
             ],
           },
@@ -105,6 +121,44 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
             value: [
               PermissionType.ARTICLE_TYPE_DELETE,
+            ],
+          },
+        ],
+      },
+      {
+        name: '文章标签管理',
+        children: [
+          {
+            name: '只读访问文章标签',
+            value: [
+              PermissionType.ARTICLE_TAG_QUERY,
+            ],
+          },
+          {
+            name: '添加文章标签',
+            premise: [
+              PermissionType.ARTICLE_TAG_QUERY,
+            ],
+            value: [
+              PermissionType.ARTICLE_TAG_CREATE,
+            ],
+          },
+          {
+            name: '编辑文章标签',
+            premise: [
+              PermissionType.ARTICLE_TAG_QUERY,
+            ],
+            value: [
+              PermissionType.ARTICLE_TAG_UPDATE,
+            ],
+          },
+          {
+            name: '删除文章标签',
+            premise: [
+              PermissionType.ARTICLE_TAG_QUERY,
+            ],
+            value: [
+              PermissionType.ARTICLE_TAG_DELETE,
             ],
           },
         ],
@@ -138,12 +192,12 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
           },
           {
-            name: '清空用户密码',
+            name: '更新用户信息',
             premise: [
               PermissionType.USER_QUERY,
             ],
             value: [
-              PermissionType.USER_CLEAR_PASSWORD,
+              PermissionType.USER_UPDATE,
             ],
           },
           {
@@ -167,12 +221,20 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
           },
           {
-            name: '添加/编辑管理角色',
+            name: '添加管理角色',
             premise: [
               PermissionType.ROLE_QUERY,
             ],
             value: [
               PermissionType.ROLE_CREATE,
+            ],
+          },
+          {
+            name: '编辑管理角色',
+            premise: [
+              PermissionType.ROLE_QUERY,
+            ],
+            value: [
               PermissionType.ROLE_UPDATE,
             ],
           },
