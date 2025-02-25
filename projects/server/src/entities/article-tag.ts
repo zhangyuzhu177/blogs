@@ -1,21 +1,21 @@
-import { IArticleType, ID_EXAMPLE } from "types"
+import { IArticleTag, ID_EXAMPLE } from "types"
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm"
 
 import { Article } from "./article"
 import { BaseTimeStamp } from "./_timestamp"
 
 @Entity()
-export class ArticleType extends BaseTimeStamp implements IArticleType {
+export class ArticleTag extends BaseTimeStamp implements IArticleTag {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty({
-    description: '文章类别唯一标识',
+    description: '文章标签唯一标识',
     example: ID_EXAMPLE,
   })
   id: string
 
   @ApiProperty({
-    description: '文章类别名称',
+    description: '文章标签名称',
   })
   @Column({
     unique: true,
@@ -31,13 +31,11 @@ export class ArticleType extends BaseTimeStamp implements IArticleType {
   desc?: string
 
   @ApiPropertyOptional({
-    description: '排序',
+    description: '关联的文章列表',
   })
-  @Column({
-    default: 1,
-  })
-  order?: number
-
-  @OneToMany(() => Article, (article) => article.articleType)
-  articles: Article[]
+  @ManyToMany(
+    () => Article,
+    (article) => article.tags,
+  )
+  articles?: Article[]
 }

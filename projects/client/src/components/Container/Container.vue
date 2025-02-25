@@ -46,7 +46,7 @@ onBeforeMount(async () => {
         bg="cover center"
         :style="{ height }"
       >
-        <q-img full :src="page?.url || img || defaultBg" />
+        <q-img loading="lazy" full :src="page?.url || img || defaultBg" />
       </div>
       <template v-if="title">
         <div

@@ -14,7 +14,11 @@ const { page } = useClientApp()
         absolute-x-center top--15
         w-30 h-30 cursor-pointer
       >
-        <q-img v-if="page?.avatar" class="avatar" b-rd="50%" full :src="page?.avatar" />
+        <q-img
+          v-if="page?.avatar" class="avatar"
+          loading="lazy"
+          b-rd="50%" full :src="page?.avatar"
+        />
       </div>
       <div v-if="page?.name" v-text="page?.name" />
       <div flex="~ gap-4">

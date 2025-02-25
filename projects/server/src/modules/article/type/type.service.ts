@@ -15,7 +15,7 @@ export class ArticleTypeService implements OnModuleInit {
   }
 
   /**
-   * 初始化文章类型
+   * 初始化文章分类
    */
   private async _initArticleType() {
     if (!(await this._articleSrv.articleTypeRepo().existsBy({ id: DEFAULT_ARTICLE_TYPE.id })))
@@ -23,7 +23,7 @@ export class ArticleTypeService implements OnModuleInit {
   }
 
   /**
-   * 创建文章类型
+   * 创建文章分类
    */
   public async createArticleType(body: UpsertArticleTypeBodyDto) {
     try {
@@ -39,7 +39,7 @@ export class ArticleTypeService implements OnModuleInit {
   }
 
   /**
-   * 编辑文章类型
+   * 编辑文章分类
    */
   public async updateArticleType(body: UpsertArticleTypeBodyDto, id: string) {
     if (!(await this._articleSrv.articleTypeRepo().existsBy({ id })))
@@ -58,7 +58,7 @@ export class ArticleTypeService implements OnModuleInit {
   }
 
   /**
-   * 删除文章类型
+   * 删除文章分类
    */
   public async deleteArticleType(id:string) {
     if (id === DEFAULT_ARTICLE_TYPE.id)

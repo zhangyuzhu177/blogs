@@ -83,7 +83,7 @@ const cols = reactive<QTableColumn<IArticle>[]>([
 /** 表格行 */
 const rows = ref<IArticle[]>()
 /** 表格分页信息 */
-const pagination = TABLE_PAGINATION('createdAt')
+const pagination = TABLE_PAGINATION('createdAt', true)
 /** 选中的文章 */
 const selected = ref<IArticle[]>()
 /** 表格筛选文本 */
@@ -96,7 +96,6 @@ const queryArticleList: QTableProps['onRequest'] = async (props) => {
   const { filter } = props
   const { page, rowsPerPage, sortBy, descending } = props.pagination
   loading.value = true
-  console.log(descending)
 
   try {
     const body: IQueryDto<IArticle> = {

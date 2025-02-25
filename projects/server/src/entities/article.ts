@@ -4,12 +4,15 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn
 } from 'typeorm'
 
 import { BaseTimeStamp } from './_timestamp'
 import { ArticleType } from './article-type'
+import { ArticleTag } from './article-tag'
 
 @Entity()
 export class Article extends BaseTimeStamp implements IArticle {
@@ -31,14 +34,6 @@ export class Article extends BaseTimeStamp implements IArticle {
   })
   @Column()
   articleTypeId: string
-
-  @ApiProperty({
-    description: '文章标签',
-  })
-  @Column({
-    type: 'simple-array',
-  })
-  tags: string[]
 
   @ApiProperty({
     description: '文章内容',
@@ -75,4 +70,16 @@ export class Article extends BaseTimeStamp implements IArticle {
   )
   @JoinColumn()
   articleType: ArticleType
+
+  @ApiProperty({
+    description: '文章标签',
+  })
+  @ManyToMany(
+    () => ArticleTag,
+    articleTag => articleTag.articles,
+  )
+  @JoinTable({
+    name: 'article_tags',
+  })
+  tags?: ArticleTag[]
 }

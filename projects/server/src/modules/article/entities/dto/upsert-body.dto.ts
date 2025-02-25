@@ -1,5 +1,5 @@
 import { Mixin } from 'ts-mixer'
-import { IUpsertArticleBodyDto } from 'types'
+import { ID_EXAMPLE, IUpsertArticleBodyDto } from 'types'
 import { IsArray,IsString } from 'src/decorators'
 import { ApiPropertyOptional } from '@nestjs/swagger'
 import { ArticleTypeIdDto, NameDto, StatusDto } from 'src/dto'
@@ -18,15 +18,17 @@ export class UpsertArticleBodyDto
   content: string
 
   @ApiPropertyOptional({
-    description: '文章标签'
-  })
-  @IsArray()
-  @IsString({ each: true })
-  tags: string[]
-
-  @ApiPropertyOptional({
     description: '文章封面'
   })
   @IsString()
   cover: string
+
+  @ApiPropertyOptional({
+    description: '文章标签',
+    type: [String],
+    example: [ID_EXAMPLE],
+  })
+  @IsArray()
+  @IsString({ each: true })
+  tagIds: string[]
 }

@@ -10,7 +10,7 @@ import { UpsertArticleTypeBodyDto } from './dto/upsert-article-type-body.dto'
 import { ArticleTypeService } from './type.service'
 
 @Controller('article/type')
-@ApiTags('Article | 文章分类')
+@ApiTags('ArticleType | 文章分类')
 export class ArticleTypeController {
   constructor(
     private readonly _articleSrv: ArticleService,
@@ -18,7 +18,7 @@ export class ArticleTypeController {
   ) { }
 
   @ApiOperation({
-    summary: '获取文章类型列表'
+    summary: '获取文章分类列表'
   })
   @Get('list')
   public async getArticleTypeList(
@@ -35,7 +35,7 @@ export class ArticleTypeController {
   }
 
   @ApiOperation({
-    summary: '获取文章类型列表'
+    summary: '获取文章分类列表'
   })
   @ApiSuccessResponse(QueryResDto<ArticleType>)
   @HasPermission(PermissionType.ARTICLE_TYPE_QUERY)
@@ -50,7 +50,7 @@ export class ArticleTypeController {
   }
 
   @ApiOperation({
-    summary: '创建文章类型'
+    summary: '创建文章分类'
   })
   @ApiSuccessResponse(SuccessStringDto)
   @HasPermission(PermissionType.ARTICLE_TYPE_CREATE)
@@ -62,7 +62,7 @@ export class ArticleTypeController {
   }
 
   @ApiOperation({
-    summary: '编辑文章类型'
+    summary: '编辑文章分类'
   })
   @ApiSuccessResponse(SuccessStringDto)
   @HasPermission(PermissionType.ARTICLE_TYPE_UPDATE)
@@ -75,7 +75,7 @@ export class ArticleTypeController {
   }
 
   @ApiOperation({
-    summary: '批量删除文章类型'
+    summary: '批量删除文章分类'
   })
   @ApiSuccessResponse(SuccessNumberDto)
   @HasPermission(PermissionType.ARTICLE_TYPE_DELETE)
@@ -101,7 +101,7 @@ export class ArticleTypeController {
   }
 
   @ApiOperation({
-    summary: '批量删除文章类型'
+    summary: '批量删除文章分类'
   })
   @ApiSuccessResponse(SuccessNumberDto)
   @HasPermission(PermissionType.ARTICLE_TYPE_DELETE)

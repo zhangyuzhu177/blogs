@@ -111,7 +111,7 @@ onBeforeMount(async () => {
             @click="jumpArticle(article.id)"
           >
             <div overflow-hidden>
-              <img w-50 :src="article.cover">
+              <q-img loading="lazy" w-50 :src="article.cover" />
             </div>
 
             <div flex="~ col 1 gap2 justify-between">

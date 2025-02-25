@@ -3,6 +3,7 @@ import type { IArticleTypeIdDto } from '../dto/id/article-type.interface'
 import type { IStatusDto } from '../dto/status.interface'
 import type { IArticleType } from './article-type.interface'
 import type { ICreatedAt, IUpdatedAt } from './_timestamp.interface'
+import type { IArticleTag } from './article-tag.interface'
 
 export interface IArticle
   extends
@@ -18,7 +19,7 @@ export interface IArticle
   /** 文章内容 */
   content: string
   /** 文章标签 */
-  tags: string[]
+  tags?: IArticleTag[]
   /** 文章封面 */
   cover: string
   /** 文章访问量 */
