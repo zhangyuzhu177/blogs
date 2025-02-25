@@ -147,12 +147,10 @@ onBeforeMount(async () => {
 
                   <div flex="~ gap4">
                     <div
-                      v-for="(item, index) in article.tags"
-                      :key="index"
-                      transition="300"
+                      v-for="tag in article.tags"
+                      :key="tag.id"
                       p="x2" b-rd-2px
-                      bg="#575E6A1A"
-                      v-text="item"
+                      v-text="tag.name"
                     />
                   </div>
                 </div>
