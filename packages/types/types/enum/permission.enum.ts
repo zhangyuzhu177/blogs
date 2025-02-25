@@ -50,14 +50,23 @@ export enum PermissionType {
   /* 修改文章状态 */
   ARTICLE_UPDATE_STATUS = 'article:update-status',
 
-  /** 查询文章类别 */
+  /** 查询文章分类 */
   ARTICLE_TYPE_QUERY = 'article-type:query',
-  /** 创建文章类别 */
+  /** 创建文章分类 */
   ARTICLE_TYPE_CREATE = 'article-type:create',
-  /** 更新文章类别 */
+  /** 更新文章分类 */
   ARTICLE_TYPE_UPDATE = 'article-type:update',
-  /** 删除文章类别 */
+  /** 删除文章分类 */
   ARTICLE_TYPE_DELETE = 'article-type:delete',
+
+  /** 查询文章标签 */
+  ARTICLE_TAG_QUERY = 'article-tag:query',
+  /** 创建文章标签 */
+  ARTICLE_TAG_CREATE = 'article-tag:create',
+  /** 更新文章标签 */
+  ARTICLE_TAG_UPDATE = 'article-tag:update',
+  /** 删除文章标签 */
+  ARTICLE_TAG_DELETE = 'article-tag:delete',
 }
 
 /**
@@ -85,8 +94,13 @@ export const permissionDescriptions: Record<PermissionType, string> = {
   [PermissionType.ARTICLE_QUERY]: '查询文章',
   [PermissionType.ARTICLE_UPDATE_STATUS]: '修改文章状态',
 
-  [PermissionType.ARTICLE_TYPE_QUERY]: '查询文章类别',
-  [PermissionType.ARTICLE_TYPE_CREATE]: '创建文章类别',
-  [PermissionType.ARTICLE_TYPE_UPDATE]: '更新文章类别',
-  [PermissionType.ARTICLE_TYPE_DELETE]: '删除文章类别',
+  [PermissionType.ARTICLE_TYPE_QUERY]: '查询文章分类',
+  [PermissionType.ARTICLE_TYPE_CREATE]: '创建文章分类',
+  [PermissionType.ARTICLE_TYPE_UPDATE]: '更新文章分类',
+  [PermissionType.ARTICLE_TYPE_DELETE]: '删除文章分类',
+
+  [PermissionType.ARTICLE_TAG_QUERY]: '查询文标签',
+  [PermissionType.ARTICLE_TAG_CREATE]: '创建文标签',
+  [PermissionType.ARTICLE_TAG_UPDATE]: '更新文标签',
+  [PermissionType.ARTICLE_TAG_DELETE]: '删除文标签',
 }

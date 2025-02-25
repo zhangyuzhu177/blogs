@@ -8,9 +8,9 @@ import { ArticleType } from 'src/entities/article-type'
 import { ArticleService } from './article.service'
 import { ArticleTypeService } from './type/type.service'
 import { ArticleTypeController } from './type/type.controller'
-import { ArticleEntitiesService } from './entities/entities.service'
-import { ArticleEntitiesController } from './entities/entities.controller'
-import { ArticleTagService } from './tag/type.service'
+import { ArticleEntitiesService } from './article/article.service'
+import { ArticleEntitiesController } from './article/article.controller'
+import { ArticleTagService } from './tag/tag.service'
 import { ArticleTagController } from './tag/tag.controller'
 
 @Module({

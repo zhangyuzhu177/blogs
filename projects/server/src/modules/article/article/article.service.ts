@@ -1,10 +1,13 @@
 import { In } from 'typeorm'
 import { ErrorCode } from 'types'
 import { Injectable } from '@nestjs/common'
-import { ArticleService } from '../article.service'
+
 import { ChangeStatusBodyDto } from 'src/dto/common'
 import { parseSqlError, responseError } from 'src/utils'
+
+import { ArticleService } from '../article.service'
 import { UpsertArticleBodyDto } from './dto/upsert-body.dto'
+import { objectOmit } from 'utils'
 
 @Injectable()
 export class ArticleEntitiesService {
@@ -30,9 +33,17 @@ export class ArticleEntitiesService {
    * 发布文章
    */
   public async createArticle(body: UpsertArticleBodyDto) {
+    const { tagIds } = body
+    const tags = await this._articleSrv.articleTagRepo().findBy({ id: In(tagIds) })
+    if (tags.length !== tagIds.length)
+      responseError(ErrorCode.ARTICLE_TAG_NOT_EXISTS)
+
     try {
       const insertRes = await this._articleSrv.entitiesRepo().insert(
-        this._articleSrv.entitiesRepo().create(body)
+        this._articleSrv.entitiesRepo().create({
+          ...objectOmit(body, 'tagIds'),
+          tags
+        })
       )
 
       return insertRes.identifiers[0].id
@@ -47,14 +58,28 @@ export class ArticleEntitiesService {
   /**
    * 编辑文章
    */
-  public async updateArticle(body: UpsertArticleBodyDto,id:string) {
+  public async updateArticle(body: UpsertArticleBodyDto, id: string) {
+    const { tagIds } = body
+    const tags = await this._articleSrv.articleTagRepo().findBy({ id: In(tagIds) })
+    if (tags.length !== tagIds.length)
+      responseError(ErrorCode.ARTICLE_TAG_NOT_EXISTS)
+
+    const article = await this._articleSrv.entitiesRepo().findOne({
+      where: { id },
+      relations: {
+        tags: true,
+      },
+    })
+
+    if (!article)
+      responseError(ErrorCode.ARTICLE_NOT_EXISTS)
+
     try {
-      const updateRes = await this._articleSrv.entitiesRepo().update(
-        { id },
-        body,
-      )
-      if (!updateRes.affected)
-        responseError(ErrorCode.ARTICLE_NOT_EXISTS)
+      Object.assign(article, {
+        ...objectOmit(body, 'tagIds'),
+        tags
+      })
+      await this._articleSrv.entitiesRepo().save(article)
 
       return id
     } catch (e) {

@@ -2,8 +2,8 @@ import { PermissionType } from 'types'
 import { Article } from 'src/entities/article'
 import { ChangeStatusBodyDto } from 'src/dto/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { ApiSuccessResponse, getQuery, getQueryPaging } from 'src/utils'
 import { HasPermission } from 'src/guards/permission.guard'
+import { ApiSuccessResponse, getQuery, getQueryPaging } from 'src/utils'
 import { Body, Controller,Delete,Get,Param,Patch,Post } from '@nestjs/common'
 import {
   ArticleIdDto,
@@ -17,7 +17,7 @@ import {
 } from 'src/dto'
 
 import { ArticleService } from '../article.service'
-import { ArticleEntitiesService } from './entities.service'
+import { ArticleEntitiesService } from './article.service'
 import { UpsertArticleBodyDto } from './dto/upsert-body.dto'
 
 @Controller('article/entities')
