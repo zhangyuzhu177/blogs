@@ -21,7 +21,8 @@ declare global {
   const EMAIL_REQUIREMENTS_DESC: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']
   const EffectScope: typeof import('vue')['EffectScope']
   const LEADING_PAGE_KEY: typeof import('../../../shared/constants/storage')['LEADING_PAGE_KEY']
-  const NAV: typeof import('../constants/nav')['NAV']
+  const MENU: typeof import('../constants/menu')['MENU']
+  const NAV: typeof import('../constants/menu')['NAV']
   const PASSWORD_ALLOW_CHARS: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_ALLOW_CHARS']
   const PASSWORD_MAX_LENGTH: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MAX_LENGTH']
   const PASSWORD_MIN_LENGTH: typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MIN_LENGTH']
@@ -48,6 +49,7 @@ declare global {
   const controlledRef: typeof import('@vueuse/core')['controlledRef']
   const createApp: typeof import('vue')['createApp']
   const createArticleApi: typeof import('../../../shared/api/article')['createArticleApi']
+  const createArticleTagApi: typeof import('../../../shared/api/articleTag')['createArticleTagApi']
   const createArticleTypeApi: typeof import('../../../shared/api/articleType')['createArticleTypeApi']
   const createEventHook: typeof import('@vueuse/core')['createEventHook']
   const createGlobalState: typeof import('@vueuse/core')['createGlobalState']
@@ -67,6 +69,8 @@ declare global {
   const defineComponent: typeof import('vue')['defineComponent']
   const deleteArticleApi: typeof import('../../../shared/api/article')['deleteArticleApi']
   const deleteArticleByIdApi: typeof import('../../../shared/api/article')['deleteArticleByIdApi']
+  const deleteArticleTagApi: typeof import('../../../shared/api/articleTag')['deleteArticleTagApi']
+  const deleteArticleTagByIdApi: typeof import('../../../shared/api/articleTag')['deleteArticleTagByIdApi']
   const deleteArticleTypeApi: typeof import('../../../shared/api/articleType')['deleteArticleTypeApi']
   const deleteArticleTypeByIdApi: typeof import('../../../shared/api/articleType')['deleteArticleTypeByIdApi']
   const deleteRoleApi: typeof import('../../../shared/api/role')['deleteRoleApi']
@@ -80,7 +84,10 @@ declare global {
   const fileToUrl: typeof import('../../../shared/utils/browser/file/fileToUrl')['fileToUrl']
   const gerArticleDetailApi: typeof import('../../../shared/api/article')['gerArticleDetailApi']
   const gerArticleInfoApi: typeof import('../../../shared/api/article')['gerArticleInfoApi']
+  const getArticleApi: typeof import('../../../shared/api/article')['getArticleApi']
   const getArticleListApi: typeof import('../../../shared/api/article')['getArticleListApi']
+  const getArticleListByTypeApi: typeof import('../../../shared/api/article')['getArticleListByTypeApi']
+  const getArticleTagListApi: typeof import('../../../shared/api/articleTag')['getArticleTagListApi']
   const getArticleTypeListApi: typeof import('../../../shared/api/articleType')['getArticleTypeListApi']
   const getCaptchaImgApi: typeof import('../../../shared/api/auth')['getCaptchaImgApi']
   const getConfigApi: typeof import('../../../shared/api/config')['getConfigApi']
@@ -140,6 +147,7 @@ declare global {
   const pubRouter: typeof import('../../../shared/composables/pubRouter')['pubRouter']
   const queryArticleListApi: typeof import('../../../shared/api/article')['queryArticleListApi']
   const queryArticleListByTypeApi: typeof import('../../../shared/api/article')['queryArticleListByTypeApi']
+  const queryArticleTagListApi: typeof import('../../../shared/api/articleTag')['queryArticleTagListApi']
   const queryArticleTypeListApi: typeof import('../../../shared/api/articleType')['queryArticleTypeListApi']
   const queryRolesApi: typeof import('../../../shared/api/role')['queryRolesApi']
   const queryUserListApi: typeof import('../../../shared/api/user')['queryUserListApi']
@@ -190,6 +198,7 @@ declare global {
   const unrefElement: typeof import('@vueuse/core')['unrefElement']
   const until: typeof import('@vueuse/core')['until']
   const updateArticleApi: typeof import('../../../shared/api/article')['updateArticleApi']
+  const updateArticleTagApi: typeof import('../../../shared/api/articleTag')['updateArticleTagApi']
   const updateArticleTypeApi: typeof import('../../../shared/api/articleType')['updateArticleTypeApi']
   const updateOwnPasswordByEmailCodeApi: typeof import('../../../shared/api/user')['updateOwnPasswordByEmailCodeApi']
   const updateRoleApi: typeof import('../../../shared/api/role')['updateRoleApi']
@@ -334,6 +343,7 @@ declare global {
   const useSeoMeta: typeof import('@vueuse/head')['useSeoMeta']
   const useSessionStorage: typeof import('@vueuse/core')['useSessionStorage']
   const useShare: typeof import('@vueuse/core')['useShare']
+  const useSidebar: typeof import('../composables/sidebar')['useSidebar']
   const useSlots: typeof import('vue')['useSlots']
   const useSorted: typeof import('@vueuse/core')['useSorted']
   const useSpeechRecognition: typeof import('@vueuse/core')['useSpeechRecognition']
@@ -424,14 +434,13 @@ declare module 'vue' {
     readonly APP_ICON: UnwrapRef<typeof import('../../../shared/constants/app')['APP_ICON']>
     readonly APP_MIN_WIDTH: UnwrapRef<typeof import('../../../shared/constants/app')['APP_MIN_WIDTH']>
     readonly APP_NAME: UnwrapRef<typeof import('../../../shared/constants/app')['APP_NAME']>
-    readonly APP_NAME_EN: UnwrapRef<typeof import('../../../shared/constants/app')['APP_NAME_EN']>
     readonly AUTH_TOKEN_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['AUTH_TOKEN_KEY']>
     readonly EMAIL_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MAX_LENGTH']>
     readonly EMAIL_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MIN_LENGTH']>
     readonly EMAIL_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly LEADING_PAGE_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['LEADING_PAGE_KEY']>
-    readonly NAV: UnwrapRef<typeof import('../constants/nav')['NAV']>
+    readonly MENU: UnwrapRef<typeof import('../constants/menu')['MENU']>
     readonly PASSWORD_ALLOW_CHARS: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_ALLOW_CHARS']>
     readonly PASSWORD_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MAX_LENGTH']>
     readonly PASSWORD_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/password.validator')['PASSWORD_MIN_LENGTH']>
@@ -455,6 +464,7 @@ declare module 'vue' {
     readonly controlledRef: UnwrapRef<typeof import('@vueuse/core')['controlledRef']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['createArticleApi']>
+    readonly createArticleTagApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['createArticleTagApi']>
     readonly createArticleTypeApi: UnwrapRef<typeof import('../../../shared/api/articleType')['createArticleTypeApi']>
     readonly createEventHook: UnwrapRef<typeof import('@vueuse/core')['createEventHook']>
     readonly createGlobalState: UnwrapRef<typeof import('@vueuse/core')['createGlobalState']>
@@ -474,6 +484,8 @@ declare module 'vue' {
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly deleteArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['deleteArticleApi']>
     readonly deleteArticleByIdApi: UnwrapRef<typeof import('../../../shared/api/article')['deleteArticleByIdApi']>
+    readonly deleteArticleTagApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['deleteArticleTagApi']>
+    readonly deleteArticleTagByIdApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['deleteArticleTagByIdApi']>
     readonly deleteArticleTypeApi: UnwrapRef<typeof import('../../../shared/api/articleType')['deleteArticleTypeApi']>
     readonly deleteArticleTypeByIdApi: UnwrapRef<typeof import('../../../shared/api/articleType')['deleteArticleTypeByIdApi']>
     readonly deleteRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['deleteRoleApi']>
@@ -482,6 +494,7 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly gerArticleDetailApi: UnwrapRef<typeof import('../../../shared/api/article')['gerArticleDetailApi']>
+    readonly getArticleTagListApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['getArticleTagListApi']>
     readonly getArticleTypeListApi: UnwrapRef<typeof import('../../../shared/api/articleType')['getArticleTypeListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
@@ -534,7 +547,7 @@ declare module 'vue' {
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly pubRouter: UnwrapRef<typeof import('../../../shared/composables/pubRouter')['pubRouter']>
     readonly queryArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['queryArticleListApi']>
-    readonly queryArticleListByTypeApi: UnwrapRef<typeof import('../../../shared/api/article')['queryArticleListByTypeApi']>
+    readonly queryArticleTagListApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['queryArticleTagListApi']>
     readonly queryArticleTypeListApi: UnwrapRef<typeof import('../../../shared/api/articleType')['queryArticleTypeListApi']>
     readonly queryRolesApi: UnwrapRef<typeof import('../../../shared/api/role')['queryRolesApi']>
     readonly queryUserListApi: UnwrapRef<typeof import('../../../shared/api/user')['queryUserListApi']>
@@ -581,6 +594,7 @@ declare module 'vue' {
     readonly unrefElement: UnwrapRef<typeof import('@vueuse/core')['unrefElement']>
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
     readonly updateArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['updateArticleApi']>
+    readonly updateArticleTagApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['updateArticleTagApi']>
     readonly updateArticleTypeApi: UnwrapRef<typeof import('../../../shared/api/articleType')['updateArticleTypeApi']>
     readonly updateOwnPasswordByEmailCodeApi: UnwrapRef<typeof import('../../../shared/api/user')['updateOwnPasswordByEmailCodeApi']>
     readonly updateRoleApi: UnwrapRef<typeof import('../../../shared/api/role')['updateRoleApi']>
@@ -715,6 +729,7 @@ declare module 'vue' {
     readonly useScrollLock: UnwrapRef<typeof import('@vueuse/core')['useScrollLock']>
     readonly useSessionStorage: UnwrapRef<typeof import('@vueuse/core')['useSessionStorage']>
     readonly useShare: UnwrapRef<typeof import('@vueuse/core')['useShare']>
+    readonly useSidebar: UnwrapRef<typeof import('../composables/sidebar')['useSidebar']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useSorted: UnwrapRef<typeof import('@vueuse/core')['useSorted']>
     readonly useSpeechRecognition: UnwrapRef<typeof import('@vueuse/core')['useSpeechRecognition']>

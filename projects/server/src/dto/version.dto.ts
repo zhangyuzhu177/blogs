@@ -13,7 +13,7 @@ export class VersionDto<T = SysConfig> implements IVersionDto<T> {
     \n${objectEntries(sysConfigDescriptions).map(([key, value]) => `- \`${key}\`: ${value}`).join('\n')}
     ${sharedVariableMarkdown('SysConfig', 'zjf-types', 'version枚举值')}`,
     enum: SysConfig,
-    example: SysConfig.APP,
+    example: SysConfig.HOME,
   }))
   @decorate(IsEnum(SysConfig, { message: 'version必须是 SysConfig 枚举值' }))
   version: T

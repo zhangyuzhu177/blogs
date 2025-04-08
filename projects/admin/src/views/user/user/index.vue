@@ -285,7 +285,7 @@ provide('callback', callback)
       <!-- 用户详情 -->
       <template #body-cell-info="{ row }">
         <q-td text-center>
-          <TextBtn
+          <ZTextBtn
             label="查看完整信息"
             @click="() => {
               dialogType = '查看'

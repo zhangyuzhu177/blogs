@@ -21,8 +21,7 @@ export class ArticleTypeController {
     summary: '获取文章分类列表'
   })
   @Get('list')
-  public async getArticleTypeList(
-  ) {
+  public async getArticleTypeList() {
     return await this._articleSrv.articleTypeRepo().find({
       order: {
         order:'asc'

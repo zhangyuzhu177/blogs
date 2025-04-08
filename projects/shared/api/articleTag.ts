@@ -7,7 +7,14 @@ import type {
 } from 'types'
 import { useRequest } from '../composables/request'
 
-const { $post, $patch, $delete } = useRequest()
+const { $get, $post, $patch, $delete } = useRequest()
+
+/**
+ * 获取文章标签列表
+ */
+export function getArticleTagListApi() {
+  return $get<IArticleTag[]>('/article/tag/list')
+}
 
 /**
  * 查询文章标签列表

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { SysConfig } from 'types'
 
-import AppSetting from './AppSetting.vue'
 import HomeSetting from './HomeSetting.vue'
 import AboutSetting from './AboutSetting.vue'
 
@@ -23,7 +22,6 @@ const { PAGE_NAV, active } = usePageAdmin()
       </div>
     </div>
     <div flex-1 overflow-auto>
-      <AppSetting v-if="active === SysConfig.APP" />
       <HomeSetting v-if="active === SysConfig.HOME" />
       <AboutSetting v-if="active === SysConfig.ABOUT" />
     </div>

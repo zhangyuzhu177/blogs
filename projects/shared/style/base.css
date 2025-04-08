@@ -21,6 +21,8 @@ body,
 }
 
 body {
+  min-width: 320px;
+  min-height: 600px;
   transform-origin: top left;
   color: var(--grey-9);
 }

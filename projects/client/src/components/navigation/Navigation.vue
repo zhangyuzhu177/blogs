@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { NAV } from '~/constants/nav'
+import { MENU } from '~/constants/menu'
 
-const tab = ref('home')
+const tab = ref(MENU[0].to)
 </script>
 
 <template>
   <q-tabs v-model="tab" inline-label>
     <q-route-tab
-      v-for="item in NAV"
-      :key="item.id"
-      :name="item.id"
+      v-for="item in MENU "
+      :key="item.to"
+      :name="item.to"
       :label="item.label"
-      :to="item.path"
+      :to="item.to"
       exact
     />
   </q-tabs>

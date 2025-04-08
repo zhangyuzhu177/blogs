@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { APP_NAME } from 'shared/constants/app'
+
 import left from '~/assets/icons/ident/left.svg?raw'
 import right from '~/assets/icons/ident/right.svg?raw'
 
 const { width } = useWindowSize()
 const { baseWidth, isExpand, isShow, time, changeState } = useSidebar()
-const { app } = useSysConfig()
 
 /** 退出登录对话框 */
 const logoutDialog = ref(false)
@@ -32,11 +33,10 @@ watch(
   >
     <div flex="~ col gap2">
       <div flex="~ center gap2" px-4>
-        <img b-rd-10 w-10 h-10 :src="app?.icon">
         <h4
           v-if="isShow"
           truncate cursor-pointer
-          v-text="`${app?.name}-管理后台`"
+          v-text="`${APP_NAME}-管理后台`"
         />
       </div>
       <div flex="~ items-center">

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Article from '~/views/article/index.vue'
+import Archives from '~/views/archives/index.vue'
 </script>
 
 <template>
   <Container>
-    <Article />
+    <Archives />
   </Container>
 </template>
 

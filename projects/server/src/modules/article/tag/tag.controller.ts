@@ -2,7 +2,7 @@ import { PermissionType } from 'types'
 import { HasPermission } from 'src/guards'
 import { IdsDto, QueryDto, QueryResDto, SuccessNumberDto, SuccessStringDto } from 'src/dto'
 import { ArticleTag } from 'src/entities/article-tag'
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { ApiSuccessResponse, getQuery } from 'src/utils'
 
@@ -18,6 +18,25 @@ export class ArticleTagController {
     private readonly _articleSrv: ArticleService,
     private readonly _articleTagSrv: ArticleTagService,
   ) { }
+
+  @ApiOperation({
+    summary: '获取文章分类列表'
+  })
+  @Get('list')
+  public getArticleTypeList() {
+    return this._articleSrv.articleTagRepo().find({
+      relations: {
+        articles: true,
+      },
+      select: {
+        id: true,
+        name: true,
+        articles: {
+          id: true,
+        }
+      }
+    })
+  }
 
   @ApiOperation({
     summary: '获取文章分类列表'

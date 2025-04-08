@@ -20,7 +20,7 @@ watch(
 </script>
 
 <template>
-  <div class="body" full flex="~ col">
+  <div class="home-layout" full flex="~ col">
     <header ref="header" z-5000>
       <AppHeader />
     </header>
@@ -33,7 +33,6 @@ watch(
       <RouterView
         relative
         :style="`min-height: calc(100vh - ${headerHeight}px - ${footerHeight}px)`"
-        min-w-600px
       />
       <footer ref="footer">
         <AppFooter />
@@ -43,7 +42,7 @@ watch(
 </template>
 
 <style scoped lang="scss">
-.body {
+.home-layout {
   background-color: var(--grey-1);
 }
 </style>

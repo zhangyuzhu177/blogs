@@ -65,11 +65,11 @@ export default defineConfig({
       },
     },
     breakpoints: {
-      xs: '500px',
-      sm: '760px',
-      lg: '900px',
-      xl: '1200px',
-      xxl: '1500px',
+      xs: '320px',
+      sm: '600px',
+      md: '960px',
+      lg: '1240px',
+      xl: '1920px',
     },
   },
 })

@@ -38,9 +38,9 @@ function goToTop() {
       @click="goToTop"
     >
       <div
-        icon
+        w-10 h-10
         hover:color="primary-1"
-        flex-center i-ph:rocket-bold
+        flex-center i-mingcute:arrow-up-fill
       />
     </div>
   </Transition>

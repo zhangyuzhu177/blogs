@@ -22,6 +22,7 @@ declare module 'vue' {
     QCard: typeof import('quasar')['QCard']
     QCheckbox: typeof import('quasar')['QCheckbox']
     QDialog: typeof import('quasar')['QDialog']
+    QImg: typeof import('quasar')['QImg']
     QInnerLoading: typeof import('quasar')['QInnerLoading']
     QInput: typeof import('quasar')['QInput']
     QRadio: typeof import('quasar')['QRadio']
@@ -52,6 +53,7 @@ declare module 'vue' {
     ZRadio: typeof import('./../../../shared/components/radio/ZRadio.vue')['default']
     ZSelect: typeof import('./../../../shared/components/select/ZSelect.vue')['default']
     ZTable: typeof import('./../../../shared/components/table/ZTable.vue')['default']
+    ZTextBtn: typeof import('./../../../shared/components/btn/ZTextBtn.vue')['default']
     ZUpload: typeof import('./../../../shared/components/upload/ZUpload.vue')['default']
   }
 }

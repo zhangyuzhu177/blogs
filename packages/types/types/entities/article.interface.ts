@@ -21,7 +21,7 @@ export interface IArticle
   /** 文章标签 */
   tags?: IArticleTag[]
   /** 文章封面 */
-  cover: string
+  cover?: string
   /** 文章访问量 */
   pageView?: number
 }

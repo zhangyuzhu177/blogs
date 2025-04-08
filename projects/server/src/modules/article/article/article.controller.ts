@@ -29,65 +29,10 @@ export class ArticleEntitiesController {
   ) { }
 
   @ApiOperation({
-    summary: '根据文章类型查询文章列表'
-  })
-  @ApiSuccessResponse(QueryResDto<Article>)
-  @Post('query/:articleTypeId')
-  public async queryArticleListByArticleType(
-    @Body() body: QueryPagination,
-    @Param() { articleTypeId }: ArticleTypeIdDto
-  ) {
-    const { total, page, pageSize } = await getQueryPaging(
-      this._articleSrv.entitiesRepo(),
-      {
-        pagination:body,
-        where: {
-          articleTypeId,
-          status:true
-        },
-      },
-    )
-    const data = await this._articleSrv.entitiesRepo().find({
-      where: {
-        articleTypeId,
-        status:true
-      },
-      relations: {
-        tags:true
-      },
-      ...(
-        body.pageSize !== 'all'
-          ? {
-              skip: (body.page - 1) * body.pageSize,
-              take: body.pageSize,
-            }
-          : {}
-      ),
-      order: {
-        createdAt: 'DESC',
-      },
-      select: {
-        id: true,
-        name: true,
-        cover: true,
-        pageView: true,
-        tags: true,
-        createdAt: true,
-      }
-    })
-    return {
-      page,
-      pageSize,
-      total,
-      data,
-    }
-  }
-
-  @ApiOperation({
     summary: '获取文章列表'
   })
   @ApiSuccessResponse(QueryResDto<Article>)
-  @HasPermission(PermissionType.ARTICLE_QUERY)
+  // @HasPermission(PermissionType.ARTICLE_QUERY)
   @Post('query')
   public queryArticleList(
     @Body() body: QueryDto<Article>,

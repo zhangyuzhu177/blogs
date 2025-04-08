@@ -1,50 +1,37 @@
 <script setup lang="ts">
 import { Notify } from 'quasar'
 import { SysConfig } from 'types'
+import { cloneDeep, isArray } from 'lodash'
+import {
+  VueDraggable,
+} from 'vue-draggable-plus'
 import type { IConfigDto } from 'types'
-import { validateEmail, validateName, validatePhone } from 'shared/utils/validators'
-import { cloneDeep } from 'lodash'
+import { randomId, validateUrl } from 'utils'
+import { validateDesc, validateEmail, validateName } from 'shared/utils/validators'
 
-const { active } = usePageAdmin()
+const { PAGE_NAV, active } = usePageAdmin()
 
 /** 加载中 */
 const loading = ref(false)
 /** 初始化配置 */
 const initData: IConfigDto[SysConfig.ABOUT] = {
-  title: '',
-  label: '',
-  url: '',
   avatar: '',
   name: '',
-  phone: '',
+  job: '',
+  location: '',
+  skills: [
+    {
+      id: randomId(),
+      name: '',
+      desc: '',
+    },
+  ],
+  desc: '',
   email: '',
   github: '',
-  motto: '',
-  content: '',
 }
 /** 页面配置 */
-const pageCfg = ref<IConfigDto[SysConfig.ABOUT]>(cloneDeep(initData))
-
-/** 上传背景图片 */
-const pageImg = ref<File>()
-watch(
-  pageImg,
-  async (newVal) => {
-    loading.value = true
-    try {
-      if (newVal) {
-        const formData = new FormData()
-        formData.append('file', newVal as File)
-        const res = await uploadFileApi(formData, `/images/article/${newVal.name}`)
-        pageCfg.value!.url = res.url
-      }
-    }
-    finally {
-      loading.value = false
-      pageImg.value = undefined
-    }
-  },
-)
+const config = ref<IConfigDto[SysConfig.ABOUT]>(cloneDeep(initData))
 
 /** 上传头像 */
 const avatar = ref<File>()
@@ -56,8 +43,8 @@ watch(
       if (newVal) {
         const formData = new FormData()
         formData.append('file', newVal as File)
-        const res = await uploadFileApi(formData, `/images/page/${newVal.name}`)
-        pageCfg.value!.avatar = res.url
+        const res = await uploadFileApi(formData, `/images/avatar/${newVal.name}`)
+        config.value!.avatar = res.url
       }
     }
     finally {
@@ -67,12 +54,28 @@ watch(
   },
 )
 
+const disable = computed(() => {
+  const { name, email, github, desc } = config.value || {}
+  return (!!name && !!validateName(name))
+    || (!!email && !!validateEmail(email))
+    || (!!github && !!validateUrl(github))
+    || (!!desc && !!validateDesc(desc))
+})
+
 /** 获取数据 */
 async function getConfigList() {
   loading.value = true
   try {
     const data = await getConfigApi(active.value) || initData
-    pageCfg.value = data
+    config.value = {
+      ...initData,
+      ...(data as IConfigDto[SysConfig.ABOUT]),
+      skills: (data as IConfigDto[SysConfig.ABOUT])?.skills || [{
+        id: randomId(),
+        name: '',
+        desc: '',
+      }],
+    }
   }
   finally {
     loading.value = false
@@ -81,12 +84,15 @@ async function getConfigList() {
 
 /** 保存修改 */
 async function save() {
+  if (disable.value)
+    return
+
   loading.value = true
   try {
     const data = await upsertConfigApi({
       version: active.value,
       [SysConfig.ABOUT]: {
-        ...pageCfg.value,
+        ...config.value,
       },
     })
     if (data) {
@@ -109,12 +115,12 @@ onBeforeMount(() => {
 <template>
   <div flex="~ col gap4" full>
     <ZLoading :value="loading" />
-
     <!-- 标题 -->
     <div flex="~ items-center justify-between">
-      <h3 v-text="'关于页设置'" />
+      <h3 v-text="PAGE_NAV[1].label" />
       <ZBtn
         label="保存"
+        :disable="disable"
         @click="save()"
       >
         <template #left>
@@ -124,129 +130,134 @@ onBeforeMount(() => {
     </div>
 
     <div flex="~ col gap4" overflow-auto>
-      <!-- 基础设置 -->
-      <div flex="~ col gap4">
-        <div flex="~ items-center gap2">
-          <div w-2 h-2 b-rd-0.5 bg-primary-1 />
-          <div subtitle-2 v-text="'基础设置'" />
-        </div>
-
-        <div flex="~ col gap1">
-          <ZInput
-            v-model="pageCfg!.title"
-            label="标题"
-            placeholder="请输入标题"
-            :max="12"
-            mb-5
-          />
-          <ZInput
-            v-model="pageCfg!.label"
-            label="简介"
-            placeholder="请输入简介"
-            mb-5
-          />
-          <div flex="~ col gap2" mb-5>
-            <ZLabel label="背景图片" />
-            <ZUpload
-              v-model="pageImg"
-              type="image"
-              accept="image/*"
-              w-50 b-rd-4
+      <div flex="~ col gap1">
+        <div flex="~ col items-center gap2" mb-5>
+          <ZUpload
+            v-model="avatar"
+            type="image"
+            accept="image/*"
+            w-30 b-rd-4
+          >
+            <div
+              v-if="!config?.avatar"
+              flex="~ col gap2 center"
+              b-rd-full full h-30
+              border="1px dashed gray-5"
             >
-              <div
-                v-if="!pageCfg?.url"
-                flex="~ col gap2 center"
-                b-rd-4 full h-30
-                border="1px dashed gray-5"
-              >
-                <div text="6 grey-5" i-ph:plus />
-                <div text="grey-5" v-text="'上传背景图片'" />
-              </div>
-              <div
-                v-else flex="~ col gap2 center" b-rd-4 full
-                h-30 overflow-hidden relative
-              >
-                <img full :src="pageCfg?.url">
-              </div>
-            </ZUpload>
-          </div>
-        </div>
-      </div>
-
-      <!-- 内容设置 -->
-      <div flex="~ col gap4">
-        <div flex="~ items-center gap2">
-          <div w-2 h-2 b-rd-0.5 bg-primary-1 />
-          <div subtitle-2 v-text="'内容设置'" />
-        </div>
-
-        <div flex="~ col gap1">
-          <div flex="~ col gap2" mb-5>
-            <ZLabel label="头像" />
-            <ZUpload
-              v-model="avatar"
-              type="image"
-              accept="image/*"
-              w-30 b-rd-4
+              <div text="6 grey-5" i-ph:plus />
+              <div text="grey-5" v-text="'上传头像'" />
+            </div>
+            <div
+              v-else flex="~ col gap2 center" b-rd-full full
+              h-30 overflow-hidden relative
             >
-              <div
-                v-if="!pageCfg?.avatar"
-                flex="~ col gap2 center"
-                b-rd-4 full h-30
-                border="1px dashed gray-5"
-              >
-                <div text="6 grey-5" i-ph:plus />
-                <div text="grey-5" v-text="'上传头像'" />
-              </div>
-              <div
-                v-else flex="~ col gap2 center" b-rd-4 full
-                h-30 overflow-hidden relative
-              >
-                <img full :src="pageCfg?.avatar">
-              </div>
-            </ZUpload>
+              <q-img loading="lazy" full :src="config?.avatar" />
+            </div>
+          </ZUpload>
+        </div>
+        <ZInput
+          v-model="config!.name"
+          label="名称"
+          placeholder="请输入名称"
+          :rules="[
+            (val: string) => !val || validateName(val) || true,
+          ]"
+        />
+        <ZInput
+          v-model="config!.job"
+          label="职位"
+          placeholder="请输入职位"
+          mb-5
+        />
+        <ZInput
+          v-model="config!.location"
+          label="所在地"
+          :max="6"
+          placeholder="请输入所在地"
+          mb-5
+        />
+        <ZInput
+          v-model="config!.email"
+          label="邮箱"
+          placeholder="请输入邮箱"
+          :rules="[
+            (val:string) => !val || validateEmail(val) || true,
+          ]"
+        />
+        <ZInput
+          v-model="config!.github"
+          label="GitHub地址"
+          placeholder="请输入GitHub地址"
+          :rules="[
+            (val:string) => !val || validateUrl(val) || true,
+          ]"
+        />
+        <ZInput
+          v-model="config!.desc"
+          type="textarea"
+          label="描述"
+          placeholder="请输入描述（200 字以内）"
+          :rules="[
+            (val:string) => !val || validateDesc(val) || true,
+          ]"
+        />
+        <div flex="~ col gap2">
+          <div flex="~ justify-between gap2">
+            <ZLabel label="技能" />
+            <ZTextBtn
+              label="添加项"
+              @click="config?.skills?.push({
+                id: randomId(),
+                name: '',
+                desc: '',
+              })"
+            />
           </div>
-          <ZInput
-            v-model="pageCfg!.name"
-            label="名称"
-            placeholder="请输入名称"
-            :max="12"
-            :rules="[
-              (val: string) => !val || validateName(val) || true,
-            ]"
-          />
-          <ZInput
-            v-model="pageCfg!.phone"
-            label="手机号"
-            placeholder="请输入手机号"
-            :rules="[
-              (val: string) => !val || validatePhone(val) || true,
-            ]"
-          />
-          <ZInput
-            v-model="pageCfg!.email"
-            label="邮箱"
-            placeholder="请输入邮箱"
-            :rules="[
-              (val:string) => !val || validateEmail(val) || true,
-            ]"
-          />
-          <ZInput
-            v-model="pageCfg!.github"
-            label="GitHub地址"
-            placeholder="请输入GitHub地址"
-            mb-5
-          />
-          <ZInput
-            v-model="pageCfg!.motto"
-            label="座右铭"
-            placeholder="请输入座右铭"
-            mb-5
-          />
-          <div flex="~ col gap2" mb-5>
-            <ZLabel label="内容" />
-            <MdEditor v-model="pageCfg!.content" w-0 h-500px />
-          </div>
+
+          <VueDraggable
+            v-if="isArray(config?.skills) && config?.skills?.length"
+            v-model="config.skills"
+            item-key="id"
+            :animation="300"
+            drag-class="drag"
+            class="flex flex-1 flex-col flex-nowrap gap2 h0 overflow-y-auto"
+            :group="{ name: 'skills' }"
+          >
+            <div
+              v-for="(skill, index) in config.skills" :key="skill.id"
+              flex="~ col gap2" bg-grey-2 b="1  grey-3" p4
+              b-rd-2
+            >
+              <div flex="~ justify-between">
+                <div subtitle-3 v-text="`列表项 ${index + 1}`" />
+                <ZIconBtn
+                  icon="i-mingcute:close-line"
+                  :disable="config?.skills!.length === 1"
+                  @click="() => {
+                    if (config?.skills!.length !== 1)
+                      config?.skills?.splice(index, 1)
+                  }"
+                />
+              </div>
+              <div>
+                <ZInput
+                  v-model="skill.name"
+                  label="名称"
+                  placeholder="请输入名称"
+                  :rules="[
+                    (val: string) => !val || validateName(val) || true,
+                  ]"
+                />
+                <ZInput
+                  v-model="skill.desc"
+                  label="描述"
+                  placeholder="请输入描述"
+                  :max="20"
+                  mb-5
+                />
+              </div>
+            </div>
+          </VueDraggable>
         </div>
       </div>
     </div>

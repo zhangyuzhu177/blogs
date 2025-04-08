@@ -10,6 +10,6 @@ defineProps<{
     :showing="value"
     label="加载中..."
     text-primary-2
-    z9
+    z99999
   />
 </template>

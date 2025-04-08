@@ -62,9 +62,6 @@ watch(isDark,
       <div v-if="dark" size-5 i-ph:sun-bold />
       <div v-else size-5 i-ph:moon-bold />
     </q-btn>
-    <q-btn flat round href="https://github.com/zhangyuzhu177" target="_blank">
-      <div size-5 i-mingcute:github-line />
-    </q-btn>
   </div>
 </template>
 

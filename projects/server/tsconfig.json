@@ -16,6 +16,6 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   }
 }

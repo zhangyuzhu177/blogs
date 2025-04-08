@@ -44,8 +44,10 @@ export class Article extends BaseTimeStamp implements IArticle {
   @ApiProperty({
     description: '文章封面',
   })
-  @Column()
-  cover: string
+  @Column({
+    nullable: true,
+  })
+  cover?: string
 
   @ApiProperty({
     description: '访问量',

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-interface TextBtnProps {
+interface ZTextBtnProps {
   color?: string
   label?: string
   disable?: boolean
 }
 
-withDefaults(defineProps<TextBtnProps>(), {
+withDefaults(defineProps<ZTextBtnProps>(), {
   color: 'primary-1',
 })
 defineEmits(['click'])

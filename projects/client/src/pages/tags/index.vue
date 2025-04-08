@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Article from '~/views/article/index.vue'
+import Tags from '~/views/tags/index.vue'
 </script>
 
 <template>
   <Container>
-    <Article />
+    <Tags />
   </Container>
 </template>
 

@@ -44,7 +44,7 @@ export class CodeService {
   public async createCaptcha(
     ip: string,
     code: string,
-      expireInMinutes = 5,
+    expireInMinutes = 5,
   ) {
     const bizId = randomString(24, 24, '') + Date.now().toString(36)
     // save code to redis

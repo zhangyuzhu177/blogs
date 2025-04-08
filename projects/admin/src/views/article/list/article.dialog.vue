@@ -56,36 +56,35 @@ const readonly = computed(() => props.type === '查看')
 /** 加载中 */
 const loading = ref(false)
 /** 图片 */
-const img = ref<File>()
+// const img = ref<File>()
 /** 初始数据 */
 const initData: IUpsertArticleBodyDto = {
   name: '',
   articleTypeId: '',
   content: '',
-  cover: '',
   status: true,
 }
 /** 表单 */
 const form = ref<IUpsertArticleBodyDto>(cloneDeep(initData))
 
-watch(
-  img,
-  async (newVal) => {
-    loading.value = true
-    try {
-      if (newVal) {
-        const formData = new FormData()
-        formData.append('file', newVal as File)
-        const res = await uploadFileApi(formData, `/images/page/${newVal.name}`)
-        form.value!.cover = res.url
-      }
-    }
-    finally {
-      loading.value = false
-      img.value = undefined
-    }
-  },
-)
+// watch(
+//   img,
+//   async (newVal) => {
+//     loading.value = true
+//     try {
+//       if (newVal) {
+//         const formData = new FormData()
+//         formData.append('file', newVal as File)
+//         const res = await uploadFileApi(formData, `/images/page/${newVal.name}`)
+//         form.value!.cover = res.url
+//       }
+//     }
+//     finally {
+//       loading.value = false
+//       img.value = undefined
+//     }
+//   },
+// )
 
 watch(
   () => dialog.value,
@@ -100,17 +99,18 @@ watch(
           ...objectPick(
             article,
             'name', 'articleTypeId', 'content',
-            'tags', 'cover', 'status',
+            'tags', 'status',
           ),
         }
+        form.value.tagIds = article.tags?.map(tag => tag.id)
       }
     }
   },
 )
 
 const disable = computed(() => {
-  const { name, articleTypeId, content, cover, tagIds } = form.value
-  return !name || !articleTypeId || !content || !cover || !tagIds?.length
+  const { name, articleTypeId, content, tagIds } = form.value
+  return !name || !articleTypeId || !content || !tagIds?.length
 })
 
 /**
@@ -204,7 +204,7 @@ async function callback() {
             required
             label="标签"
           />
-          <TextBtn
+          <ZTextBtn
             v-if="!readonly"
             label="添加标签"
             @click="form.tags.push(...(form.tags.length === 0 ? ['', ''] : ['']))"
@@ -234,7 +234,7 @@ async function callback() {
         </div>
       </div> -->
 
-      <div flex="~ col gap2" mb5>
+      <!-- <div flex="~ col gap2" mb5>
         <ZLabel required label="文章封面" />
         <ZUpload
           v-model="img"
@@ -257,7 +257,7 @@ async function callback() {
             <img full :src="form.cover">
           </div>
         </ZUpload>
-      </div>
+      </div> -->
 
       <div flex="~ col gap2" mb5>
         <ZLabel

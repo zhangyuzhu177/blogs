@@ -19,38 +19,13 @@ export class SysConfigService {
     private readonly _sysCfgRepo: Repository<Config>,
   ) { }
 
-  /**
-   * 获取应用名称（每小时执行一次，服务启动立即执行）
-   */
-  @Cron('0 0 * * * *')
-  async getAppName() {
-    SysConfigService.appName = (await this.getConfig<SysConfig.APP>({ version: SysConfig.APP }))?.name
-    return SysConfigService.appName
-  }
-
-  public static get appName() {
-    return SysConfigService._appName
-  }
-
-  public static set appName(value: string) {
-    SysConfigService._appName = value
-  }
-
-  public static get appUrl() {
-    return SysConfigService._appUrl
-  }
-
-  public static set appUrl(value: string) {
-    SysConfigService._appUrl = value
-  }
-
     /**
    * 判断用户是否具有修改该配置的权限
    */
     public hasPermission(version: SysConfig, user: Partial<IUser>) {
       const permissions = user.role?.permissions.map(v => v.name)
       if (
-        ((version === SysConfig.APP || version === SysConfig.HOME|| version === SysConfig.ABOUT)
+        ((version === SysConfig.HOME|| version === SysConfig.ABOUT)
           && !permissions.includes(PermissionType.CONFIG_UPSERT_APP))
       )
         responseError(ErrorCode.PERMISSION_DENIED)

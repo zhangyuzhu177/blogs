@@ -4,7 +4,7 @@ import { Notify } from 'quasar'
 import { SysConfig } from 'types'
 import type { IConfigDto } from 'types'
 
-const { active } = usePageAdmin()
+const { PAGE_NAV, active } = usePageAdmin()
 
 /** 加载中 */
 const loading = ref(false)
@@ -79,7 +79,7 @@ onMounted(() => {
 
     <!-- 标题 -->
     <div flex="~ items-center justify-between">
-      <h3 v-text="'首页设置'" />
+      <h3 v-text="PAGE_NAV[0].label" />
       <ZBtn
         label="保存"
         @click="save()"
@@ -91,12 +91,6 @@ onMounted(() => {
     </div>
 
     <div flex="~ col gap-4" overflow-auto>
-      <!-- 基础设置 -->
-      <div flex="~ items-center gap2">
-        <div w-2 h-2 b-rd-0.5 bg-primary-1 />
-        <div subtitle-2 v-text="'基础设置'" />
-      </div>
-
       <div flex="~ col gap1">
         <ZInput
           v-model="pageCfg!.title"

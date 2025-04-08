@@ -7,20 +7,16 @@ interface Nav {
 
 const PAGE_NAV: Nav[] = [
   {
-    id: SysConfig.APP,
-    label: 'APP设置',
-  },
-  {
     id: SysConfig.HOME,
     label: '首页设置',
   },
   {
     id: SysConfig.ABOUT,
-    label: '关于页设置',
+    label: '关于设置',
   },
 ]
 
-const active = ref<SysConfig>(SysConfig.APP)
+const active = ref<SysConfig>(SysConfig.HOME)
 
 export function usePageAdmin() {
   return {

@@ -81,6 +81,9 @@ declare global {
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const gerArticleDetailApi: typeof import('../../../shared/api/article')['gerArticleDetailApi']
   const gerArticleInfoApi: typeof import('../../../shared/api/article')['gerArticleInfoApi']
+  const getArticleApi: typeof import('../../../shared/api/article')['getArticleApi']
+  const getArticleListByTypeApi: typeof import('../../../shared/api/article')['getArticleListByTypeApi']
+  const getArticleTagListApi: typeof import('../../../shared/api/articleTag')['getArticleTagListApi']
   const getArticleTypeListApi: typeof import('../../../shared/api/articleType')['getArticleTypeListApi']
   const getCaptchaImgApi: typeof import('../../../shared/api/auth')['getCaptchaImgApi']
   const getConfigApi: typeof import('../../../shared/api/config')['getConfigApi']
@@ -417,7 +420,6 @@ declare module 'vue' {
     readonly APP_ICON: UnwrapRef<typeof import('../../../shared/constants/app')['APP_ICON']>
     readonly APP_MIN_WIDTH: UnwrapRef<typeof import('../../../shared/constants/app')['APP_MIN_WIDTH']>
     readonly APP_NAME: UnwrapRef<typeof import('../../../shared/constants/app')['APP_NAME']>
-    readonly APP_NAME_EN: UnwrapRef<typeof import('../../../shared/constants/app')['APP_NAME_EN']>
     readonly AUTH_TOKEN_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['AUTH_TOKEN_KEY']>
     readonly CLASSIFY: UnwrapRef<typeof import('../constants/article')['CLASSIFY']>
     readonly EMAIL_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MAX_LENGTH']>
@@ -481,6 +483,7 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly gerArticleDetailApi: UnwrapRef<typeof import('../../../shared/api/article')['gerArticleDetailApi']>
+    readonly getArticleTagListApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['getArticleTagListApi']>
     readonly getArticleTypeListApi: UnwrapRef<typeof import('../../../shared/api/articleType')['getArticleTypeListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>
     readonly getConfigApi: UnwrapRef<typeof import('../../../shared/api/config')['getConfigApi']>
@@ -533,7 +536,6 @@ declare module 'vue' {
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly pubRouter: UnwrapRef<typeof import('../../../shared/composables/pubRouter')['pubRouter']>
     readonly queryArticleListApi: UnwrapRef<typeof import('../../../shared/api/article')['queryArticleListApi']>
-    readonly queryArticleListByTypeApi: UnwrapRef<typeof import('../../../shared/api/article')['queryArticleListByTypeApi']>
     readonly queryArticleTagListApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['queryArticleTagListApi']>
     readonly queryArticleTypeListApi: UnwrapRef<typeof import('../../../shared/api/articleType')['queryArticleTypeListApi']>
     readonly queryRolesApi: UnwrapRef<typeof import('../../../shared/api/role')['queryRolesApi']>

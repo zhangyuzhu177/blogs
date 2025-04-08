@@ -3,6 +3,7 @@ import { ID_EXAMPLE, IUpsertArticleBodyDto } from 'types'
 import { IsArray,IsString } from 'src/decorators'
 import { ApiPropertyOptional } from '@nestjs/swagger'
 import { ArticleTypeIdDto, NameDto, StatusDto } from 'src/dto'
+import { IsOptional } from 'class-validator'
 
 export class UpsertArticleBodyDto
   extends Mixin(
@@ -21,7 +22,8 @@ export class UpsertArticleBodyDto
     description: '文章封面'
   })
   @IsString()
-  cover: string
+  @IsOptional()
+  cover?: string
 
   @ApiPropertyOptional({
     description: '文章标签',
