@@ -458,7 +458,7 @@ function valuePlusMinus(type: '+' | '-') {
       }
 
       .q-field__control {
-        height: 36px;
+        height: 36px !important;
 
         input, textarea {
           padding: 8px 0;
@@ -472,7 +472,7 @@ function valuePlusMinus(type: '+' | '-') {
       }
 
       textarea {
-        min-height: 36px;
+        min-height: 36px !important;
       }
 
       .number-input-controller {

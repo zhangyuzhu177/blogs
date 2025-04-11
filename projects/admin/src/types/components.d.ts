@@ -38,7 +38,6 @@ declare module 'vue' {
     SMSInput: typeof import('./../../../shared/components/input/SMSInput.vue')['default']
     SubLabel: typeof import('./../components/label/SubLabel.vue')['default']
     Tag1: typeof import('./../components/tag/Tag1.vue')['default']
-    TextBtn: typeof import('./../../../shared/components/btn/TextBtn.vue')['default']
     ZBtn: typeof import('./../../../shared/components/btn/ZBtn.vue')['default']
     ZBtnToggle: typeof import('./../../../shared/components/btn/ZBtnToggle.vue')['default']
     ZCheckbox: typeof import('./../../../shared/components/checkbox/ZCheckbox.vue')['default']

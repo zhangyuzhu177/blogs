@@ -64,7 +64,7 @@ a {
 }
 
 #nprogress .bar {
-  background: rgb(13,148,136);
+  background: #1e90ff;
   opacity: 0.75;
   position: fixed;
   z-index: 1031;

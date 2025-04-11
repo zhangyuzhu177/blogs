@@ -74,7 +74,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div flex="~ col gap4 sm:gap6" relative py-4>
+  <div full flex="~ col gap4 sm:gap6">
     <ZLoading :value="loading" />
 
     <header flex="~ col justify-center gap2 sm:gap4">
@@ -84,7 +84,7 @@ onBeforeMount(async () => {
       <div w-full h-1px bg-grey-3 />
     </header>
 
-    <div flex="~ col gap4 sm:gap6">
+    <div flex="~ 1 col gap4 sm:gap6" h0>
       <div flex="~ gap4 justify-between">
         <ZSelect
           v-model="typeId"
@@ -107,7 +107,7 @@ onBeforeMount(async () => {
         </ZInput>
       </div>
 
-      <div>
+      <template v-if="articles">
         <div
           v-for="(item, key) in articles" :key="key"
           flex="~ col gap4"
@@ -118,7 +118,7 @@ onBeforeMount(async () => {
           </div>
           <div flex="~ col gap2 sm:gap4" px-4>
             <div
-              v-for="article in item" :key="article.id"
+              v-for="article in [...item, ...item]" :key="article.id"
               flex="~ gap-2 items-center"
             >
               <div
@@ -139,7 +139,8 @@ onBeforeMount(async () => {
             </div>
           </div>
         </div>
-      </div>
+      </template>
+      <ZEmpty v-else full flex-center label="暂无数据" />
     </div>
   </div>
 </template>

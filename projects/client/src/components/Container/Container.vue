@@ -1,17 +1,27 @@
 <script setup lang="ts">
+import { PATTERN_BACKGROUND_DIRECTION, PATTERN_BACKGROUND_SPEED, PATTERN_BACKGROUND_VARIANT } from '../Art/Backagroud/pattern'
 </script>
 
 <template>
-  <div
-    relative w-full py-16
-    flex="~ justify-center"
+  <ArtPattern
+    :animate="true"
+    :direction="PATTERN_BACKGROUND_DIRECTION.TopRight"
+    :variant="PATTERN_BACKGROUND_VARIANT.Dot"
+    class="flex h-full w-full"
+    :speed="PATTERN_BACKGROUND_SPEED.Slow"
   >
     <div
-      lg="max-w-1080px px-0" sm="px-6"
-      px-4 full
+      w-full py-16 relative
+      flex="~ 1 justify-center"
     >
-      <slot />
-      <ScrollTop />
+      <div
+        flex="~ 1 col"
+        lg="max-w-1080px px-0" sm="px-6"
+        px-4
+      >
+        <slot />
+        <ScrollTop />
+      </div>
     </div>
-  </div>
+  </ArtPattern>
 </template>

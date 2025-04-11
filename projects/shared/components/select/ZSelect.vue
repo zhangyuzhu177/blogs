@@ -244,7 +244,7 @@ const { width } = useElementSize(selectRef)
 .z-select {
   .q-field {
     .q-field__control {
-      border-radius: 6px;
+      border-radius: 6px !important;
       background-color: var(--grey-1);
 
       &::before {
@@ -345,8 +345,8 @@ const { width } = useElementSize(selectRef)
       }
 
       .q-field__control {
-        height: 36px;
-        min-height: 36px;
+        height: 36px !important;
+        min-height: 36px !important;
 
         .q-field__native {
           padding: 8px 0;
@@ -378,6 +378,7 @@ const { width } = useElementSize(selectRef)
 }
 
 .q-menu.z-select-dropdown-menu {
+  background-color: var(--grey-1) !important;
   box-shadow: 0px 5px 3px -2px #00000005, 0px 3px 2px -2px #0000000F;
   border-radius: 6px;
   border: 1px solid var(--grey-3);

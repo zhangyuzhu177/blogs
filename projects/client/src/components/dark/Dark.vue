@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { useDark, useStorage, useToggle } from '@vueuse/core'
-
 const isDark = useDark({
   selector: 'html',
   attribute: 'theme',
   valueDark: 'dark',
   valueLight: 'light',
 })
-
-const dark = useStorage('dark', isDark.value)
+const dark = useStorage('dark', useColorMode().value)
 
 const toggle = useToggle(isDark)
 
@@ -49,17 +46,18 @@ function toggleTheme(event: any) {
   })
 }
 
-watch(isDark,
+watch(
+  isDark,
   () => {
-    dark.value = isDark.value
+    dark.value = useColorMode().value
   },
 )
 </script>
 
 <template>
-  <div class="tags" flex="~ gap2" b-rd justify-end items-center>
+  <div flex="~ gap2 justify-end items-center" b-rd>
     <q-btn flat round @click="toggleTheme">
-      <div v-if="dark" size-5 i-ph:sun-bold />
+      <div v-if="dark === 'light'" size-5 i-ph:sun-bold />
       <div v-else size-5 i-ph:moon-bold />
     </q-btn>
   </div>

@@ -60,16 +60,16 @@ const { isExpand } = useSidebar()
 
 <style lang="scss">
 .menu-bg {
-  background-color: var(--grey-2-a2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--grey-3-a5);
+  background-color: var(--grey-2-a2) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid var(--grey-3-a5) !important;
 
   .menu-item {
-    color: var(--grey-9);
+    color: var(--grey-9) !important;
 
     &:hover {
-      background-color: var(--grey-3-a5);
+      background-color: var(--grey-3-a5) !important;
     }
   }
 }
