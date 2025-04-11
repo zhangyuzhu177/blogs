@@ -169,7 +169,7 @@ onBeforeMount(async () => {
           />
         </div>
       </div>
-      <ZEmpty v-else label="暂无数据" />
+      <ZEmpty v-else full flex-center label="暂无数据" />
     </div>
   </div>
 </template>

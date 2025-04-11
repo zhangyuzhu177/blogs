@@ -132,13 +132,15 @@ const icons: { name: string; icon: string }[] = [
       <div flex="~ col gap4" sm="flex-wrap flex-row">
         <div
           v-for="skill in config?.skills" :key="skill.id"
-          flex="~ col gap2" b-rd-2 sm="p-4" p-2 min-w-56 flex-1
-          style="background-color: var(--grey-2);"
+          flex="~ col gap2" b-rd-2 sm="p-4"
+          p-2 min-w-56 flex-1 relative
+          border="1 grey-3 dark:grey-7"
+          bg="grey-2 dark:grey-8"
         >
           <div
             v-if="skill?.name"
             :class="icons.find(item => item.name.includes(skill?.name as string))?.icon || 'i-mingcute:terminal-line'"
-            w-6 h-6 text="primary-1"
+            w-6 h-6
           />
           <div subtitle-2 v-text="skill?.name" />
           <div
@@ -149,6 +151,7 @@ const icons: { name: string; icon: string }[] = [
             v-if="skill?.level"
             :value="skill?.level / 100"
             h-1.5 b-rd-2
+            style="background-color: var(--grey-3);"
           />
         </div>
       </div>
@@ -195,5 +198,9 @@ const icons: { name: string; icon: string }[] = [
       }
     }
   }
+}
+
+:deep(.q-linear-progress__model--determinate) {
+  background: var(--grey-9);
 }
 </style>

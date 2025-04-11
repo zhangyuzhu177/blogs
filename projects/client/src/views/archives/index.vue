@@ -113,12 +113,12 @@ onBeforeMount(async () => {
           flex="~ col gap4"
         >
           <div flex="~ gap2 items-center">
-            <div w-6 h-6 text="primary-1" i-mingcute:calendar-2-line />
+            <div w-6 h-6 i-mingcute:calendar-2-line />
             <div text-6 font-600 v-text="key" />
           </div>
           <div flex="~ col gap2 sm:gap4" px-4>
             <div
-              v-for="article in [...item, ...item]" :key="article.id"
+              v-for="article in item" :key="article.id"
               flex="~ gap-2 items-center"
             >
               <div
@@ -132,7 +132,8 @@ onBeforeMount(async () => {
               <div icon i-mingcute:arrows-right-line />
               <div
                 subtitle-2 cursor-pointer truncate transition-all
-                hover:text-primary-1 flex-1
+                hover="text-grey-9 dark:text-grey-1" text-grey-5
+                flex-1
                 @click="router.push(`/article?articleId=${article.id}`)"
                 v-text="article.name"
               />
