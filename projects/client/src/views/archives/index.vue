@@ -22,6 +22,9 @@ watch(
     loading.value = true
     try {
       const body: IQueryDto<IArticle> = {
+        where: {
+          status: true,
+        },
         select: {
           id: true,
           name: true,
@@ -61,33 +64,39 @@ function groupByYear(data: IArticle[]) {
 }
 
 onBeforeMount(async () => {
-  const res = await getArticleTypeListApi() || []
-  types.value = [
-    {
-      id: 'all',
-      name: '全部',
-    },
-    ...res,
-  ]
-  typeId.value = types.value?.[0]?.id
+  loading.value = true
+  try {
+    const res = await getArticleTypeListApi() || []
+    types.value = [
+      {
+        id: 'all',
+        name: '全部',
+      },
+      ...res,
+    ]
+    typeId.value = types.value?.[0]?.id
+  }
+  finally {
+    loading.value = false
+  }
 })
 </script>
 
 <template>
-  <div full flex="~ col gap4 sm:gap6">
+  <div full flex="~ col gap6 sm:gap8">
     <ZLoading :value="loading" />
 
     <header flex="~ col justify-center gap2 sm:gap4">
       <h1 text-center>
         归档
       </h1>
-      <div w-full h-1px bg-grey-3 />
     </header>
 
-    <div flex="~ 1 col gap4 sm:gap6" h0>
-      <div flex="~ gap4 justify-between">
+    <div flex="~ 1 col gap6 sm:gap8" h0>
+      <div flex="~ gap2 col" sm="justify-between flex-row gap4">
         <ZSelect
           v-model="typeId"
+          class="archive"
           :options="types"
           option-value="id"
           option-label="name"
@@ -96,6 +105,7 @@ onBeforeMount(async () => {
         />
         <ZInput
           v-model="search"
+          class="archive"
           size="small"
           placeholder="搜索文章..."
           :debounce="500"
@@ -107,41 +117,47 @@ onBeforeMount(async () => {
         </ZInput>
       </div>
 
-      <template v-if="articles">
-        <div
-          v-for="(item, key) in articles" :key="key"
-          flex="~ col gap4"
-        >
-          <div flex="~ gap2 items-center">
-            <div w-6 h-6 i-mingcute:calendar-2-line />
-            <div text-6 font-600 v-text="key" />
-          </div>
-          <div flex="~ col gap2 sm:gap4" px-4>
+      <div
+        v-for="(item, key) in articles" :key="key"
+        flex="~ col gap4 sm:gap6"
+      >
+        <div flex="~ gap2 items-center">
+          <div w-6 h-6 i-mingcute:calendar-2-line />
+          <div text-8 font-600 v-text="key" />
+        </div>
+        <div flex="~ col gap2 sm:gap4" px-4>
+          <div
+            v-for="article in item" :key="article.id"
+            flex="~ 1 gap-2 items-center"
+          >
             <div
-              v-for="article in item" :key="article.id"
-              flex="~ gap-2 items-center"
+              text-nowrap
+              v-text="moment(article.createdAt).format('MM-DD')"
+            />
+            <div icon i-mingcute:arrows-right-line />
+            <div
+              cursor-pointer truncate transition-all
+              flex-1 w-0 hover:subtitle-2
+              @click="router.push(`/article?articleId=${article.id}`)"
             >
-              <div
-                w-1.5 h-1.5 b-rd-10
-                style="background-color: var(--grey-9);"
-              />
-              <div
-                text-nowrap text="grey-5 dark:grey-7"
-                v-text="moment(article.createdAt).format('MM-DD')"
-              />
-              <div icon i-mingcute:arrows-right-line />
-              <div
-                subtitle-2 cursor-pointer truncate transition-all
-                hover="text-grey-9 dark:text-grey-1" text-grey-5
-                flex-1
-                @click="router.push(`/article?articleId=${article.id}`)"
-                v-text="article.name"
-              />
+              <span v-text="article.name" />
             </div>
           </div>
         </div>
-      </template>
-      <ZEmpty v-else full flex-center label="暂无数据" />
+      </div>
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.archive {
+  .q-field__control {
+    &:hover::before {
+      border-color: var(--grey-3) !important;
+    }
+    &::after {
+      border-color: var(--grey-3) !important;
+    }
+  }
+}
+</style>

@@ -39,7 +39,6 @@ function goToTop() {
     >
       <div
         w-10 h-10
-        hover:color="primary-1"
         flex-center i-mingcute:arrow-up-fill
       />
     </div>

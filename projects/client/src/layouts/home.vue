@@ -20,8 +20,8 @@ watch(
 </script>
 
 <template>
-  <div class="home-layout flex flex-col full">
-    <header ref="header" z-5000>
+  <div class="flex flex-col full" bg="grey-1 dark:grey-9">
+    <header ref="header" z-999>
       <AppHeader />
     </header>
 
@@ -40,9 +40,3 @@ watch(
     </QScrollArea>
   </div>
 </template>
-
-<style scoped lang="scss">
-.home-layout {
-  background-color: var(--grey-1);
-}
-</style>

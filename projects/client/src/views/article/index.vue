@@ -88,7 +88,7 @@ onBeforeMount(async () => {
         </template>
       </div>
     </div>
-    <div class="el" flex="~ gap-6 justify-between" pb-100>
+    <div class="el" flex="~ gap-6 justify-between" pb-50>
       <div lg="max-w-1080px" flex="~ 1" w-0>
         <MdPreview
           :model-value="article?.content"

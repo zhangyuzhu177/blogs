@@ -1,4 +1,4 @@
-const { width } = useWindowSize()
+// const { width } = useWindowSize()
 
 /** 过渡动画时间(单位：ms) */
 const ANIMATION_TIME = 300
@@ -6,7 +6,7 @@ const ANIMATION_TIME = 300
 const BASE_WIDTH = 960
 
 /** 是否展开侧边栏 */
-const isExpand = ref(width.value >= BASE_WIDTH)
+const isExpand = ref(false)
 export function useSidebar() {
   /**
    * 切换侧边栏的展开状态

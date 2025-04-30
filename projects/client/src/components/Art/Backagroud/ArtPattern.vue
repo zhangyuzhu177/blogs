@@ -44,9 +44,6 @@ const durationFormSpeed = computed(() => `${props.speed}ms`)
 </template>
 
 <style scoped>
-.bgg {
-  background-image: radial-gradient(hsl(var(--foreground) / 0.3) 1px,transparent 1px);
-}
 @keyframes to-top {
   0% {
     background-position: 0 100%;

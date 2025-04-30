@@ -17,9 +17,9 @@ onMounted(() => {
 
 <template>
   <footer
-    :class="route.meta.footer ? 'absolute bottom-0' : 'border-t border-grey-2 dark:border-grey-8'"
-    flex="~ col gap-2 center" bg-transparent subtitle-3
-    text="grey-7 dark:grey-3" py-6 px-4 w-full
+    :class="route.meta.footer ? 'absolute bottom-0' : ''"
+    flex="~ col gap-2 center" subtitle-3
+    text="grey-5" py-6 px-4 w-full
   >
     <a
       text-sm

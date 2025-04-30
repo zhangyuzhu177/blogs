@@ -11,7 +11,7 @@ import { PATTERN_BACKGROUND_DIRECTION, PATTERN_BACKGROUND_SPEED, PATTERN_BACKGRO
     :speed="PATTERN_BACKGROUND_SPEED.Slow"
   >
     <div
-      w-full py-16 relative
+      w-full py-18 relative
       flex="~ 1 justify-center"
     >
       <div

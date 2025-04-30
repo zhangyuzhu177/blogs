@@ -79,21 +79,20 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div full flex="~ col gap4 sm:gap6" relative whitespace-nowrap>
+  <div full flex="~ col gap6 sm:gap8" whitespace-nowrap>
     <ZLoading :value="loading" />
 
     <header flex="~ col justify-center gap2 sm:gap4">
       <h1 text-center>
         标签
       </h1>
-      <div w-full h-1px bg-grey-3 />
     </header>
 
     <div flex="~ 1 col" h0>
-      <div v-if="tags?.length" full flex="~ col gap4 sm:gap6">
+      <div full flex="~ col gap6 sm:gap8">
         <!-- 标签列表 -->
         <div flex="~ col gap4">
-          <div subtitle-3 v-text="`共 ${tags?.length} 个标签`" />
+          <div v-if="tags?.length" subtitle-3 v-text="`共 ${tags?.length} 个标签`" />
           <div flex="~ gap2 sm:gap4 wrap row" sm="flex- flex-row">
             <div
               v-for="t in tags" :key="t.id"
@@ -169,7 +168,6 @@ onBeforeMount(async () => {
           />
         </div>
       </div>
-      <ZEmpty v-else full flex-center label="暂无数据" />
     </div>
   </div>
 </template>
