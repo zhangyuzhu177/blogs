@@ -41,6 +41,9 @@ export const install: UserModule = ({ isClient, router }) => {
 
           // 前往 非denied页面，判断权限
           if (path !== '/denied') {
+            if (path === '/editor')
+              return next()
+
             // 没有权限 重定向到 denied页面
             if (!adminMenu.value.length)
               return next('/denied')
