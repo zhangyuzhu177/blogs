@@ -38,7 +38,9 @@ export class Article extends BaseTimeStamp implements IArticle {
   @ApiProperty({
     description: '文章内容',
   })
-  @Column('longtext')
+  @Column({
+    type:'mediumtext'
+  })
   content: string
 
   @ApiProperty({

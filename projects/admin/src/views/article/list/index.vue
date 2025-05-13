@@ -3,13 +3,15 @@ import moment from 'moment'
 import { Like } from 'typeorm'
 import { Notify } from 'quasar'
 import { PermissionType } from 'types'
-import type { IArticle, IArticleTag, IArticleType, IQueryDto } from 'types'
 import type { QTableColumn, QTableProps } from 'quasar'
+import type { IArticle, IArticleTag, IArticleType, IQueryDto } from 'types'
 
 import ZTable from 'shared/components/table/ZTable.vue'
+import type { EditorType } from '../../editor/index.vue'
 import ArticleDialog from './article.dialog.vue'
 
 const { hasPermission } = useUser()
+const router = useRouter()
 
 const zTable = ref<InstanceType<typeof ZTable>>()
 
@@ -78,7 +80,7 @@ const cols = reactive<QTableColumn<IArticle>[]>([
   },
   {
     name: 'info',
-    label: '完整信息',
+    label: '文章内容',
     field: 'id',
   },
 ])
@@ -196,6 +198,26 @@ async function deleteArticleStatus() {
   }
 }
 
+/**
+ * 跳转到编辑页面
+ */
+function jumpToEdit(type: EditorType, id?: string) {
+  if (type === 'edit' && !id)
+    return
+
+  const query: { type: EditorType;id?: string } = {
+    type,
+  }
+
+  if (type === 'edit' && id)
+    query.id = id
+
+  router.push({
+    path: '/editor',
+    query,
+  })
+}
+
 onBeforeMount(async () => {
   if (isUpdate) {
     cols.push({
@@ -241,7 +263,7 @@ onBeforeMount(async () => {
           v-if="isCreate"
           label="添加文章"
           size="small"
-          @click="dialogType = '添加'"
+          @click="jumpToEdit('add')"
         >
           <template #left>
             <div size-5 i-mingcute:add-line />
@@ -304,8 +326,8 @@ onBeforeMount(async () => {
       no-data-label="暂无文章信息"
       selection="multiple"
       flex-1 h0
-      fixed-first-column
-      :fixed-last-column="isUpdate"
+      fixed-first-col
+      :fixed-last-col="isUpdate"
       @request="queryArticleList"
     >
       <!-- 文章状态 -->
@@ -329,11 +351,8 @@ onBeforeMount(async () => {
       <template #body-cell-info="{ row }">
         <q-td text-center>
           <ZTextBtn
-            label="查看完整信息"
-            @click="() => {
-              dialogType = '查看'
-              article = row
-            }"
+            label="查看"
+            @click="router.push(`/editor/view?id=${row.id}`)"
           />
         </q-td>
       </template>
@@ -341,13 +360,18 @@ onBeforeMount(async () => {
       <!-- 操作 -->
       <template #body-cell-action="{ row }">
         <q-td gap2 text-center>
-          <ZBtn
+          <!-- <ZBtn
             v-if="isUpdate"
             label="编辑" size="small" mr-2
             @click="() => {
               dialogType = '编辑'
               article = row
             }"
+          /> -->
+          <ZBtn
+            v-if="isUpdate"
+            label="编辑" size="small" mr-2
+            @click="jumpToEdit('edit', row.id)"
           />
         </q-td>
       </template>

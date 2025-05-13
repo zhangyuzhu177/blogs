@@ -214,8 +214,8 @@ onBeforeMount(() => {
       no-data-label="暂无管理角色记录"
       selection="multiple"
       flex-1 h0
-      fixed-first-column
-      :fixed-last-column="isUpdate"
+      fixed-first-col
+      :fixed-last-col="isUpdate"
       @request="queryRoleList"
     >
       <template #body-cell-info="{ row }">

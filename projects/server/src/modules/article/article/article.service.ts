@@ -8,6 +8,7 @@ import { parseSqlError, responseError } from 'src/utils'
 import { ArticleService } from '../article.service'
 import { UpsertArticleBodyDto } from './dto/upsert-body.dto'
 import { objectOmit } from 'utils'
+import { User } from 'src/entities/user'
 
 @Injectable()
 export class ArticleEntitiesService {
@@ -18,13 +19,25 @@ export class ArticleEntitiesService {
   /**
    * 获取文章详情
    */
-  public async getArticleDetail(id: string) {
-    const article = await this._articleSrv.entitiesRepo().findOneBy({ id })
+  public async getArticleDetail(id: string,user:User) {
+    const article = await this._articleSrv.entitiesRepo().findOne({
+      where: { id },
+      relations: {
+        tags: true,
+      },
+      select: {
+        tags: {
+          id: true,
+        }
+      }
+    })
 
     if (!article)
       responseError(ErrorCode.ARTICLE_NOT_EXISTS)
 
-    await this._articleSrv.entitiesRepo().increment({ id }, 'pageView', 1)
+    if (!user) {
+      await this._articleSrv.entitiesRepo().increment({ id }, 'pageView', 1)
+    }
 
     return article
   }

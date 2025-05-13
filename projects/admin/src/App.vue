@@ -3,11 +3,11 @@ import { isClient } from '@vueuse/core'
 
 const { width } = useWindowSize()
 const { isAdmin, zoomRatio } = useSysConfig()
-const $router = useRouter()
+// const $router = useRouter()
 
 onBeforeMount(() => {
   isAdmin.value = true
-  $router.replace({ query: undefined })
+  // $router.replace({ query: undefined })
 })
 
 /** 监听窗口大小，缩放页面 */

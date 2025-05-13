@@ -4,7 +4,7 @@ import { ChangeStatusBodyDto } from 'src/dto/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { HasPermission } from 'src/guards/permission.guard'
 import { ApiSuccessResponse, getQuery } from 'src/utils'
-import { Body, Controller,Delete,Get,Param,Patch,Post } from '@nestjs/common'
+import { Body, Controller,Delete,Get,Param,Patch,Post, Req } from '@nestjs/common'
 import {
   ArticleIdDto,
   IdsDto,
@@ -46,9 +46,10 @@ export class ArticleEntitiesController {
   })
   @Get('detail/:articleId')
   public getArticleDetail(
-    @Param() { articleId }: ArticleIdDto
+    @Param() { articleId }: ArticleIdDto,
+    @Req() req: FastifyRequest,
   ) {
-    return this._entitiesSrv.getArticleDetail(articleId)
+    return this._entitiesSrv.getArticleDetail(articleId,req.raw.user)
   }
 
   @ApiOperation({

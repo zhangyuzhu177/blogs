@@ -63,6 +63,7 @@ const initData: IUpsertArticleBodyDto = {
   articleTypeId: '',
   content: '',
   status: true,
+  tagIds: [],
 }
 /** 表单 */
 const form = ref<IUpsertArticleBodyDto>(cloneDeep(initData))

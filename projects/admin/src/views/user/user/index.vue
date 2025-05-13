@@ -271,8 +271,8 @@ provide('callback', callback)
       no-data-label="暂无用户信息记录"
       selection="multiple"
       flex-1 h-0
-      fixed-first-column
-      :fixed-last-column="isUpdate"
+      fixed-first-col
+      :fixed-last-col="isUpdate"
       @request="queryQueryUserList"
     >
       <!-- 账号状态 -->

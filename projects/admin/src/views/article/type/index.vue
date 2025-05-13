@@ -216,8 +216,8 @@ onBeforeMount(async () => {
       no-data-label="暂无分类记录"
       selection="multiple"
       flex-1 h-0
-      fixed-first-column
-      :fixed-last-column="isUpdate"
+      fixed-first-col
+      :fixed-last-col="isUpdate"
       @request="queryQueryArticleTypeList"
     >
       <!-- 详情 -->
