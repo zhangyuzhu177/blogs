@@ -56,8 +56,9 @@ async function onUploadImg(files: File[], callback: (url: string[]) => void) {
   const res = await Promise.all(
     files.map(async (file) => {
       const form = new FormData()
+      const filename = `${file.name.split('.')[0]}-${Date.now()}.${file.name.split('.')[1]}`
       form.append('file', file)
-      return await uploadFileApi(form, `/images/article/${file.name}`)
+      return await uploadFileApi(form, `/images/article/${filename}`)
     }),
   )
 

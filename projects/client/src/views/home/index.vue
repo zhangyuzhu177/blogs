@@ -59,7 +59,7 @@ onBeforeMount(async () => {
             <span class="typed-cursor">|</span>
           </h4>
         </div>
-        <ArtButton text="查看全部" @click="router.push('/archives')" />
+        <!-- <ArtButton text="查看全部" @click="router.push('/archives')" /> -->
       </div>
     </div>
   </div>

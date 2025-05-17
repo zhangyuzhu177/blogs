@@ -20,7 +20,7 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col full" bg="grey-1 dark:grey-9">
+  <div class="flex flex-col full">
     <header ref="header" z-999>
       <AppHeader />
     </header>

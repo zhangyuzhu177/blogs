@@ -83,7 +83,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div full flex="~ col gap6 sm:gap8">
+  <div full flex="~ col gap6 sm:gap8" text="grey-9 dark:grey-1">
     <ZLoading :value="loading" />
 
     <header flex="~ col justify-center gap2 sm:gap4">
@@ -136,8 +136,9 @@ onBeforeMount(async () => {
             />
             <div icon i-mingcute:arrows-right-line />
             <div
-              cursor-pointer truncate transition-all
+              cursor-pointer truncate
               flex-1 w-0 hover:subtitle-2
+              transition-all
               @click="router.push(`/article?articleId=${article.id}`)"
             >
               <span v-text="article.name" />

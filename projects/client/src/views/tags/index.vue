@@ -25,38 +25,41 @@ const rowsNumber = ref()
 watch(
   () => [tag.value?.id, pagination.value.page],
   async ([newTagId, newPage]) => {
-    loading.value = true
+    if (newTagId) {
+      loading.value = true
 
-    scrollEl.value?.setScrollPosition(
-      'vertical',
-      0,
-      0,
-    )
+      scrollEl.value?.setScrollPosition(
+        'vertical',
+        0,
+        0,
+      )
 
-    try {
-      const { data, total } = await queryArticleListApi({
-        where: {
-          tags: {
-            id: newTagId ? Like(`%${newTagId}%`) : undefined,
+      try {
+        const { data, total } = await queryArticleListApi({
+          where: {
+            tags: {
+              id: Like(`%${newTagId}%`),
+            },
           },
-        },
-        relations: {
-          tags: true,
-        },
-        pagination: {
-          page: newPage as number,
-          pageSize: pagination.value.pageSize,
-        },
-      })
+          relations: {
+            tags: true,
+          },
+          pagination: {
+            page: newPage as number,
+            pageSize: pagination.value.pageSize,
+          },
+        })
 
-      articlesList.value = data
-      rowsNumber.value = total
+        articlesList.value = data
+        rowsNumber.value = total
+      }
+      finally {
+        loading.value = false
+      }
     }
-    finally {
-      loading.value = false
-    }
+    else { articlesList.value = [] }
   },
-  { immediate: true },
+  // { immediate: true },
 )
 
 /**
@@ -91,19 +94,18 @@ onBeforeMount(async () => {
     <div flex="~ 1 col" h0>
       <div full flex="~ col gap6 sm:gap8">
         <!-- 标签列表 -->
-        <div flex="~ col gap4">
-          <div v-if="tags?.length" subtitle-3 v-text="`共 ${tags?.length} 个标签`" />
-          <div flex="~ gap2 sm:gap4 wrap row" sm="flex- flex-row">
-            <div
-              v-for="t in tags" :key="t.id"
-              :class="tag?.id === t.id ? 'active' : 'tag-item'"
-              flex="~ items-center gap3"
-              px4 py1 b-rd-10 cursor-pointer
-              @click="changeArticleTag(t)"
-            >
-              <div subtitle-3 v-text="t.name" />
-              <div class="label" text-3 v-text="t.articles?.length || 0" />
-            </div>
+        <div flex="~ gap2 sm:gap4 wrap row" sm="flex- flex-row">
+          <div
+            v-for="t in tags" :key="t.id"
+            :class="tag?.id === t.id ? 'active' : 'tag-item'"
+            flex="~ items-center gap3"
+            bg="grey-2 dark:grey-9"
+            px4 py1 b-rd-10 cursor-pointer
+            shadow-sm hover:shadow-md transition-shadow
+            @click="changeArticleTag(t)"
+          >
+            <div select-none subtitle-3 v-text="t.name" />
+            <div class="label" text-3 v-text="`(${t.articles?.length || 0})`" />
           </div>
         </div>
         <!-- 文章列表 -->
@@ -114,6 +116,7 @@ onBeforeMount(async () => {
             class="article"
             flex="~ col justify-between gap2"
             sm:p4 p2 cursor-pointer b-rd-2
+            bg="grey-1 dark:grey-9"
             b="1 transparent" overflow-hidden
             @click="router.push(`/article?articleId=${article.id}`)"
           >
@@ -199,7 +202,7 @@ onBeforeMount(async () => {
   border: 1px solid var(--grey-3);
 
   .tag {
-    background-color: var(--grey-3);
+    background-color: var(--grey-2);
     color: var(--grey-7);
   }
 }
