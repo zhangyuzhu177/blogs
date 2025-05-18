@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash'
-import { PermissionType } from 'types'
+import { ArticleTheme, PermissionType, articleThemeDescriptions } from 'types'
 import type { IArticle, IArticleTag, IArticleType, IUpsertArticleBodyDto } from 'types'
 
 import EditorDialog from './editor.dialog.vue'
@@ -29,12 +29,15 @@ const articleTypeList = ref<IArticleType[]>()
 /** 标签列表 */
 const articleTagList = ref<IArticleTag[]>()
 
-const initData: Pick<IUpsertArticleBodyDto, 'name' | 'content'> = {
+const initData: IUpsertArticleBodyDto = {
   name: '',
   content: '',
+  articleTypeId: '',
+  status: true,
+  theme: ArticleTheme.DEFAULT,
 }
 /** 表单 */
-const form = ref<Pick<IUpsertArticleBodyDto, 'name' | 'content'>>(cloneDeep(initData))
+const form = ref<IUpsertArticleBodyDto>(cloneDeep(initData))
 
 const disable = computed(() => {
   const { name, content } = form.value
@@ -48,8 +51,7 @@ watch(
 
     if (newVal && type === 'edit') {
       article.value = await gerArticleDetailApi(newVal)
-      form.value.name = article.value?.name
-      form.value.content = article.value?.content
+      form.value = article.value
     }
   },
 )
@@ -63,7 +65,7 @@ onBeforeMount(async () => {
     router.push('/')
   else if (type === 'edit' && !isUpdate)
     router.push('/')
-  else if (type === 'edit' && !articleId.value)
+  else if ((type === 'edit' && !articleId.value) || !type)
     router.push('/')
 
   loading.value = true
@@ -102,16 +104,29 @@ onBeforeMount(async () => {
         />
         <ZBtn
           :disable label="保存"
-          @click="type = route.query.type as EditorType"
+          @click="() => { type = route.query.type as EditorType }"
         >
           <template #left>
             <div size-5 i-mingcute:save-2-line />
           </template>
         </ZBtn>
       </div>
-      <div flex="~ 1" w-full h-0>
+      <div px-6 flex="~ items-center gap-4">
+        <ZLabel label="主题" />
+        <div flex="~ gap2">
+          <div
+            v-for="[key, value] in Object.entries(articleThemeDescriptions)" :key
+            :class="key === form.theme ? 'active' : ''"
+            cursor-pointer p="x2 y1" b-rd-2 b="1 grey-3"
+            @click="() => { form.theme = key as ArticleTheme }"
+            v-text="value"
+          />
+        </div>
+      </div>
+      <div flex-1 w-full h-0>
         <MdEditor
           v-model="form.content"
+          :theme="form.theme"
           placeholder="输入文章内容"
           style="height: calc(100vh - 96px);"
         />
@@ -120,7 +135,7 @@ onBeforeMount(async () => {
 
     <EditorDialog
       v-model:type="type"
-      :article
+      :article :theme="form.theme"
       :name="form.name"
       :content="form.content"
       :article-type-list
@@ -150,6 +165,11 @@ onBeforeMount(async () => {
         }
       }
     }
+  }
+
+  .active {
+    border-color: var(--primary-1);
+    background-color: var(--primary-4);
   }
 }
 </style>

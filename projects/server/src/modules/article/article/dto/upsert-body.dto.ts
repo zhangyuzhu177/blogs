@@ -1,9 +1,10 @@
 import { Mixin } from 'ts-mixer'
-import { ID_EXAMPLE, IUpsertArticleBodyDto } from 'types'
+import { ArticleTheme, ID_EXAMPLE, IUpsertArticleBodyDto } from 'types'
 import { IsArray,IsString } from 'src/decorators'
 import { ApiPropertyOptional } from '@nestjs/swagger'
 import { ArticleTypeIdDto, NameDto, StatusDto } from 'src/dto'
-import { IsOptional } from 'class-validator'
+import { IsEnum, IsOptional } from 'class-validator'
+import { Type } from 'class-transformer'
 
 export class UpsertArticleBodyDto
   extends Mixin(
@@ -24,6 +25,20 @@ export class UpsertArticleBodyDto
   @IsString()
   @IsOptional()
   cover?: string
+
+  @ApiPropertyOptional({
+    description: '文章主题',
+  })
+  @IsEnum(
+    ArticleTheme,
+    {
+      each: true,
+      message: 'theme 的值必须是 ArticleTheme 枚举值',
+    },
+  )
+  @Type(() => String)
+  @IsOptional()
+  theme?: ArticleTheme
 
   @ApiPropertyOptional({
     description: '文章标签',

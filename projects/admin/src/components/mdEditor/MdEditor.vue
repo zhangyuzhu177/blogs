@@ -5,11 +5,12 @@ import { Emoji } from '@vavt/v3-extension'
 import '@vavt/v3-extension/lib/asset/style.css'
 import type { ToolbarNames } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
-import type { FileBodyDto } from 'types'
+import type { ArticleTheme, FileBodyDto } from 'types'
 
 interface Props {
   modelValue?: string
   readonly?: boolean
+  theme?: ArticleTheme
 }
 const props = defineProps<Props>()
 defineEmits(['update:modelValue'])
@@ -71,7 +72,7 @@ async function onUploadImg(files: File[], callback: (url: string[]) => void) {
     v-model="value"
     :toolbars
     :read-only="readonly"
-    preview-theme="github"
+    :preview-theme="theme"
     :footers="['markdownTotal', '=', 0, 'scrollSwitch']"
     @on-upload-img="onUploadImg"
   >

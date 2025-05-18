@@ -7,6 +7,7 @@ export * from './types/enum/config.enum'
 export * from './types/enum/error-code.enum'
 export * from './types/enum/permission.enum'
 export * from './types/enum/code-action.enum'
+export * from './types/enum/article-theme.enum'
 
 // Constants
 export * from './types/constant/id.constant'

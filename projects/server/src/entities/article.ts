@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IArticle, ID_EXAMPLE } from 'types'
+import { ArticleTheme, IArticle, ID_EXAMPLE } from 'types'
 import {
   Column,
   Entity,
@@ -64,6 +64,16 @@ export class Article extends BaseTimeStamp implements IArticle {
   })
   @Column()
   status: boolean
+
+  @ApiProperty({
+    description: '文章主题',
+  })
+  @Column({
+    type: 'enum',
+    enum: ArticleTheme,
+    default: ArticleTheme.DEFAULT,
+  })
+  theme?: ArticleTheme
 
   @ApiProperty({
     description: '文章分类',

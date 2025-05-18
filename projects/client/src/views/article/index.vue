@@ -92,7 +92,7 @@ onBeforeMount(async () => {
       <div lg="max-w-1080px" flex="~ 1" w-0>
         <MdPreview
           :model-value="article?.content"
-          preview-theme="github"
+          :preview-theme="article?.theme"
           :editor-id="state.id"
           :md-heading-id="mdHeadingId"
           :theme="dark ? 'dark' : 'light'"

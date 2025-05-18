@@ -14,7 +14,7 @@ const typeId = ref()
 /** 搜索 */
 const search = ref('')
 /** 文章列表 */
-const articles = ref()
+const yearArticles = ref<{ year: number; articles: IArticle[] }[]>()
 
 watch(
   [typeId, search],
@@ -43,7 +43,7 @@ watch(
         body.where = { articleTypeId: Like(`%${newTypeId}%`) }
 
       const { data } = await queryArticleListApi(body)
-      articles.value = groupByYear(data)
+      yearArticles.value = groupByYear(data)
     }
     finally {
       loading.value = false
@@ -53,14 +53,24 @@ watch(
 
 // 按年份分类数据
 function groupByYear(data: IArticle[]) {
-  return data.reduce<Record<number, IArticle[]>>((acc, item) => {
+  if (!data)
+    return []
+  const groupedData = data.reduce<Record<number, IArticle[]>>((acc, item) => {
     const year = new Date(item.createdAt).getFullYear()
     if (!acc[year])
       acc[year] = []
-
     acc[year].push(item)
     return acc
   }, {})
+
+  // 将对象转为数组并按年份降序排列
+  return Object.keys(groupedData)
+    .map(Number)
+    .sort((a, b) => b - a)
+    .map(year => ({
+      year,
+      articles: groupedData[year],
+    }))
 }
 
 onBeforeMount(async () => {
@@ -118,16 +128,16 @@ onBeforeMount(async () => {
       </div>
 
       <div
-        v-for="(item, key) in articles" :key="key"
+        v-for="{ year, articles } in yearArticles" :key="year"
         flex="~ col gap4 sm:gap6"
       >
         <div flex="~ gap2 items-center">
           <div w-6 h-6 i-mingcute:calendar-2-line />
-          <div text-8 font-600 v-text="key" />
+          <div text-8 font-600 v-text="year" />
         </div>
         <div flex="~ col gap2 sm:gap4" px-4>
           <div
-            v-for="article in item" :key="article.id"
+            v-for="article in articles" :key="article.id"
             flex="~ 1 gap-2 items-center"
           >
             <div

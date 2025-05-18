@@ -3,6 +3,7 @@ import { Notify } from 'quasar'
 import { cloneDeep } from 'lodash'
 import { objectPick } from 'utils'
 import type {
+  ArticleTheme,
   IArticle,
   IArticleTag,
   IArticleType,
@@ -35,6 +36,10 @@ interface EditorDialogProps {
    * 文章内容
    */
   content?: string
+  /**
+   * 文章主题
+   */
+  theme?: ArticleTheme
   /**
    * 文章信息
    */
@@ -80,8 +85,6 @@ watch(
       const { type, article } = props
       if (type === 'add') {
         form.value = cloneDeep(initData)
-        form.value.name = props.name as string
-        form.value.content = props.content as string
       }
       else if (article) {
         form.value = {
@@ -92,9 +95,10 @@ watch(
           ),
         }
         form.value.tagIds = article.tags?.map(tag => tag.id)
-        form.value.name = props.name as string
-        form.value.content = props.content as string
       }
+      form.value.name = props.name as string
+      form.value.content = props.content as string
+      form.value.theme = props.theme as ArticleTheme
     }
   },
 )
