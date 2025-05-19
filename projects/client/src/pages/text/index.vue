@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PATTERN_BACKGROUND_DIRECTION, PATTERN_BACKGROUND_SPEED, PATTERN_BACKGROUND_VARIANT } from '../../components/Art/Backagroud/pattern'
+import { PATTERN_BACKGROUND_DIRECTION, PATTERN_BACKGROUND_SPEED, PATTERN_BACKGROUND_VARIANT } from '../../components/Art/Background/pattern'
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PATTERN_BACKGROUND_DIRECTION, PATTERN_BACKGROUND_SPEED, PATTERN_BACKGROUND_VARIANT } from '../Art/Backagroud/pattern'
+import { PATTERN_BACKGROUND_DIRECTION, PATTERN_BACKGROUND_SPEED, PATTERN_BACKGROUND_VARIANT } from '../Art/Background/pattern'
 </script>
 
 <template>
@@ -7,7 +7,7 @@ import { PATTERN_BACKGROUND_DIRECTION, PATTERN_BACKGROUND_SPEED, PATTERN_BACKGRO
     :animate="true"
     :direction="PATTERN_BACKGROUND_DIRECTION.TopRight"
     :variant="PATTERN_BACKGROUND_VARIANT.Dot"
-    class="flex h-full w-full"
+    class="flex h-full w-full" bg-pink
     :speed="PATTERN_BACKGROUND_SPEED.Slow"
   >
     <div
