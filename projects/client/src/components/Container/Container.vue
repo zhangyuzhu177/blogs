@@ -7,7 +7,7 @@ import { PATTERN_BACKGROUND_DIRECTION, PATTERN_BACKGROUND_SPEED, PATTERN_BACKGRO
     :animate="true"
     :direction="PATTERN_BACKGROUND_DIRECTION.TopRight"
     :variant="PATTERN_BACKGROUND_VARIANT.Dot"
-    class="flex h-full w-full" bg-pink
+    class="flex h-full w-full"
     :speed="PATTERN_BACKGROUND_SPEED.Slow"
   >
     <div

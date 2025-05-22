@@ -11,7 +11,7 @@ declare module 'vue' {
     AppHeader: typeof import('./../components/AppHeader.vue')['default']
     ArtButton: typeof import('./../components/Art/Button/ArtButton.vue')['default']
     ArtLogo: typeof import('./../components/Art/ArtLogo.vue')['default']
-    ArtPattern: typeof import('../components/Art/Background/ArtPattern.vue')['default']
+    ArtPattern: typeof import('./../components/Art/Background/ArtPattern.vue')['default']
     Canvas: typeof import('./../../../shared/components/canvas/index.vue')['default']
     CaptchaInput: typeof import('./../../../shared/components/input/CaptchaInput.vue')['default']
     Container: typeof import('./../components/Container/Container.vue')['default']
