@@ -1,5 +1,6 @@
 import type {
   IArticle,
+  IArticleCount,
   IChangeStatusBodyDto,
   IIdsDto,
   IQueryDto,
@@ -9,6 +10,13 @@ import type {
 import { useRequest } from '../composables/request'
 
 const { $post, $get, $patch, $delete } = useRequest()
+
+/**
+ * 获取文章,标签,分类数量
+ */
+export function getArticleAndTypeAndTagCountApi() {
+  return $get<IArticleCount[]>('/article/entities/count')
+}
 
 /**
  * 获取文章列表

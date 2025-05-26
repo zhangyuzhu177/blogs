@@ -1,25 +1,56 @@
 import { In } from 'typeorm'
 import { ErrorCode } from 'types'
-import { Injectable } from '@nestjs/common'
+import { objectOmit } from 'utils'
+import { Injectable, Logger } from '@nestjs/common'
 
+import { User } from 'src/entities/user'
 import { ChangeStatusBodyDto } from 'src/dto/common'
 import { parseSqlError, responseError } from 'src/utils'
 
 import { ArticleService } from '../article.service'
 import { UpsertArticleBodyDto } from './dto/upsert-body.dto'
-import { objectOmit } from 'utils'
-import { User } from 'src/entities/user'
+import { count } from 'console'
 
 @Injectable()
 export class ArticleEntitiesService {
+  private readonly _logger = new Logger(ArticleEntitiesService.name)
+
   constructor(
     private readonly _articleSrv: ArticleService,
   ) { }
 
   /**
+   * 获取分类,标签,文章数量
+   */
+  public async getArticleAndTypeAndTagCount() {
+    const [articleCount, typeCount, tagCount] = await Promise.all([
+      this._articleSrv.entitiesRepo().count(),
+      this._articleSrv.articleTypeRepo().count(),
+      this._articleSrv.articleTagRepo().count(),
+    ])
+
+    const data = [
+      {
+        name: '文章',
+        count: articleCount,
+      },
+      {
+        name: '分类',
+        count: typeCount,
+      },
+      {
+        name: '标签',
+        count: tagCount,
+      },
+    ]
+
+    return data
+  }
+
+  /**
    * 获取文章详情
    */
-  public async getArticleDetail(id: string,user:User) {
+  public async getArticleDetail(id: string, user:User, ip: string) {
     const article = await this._articleSrv.entitiesRepo().findOne({
       where: { id },
       relations: {
@@ -36,6 +67,7 @@ export class ArticleEntitiesService {
       responseError(ErrorCode.ARTICLE_NOT_EXISTS)
 
     if (!user) {
+      this._logger.verbose(ip)
       await this._articleSrv.entitiesRepo().increment({ id }, 'pageView', 1)
     }
 

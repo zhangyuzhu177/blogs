@@ -3,6 +3,7 @@ import { SysConfig } from 'types'
 import type { IConfigDto } from 'types'
 
 import Skill from './skill.vue'
+import Count from './count.vue'
 import PersonInfo from './personInfo.vue'
 
 /** 配置 */
@@ -18,6 +19,8 @@ onBeforeMount(async () => {
   <div v-if="config" flex="~ col gap6 sm:gap10" py-8>
     <!-- 基本信息 -->
     <PersonInfo :info="config" />
+    <!-- 文章数量 -->
+    <Count />
     <!-- 专业技能 -->
     <Skill :skills="config?.skills" />
   </div>

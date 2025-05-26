@@ -92,8 +92,8 @@ const icons: { name: string; icon: string }[] = [
     <div flex="~ col gap4" sm="flex-wrap flex-row">
       <div
         v-for="skill in skills" :key="skill.id"
-        flex="~ col gap2" b-rd-2 sm="p-4"
-        p-2 min-w-56 flex-1 relative
+        flex="~ 1 col gap2" b-rd-2 sm="p-4"
+        p-2 min-w-56 relative
         border="1 grey-2 dark:grey-8"
         bg="grey-1 dark:grey-9"
       >

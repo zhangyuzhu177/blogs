@@ -1,4 +1,4 @@
-import logo from 'shared/public/logo.svg'
+import logo from '..//public/logo.svg'
 
 /** 应用名称 */
 export const APP_NAME = import.meta.env.VITE_APP_NAME

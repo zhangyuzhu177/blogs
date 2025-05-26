@@ -27,6 +27,14 @@ export class ArticleEntitiesController {
   ) { }
 
   @ApiOperation({
+    summary:'获取分类,标签,文章数量'
+  })
+  @Get('count')
+  public getArticleAndTypeAndTagCount() {
+    return this._entitiesSrv.getArticleAndTypeAndTagCount()
+  }
+
+  @ApiOperation({
     summary: '获取文章列表'
   })
   @ApiSuccessResponse(QueryResDto<Article>)
@@ -49,7 +57,8 @@ export class ArticleEntitiesController {
     @Param() { articleId }: ArticleIdDto,
     @Req() req: FastifyRequest,
   ) {
-    return this._entitiesSrv.getArticleDetail(articleId,req.raw.user)
+    const {user,ip} =req.raw
+    return this._entitiesSrv.getArticleDetail(articleId,user,ip)
   }
 
   @ApiOperation({
