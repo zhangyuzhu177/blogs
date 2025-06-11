@@ -81,6 +81,7 @@ declare global {
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const gerArticleDetailApi: typeof import('../../../shared/api/article')['gerArticleDetailApi']
   const gerArticleInfoApi: typeof import('../../../shared/api/article')['gerArticleInfoApi']
+  const getArticleAndTypeAndTagCountApi: typeof import('../../../shared/api/article')['getArticleAndTypeAndTagCountApi']
   const getArticleApi: typeof import('../../../shared/api/article')['getArticleApi']
   const getArticleListByTypeApi: typeof import('../../../shared/api/article')['getArticleListByTypeApi']
   const getArticleTagListApi: typeof import('../../../shared/api/articleTag')['getArticleTagListApi']
@@ -483,6 +484,7 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly gerArticleDetailApi: UnwrapRef<typeof import('../../../shared/api/article')['gerArticleDetailApi']>
+    readonly getArticleAndTypeAndTagCountApi: UnwrapRef<typeof import('../../../shared/api/article')['getArticleAndTypeAndTagCountApi']>
     readonly getArticleTagListApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['getArticleTagListApi']>
     readonly getArticleTypeListApi: UnwrapRef<typeof import('../../../shared/api/articleType')['getArticleTypeListApi']>
     readonly getCaptchaImgApi: UnwrapRef<typeof import('../../../shared/api/auth')['getCaptchaImgApi']>

@@ -17,7 +17,7 @@ export default ({ mode }: any) => {
   // 默认环境配置
   const defaultEnv = {
     VITE_ADMIN_PORT: '5001',
-    VITE_ADMIN_BASE: '/',
+    VITE_ADMIN_BASE: '/admin',
     VITE_API_BASE: '/api',
   }
 

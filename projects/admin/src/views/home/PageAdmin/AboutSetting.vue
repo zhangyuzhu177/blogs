@@ -23,6 +23,7 @@ const initData: IConfigDto[SysConfig.ABOUT] = {
     {
       id: randomId(),
       name: '',
+      level: 0,
       desc: '',
     },
   ],
@@ -73,6 +74,7 @@ async function getConfigList() {
       skills: (data as IConfigDto[SysConfig.ABOUT])?.skills || [{
         id: randomId(),
         name: '',
+        level: 0,
         desc: '',
       }],
     }
@@ -249,10 +251,17 @@ onBeforeMount(() => {
                   ]"
                 />
                 <ZInput
+                  v-model="skill.level"
+                  label="熟练度(%)"
+                  type="number"
+                  placeholder="请输入熟练度（单位%，1-100）"
+                  :max="100"
+                  mb-5
+                />
+                <ZInput
                   v-model="skill.desc"
                   label="描述"
                   placeholder="请输入描述"
-                  :max="20"
                   mb-5
                 />
               </div>

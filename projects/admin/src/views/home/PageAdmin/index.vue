@@ -30,7 +30,7 @@ const { PAGE_NAV, active } = usePageAdmin()
 
 <style scoped lang="scss">
 .active {
-  background-color: var(--primary-1-bg);
+  background-color: var(--primary-4);
   color: var(--primary-1);
 }
 </style>
