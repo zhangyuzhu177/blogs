@@ -94,7 +94,7 @@ const icons: { name: string; icon: string }[] = [
         v-for="skill in skills" :key="skill.id"
         flex="~ 1 col gap2" b-rd-2 sm="p-4"
         p-2 min-w-56 relative
-        border="1 grey-2 dark:grey-8"
+        border="1 grey-3 dark:grey-8"
         bg="grey-1 dark:grey-9"
       >
         <div
@@ -117,5 +117,3 @@ const icons: { name: string; icon: string }[] = [
     </div>
   </div>
 </template>
-
-<style scoped></style>

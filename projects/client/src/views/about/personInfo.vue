@@ -17,7 +17,7 @@ const defaultAvatar = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
     <div flex="~ justify-center">
       <q-img
         class="avatar"
-        w-40 h-40 b-rd-full overflow-hidden
+        w-40 h-40 b-rd-full overflow-hidden shadow-2xl
         cursor-pointer loading="lazy"
         :src="info?.avatar || defaultAvatar"
       />

@@ -128,6 +128,9 @@ async function login() {
           text-color="primary-1"
           label="登录"
           :disable="disable"
+          :params="{
+            loading
+          }"
           @click="login"
         />
         <!-- <div text="center white-7" font-400>

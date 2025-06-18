@@ -18,7 +18,7 @@ const buttonRef = ref<HTMLButtonElement>()
     ref="buttonRef"
     :class="
       cn(
-        'group relative w-auto cursor-pointer overflow-hidden rounded-full  bg-background p-2 px-6 text-center font-semibold',
+        'group relative w-auto cursor-pointer overflow-hidden rounded-full bg-background p-2 px-6 text-center font-semibold',
         props.class,
       )
     "
