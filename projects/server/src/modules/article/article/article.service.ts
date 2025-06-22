@@ -9,7 +9,6 @@ import { parseSqlError, responseError } from 'src/utils'
 
 import { ArticleService } from '../article.service'
 import { UpsertArticleBodyDto } from './dto/upsert-body.dto'
-import { count } from 'console'
 
 @Injectable()
 export class ArticleEntitiesService {
@@ -84,14 +83,14 @@ export class ArticleEntitiesService {
       responseError(ErrorCode.ARTICLE_TAG_NOT_EXISTS)
 
     try {
-      const insertRes = await this._articleSrv.entitiesRepo().insert(
-        this._articleSrv.entitiesRepo().create({
-          ...objectOmit(body, 'tagIds'),
-          tags
-        })
-      )
+      const data = this._articleSrv.entitiesRepo().create({
+        ...objectOmit(body, 'tagIds'),
+        tags
+      })
 
-      return insertRes.identifiers[0].id
+      const insertRes = await this._articleSrv.entitiesRepo().save(data)
+
+      return insertRes.id
     } catch (e) {
       const sqlError = parseSqlError(e)
       if (sqlError === SqlError.FOREIGN_KEY_CONSTRAINT_FAILS)
@@ -124,6 +123,7 @@ export class ArticleEntitiesService {
         ...objectOmit(body, 'tagIds'),
         tags
       })
+
       await this._articleSrv.entitiesRepo().save(article)
 
       return id
