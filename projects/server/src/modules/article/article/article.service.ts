@@ -65,10 +65,8 @@ export class ArticleEntitiesService {
     if (!article)
       responseError(ErrorCode.ARTICLE_NOT_EXISTS)
 
-    if (!user) {
-      this._logger.verbose(ip)
-      await this._articleSrv.entitiesRepo().increment({ id }, 'pageView', 1)
-    }
+    this._logger.verbose(ip)
+    await this._articleSrv.entitiesRepo().increment({ id }, 'pageView', 1)
 
     return article
   }
