@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const { isAdmin } = useSysConfig()
+// const { isAdmin } = useSysConfig()
 
-onBeforeMount(() => {
-  isAdmin.value = false
-})
+// onBeforeMount(() => {
+//   isAdmin.value = false
+// })
 
 /** 监听窗口大小，缩放页面 */
 // watch(

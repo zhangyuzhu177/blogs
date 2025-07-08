@@ -4,6 +4,7 @@ import { Like } from 'typeorm'
 import type { IArticle, IArticleType, IQueryDto } from 'types'
 
 const router = useRouter()
+const { width } = useWindowSize()
 
 /** 加载中 */
 const loading = ref(false)
@@ -103,8 +104,19 @@ onBeforeMount(async () => {
     </header>
 
     <div flex="~ 1 col gap6 sm:gap8" h0>
-      <div flex="~ gap2 col" sm="justify-between flex-row gap4">
+      <div flex="~ gap2 col" sm="justify-center flex-row gap4">
+        <ZTabs
+          v-if="width > 600"
+          v-model="typeId"
+          :options="types?.map(v => {
+            return {
+              label: v.name,
+              name: v.id,
+            }
+          })"
+        />
         <ZSelect
+          v-else
           v-model="typeId"
           class="archive"
           :options="types"
@@ -113,7 +125,7 @@ onBeforeMount(async () => {
           size="small"
           w-35
         />
-        <ZInput
+        <!-- <ZInput
           v-model="search"
           class="archive"
           size="small"
@@ -124,7 +136,7 @@ onBeforeMount(async () => {
           <template #prepend>
             <div icon i-mingcute:search-line />
           </template>
-        </ZInput>
+        </ZInput> -->
       </div>
 
       <div

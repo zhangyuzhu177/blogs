@@ -18,7 +18,7 @@ const { isExpand } = useSidebar()
     <div v-html="isExpand ? closeIcon : menuIcon" />
     <q-menu
       v-model="isExpand"
-      auto-close square :offset="[0, 14]"
+      auto-close square :offset="[0, 20]"
       max-w="full!" w-full left="0!"
       py2 flex="~ col gap2" class="menu-bg"
       shadow-none

@@ -6,7 +6,6 @@ import type { QDialogProps } from 'quasar'
 
 import ZBtn from '../btn/ZBtn.vue'
 import ZLoading from '../loading/ZLoading.vue'
-import { useSysConfig } from '../../composables/app'
 
 interface ZDialogProps {
   modelValue?: boolean
@@ -38,8 +37,6 @@ defineEmits(['update:modelValue', 'ok'])
 
 const scrollRef = ref<InstanceType<typeof QScrollArea>>()
 
-const { isAdmin } = useSysConfig()
-
 const value = useVModel(props, 'modelValue')
 
 defineExpose({
@@ -54,17 +51,17 @@ defineExpose({
     v-bind="params"
   >
     <q-card
-      :rounded="isAdmin ? '3!' : '0!'" flex="~ col gap6" py6
+      rounded="3!" flex="~ col gap6" py6
       :style="{
-        minWidth: '460px',
+        minWidth: '320px',
         height: scroll ? 'calc(100vh - 100px)' : 'auto',
         ...wrapperStyle,
       }"
     >
       <header flex="~ row justify-between items-center" px6>
-        <div text="grey-8" flex="~ row items-center gap1">
+        <div text="grey-8 dark:grey-1" flex="~ row items-center gap1">
           <div font-600 v-text="title" />
-          <div text="sm grey-6" font-400 v-text="caption" />
+          <div text="sm grey-6 dark:grey-1" font-400 v-text="caption" />
         </div>
 
         <q-btn dense flat p0 h6 w6 min-h="auto!" @click="value = false">
@@ -112,6 +109,7 @@ defineExpose({
 
 <style lang="scss" scoped>
 .q-card {
+  background-color: var(--grey-1);
   &::-webkit-scrollbar {
     display: none;
   }

@@ -40,10 +40,10 @@ nextTick(() => {
         cursor-pointer
         @click="router.push('/')"
       />
-      <div flex="~ gap2">
+      <div flex="~ gap4">
         <Navigation v-if="width > 600" />
         <Menu v-else />
-        <Dark />
+        <FuncBtns />
       </div>
     </div>
   </header>

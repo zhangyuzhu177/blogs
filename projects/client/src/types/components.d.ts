@@ -15,7 +15,9 @@ declare module 'vue' {
     Canvas: typeof import('./../../../shared/components/canvas/index.vue')['default']
     CaptchaInput: typeof import('./../../../shared/components/input/CaptchaInput.vue')['default']
     Container: typeof import('./../components/Container/Container.vue')['default']
-    Dark: typeof import('./../components/dark/Dark.vue')['default']
+    Dark: typeof import('./../components/FunBtns/Dark.vue')['default']
+    FunBtns: typeof import('./../components/FuncBtns/FunBtns.vue')['default']
+    FuncBtns: typeof import('./../components/FuncBtns/FuncBtns.vue')['default']
     LogoutDialog: typeof import('./../../../shared/components/dialog/LogoutDialog.vue')['default']
     Menu: typeof import('./../components/menu/Menu.vue')['default']
     Navigation: typeof import('./../components/navigation/Navigation.vue')['default']
@@ -39,6 +41,7 @@ declare module 'vue' {
     ZRadio: typeof import('./../../../shared/components/radio/ZRadio.vue')['default']
     ZSelect: typeof import('./../../../shared/components/select/ZSelect.vue')['default']
     ZTable: typeof import('./../../../shared/components/table/ZTable.vue')['default']
+    ZTabs: typeof import('./../../../shared/components/tabs/ZTabs.vue')['default']
     ZTextBtn: typeof import('./../../../shared/components/btn/ZTextBtn.vue')['default']
     ZUpload: typeof import('./../../../shared/components/upload/ZUpload.vue')['default']
   }

@@ -257,12 +257,6 @@ importers:
 
   projects/client:
     dependencies:
-      '@iconify-json/mingcute':
-        specifier: ^1.1.7
-        version: 1.2.3
-      '@iconify-json/ph':
-        specifier: ^1.1.13
-        version: 1.2.2
       '@quasar/extras':
         specifier: ^1.16.11
         version: 1.17.0
@@ -333,6 +327,12 @@ importers:
       '@iconify-json/mdi':
         specifier: ^1.2.3
         version: 1.2.3
+      '@iconify-json/mingcute':
+        specifier: ^1.1.7
+        version: 1.2.3
+      '@iconify-json/ph':
+        specifier: ^1.1.13
+        version: 1.2.2
       '@inspira-ui/plugins':
         specifier: ^0.0.1
         version: 0.0.1
@@ -2505,12 +2505,13 @@ packages:
     resolution: {integrity: sha512-yiEQfLBF5iwyOdxuY0kEU06+8Mp6Mrp14KVXTb+5jjSVuD71C9EQrzM/mm1Efd8Nu2amJalTPisl3loC8pHBqQ==}
     dependencies:
       '@iconify/types': 2.0.0
+    dev: true
 
   /@iconify-json/ph@1.2.2:
     resolution: {integrity: sha512-PgkEZNtqa8hBGjHXQa4pMwZa93hmfu8FUSjs/nv4oUU6yLsgv+gh9nu28Kqi8Fz9CCVu4hj1MZs9/60J57IzFw==}
     dependencies:
       '@iconify/types': 2.0.0
-    dev: false
+    dev: true
 
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
