@@ -1,8 +1,9 @@
-import { Injectable, OnModuleInit } from '@nestjs/common'
-import { ArticleService } from '../article.service'
+import type { OnModuleInit } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { DEFAULT_ARTICLE_TYPE, ErrorCode } from 'types'
-import { UpsertArticleTypeBodyDto } from './dto/upsert-article-type-body.dto'
 import { parseSqlError, responseError } from 'src/utils'
+import { ArticleService } from '../article.service'
+import type { UpsertArticleTypeBodyDto } from './dto/upsert-article-type-body.dto'
 
 @Injectable()
 export class ArticleTypeService implements OnModuleInit {
@@ -60,7 +61,7 @@ export class ArticleTypeService implements OnModuleInit {
   /**
    * 删除文章分类
    */
-  public async deleteArticleType(id:string) {
+  public async deleteArticleType(id: string) {
     if (id === DEFAULT_ARTICLE_TYPE.id)
       responseError(ErrorCode.ARTICLE_TYPE_DEFAULT_DELETE)
 

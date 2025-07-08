@@ -1,17 +1,17 @@
 import { PermissionType } from 'types'
-import { Article } from 'src/entities/article'
+import type { Article } from 'src/entities/article'
 import { ChangeStatusBodyDto } from 'src/dto/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { HasPermission } from 'src/guards/permission.guard'
 import { ApiSuccessResponse, getQuery } from 'src/utils'
-import { Body, Controller,Delete,Get,Param,Patch,Post, Req } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common'
 import {
   ArticleIdDto,
   IdsDto,
   QueryDto,
   QueryResDto,
   SuccessNumberDto,
-  SuccessStringDto
+  SuccessStringDto,
 } from 'src/dto'
 
 import { ArticleService } from '../article.service'
@@ -27,7 +27,7 @@ export class ArticleEntitiesController {
   ) { }
 
   @ApiOperation({
-    summary:'获取分类,标签,文章数量'
+    summary: '获取分类,标签,文章数量',
   })
   @Get('count')
   public getArticleAndTypeAndTagCount() {
@@ -35,7 +35,7 @@ export class ArticleEntitiesController {
   }
 
   @ApiOperation({
-    summary: '获取文章列表'
+    summary: '获取文章列表',
   })
   @ApiSuccessResponse(QueryResDto<Article>)
   // @HasPermission(PermissionType.ARTICLE_QUERY)
@@ -50,44 +50,44 @@ export class ArticleEntitiesController {
   }
 
   @ApiOperation({
-    summary: '获取文章详情'
+    summary: '获取文章详情',
   })
   @Get('detail/:articleId')
   public getArticleDetail(
     @Param() { articleId }: ArticleIdDto,
     @Req() req: FastifyRequest,
   ) {
-    const {user,ip} =req.raw
-    return this._entitiesSrv.getArticleDetail(articleId,user,ip)
+    const { user, ip } = req.raw
+    return this._entitiesSrv.getArticleDetail(articleId, user, ip)
   }
 
   @ApiOperation({
-    summary: '发布文章'
+    summary: '发布文章',
   })
   @ApiSuccessResponse(SuccessStringDto)
   @HasPermission(PermissionType.ARTICLE_PUBLISH)
   @Post('create')
   public createArticle(
-    @Body() body: UpsertArticleBodyDto
+    @Body() body: UpsertArticleBodyDto,
   ) {
     return this._entitiesSrv.createArticle(body)
   }
 
   @ApiOperation({
-    summary: '编辑文章'
+    summary: '编辑文章',
   })
   @ApiSuccessResponse(SuccessStringDto)
   @HasPermission(PermissionType.ARTICLE_UPDATE)
   @Patch('update/:articleId')
   public updateArticle(
     @Body() body: UpsertArticleBodyDto,
-    @Param() { articleId }: ArticleIdDto
+    @Param() { articleId }: ArticleIdDto,
   ) {
-    return this._entitiesSrv.updateArticle(body,articleId)
+    return this._entitiesSrv.updateArticle(body, articleId)
   }
 
   @ApiOperation({
-    summary: '批量删除文章'
+    summary: '批量删除文章',
   })
   @ApiSuccessResponse(SuccessNumberDto)
   @HasPermission(PermissionType.ARTICLE_DELETE)
@@ -118,7 +118,7 @@ export class ArticleEntitiesController {
   @HasPermission(PermissionType.ARTICLE_DELETE)
   @Delete('delete/:articleId')
   public deleteArticleById(
-    @Param() {articleId}: ArticleIdDto
+    @Param() { articleId }: ArticleIdDto,
   ) {
     return this._entitiesSrv.deleteArticle(articleId)
   }
@@ -130,7 +130,7 @@ export class ArticleEntitiesController {
   @HasPermission(PermissionType.ARTICLE_UPDATE_STATUS)
   @Post('status')
   public changeArticleStatus(
-    @Body() body: ChangeStatusBodyDto
+    @Body() body: ChangeStatusBodyDto,
   ) {
     return this._entitiesSrv.changeArticleStatus(body)
   }

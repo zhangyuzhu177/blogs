@@ -1,6 +1,6 @@
-import { IGalleryType } from "../../entities/gallery-type.interface";
+import type { IGalleryType } from '../../entities/gallery-type.interface'
 
-export interface IUpsertGalleryTypeRequest
+export interface IUpsertGalleryTypeBodyDto
   extends Pick<
     IGalleryType,
     'name' | 'desc' | 'order'

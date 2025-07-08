@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { ArticleService } from '../article.service'
 import { ApiSuccessResponse, getQuery } from 'src/utils'
 import { ArticleTypeIdDto, IdsDto, QueryDto, QueryResDto, SuccessNumberDto, SuccessStringDto } from 'src/dto'
-import { ArticleType } from 'src/entities/article-type'
+import type { ArticleType } from 'src/entities/article-type'
 import { HasPermission } from 'src/guards'
 import { PermissionType } from 'types'
+import { ArticleService } from '../article.service'
 import { UpsertArticleTypeBodyDto } from './dto/upsert-article-type-body.dto'
 import { ArticleTypeService } from './type.service'
 
@@ -18,23 +18,23 @@ export class ArticleTypeController {
   ) { }
 
   @ApiOperation({
-    summary: '获取文章分类列表'
+    summary: '获取文章分类列表',
   })
   @Get('list')
   public async getArticleTypeList() {
     return await this._articleSrv.articleTypeRepo().find({
       order: {
-        order:'asc'
+        order: 'asc',
       },
       select: {
         id: true,
-        name:true
-      }
+        name: true,
+      },
     })
   }
 
   @ApiOperation({
-    summary: '获取文章分类列表'
+    summary: '获取文章分类列表',
   })
   @ApiSuccessResponse(QueryResDto<ArticleType>)
   @HasPermission(PermissionType.ARTICLE_TYPE_QUERY)
@@ -49,7 +49,7 @@ export class ArticleTypeController {
   }
 
   @ApiOperation({
-    summary: '创建文章分类'
+    summary: '创建文章分类',
   })
   @ApiSuccessResponse(SuccessStringDto)
   @HasPermission(PermissionType.ARTICLE_TYPE_CREATE)
@@ -61,26 +61,26 @@ export class ArticleTypeController {
   }
 
   @ApiOperation({
-    summary: '编辑文章分类'
+    summary: '编辑文章分类',
   })
   @ApiSuccessResponse(SuccessStringDto)
   @HasPermission(PermissionType.ARTICLE_TYPE_UPDATE)
   @Patch('update/:articleTypeId')
   public updateArticleType(
     @Body() body: UpsertArticleTypeBodyDto,
-    @Param() { articleTypeId }: ArticleTypeIdDto
+    @Param() { articleTypeId }: ArticleTypeIdDto,
   ) {
     return this._articleTypeSrv.updateArticleType(body, articleTypeId)
   }
 
   @ApiOperation({
-    summary: '批量删除文章分类'
+    summary: '批量删除文章分类',
   })
   @ApiSuccessResponse(SuccessNumberDto)
   @HasPermission(PermissionType.ARTICLE_TYPE_DELETE)
   @Delete('delete')
   public async deleteArticleType(
-    @Body() {ids}: IdsDto,
+    @Body() { ids }: IdsDto,
   ) {
     if (ids.length === 1) {
       return await this._articleTypeSrv.deleteArticleType(ids[0])
@@ -100,13 +100,13 @@ export class ArticleTypeController {
   }
 
   @ApiOperation({
-    summary: '批量删除文章分类'
+    summary: '批量删除文章分类',
   })
   @ApiSuccessResponse(SuccessNumberDto)
   @HasPermission(PermissionType.ARTICLE_TYPE_DELETE)
   @Delete('delete/:articleTypeId')
   public deleteArticleTypeById(
-    @Param() { articleTypeId }: ArticleTypeIdDto
+    @Param() { articleTypeId }: ArticleTypeIdDto,
   ) {
     return this._articleTypeSrv.deleteArticleType(articleTypeId)
   }
