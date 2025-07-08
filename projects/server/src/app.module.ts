@@ -1,4 +1,5 @@
 import { join } from 'node:path'
+import { validatePath } from 'utils'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ScheduleModule } from '@nestjs/schedule'
 import { Module, RequestMethod } from '@nestjs/common'
@@ -11,6 +12,7 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core'
 
 import allConfig from './config'
 import { LogModule } from './modules/log/log.module'
+import { CodeModule } from './modules/code/code.module'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { FileModule } from './modules/file/file.module'
@@ -19,16 +21,15 @@ import { RedisModule } from './modules/redis/redis.module'
 import { EmailModule } from './modules/email/email.module'
 import { AuthMiddleware } from './middleware/auth.middleware'
 import { InfoMiddleware } from './middleware/info.middleware'
+import { GalleryModule } from './modules/gallery/gallery.module'
 import { ArticleModule } from './modules/article/article.module'
 import { SysConfigModule } from './modules/config/config.module'
 import { AccessMiddleware } from './middleware/access.middleware'
+import { JwtAuthModule } from './modules/jwt-auth/jwt-auth.module'
 import { WebsocketGateway } from './modules/websocket/websocket.gateway'
 import { PermissionModule } from './modules/permission/permission.module'
 import { ResponseInterceptor } from './interceptors/response.interceptor'
 import { ThrottlerExceptionFilter } from './filter/throttler-exception.filter'
-import { validatePath } from 'utils'
-import { JwtAuthModule } from './modules/jwt-auth/jwt-auth.module'
-import { CodeModule } from './modules/code/code.module'
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { CodeModule } from './modules/code/code.module'
     CodeModule,
     JwtAuthModule,
     ArticleModule,
+    GalleryModule,
     SysConfigModule,
     PermissionModule,
     WebsocketGateway,

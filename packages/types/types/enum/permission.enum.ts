@@ -67,6 +67,25 @@ export enum PermissionType {
   ARTICLE_TAG_UPDATE = 'article-tag:update',
   /** 删除文章标签 */
   ARTICLE_TAG_DELETE = 'article-tag:delete',
+
+  // ------------------ 图库管理 ---------------------
+  /** 查询图库 */
+  GALLERY_QUERY = 'gallery:query',
+  /** 创建图库 */
+  GALLERY_CREATE = 'gallery:create',
+  /** 更新图库 */
+  GALLERY_UPDATE = 'gallery:update',
+  /** 删除图库 */
+  GALLERY_DELETE = 'gallery:delete',
+
+  /** 查询图库类型 */
+  GALLERY_TYPE_QUERY = 'gallery-type:query',
+  /** 创建图库类型 */
+  GALLERY_TYPE_CREATE = 'gallery-type:create',
+  /** 更新图库类型 */
+  GALLERY_TYPE_UPDATE = 'gallery-type:update',
+  /** 删除图库类型 */
+  GALLERY_TYPE_DELETE = 'gallery-type:delete',
 }
 
 /**
@@ -103,4 +122,14 @@ export const permissionDescriptions: Record<PermissionType, string> = {
   [PermissionType.ARTICLE_TAG_CREATE]: '创建文标签',
   [PermissionType.ARTICLE_TAG_UPDATE]: '更新文标签',
   [PermissionType.ARTICLE_TAG_DELETE]: '删除文标签',
+
+  [PermissionType.GALLERY_QUERY]: '查询图库',
+  [PermissionType.GALLERY_CREATE]: '创建图库',
+  [PermissionType.GALLERY_UPDATE]: '更新图库',
+  [PermissionType.GALLERY_DELETE]: '删除图库',
+
+  [PermissionType.GALLERY_TYPE_QUERY]: '查询图库类型',
+  [PermissionType.GALLERY_TYPE_CREATE]: '创建图库类型',
+  [PermissionType.GALLERY_TYPE_UPDATE]: '更新图库类型',
+  [PermissionType.GALLERY_TYPE_DELETE]: '删除图库类型',
 }

@@ -1,22 +1,22 @@
-import type { IArticleType } from 'types'
+import type { IGalleryType } from 'types'
 import { ID_EXAMPLE } from 'types'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
-import { Article } from './article'
+import { Gallery } from './gallery'
 import { BaseTimeStamp } from './_timestamp'
 
 @Entity()
-export class ArticleType extends BaseTimeStamp implements IArticleType {
+export class GalleryType extends BaseTimeStamp implements IGalleryType {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty({
-    description: '文章类别唯一标识',
+    description: '图库分类唯一标识',
     example: ID_EXAMPLE,
   })
   id: string
 
   @ApiProperty({
-    description: '文章类别名称',
+    description: '图库分类名称',
   })
   @Column({
     unique: true,
@@ -39,6 +39,6 @@ export class ArticleType extends BaseTimeStamp implements IArticleType {
   })
   order?: number
 
-  @OneToMany(() => Article, article => article.articleType)
-  articles: Article[]
+  @OneToMany(() => Gallery, gallery => gallery.galleryType)
+  galleries: Gallery[]
 }

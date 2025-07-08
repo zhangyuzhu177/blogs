@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { ArticleTheme, IArticle, ID_EXAMPLE } from 'types'
+import type { IArticle } from 'types'
+import { ArticleTheme, ID_EXAMPLE } from 'types'
 import {
   Column,
   Entity,
@@ -7,7 +8,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm'
 
 import { BaseTimeStamp } from './_timestamp'
@@ -39,7 +40,7 @@ export class Article extends BaseTimeStamp implements IArticle {
     description: '文章内容',
   })
   @Column({
-    type:'mediumtext'
+    type: 'mediumtext',
   })
   content: string
 
