@@ -1,0 +1,66 @@
+import { ErrorCode } from 'types'
+import { Injectable } from '@nestjs/common'
+import { parseSqlError, responseError } from 'src/utils'
+
+import { GalleryService } from '../gallery.service'
+import type { UpsertGalleryBodyDto } from './dto/upsert-gallery-entity-body.dto'
+
+@Injectable()
+export class GalleryEntitiesService {
+  constructor(
+    private readonly _gallerySrv: GalleryService,
+  ) { }
+
+  /**
+   * 创建图库
+   * @param body 图库内容
+   * @returns 创建的图库 ID
+   */
+  public async createGallery(body: UpsertGalleryBodyDto) {
+    try {
+      const insertRes = await this._gallerySrv.entityRepo().insert(body)
+      return insertRes.identifiers[0].id
+    }
+    catch (e) {
+      const sqlError = parseSqlError(e)
+      if (sqlError === SqlError.FOREIGN_KEY_CONSTRAINT_FAILS)
+        responseError(ErrorCode.GALLERY_TYPE_NOT_EXISTS)
+      throw e
+    }
+  }
+
+  /**
+   * 修改图库
+   * @param body 图库内容
+   * @param id 图库 ID
+   * @returns 图库 ID
+   */
+  public async updateGallery(body: UpsertGalleryBodyDto, id: string) {
+    if (!(await this._gallerySrv.entityRepo().existsBy({ id })))
+      responseError(ErrorCode.GALLERY_NOT_EXISTS)
+
+    try {
+      await this._gallerySrv.entityRepo().update({ id }, body)
+      return id
+    }
+    catch (e) {
+      const sqlError = parseSqlError(e)
+      if (sqlError === SqlError.FOREIGN_KEY_CONSTRAINT_FAILS)
+        responseError(ErrorCode.GALLERY_TYPE_NOT_EXISTS)
+      throw e
+    }
+  }
+
+  /**
+   * 删除图库
+   * @param id 删除图库的 ID
+   * @returns 是否删除成功
+   */
+  public async deleteGallery(id: string) {
+    if (!(await this._gallerySrv.entityRepo().existsBy({ id })))
+      responseError(ErrorCode.GALLERY_NOT_EXISTS)
+
+    const deleteRes = await this._gallerySrv.entityRepo().delete({ id })
+    return deleteRes.affected > 0
+  }
+}

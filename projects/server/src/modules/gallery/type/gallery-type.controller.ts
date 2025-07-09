@@ -103,6 +103,6 @@ export class GalleryTypeController {
       }
       catch (_) { }
     }
-    return success > 0
+    return success
   }
 }
