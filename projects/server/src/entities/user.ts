@@ -59,7 +59,6 @@ export class User extends BaseTimeStamp implements IUser {
   status: boolean
 
   @Column({
-    select: false,
     default: false,
   })
   sysAdmin: boolean

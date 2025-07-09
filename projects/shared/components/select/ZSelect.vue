@@ -387,7 +387,7 @@ const { width } = useElementSize(selectRef)
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
-  z-index: 9001;
+  z-index: 99999999;
 
   .q-item {
     padding: 8px 12px;

@@ -42,6 +42,18 @@ export function useMenu() {
           flag: role?.includes(PermissionType.ARTICLE_TAG_QUERY),
         },
       ],
+      gallery: [
+        {
+          id: 'gallery',
+          label: '图库信息',
+          flag: role?.includes(PermissionType.GALLERY_QUERY),
+        },
+        {
+          id: 'galleryType',
+          label: '图库分类',
+          flag: role?.includes(PermissionType.GALLERY_TYPE_QUERY),
+        },
+      ],
       user: [
         {
           id: 'user',

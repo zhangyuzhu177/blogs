@@ -174,7 +174,7 @@ async function upsertUser() {
         v-model="form.password"
         label="密码"
         placeholder="请输入密码"
-        password :readonly
+        type="password" :readonly
         :required="type === '添加'"
         :rules="[
           (val: string) => !val || validatePassword(val) || true,

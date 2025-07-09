@@ -52,6 +52,7 @@ declare module 'vue' {
     ZRadio: typeof import('./../../../shared/components/radio/ZRadio.vue')['default']
     ZSelect: typeof import('./../../../shared/components/select/ZSelect.vue')['default']
     ZTable: typeof import('./../../../shared/components/table/ZTable.vue')['default']
+    ZTabs: typeof import('./../../../shared/components/tabs/ZTabs.vue')['default']
     ZTextBtn: typeof import('./../../../shared/components/btn/ZTextBtn.vue')['default']
     ZUpload: typeof import('./../../../shared/components/upload/ZUpload.vue')['default']
   }

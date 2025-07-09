@@ -2,20 +2,21 @@ import { CodeAction, ErrorCode } from 'types'
 import { In, Not, Repository } from 'typeorm'
 import { ConfigService } from '@nestjs/config'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Injectable, OnModuleInit } from '@nestjs/common'
+import type { OnModuleInit } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 
 import { User } from 'src/entities/user'
 import { encryptPassword } from 'src/utils'
-import { SysAdmin } from 'src/config/_sa.config'
+import type { SysAdmin } from 'src/config/_sa.config'
 import { parseSqlError } from 'src/utils/sql-error/parse-sql-error'
 import { responseError, responseParamsError } from 'src/utils/response'
 
+import type { ChangeStatusBodyDto } from 'src/dto/common'
 import { CodeService } from '../code/code.service'
-import { ChangeStatusBodyDto } from 'src/dto/common'
-import { AssignRoleBodyDto } from './dto/assign-role.body'
-import { UpdateUserBodyDto } from './dto/update-user.body.dto'
-import { CreateUserBodyDto } from './dto/create-user.body.dto'
-import { UpdatePasswordByEmailCodeBodyDto } from './dto/update-pswd-by-email-code.body.dto'
+import type { AssignRoleBodyDto } from './dto/assign-role.body'
+import type { UpdateUserBodyDto } from './dto/update-user.body.dto'
+import type { CreateUserBodyDto } from './dto/create-user.body.dto'
+import type { UpdatePasswordByEmailCodeBodyDto } from './dto/update-pswd-by-email-code.body.dto'
 
 @Injectable()
 export class UserService implements OnModuleInit {
@@ -47,7 +48,7 @@ export class UserService implements OnModuleInit {
       try {
         await this._userRepo.save({
           account,
-          email:'',
+          email: '',
           password: await encryptPassword(password),
           sysAdmin: true,
           status: true,
@@ -70,7 +71,7 @@ export class UserService implements OnModuleInit {
    */
   public async createUser(body: CreateUserBodyDto) {
     const {
-      account, phone, email, password
+      account, phone, email, password,
     } = body
 
     try {
@@ -100,7 +101,7 @@ export class UserService implements OnModuleInit {
   /**
    * 更新指定用户
    */
-  public async updateUser(id:string,body:UpdateUserBodyDto) {
+  public async updateUser(id: string, body: UpdateUserBodyDto) {
     const {
       email,
       phone = null,
@@ -119,7 +120,8 @@ export class UserService implements OnModuleInit {
         responseError(ErrorCode.USER_NOT_FOUND)
 
       return id
-    } catch (e) {
+    }
+    catch (e) {
       const sqlError = parseSqlError(e)
       if (sqlError === SqlError.DUPLICATE_ENTRY) {
         const value = e.message.match(/Duplicate entry\s+'(.*?)'/)?.[1]
@@ -169,7 +171,7 @@ export class UserService implements OnModuleInit {
     // 校验验证码
     await this._codeSrv.verifyCode(
       bizId,
-      [email, CodeAction.CHANGE_PASSWORD, code]
+      [email, CodeAction.CHANGE_PASSWORD, code],
     )
 
     const updateRes = await this._userRepo.update(
@@ -202,12 +204,13 @@ export class UserService implements OnModuleInit {
   /**
    * 批量分配管理员角色
    */
-  public async assignRole(body:AssignRoleBodyDto) {
+  public async assignRole(body: AssignRoleBodyDto) {
     const { ids, roleId } = body
     if (ids.length === 1) {
       const user = await this._userRepo.findOneBy({ id: ids[0] })
       if (!user)
         responseError(ErrorCode.USER_NOT_FOUND)
+
       if (user.sysAdmin)
         responseError(ErrorCode.USER_UPDATE_DISABLE)
     }
