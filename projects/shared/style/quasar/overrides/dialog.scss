@@ -1,6 +1,6 @@
 /** 重写 dialog对话框 样式 */
 .q-dialog.fullscreen {
-  z-index: 9999999 !important;
+  z-index: 999 !important;
   max-width: inherit !important;
   max-height: inherit !important;
 }

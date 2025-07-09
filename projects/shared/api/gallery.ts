@@ -1,4 +1,3 @@
-import { useRequest } from 'composables/request'
 import type {
   IGallery,
   IIdsDto,
@@ -6,6 +5,7 @@ import type {
   IQueryPaginatedResData,
   IUpsertGalleryBodyDto,
 } from 'types'
+import { useRequest } from '../composables/request'
 
 const { $post, $patch, $delete } = useRequest()
 

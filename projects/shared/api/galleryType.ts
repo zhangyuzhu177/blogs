@@ -1,33 +1,32 @@
-import { useRequest } from 'composables/request'
 import type {
   IGalleryType,
   IIdsDto,
   IQueryDto,
   IQueryPaginatedResData,
-  IUpsertGalleryBodyDto,
   IUpsertGalleryTypeBodyDto,
 } from 'types'
+import { useRequest } from '../composables/request'
 
 const { $post, $patch, $delete } = useRequest()
 
 /**
  * 查询图库分类列表
  */
-export function queryIGalleryTypeListApi(body: IQueryDto<IGalleryType>) {
+export function queryGalleryTypeListApi(body: IQueryDto<IGalleryType>) {
   return $post<IQueryPaginatedResData<IGalleryType>>('/gallery/type/query', body)
 }
 
 /**
  * 创建图库分类
  */
-export function createIGalleryTypeApi(body: IUpsertGalleryTypeBodyDto) {
+export function createGalleryTypeApi(body: IUpsertGalleryTypeBodyDto) {
   return $post<string>('/gallery/type/create', body)
 }
 
 /**
  * 修改图库分类
  */
-export function updateGalleryTypeApi(body: IUpsertGalleryBodyDto, galleryId: string) {
+export function updateGalleryTypeApi(body: IUpsertGalleryTypeBodyDto, galleryId: string) {
   return $patch<string>(`/gallery/type/update/${galleryId}`, body)
 }
 

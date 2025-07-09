@@ -1,7 +1,8 @@
-import { INameDto } from "../dto/name.interface"
-import { IDescOptionalDto } from "../dto/desc.interface"
-import { ICreatedAt, IUpdatedAt } from "./_timestamp.interface"
-import { IGalleryTypeIdDto } from "../dto/id/gallery-type.interface"
+import type { INameDto } from '../dto/name.interface'
+import type { IDescOptionalDto } from '../dto/desc.interface'
+import type { IGalleryTypeIdDto } from '../dto/id/gallery-type.interface'
+import type { ICreatedAt, IUpdatedAt } from './_timestamp.interface'
+import type { IGalleryType } from './gallery-type.interface'
 
 export interface IGallery
   extends
@@ -14,6 +15,8 @@ export interface IGallery
   id: string
   /** 图片列表 */
   picture: string[]
+  /** 图库分类 */
+  galleryType: IGalleryType
   /** 图片访问量 */
   pageView?: number
 }

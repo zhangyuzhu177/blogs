@@ -1,0 +1,36 @@
+.img-preview {
+  .button {
+    border-radius: 6px;
+  }
+
+  .close {
+    font-size: 16px !important;
+  }
+
+  .arrow {
+    font-size: 20px !important;
+  }
+
+  .options {
+    gap: 4px;
+    bottom: 80px !important;
+
+    .option {
+      width: 36px !important;
+      height: 36px !important;
+      font-size: 20px;
+    }
+  }
+
+  .imgs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .img.button {
+      &.selected {
+        background-color: #0068B899 !important;
+      }
+    }
+  }
+}
