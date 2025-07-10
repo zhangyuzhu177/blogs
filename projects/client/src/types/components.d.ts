@@ -34,6 +34,7 @@ declare module 'vue' {
     ZDragUpload: typeof import('./../../../shared/components/upload/ZDragUpload.vue')['default']
     ZEmpty: typeof import('./../../../shared/components/empty/ZEmpty.vue')['default']
     ZIconBtn: typeof import('./../../../shared/components/btn/ZIconBtn.vue')['default']
+    ZImg: typeof import('./../../../shared/components/img/ZImg.vue')['default']
     ZInfo: typeof import('./../../../shared/components/info/ZInfo.vue')['default']
     ZInput: typeof import('./../../../shared/components/input/ZInput.vue')['default']
     ZLabel: typeof import('./../../../shared/components/label/ZLabel.vue')['default']

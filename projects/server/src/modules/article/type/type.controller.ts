@@ -37,7 +37,7 @@ export class ArticleTypeController {
     summary: '获取文章分类列表',
   })
   @ApiSuccessResponse(QueryResDto<ArticleType>)
-  @HasPermission(PermissionType.ARTICLE_TYPE_QUERY)
+  // @HasPermission(PermissionType.ARTICLE_TYPE_QUERY)
   @Post('query')
   public queryArticleTypeList(
     @Body() body: QueryDto<ArticleType>,

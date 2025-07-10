@@ -7,7 +7,14 @@ import type {
 } from 'types'
 import { useRequest } from '../composables/request'
 
-const { $post, $patch, $delete } = useRequest()
+const { $get, $post, $patch, $delete } = useRequest()
+
+/**
+ * 获取图库详情
+ */
+export function getGalleryDetailByIdApi(galleryId: string) {
+  return $get<IGallery>(`/gallery/entities/detail/${galleryId}`)
+}
 
 /**
  * 查询图库列表

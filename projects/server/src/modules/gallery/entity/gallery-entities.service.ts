@@ -1,15 +1,40 @@
 import { ErrorCode } from 'types'
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { parseSqlError, responseError } from 'src/utils'
 
+import type { User } from 'src/entities/user'
 import { GalleryService } from '../gallery.service'
 import type { UpsertGalleryBodyDto } from './dto/upsert-gallery-entity-body.dto'
 
 @Injectable()
 export class GalleryEntitiesService {
+  private readonly _logger = new Logger(GalleryEntitiesService.name)
+
   constructor(
     private readonly _gallerySrv: GalleryService,
   ) { }
+
+  /**
+   * 获取图库详情
+   */
+  public async getGalleryDetail(id: string, user: User, ip: string) {
+    const article = await this._gallerySrv.entityRepo().findOne({
+      where: { id },
+      relations: {
+        galleryType: true,
+      },
+    })
+
+    if (!article)
+      responseError(ErrorCode.ARTICLE_NOT_EXISTS)
+
+    if (!user) {
+      this._logger.verbose(ip)
+      await this._gallerySrv.entityRepo().increment({ id }, 'pageView', 1)
+    }
+
+    return article
+  }
 
   /**
    * 创建图库

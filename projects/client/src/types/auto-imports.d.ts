@@ -55,6 +55,7 @@ declare global {
   const createArticleTypeApi: typeof import('../../../shared/api/articleType')['createArticleTypeApi']
   const createEventHook: typeof import('@vueuse/core')['createEventHook']
   const createGalleryApi: typeof import('../../../shared/api/gallery')['createGalleryApi']
+  const createGalleryTypeApi: typeof import('../../../shared/api/galleryType')['createGalleryTypeApi']
   const createGlobalState: typeof import('@vueuse/core')['createGlobalState']
   const createIGalleryTypeApi: typeof import('../../../shared/api/galleryType')['createIGalleryTypeApi']
   const createInjectionState: typeof import('@vueuse/core')['createInjectionState']
@@ -102,6 +103,7 @@ declare global {
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getDecimalPlaces: typeof import('../../../shared/utils/common/tool')['getDecimalPlaces']
   const getEnvVariable: typeof import('../../../shared/utils/common/env')['getEnvVariable']
+  const getGalleryDetailByIdApi: typeof import('../../../shared/api/gallery')['getGalleryDetailByIdApi']
   const getId: typeof import('../../../shared/utils/common/tool')['getId']
   const getOwnProfileApi: typeof import('../../../shared/api/user')['getOwnProfileApi']
   const getRolesApi: typeof import('../../../shared/api/role')['getRolesApi']
@@ -157,6 +159,7 @@ declare global {
   const queryArticleTagListApi: typeof import('../../../shared/api/articleTag')['queryArticleTagListApi']
   const queryArticleTypeListApi: typeof import('../../../shared/api/articleType')['queryArticleTypeListApi']
   const queryGalleryListApi: typeof import('../../../shared/api/gallery')['queryGalleryListApi']
+  const queryGalleryTypeListApi: typeof import('../../../shared/api/galleryType')['queryGalleryTypeListApi']
   const queryIGalleryTypeListApi: typeof import('../../../shared/api/galleryType')['queryIGalleryTypeListApi']
   const queryRolesApi: typeof import('../../../shared/api/role')['queryRolesApi']
   const queryUserListApi: typeof import('../../../shared/api/user')['queryUserListApi']
@@ -481,8 +484,8 @@ declare module 'vue' {
     readonly createArticleTypeApi: UnwrapRef<typeof import('../../../shared/api/articleType')['createArticleTypeApi']>
     readonly createEventHook: UnwrapRef<typeof import('@vueuse/core')['createEventHook']>
     readonly createGalleryApi: UnwrapRef<typeof import('../../../shared/api/gallery')['createGalleryApi']>
+    readonly createGalleryTypeApi: UnwrapRef<typeof import('../../../shared/api/galleryType')['createGalleryTypeApi']>
     readonly createGlobalState: UnwrapRef<typeof import('@vueuse/core')['createGlobalState']>
-    readonly createIGalleryTypeApi: UnwrapRef<typeof import('../../../shared/api/galleryType')['createIGalleryTypeApi']>
     readonly createInjectionState: UnwrapRef<typeof import('@vueuse/core')['createInjectionState']>
     readonly createReactiveFn: UnwrapRef<typeof import('@vueuse/core')['createReactiveFn']>
     readonly createReusableTemplate: UnwrapRef<typeof import('@vueuse/core')['createReusableTemplate']>
@@ -520,6 +523,7 @@ declare module 'vue' {
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getDecimalPlaces: UnwrapRef<typeof import('../../../shared/utils/common/tool')['getDecimalPlaces']>
     readonly getEnvVariable: UnwrapRef<typeof import('../../../shared/utils/common/env')['getEnvVariable']>
+    readonly getGalleryDetailByIdApi: UnwrapRef<typeof import('../../../shared/api/gallery')['getGalleryDetailByIdApi']>
     readonly getId: UnwrapRef<typeof import('../../../shared/utils/common/tool')['getId']>
     readonly getOwnProfileApi: UnwrapRef<typeof import('../../../shared/api/user')['getOwnProfileApi']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
@@ -568,7 +572,7 @@ declare module 'vue' {
     readonly queryArticleTagListApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['queryArticleTagListApi']>
     readonly queryArticleTypeListApi: UnwrapRef<typeof import('../../../shared/api/articleType')['queryArticleTypeListApi']>
     readonly queryGalleryListApi: UnwrapRef<typeof import('../../../shared/api/gallery')['queryGalleryListApi']>
-    readonly queryIGalleryTypeListApi: UnwrapRef<typeof import('../../../shared/api/galleryType')['queryIGalleryTypeListApi']>
+    readonly queryGalleryTypeListApi: UnwrapRef<typeof import('../../../shared/api/galleryType')['queryGalleryTypeListApi']>
     readonly queryRolesApi: UnwrapRef<typeof import('../../../shared/api/role')['queryRolesApi']>
     readonly queryUserListApi: UnwrapRef<typeof import('../../../shared/api/user')['queryUserListApi']>
     readonly random: UnwrapRef<typeof import('../../../shared/utils/common/random')['random']>

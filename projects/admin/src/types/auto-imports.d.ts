@@ -99,6 +99,7 @@ declare global {
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getDecimalPlaces: typeof import('../../../shared/utils/common/tool')['getDecimalPlaces']
   const getEnvVariable: typeof import('../../../shared/utils/common/env')['getEnvVariable']
+  const getGalleryDetailByIdApi: typeof import('../../../shared/api/gallery')['getGalleryDetailByIdApi']
   const getId: typeof import('../../../shared/utils/common/tool')['getId']
   const getOwnProfileApi: typeof import('../../../shared/api/user')['getOwnProfileApi']
   const h: typeof import('vue')['h']
@@ -511,6 +512,7 @@ declare module 'vue' {
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getDecimalPlaces: UnwrapRef<typeof import('../../../shared/utils/common/tool')['getDecimalPlaces']>
     readonly getEnvVariable: UnwrapRef<typeof import('../../../shared/utils/common/env')['getEnvVariable']>
+    readonly getGalleryDetailByIdApi: UnwrapRef<typeof import('../../../shared/api/gallery')['getGalleryDetailByIdApi']>
     readonly getId: UnwrapRef<typeof import('../../../shared/utils/common/tool')['getId']>
     readonly getOwnProfileApi: UnwrapRef<typeof import('../../../shared/api/user')['getOwnProfileApi']>
     readonly h: UnwrapRef<typeof import('vue')['h']>

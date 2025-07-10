@@ -96,8 +96,8 @@ function previewImages(index: number) {
       rounded-6px overflow-hidden relative
       bg-grey-2 object-contain cursor-pointer
       :style="{
-        width: `${width}px`,
-        height: `${height}px`,
+        width: width === '100%' ? width : `${width}px`,
+        height: height === '100%' ? height : `${height}px`,
         ...itemStyle,
       }"
       @click="previewImages(index)"

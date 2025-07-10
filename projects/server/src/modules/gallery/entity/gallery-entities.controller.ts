@@ -1,6 +1,6 @@
 import { PermissionType } from 'types'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common'
 
 import { HasPermission } from 'src/guards'
 import type { Gallery } from 'src/entities/gallery'
@@ -26,6 +26,18 @@ export class GalleryEntitiesController {
     private readonly _gallerySrv: GalleryService,
     private readonly _galleryEntitySrv: GalleryEntitiesService,
   ) { }
+
+  @ApiOperation({
+    summary: '根据获取指定图库详情',
+  })
+  @Get('detail/:galleryId')
+  public getGalleryDetailById(
+    @Param() { galleryId }: GalleryIdDto,
+    @Req() req: FastifyRequest,
+  ) {
+    const { user, ip } = req.raw
+    return this._galleryEntitySrv.getGalleryDetail(galleryId, user, ip)
+  }
 
   @ApiOperation({
     summary: '获取图库',

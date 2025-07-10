@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Article from '~/views/article/index.vue'
+import Detail from '~/views/gallery/detail.vue'
 </script>
 
 <template>
@@ -12,7 +12,7 @@ import Article from '~/views/article/index.vue'
       lg="max-w-1080px px-0" sm="px-6"
       px-4
     >
-      <Article />
+      <Detail />
       <ScrollTop />
     </div>
   </div>
