@@ -199,11 +199,11 @@ async function upsertGallery() {
             type="image"
             multiple
             accept="image/*"
-            w-30 b-rd-4
+            w-30 b-rd-2
           >
             <div
               flex="~ col gap2 center"
-              b-rd-4 full h-30
+              b-rd-2 full h-30
               border="1px dashed gray-5"
             >
               <div text="6 grey-5" i-ph:plus />

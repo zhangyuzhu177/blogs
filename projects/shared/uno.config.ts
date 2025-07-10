@@ -54,13 +54,13 @@ export default defineConfig({
   safelist: 'prose m-auto text-left'.split(' '),
   theme: {
     colors: {
-      primary: { 1: '#0652DD', 2: '#257EDA', 3: '#004C9A', 4: '#E3EFFD' },
+      primary: { 1: '#004C9A', 2: '#257EDA', 3: '#004C9A', 4: '#E3EFFD' },
       secondary: { 1: '#F99E34' },
       grey: { 1: '#FFFFFF', 2: '#F7F9FC', 3: '#E4E7EC', 4: '#D0D5DD', 5: '#98A2B3', 6: '#667185', 7: '#475367', 8: '#344054', 9: '#1D2739' },
       alerts: { success: '#22B07D', error: '#F44336', warning: '#FFBA2F' },
       white: { 1: '#FFFFFF1A', 2: '#FFFFFF33', 3: '#FFFFFF4d', 4: '#FFFFFF66', 5: '#FFFFFF80', 6: '#FFFFFF99', 7: '#FFFFFFB3', 8: '#FFFFFFCC', 9: '#FFFFFFE6' },
       dark: {
-        primary: { 1: '#0652DD', 2: '#1D2739', 3: '#0068B8', 4: '#E3EFFD' }, // 暗黑模式下的 primary 颜色
+        primary: { 1: '#004C9A', 2: '#1D2739', 3: '#0068B8', 4: '#E3EFFD' }, // 暗黑模式下的 primary 颜色
         grey: { 1: '#1D2739', 2: '#344054', 3: '#475367', 4: '#667185', 5: '#98A2B3', 6: '#D0D5DD', 7: '#E4E7EC', 8: '#F7F9FC', 9: '#FFFFFF' }, // 暗黑模式下的 grey 颜色
       },
     },

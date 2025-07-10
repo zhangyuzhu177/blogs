@@ -107,28 +107,24 @@ onMounted(() => {
         />
         <div flex="~ col gap2" mb-5>
           <ZLabel label="背景图片" />
-          <ZUpload
-            v-model="pageImg"
-            type="image"
-            accept="image/*"
-            w-50 b-rd-4
-          >
-            <div
-              v-if="!pageCfg?.url"
-              flex="~ col gap2 center"
-              b-rd-4 full h-30
-              border="1px dashed gray-5"
+          <div flex="~ gap4">
+            <ZImg v-model="pageCfg!.url" width="200" height="120" />
+            <ZUpload
+              v-model="pageImg"
+              type="image"
+              accept="image/*"
+              w-50 b-rd-2
             >
-              <div text="6 grey-5" i-ph:plus />
-              <div text="grey-5" v-text="'上传背景图片'" />
-            </div>
-            <div
-              v-else flex="~ col gap2 center" b-rd-4 full
-              h-30 overflow-hidden relative
-            >
-              <img full :src="pageCfg?.url">
-            </div>
-          </ZUpload>
+              <div
+                flex="~ col gap2 center"
+                b-rd-2 full h-30
+                border="1px dashed gray-5"
+              >
+                <div text="6 grey-5" i-ph:plus />
+                <div text="grey-5" v-text="'上传背景图片'" />
+              </div>
+            </ZUpload>
+          </div>
         </div>
       </div>
     </div>

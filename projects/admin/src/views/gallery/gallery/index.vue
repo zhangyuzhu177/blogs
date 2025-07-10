@@ -36,7 +36,7 @@ const rows = ref<IGallery[]>()
 const cols: QTableColumn<IGallery>[] = [
   {
     name: 'name',
-    label: '分类名称',
+    label: '图库名称',
     field: 'name',
     sortable: true,
   },
