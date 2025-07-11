@@ -78,6 +78,15 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
           },
           {
+            name: '修改文章状态',
+            premise: [
+              PermissionType.ARTICLE_QUERY,
+            ],
+            value: [
+              PermissionType.ARTICLE_UPDATE_STATUS,
+            ],
+          },
+          {
             name: '删除文章',
             premise: [
               PermissionType.ARTICLE_QUERY,
@@ -199,6 +208,15 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
             value: [
               PermissionType.GALLERY_UPDATE,
+            ],
+          },
+          {
+            name: '修改图库状态',
+            premise: [
+              PermissionType.GALLERY_QUERY,
+            ],
+            value: [
+              PermissionType.GALLERY_CHANGE_STATUS,
             ],
           },
           {

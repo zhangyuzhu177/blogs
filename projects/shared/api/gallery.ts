@@ -1,4 +1,5 @@
 import type {
+  IChangeStatusBodyDto,
   IGallery,
   IIdsDto,
   IQueryDto,
@@ -49,4 +50,11 @@ export function deleteGalleryApi(galleryId: string) {
  */
 export function batchDeleteGalleryApi(body: IIdsDto) {
   return $delete<number>('/gallery/entities/delete', body)
+}
+
+/**
+ * 批量修改图库状态
+ */
+export function changeGalleryStatusApi(body: IChangeStatusBodyDto) {
+  return $post<number>('/gallery/entities/status', body)
 }

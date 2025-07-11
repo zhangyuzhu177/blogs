@@ -99,6 +99,7 @@ async function queryData() {
     const body: IQueryDto<IArticle | IGallery> = {
       where: {
         name: Like(`%${search.value}%`),
+        status: true,
       },
       select: {
         id: true,

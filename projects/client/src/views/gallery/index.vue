@@ -46,6 +46,11 @@ async function loadData() {
     if (typeId.value && typeId.value !== 'all')
       body.where = { galleryTypeId: Like(`%${typeId.value}%`) }
 
+    body.where = {
+      ...body.where,
+      status: true,
+    }
+
     const { data } = await queryGalleryListApi(body)
     galleryList.value = data
   }
@@ -58,6 +63,11 @@ onBeforeMount(async () => {
   loading.value = true
   try {
     const res = (await queryGalleryTypeListApi({
+      where: {
+        galleries: {
+          status: true,
+        },
+      },
       relations: {
         galleries: true,
       },

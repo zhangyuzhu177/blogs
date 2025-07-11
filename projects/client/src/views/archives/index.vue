@@ -21,9 +21,6 @@ watch(
     loading.value = true
     try {
       const body: IQueryDto<IArticle> = {
-        where: {
-          status: true,
-        },
         select: {
           id: true,
           name: true,
@@ -38,6 +35,11 @@ watch(
       }
       if (newVal && newVal !== 'all')
         body.where = { articleTypeId: Like(`%${newVal}%`) }
+
+      body.where = {
+        ...body.where,
+        status: true,
+      }
 
       const { data } = await queryArticleListApi(body)
       yearArticles.value = groupByYear(data)
@@ -74,6 +76,11 @@ onBeforeMount(async () => {
   loading.value = true
   try {
     const res = (await queryArticleTypeListApi({
+      where: {
+        articles: {
+          status: true,
+        },
+      },
       relations: {
         articles: true,
       },

@@ -42,6 +42,7 @@ declare global {
   const batchDeleteGalleryApi: typeof import('../../../shared/api/gallery')['batchDeleteGalleryApi']
   const batchDeleteGalleryTypeApi: typeof import('../../../shared/api/galleryType')['batchDeleteGalleryTypeApi']
   const changeArticleStatusApi: typeof import('../../../shared/api/article')['changeArticleStatusApi']
+  const changeGalleryStatusApi: typeof import('../../../shared/api/gallery')['changeGalleryStatusApi']
   const changeUserStatusApi: typeof import('../../../shared/api/user')['changeUserStatusApi']
   const computed: typeof import('vue')['computed']
   const computedAsync: typeof import('@vueuse/core')['computedAsync']
@@ -459,6 +460,7 @@ declare module 'vue' {
     readonly batchDeleteGalleryApi: UnwrapRef<typeof import('../../../shared/api/gallery')['batchDeleteGalleryApi']>
     readonly batchDeleteGalleryTypeApi: UnwrapRef<typeof import('../../../shared/api/galleryType')['batchDeleteGalleryTypeApi']>
     readonly changeArticleStatusApi: UnwrapRef<typeof import('../../../shared/api/article')['changeArticleStatusApi']>
+    readonly changeGalleryStatusApi: UnwrapRef<typeof import('../../../shared/api/gallery')['changeGalleryStatusApi']>
     readonly changeUserStatusApi: UnwrapRef<typeof import('../../../shared/api/user')['changeUserStatusApi']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>

@@ -52,6 +52,7 @@ const initData: IUpsertGalleryBodyDto = {
   name: '',
   galleryTypeId: '',
   picture: [],
+  status: true,
 }
 /** 添加/编辑 form 表单 */
 const form = ref(cloneDeep(initData))
@@ -70,7 +71,7 @@ watch(
         form.value = {
           ...objectPick(
             gallery,
-            'name', 'desc', 'galleryTypeId', 'picture',
+            'name', 'desc', 'galleryTypeId', 'picture', 'status',
           ),
         }
       }
@@ -210,6 +211,28 @@ async function upsertGallery() {
               <div text="grey-5" v-text="'上传图片'" />
             </div>
           </ZUpload>
+        </div>
+      </div>
+      <div flex="~ col gap2" mb5>
+        <ZLabel
+          label="图库状态"
+          w34
+        />
+        <div flex="~ 1 gap5" right-2>
+          <ZRadio
+            :model-value="form.status?.toString()"
+            val="true"
+            label="正常"
+            :disable="readonly"
+            @update:model-value="form.status = true"
+          />
+          <ZRadio
+            :model-value="form.status?.toString()"
+            val="false"
+            label="隐藏"
+            :disable="readonly"
+            @update:model-value="form.status = false"
+          />
         </div>
       </div>
     </div>

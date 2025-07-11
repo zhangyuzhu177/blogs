@@ -18,6 +18,8 @@ const isCreate = hasPermission(PermissionType.GALLERY_CREATE)
 const isUpdate = hasPermission(PermissionType.GALLERY_UPDATE)
 /** 是否可删除 */
 const isDelete = hasPermission(PermissionType.GALLERY_DELETE)
+/** 是否可修改状态 */
+const isStatus = hasPermission(PermissionType.GALLERY_CHANGE_STATUS)
 
 /** 加载中 */
 const loading = ref(false)
@@ -29,6 +31,10 @@ const galleryTypeList = ref<IGalleryType[]>()
 const dialogType = ref<DialogType>()
 /** 删除对话框 */
 const deleteDialog = ref(false)
+/** 图库状态对话框 */
+const statusDialog = ref(false)
+/** 图库状态 */
+const galleryStatus = ref(true)
 
 /** 表格行 */
 const rows = ref<IGallery[]>()
@@ -61,6 +67,12 @@ const cols: QTableColumn<IGallery>[] = [
     name: 'pageView',
     label: '访问量',
     field: 'pageView',
+    sortable: true,
+  },
+  {
+    name: 'status',
+    label: '图库状态',
+    field: 'status',
     sortable: true,
   },
   {
@@ -122,6 +134,31 @@ const queryQueryGalleryList: QTableProps['onRequest'] = async (props) => {
  */
 function callback() {
   zTable.value?.tableRef?.requestServerInteraction()
+}
+
+/**
+ * 修改文章状态
+ */
+async function changeGalleryStatus() {
+  if (!selected.value?.length)
+    return
+
+  loading.value = true
+  try {
+    await changeGalleryStatusApi({
+      status: galleryStatus.value,
+      ids: selected.value.map(v => v.id),
+    })
+    callback()
+    Notify.create({
+      type: 'success',
+      message: '操作成功',
+    })
+  }
+  finally {
+    selected.value = undefined
+    loading.value = false
+  }
 }
 
 /**
@@ -198,6 +235,24 @@ onBeforeMount(async () => {
           </template>
         </ZBtn>
         <ZBtn
+          v-if="isStatus"
+          label="修改状态"
+          size="small"
+          text-color="primary-1"
+          :disable="!selected?.length"
+          :params="{
+            outline: true,
+          }"
+          @click="() => {
+            statusDialog = true
+            galleryStatus = true
+          }"
+        >
+          <template #left>
+            <div size-5 i-mingcute:edit-2-line />
+          </template>
+        </ZBtn>
+        <ZBtn
           v-if="isDelete"
           label="删除图库"
           size="small"
@@ -240,6 +295,22 @@ onBeforeMount(async () => {
       :fixed-last-col="isUpdate"
       @request="queryQueryGalleryList"
     >
+      <!-- 图库状态 -->
+      <template #body-cell-status="{ value }">
+        <q-td text-center>
+          <div
+            flex="center gap2"
+            text="sm grey-8" font-400
+            select-none inline-flex
+          >
+            <div
+              w-2 h-2 rounded-full
+              :bg="value ? 'alerts-success' : 'alerts-error' "
+            />
+            <div v-text="value ? '正常' : '隐藏'" />
+          </div>
+        </q-td>
+      </template>
       <!-- 详情 -->
       <template #body-cell-info="{ row }">
         <q-td text-center>
@@ -268,6 +339,29 @@ onBeforeMount(async () => {
         </q-td>
       </template>
     </ZTable>
+
+    <!-- 修改图库状态 -->
+    <ZDialog
+      v-model="statusDialog"
+      title="修改账号状态"
+      footer
+      @ok="changeGalleryStatus"
+    >
+      <div flex="~ gap10">
+        <ZRadio
+          :model-value="galleryStatus.toString()"
+          val="true"
+          label="正常"
+          @update:model-value="galleryStatus = true"
+        />
+        <ZRadio
+          :model-value="galleryStatus.toString()"
+          val="false"
+          label="隐藏"
+          @update:model-value="galleryStatus = false"
+        />
+      </div>
+    </ZDialog>
 
     <!-- 删除对话框 -->
     <ZDialog
