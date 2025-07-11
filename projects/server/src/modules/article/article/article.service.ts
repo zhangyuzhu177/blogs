@@ -3,12 +3,12 @@ import { ErrorCode } from 'types'
 import { objectOmit } from 'utils'
 import { Injectable, Logger } from '@nestjs/common'
 
-import { User } from 'src/entities/user'
-import { ChangeStatusBodyDto } from 'src/dto/common'
+import type { User } from 'src/entities/user'
+import type { ChangeStatusBodyDto } from 'src/dto/common'
 import { parseSqlError, responseError } from 'src/utils'
 
 import { ArticleService } from '../article.service'
-import { UpsertArticleBodyDto } from './dto/upsert-body.dto'
+import type { UpsertArticleBodyDto } from './dto/upsert-body.dto'
 
 @Injectable()
 export class ArticleEntitiesService {
@@ -49,7 +49,7 @@ export class ArticleEntitiesService {
   /**
    * 获取文章详情
    */
-  public async getArticleDetail(id: string, user:User, ip: string) {
+  public async getArticleDetail(id: string, user: User, ip: string) {
     const article = await this._articleSrv.entitiesRepo().findOne({
       where: { id },
       relations: {
@@ -58,8 +58,8 @@ export class ArticleEntitiesService {
       select: {
         tags: {
           id: true,
-        }
-      }
+        },
+      },
     })
 
     if (!article)
@@ -83,13 +83,14 @@ export class ArticleEntitiesService {
     try {
       const data = this._articleSrv.entitiesRepo().create({
         ...objectOmit(body, 'tagIds'),
-        tags
+        tags,
       })
 
       const insertRes = await this._articleSrv.entitiesRepo().save(data)
 
       return insertRes.id
-    } catch (e) {
+    }
+    catch (e) {
       const sqlError = parseSqlError(e)
       if (sqlError === SqlError.FOREIGN_KEY_CONSTRAINT_FAILS)
         responseError(ErrorCode.ARTICLE_TYPE_NOT_EXISTS)
@@ -119,13 +120,14 @@ export class ArticleEntitiesService {
     try {
       Object.assign(article, {
         ...objectOmit(body, 'tagIds'),
-        tags
+        tags,
       })
 
       await this._articleSrv.entitiesRepo().save(article)
 
       return id
-    } catch (e) {
+    }
+    catch (e) {
       const sqlError = parseSqlError(e)
       if (sqlError === SqlError.FOREIGN_KEY_CONSTRAINT_FAILS)
         responseError(ErrorCode.ARTICLE_TYPE_NOT_EXISTS)
@@ -141,7 +143,7 @@ export class ArticleEntitiesService {
 
     if (
       ids.length === 1
-      && !(await this._articleSrv.entitiesRepo().existsBy({id: ids[0]}))
+      && !(await this._articleSrv.entitiesRepo().existsBy({ id: ids[0] }))
     )
       responseError(ErrorCode.ARTICLE_NOT_EXISTS)
 

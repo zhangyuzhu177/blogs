@@ -4,7 +4,7 @@ import Article from '~/views/article/index.vue'
 
 <template>
   <div
-    w-full py-18 relative
+    w-full py-16 md:pb-30 relative
     flex="~ 1 justify-center"
   >
     <div

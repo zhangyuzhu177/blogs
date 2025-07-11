@@ -47,6 +47,7 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
     value: [
       PermissionType.ARTICLE_QUERY,
       PermissionType.ARTICLE_TYPE_QUERY,
+      PermissionType.ARTICLE_TAG_QUERY,
     ],
     children: [
       {
@@ -74,6 +75,15 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
             value: [
               PermissionType.ARTICLE_UPDATE,
+            ],
+          },
+          {
+            name: '修改文章状态',
+            premise: [
+              PermissionType.ARTICLE_QUERY,
+            ],
+            value: [
+              PermissionType.ARTICLE_UPDATE_STATUS,
             ],
           },
           {
@@ -159,6 +169,101 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
             ],
             value: [
               PermissionType.ARTICLE_TAG_DELETE,
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: '图库管理',
+    to: '/gallery',
+    value: [
+      PermissionType.GALLERY_QUERY,
+      PermissionType.GALLERY_TYPE_QUERY,
+    ],
+    children: [
+      {
+        name: '图库信息管理',
+        children: [
+          {
+            name: '只读访问图库信息',
+            value: [
+              PermissionType.GALLERY_QUERY,
+            ],
+          },
+          {
+            name: '添加图库信息',
+            premise: [
+              PermissionType.GALLERY_QUERY,
+            ],
+            value: [
+              PermissionType.GALLERY_CREATE,
+            ],
+          },
+          {
+            name: '编辑图库信息',
+            premise: [
+              PermissionType.GALLERY_QUERY,
+            ],
+            value: [
+              PermissionType.GALLERY_UPDATE,
+            ],
+          },
+          {
+            name: '修改图库状态',
+            premise: [
+              PermissionType.GALLERY_QUERY,
+            ],
+            value: [
+              PermissionType.GALLERY_CHANGE_STATUS,
+            ],
+          },
+          {
+            name: '删除图库信息',
+            premise: [
+              PermissionType.GALLERY_QUERY,
+            ],
+            value: [
+              PermissionType.GALLERY_DELETE,
+            ],
+          },
+        ],
+      },
+      {
+        name: '图库分类管理',
+        children: [
+          {
+            name: '只读访问图库分类',
+            value: [
+              PermissionType.GALLERY_TYPE_QUERY,
+            ],
+          },
+          {
+            name: '添加图库分类',
+            premise: [
+              PermissionType.GALLERY_TYPE_QUERY,
+            ],
+            value: [
+              PermissionType.GALLERY_TYPE_CREATE,
+            ],
+          },
+          {
+            name: '编辑图库分类',
+            premise: [
+              PermissionType.GALLERY_TYPE_QUERY,
+            ],
+            value: [
+              PermissionType.GALLERY_TYPE_UPDATE,
+            ],
+          },
+          {
+            name: '删除图库分类',
+            premise: [
+              PermissionType.GALLERY_TYPE_QUERY,
+            ],
+            value: [
+              PermissionType.GALLERY_TYPE_DELETE,
             ],
           },
         ],

@@ -11,12 +11,12 @@ import { PATTERN_BACKGROUND_DIRECTION, PATTERN_BACKGROUND_SPEED, PATTERN_BACKGRO
     :speed="PATTERN_BACKGROUND_SPEED.Slow"
   >
     <div
-      w-full py-18 relative
+      w-full py-16 md:pb-30 relative
       flex="~ 1 justify-center"
     >
       <div
         flex="~ 1 col"
-        lg="max-w-1080px px-0" sm="px-6"
+        lg="max-w-1240px px-0" sm="px-6"
         px-4
       >
         <slot />

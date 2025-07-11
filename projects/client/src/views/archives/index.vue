@@ -4,6 +4,7 @@ import { Like } from 'typeorm'
 import type { IArticle, IArticleType, IQueryDto } from 'types'
 
 const router = useRouter()
+const { width } = useWindowSize()
 
 /** 加载中 */
 const loading = ref(false)
@@ -11,20 +12,15 @@ const loading = ref(false)
 const types = ref<Omit<IArticleType, 'createdAt' | 'updatedAt'>[]>()
 /** 分类 */
 const typeId = ref()
-/** 搜索 */
-const search = ref('')
 /** 文章列表 */
 const yearArticles = ref<{ year: number; articles: IArticle[] }[]>()
 
 watch(
-  [typeId, search],
-  async ([newTypeId, newSearch]) => {
+  typeId,
+  async (newVal) => {
     loading.value = true
     try {
       const body: IQueryDto<IArticle> = {
-        where: {
-          status: true,
-        },
         select: {
           id: true,
           name: true,
@@ -37,10 +33,13 @@ watch(
           createdAt: 'DESC',
         },
       }
-      if (newSearch)
-        body.where = { name: Like(`%${newSearch}%`) }
-      if (newTypeId && newTypeId !== 'all')
-        body.where = { articleTypeId: Like(`%${newTypeId}%`) }
+      if (newVal && newVal !== 'all')
+        body.where = { articleTypeId: Like(`%${newVal}%`) }
+
+      body.where = {
+        ...body.where,
+        status: true,
+      }
 
       const { data } = await queryArticleListApi(body)
       yearArticles.value = groupByYear(data)
@@ -76,11 +75,35 @@ function groupByYear(data: IArticle[]) {
 onBeforeMount(async () => {
   loading.value = true
   try {
-    const res = await getArticleTypeListApi() || []
+    const res = (await queryArticleTypeListApi({
+      where: {
+        articles: {
+          status: true,
+        },
+      },
+      relations: {
+        articles: true,
+      },
+      select: {
+        id: true,
+        name: true,
+        articles: {
+          id: true,
+        },
+      },
+      pagination: {
+        pageSize: 'all',
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+    })).data || []
+
     types.value = [
       {
         id: 'all',
         name: '全部',
+        articles: res.map(v => v.articles ?? []).flat(),
       },
       ...res,
     ]
@@ -93,66 +116,57 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div full flex="~ col gap6 sm:gap8" text="grey-9 dark:grey-1">
+  <div full flex="~ col gap6 sm:gap8" pt-6 md:pt-8>
     <ZLoading :value="loading" />
 
-    <header flex="~ col justify-center gap2 sm:gap4">
-      <h1 text-center>
-        归档
-      </h1>
-    </header>
+    <div flex="~ gap2 col" sm="justify-center flex-row gap4">
+      <ZTabs
+        v-if="width > 600"
+        v-model="typeId"
+        :options="types?.map(v => {
+          return {
+            label: `${v.name} ${v.articles?.length}`,
+            name: v.id,
+          }
+        })"
+      />
+      <ZSelect
+        v-else
+        v-model="typeId"
+        class="archive"
+        :options="types"
+        option-value="id"
+        option-label="name"
+        size="small"
+        w-35
+      />
+    </div>
 
-    <div flex="~ 1 col gap6 sm:gap8" h0>
-      <div flex="~ gap2 col" sm="justify-between flex-row gap4">
-        <ZSelect
-          v-model="typeId"
-          class="archive"
-          :options="types"
-          option-value="id"
-          option-label="name"
-          size="small"
-          w-35
-        />
-        <ZInput
-          v-model="search"
-          class="archive"
-          size="small"
-          placeholder="搜索文章..."
-          :debounce="500"
-          w70
-        >
-          <template #prepend>
-            <div icon i-mingcute:search-line />
-          </template>
-        </ZInput>
+    <div
+      v-for="{ year, articles } in yearArticles" :key="year"
+      flex="~ col gap4 sm:gap6"
+    >
+      <div flex="~ gap2 items-center">
+        <div w-6 h-6 i-mingcute:calendar-2-line />
+        <div text-8 font-600 v-text="year" />
       </div>
-
-      <div
-        v-for="{ year, articles } in yearArticles" :key="year"
-        flex="~ col gap4 sm:gap6"
-      >
-        <div flex="~ gap2 items-center">
-          <div w-6 h-6 i-mingcute:calendar-2-line />
-          <div text-8 font-600 v-text="year" />
-        </div>
-        <div flex="~ col gap2 sm:gap4" px-4>
+      <div flex="~ col gap2 sm:gap4" px-4>
+        <div
+          v-for="article in articles" :key="article.id"
+          flex="~ 1 gap-2 items-center"
+        >
           <div
-            v-for="article in articles" :key="article.id"
-            flex="~ 1 gap-2 items-center"
+            text-nowrap
+            v-text="moment(article.createdAt).format('MM-DD')"
+          />
+          <div icon i-mingcute:arrows-right-line />
+          <div
+            cursor-pointer truncate
+            flex-1 w-0 hover:subtitle-2
+            transition-all
+            @click="router.push(`/article?articleId=${article.id}`)"
           >
-            <div
-              text-nowrap
-              v-text="moment(article.createdAt).format('MM-DD')"
-            />
-            <div icon i-mingcute:arrows-right-line />
-            <div
-              cursor-pointer truncate
-              flex-1 w-0 hover:subtitle-2
-              transition-all
-              @click="router.push(`/article?articleId=${article.id}`)"
-            >
-              <span v-text="article.name" />
-            </div>
+            <span v-text="article.name" />
           </div>
         </div>
       </div>

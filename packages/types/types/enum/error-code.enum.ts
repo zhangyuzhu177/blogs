@@ -94,6 +94,17 @@ export enum ErrorCode {
   ARTICLE_TAG_IS_EXIST = 600022,
   /** 文章标签下有文章 */
   ARTICLE_TAG_HAS_ARTICLE = 600023,
+
+  // ---- 图库相关相关错误码 ----
+  /** 图库不存在 */
+  GALLERY_NOT_EXISTS = 700001,
+
+  /** 图库类型不存在 */
+  GALLERY_TYPE_NOT_EXISTS = 700011,
+  /** 图库类型已存在 */
+  GALLERY_TYPE_IS_EXIST = 700012,
+  /** 图库类型下有图库 */
+  GALLERY_TYPE_HAS_GALLERY = 700013,
 }
 
 export type ErrorMessageCollection = Partial<

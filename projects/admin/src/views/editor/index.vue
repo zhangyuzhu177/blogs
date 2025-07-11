@@ -128,7 +128,7 @@ onBeforeMount(async () => {
           v-model="form.content"
           :theme="form.theme"
           placeholder="输入文章内容"
-          style="height: calc(100vh - 96px);"
+          style="height: calc(100vh - 146px);"
         />
       </div>
     </div>

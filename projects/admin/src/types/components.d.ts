@@ -45,6 +45,7 @@ declare module 'vue' {
     ZDragUpload: typeof import('./../../../shared/components/upload/ZDragUpload.vue')['default']
     ZEmpty: typeof import('./../../../shared/components/empty/ZEmpty.vue')['default']
     ZIconBtn: typeof import('./../../../shared/components/btn/ZIconBtn.vue')['default']
+    ZImg: typeof import('./../../../shared/components/img/ZImg.vue')['default']
     ZInfo: typeof import('./../../../shared/components/info/ZInfo.vue')['default']
     ZInput: typeof import('./../../../shared/components/input/ZInput.vue')['default']
     ZLabel: typeof import('./../../../shared/components/label/ZLabel.vue')['default']
@@ -52,6 +53,7 @@ declare module 'vue' {
     ZRadio: typeof import('./../../../shared/components/radio/ZRadio.vue')['default']
     ZSelect: typeof import('./../../../shared/components/select/ZSelect.vue')['default']
     ZTable: typeof import('./../../../shared/components/table/ZTable.vue')['default']
+    ZTabs: typeof import('./../../../shared/components/tabs/ZTabs.vue')['default']
     ZTextBtn: typeof import('./../../../shared/components/btn/ZTextBtn.vue')['default']
     ZUpload: typeof import('./../../../shared/components/upload/ZUpload.vue')['default']
   }

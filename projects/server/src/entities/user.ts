@@ -5,14 +5,15 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm'
 
+import type { IUser } from 'types'
+import { ID_EXAMPLE } from 'types'
+import { EMAIL_MAX_LENGTH } from 'utils'
 import { Role } from './role'
 import { Login } from './login'
 import { BaseTimeStamp } from './_timestamp'
-import { ID_EXAMPLE, IUser } from 'types'
-import { EMAIL_MAX_LENGTH } from 'utils'
 
 @Entity()
 export class User extends BaseTimeStamp implements IUser {
@@ -31,7 +32,7 @@ export class User extends BaseTimeStamp implements IUser {
   account: string
 
   @ApiProperty({ description: '密码' })
-  @Column({select: false })
+  @Column({ select: false })
   password: string
 
   @ApiPropertyOptional({
@@ -50,7 +51,7 @@ export class User extends BaseTimeStamp implements IUser {
   })
   @Column({
     nullable: true,
-    unique: true
+    unique: true,
   })
   phone?: string
 
@@ -58,8 +59,7 @@ export class User extends BaseTimeStamp implements IUser {
   status: boolean
 
   @Column({
-    select: false,
-    default: false
+    default: false,
   })
   sysAdmin: boolean
 
@@ -73,7 +73,7 @@ export class User extends BaseTimeStamp implements IUser {
   @OneToMany(
     () => Login,
     login => login.user,
-    { cascade: true }
+    { cascade: true },
   )
   logins?: Login[]
 }

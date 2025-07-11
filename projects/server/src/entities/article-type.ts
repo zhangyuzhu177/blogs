@@ -1,9 +1,10 @@
-import { IArticleType, ID_EXAMPLE } from "types"
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
+import type { IArticleType } from 'types'
+import { ID_EXAMPLE } from 'types'
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
-import { Article } from "./article"
-import { BaseTimeStamp } from "./_timestamp"
+import { Article } from './article'
+import { BaseTimeStamp } from './_timestamp'
 
 @Entity()
 export class ArticleType extends BaseTimeStamp implements IArticleType {
@@ -26,7 +27,7 @@ export class ArticleType extends BaseTimeStamp implements IArticleType {
     description: '描述',
   })
   @Column({
-    nullable: true
+    nullable: true,
   })
   desc?: string
 
@@ -38,6 +39,6 @@ export class ArticleType extends BaseTimeStamp implements IArticleType {
   })
   order?: number
 
-  @OneToMany(() => Article, (article) => article.articleType)
+  @OneToMany(() => Article, article => article.articleType)
   articles: Article[]
 }

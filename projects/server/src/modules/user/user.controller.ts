@@ -9,11 +9,11 @@ import {
   Patch,
   Post,
   Query,
-  Req
+  Req,
 } from '@nestjs/common'
 
 import { getQuery } from 'src/utils'
-import { User } from 'src/entities/user'
+import type { User } from 'src/entities/user'
 import { UserIdDto } from 'src/dto/id/user.dto'
 import { IsLogin } from 'src/guards/login.guard'
 import { ChangeStatusBodyDto } from 'src/dto/common'
@@ -25,7 +25,7 @@ import {
   RelationRawDto,
   SuccessBooleanDto,
   SuccessNumberDto,
-  SuccessStringDto
+  SuccessStringDto,
 } from 'src/dto'
 
 import { UserService } from './user.service'
@@ -47,13 +47,13 @@ export class UserController {
   @HasPermission(PermissionType.USER_CREATE)
   @Post('create')
   public createUser(
-    @Body() body: CreateUserBodyDto
+    @Body() body: CreateUserBodyDto,
   ) {
     return this._userSrv.createUser(body)
   }
 
   @ApiOperation({
-    summary: '查询个人用户列表'
+    summary: '查询个人用户列表',
   })
   @ApiSuccessResponse(QueryResDto<User>)
   @HasPermission([
@@ -74,9 +74,9 @@ export class UserController {
   @Get('own')
   public getOwnProfile(
     @Query() { relation }: RelationRawDto,
-    @Req() req: FastifyRequest
+    @Req() req: FastifyRequest,
   ) {
-    const {id}=req.raw.user
+    const { id } = req.raw.user
     return this._userSrv.getOwnProfile(id, relation)
   }
 
@@ -84,26 +84,26 @@ export class UserController {
   @ApiSuccessResponse(SuccessBooleanDto)
   @Patch('own/password/email')
   public changePasswordByEmailCode(
-    @Body() body: UpdatePasswordByEmailCodeBodyDto
+    @Body() body: UpdatePasswordByEmailCodeBodyDto,
   ) {
     return this._userSrv.changeOwnPasswordByCode(body)
   }
 
   @ApiOperation({
-    summary: '修改指定用户的信息'
+    summary: '修改指定用户的信息',
   })
   @ApiSuccessResponse(SuccessStringDto)
   @HasPermission(PermissionType.USER_UPDATE)
   @Patch('update/:userId')
   public updateUser(
-    @Param() {userId}: UserIdDto,
+    @Param() { userId }: UserIdDto,
     @Body() body: UpdateUserBodyDto,
   ) {
     return this._userSrv.updateUser(userId, body)
   }
 
   @ApiOperation({
-    summary: '批量修改用户状态'
+    summary: '批量修改用户状态',
   })
   @ApiSuccessResponse(SuccessNumberDto)
   @HasPermission(PermissionType.USER_CHANGE_STATUS)
@@ -115,13 +115,13 @@ export class UserController {
   }
 
   @ApiOperation({
-    summary: '批量分配管理员角色'
+    summary: '批量分配管理员角色',
   })
   @ApiSuccessResponse(SuccessNumberDto)
   @HasPermission(PermissionType.USER_UPDATE_ROLE)
   @Patch('assign')
   public updateUserRole(
-    @Body() body:AssignRoleBodyDto
+    @Body() body: AssignRoleBodyDto,
   ) {
     return this._userSrv.assignRole(body)
   }

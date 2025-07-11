@@ -62,12 +62,12 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div flex="~ col gap6 sm:gap10" py-4>
+  <div flex="~ col gap6 sm:gap10" pt-6 md:pt-8>
     <div flex="~ col gap2">
       <h1 v-text="article?.name" />
       <div
         subtitle-3 flex="~ items-center gap2"
-        style="color: var(--grey-4);"
+        style="color: var(--grey-8);"
       >
         <div flex="~ items-center gap1">
           <div i-mingcute:time-line />
@@ -79,7 +79,7 @@ onBeforeMount(async () => {
         <template v-if="article?.pageView">
           <div
             w-1.5 h-1.5 b-rd-10
-            style="background-color: var(--grey-4);"
+            style="background-color: var(--grey-8);"
           />
           <div flex="~ items-center gap1">
             <div i-mingcute:eye-2-line />
@@ -88,7 +88,7 @@ onBeforeMount(async () => {
         </template>
       </div>
     </div>
-    <div class="el" flex="~ gap-6 justify-between" pb-50>
+    <div class="el" flex="~ gap-6 justify-between">
       <div lg="max-w-1080px" flex="~ 1" w-0>
         <MdPreview
           :model-value="article?.content"

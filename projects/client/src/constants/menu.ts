@@ -5,19 +5,23 @@ export interface Menu {
 
 export const MENU: Menu[] = [
   {
-    to: 'home',
+    to: '/home',
     label: '首页',
   },
   {
-    to: 'archives',
+    to: '/archives',
     label: '归档',
   },
   {
-    to: 'tags',
+    to: '/tags',
     label: '标签',
   },
   {
-    to: 'about',
+    to: '/gallery',
+    label: '图库',
+  },
+  {
+    to: '/about',
     label: '关于',
   },
 ]

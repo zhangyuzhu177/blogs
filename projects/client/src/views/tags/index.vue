@@ -82,95 +82,88 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div full flex="~ col gap6 sm:gap8" whitespace-nowrap>
+  <div
+    full flex="~ col gap6 sm:gap8"
+    pt-6 md:pt-8 whitespace-nowrap
+  >
     <ZLoading :value="loading" />
 
-    <header flex="~ col justify-center gap2 sm:gap4">
-      <h1 text-center>
-        标签
-      </h1>
-    </header>
-
-    <div flex="~ 1 col" h0>
-      <div full flex="~ col gap6 sm:gap8">
-        <!-- 标签列表 -->
-        <div flex="~ gap2 sm:gap4 wrap row" sm="flex- flex-row">
+    <!-- 标签列表 -->
+    <div flex="~ gap2 sm:gap4 wrap row" sm="flex- flex-row">
+      <div
+        v-for="t in tags" :key="t.id"
+        :class="tag?.id === t.id ? 'active' : 'tag-item'"
+        flex="~ items-center gap3"
+        bg="grey-2 dark:grey-9"
+        px4 py1 b-rd-10 cursor-pointer
+        shadow-sm hover:shadow-md transition-shadow
+        @click="changeArticleTag(t)"
+      >
+        <div select-none subtitle-3 v-text="t.name" />
+        <div class="label" text-3 v-text="`(${t.articles?.length || 0})`" />
+      </div>
+    </div>
+    <!-- 文章列表 -->
+    <div flex="~ col sm:gap4 gap2">
+      <div
+        v-for="article in articlesList"
+        :key="article.id"
+        class="article"
+        flex="~ col justify-between gap2"
+        sm:p4 p2 cursor-pointer b-rd-2
+        bg="grey-1 dark:grey-9"
+        b="1 transparent" overflow-hidden
+        @click="router.push(`/article?articleId=${article.id}`)"
+      >
+        <div subtitle-1 truncate v-text="article.name" />
+        <div flex="~ col gap2 justify-between">
           <div
-            v-for="t in tags" :key="t.id"
-            :class="tag?.id === t.id ? 'active' : 'tag-item'"
-            flex="~ items-center gap3"
-            bg="grey-2 dark:grey-9"
-            px4 py1 b-rd-10 cursor-pointer
-            shadow-sm hover:shadow-md transition-shadow
-            @click="changeArticleTag(t)"
+            subtitle-3
+            flex="~ gap4"
+            text="grey-5 dark:grey-5"
           >
-            <div select-none subtitle-3 v-text="t.name" />
-            <div class="label" text-3 v-text="`(${t.articles?.length || 0})`" />
-          </div>
-        </div>
-        <!-- 文章列表 -->
-        <div flex="~ col sm:gap4 gap2">
-          <div
-            v-for="article in articlesList"
-            :key="article.id"
-            class="article"
-            flex="~ col justify-between gap2"
-            sm:p4 p2 cursor-pointer b-rd-2
-            bg="grey-1 dark:grey-9"
-            b="1 transparent" overflow-hidden
-            @click="router.push(`/article?articleId=${article.id}`)"
-          >
-            <div subtitle-1 truncate v-text="article.name" />
-            <div flex="~ col gap2 justify-between">
+            <div flex="~ items-center gap1">
+              <div i-mingcute:time-line />
               <div
-                subtitle-3
-                flex="~ gap4"
-                text="grey-5 dark:grey-5"
-              >
-                <div flex="~ items-center gap1">
-                  <div i-mingcute:time-line />
-                  <div
-                    v-if="article.createdAt"
-                    v-text="moment.utc(article.createdAt).format('YYYY-MM-DD')"
-                  />
-                </div>
-                <div
-                  v-if="article.pageView"
-                  flex="~ items-center gap1"
-                >
-                  <div i-mingcute:eye-2-line />
-                  <div v-text="article.pageView" />
-                </div>
-              </div>
-            </div>
-
-            <div v-if="article.tags?.length" flex="~ gap4">
-              <div
-                v-for="t in article.tags"
-                :key="t.id"
-                class="tag"
-                p="x2" b-rd-5 text-3
-                v-text="t.name"
+                v-if="article.createdAt"
+                v-text="moment.utc(article.createdAt).format('YYYY-MM-DD')"
               />
             </div>
+            <div
+              v-if="article.pageView"
+              flex="~ items-center gap1"
+            >
+              <div i-mingcute:eye-2-line />
+              <div v-text="article.pageView" />
+            </div>
           </div>
         </div>
-        <!-- 分页 -->
-        <div
-          v-if="articlesList?.length && rowsNumber > pagination.pageSize"
-          flex="~ center"
-        >
-          <q-pagination
-            v-model="pagination.page"
-            :max="Math.ceil(rowsNumber / pagination.pageSize)"
-            :max-pages="6"
-            direction-links flat
-            color="dark:grey-1"
-            active-color="none"
-            active-text-color="primary-1"
+
+        <div v-if="article.tags?.length" flex="~ gap4">
+          <div
+            v-for="t in article.tags"
+            :key="t.id"
+            class="tag"
+            p="x2" b-rd-5 text-3
+            v-text="t.name"
           />
         </div>
       </div>
+    </div>
+    <!-- 分页 -->
+    <div
+      v-if="articlesList?.length && rowsNumber > pagination.pageSize"
+      flex="~ center"
+    >
+      <q-pagination
+        v-model="pagination.page"
+        :max="Math.ceil(rowsNumber / pagination.pageSize)"
+        :max-pages="6"
+        direction-links flat
+        color="dark:grey-1"
+        active-color="none"
+        active-text-color="primary-1"
+      />
     </div>
   </div>
 </template>

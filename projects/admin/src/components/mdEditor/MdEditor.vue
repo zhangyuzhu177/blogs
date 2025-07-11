@@ -85,5 +85,9 @@ async function onUploadImg(files: File[], callback: (url: string[]) => void) {
 <style lang="scss">
 .md-editor{
   border-radius: 8px;
+
+  .md-editor-code-head {
+    z-index: 10 !important;
+  }
 }
 </style>
