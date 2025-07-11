@@ -1,7 +1,13 @@
 import type { IGallery } from 'types'
 import { ID_EXAMPLE } from 'types'
 import { ApiProperty } from '@nestjs/swagger'
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 
 import { BaseTimeStamp } from './_timestamp'
 import { GalleryType } from './gallery-type'
@@ -21,6 +27,9 @@ export class Gallery extends BaseTimeStamp implements IGallery {
   @Column()
   name: string
 
+  @ApiProperty({
+    description: '图库图片',
+  })
   @Column({
     type: 'text',
     transformer: {
@@ -29,6 +38,12 @@ export class Gallery extends BaseTimeStamp implements IGallery {
     },
   })
   picture: string[]
+
+  @ApiProperty({
+    description: '图库状态',
+  })
+  @Column()
+  status: boolean
 
   @ApiProperty({
     description: '图库描述',

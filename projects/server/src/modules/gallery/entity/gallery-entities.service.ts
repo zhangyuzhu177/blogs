@@ -1,8 +1,11 @@
+import { In } from 'typeorm'
 import { ErrorCode } from 'types'
 import { Injectable, Logger } from '@nestjs/common'
-import { parseSqlError, responseError } from 'src/utils'
 
 import type { User } from 'src/entities/user'
+import { parseSqlError, responseError } from 'src/utils'
+import type { ChangeStatusBodyDto } from 'src/dto/common'
+
 import { GalleryService } from '../gallery.service'
 import type { UpsertGalleryBodyDto } from './dto/upsert-gallery-entity-body.dto'
 
@@ -87,5 +90,19 @@ export class GalleryEntitiesService {
 
     const deleteRes = await this._gallerySrv.entityRepo().delete({ id })
     return deleteRes.affected > 0
+  }
+
+  public async changeGalleryStatus(body: ChangeStatusBodyDto) {
+    const { ids, status } = body
+
+    if (ids.length === 1 && !(await this._gallerySrv.entityRepo().existsBy({ id: ids[0] })))
+      responseError(ErrorCode.GALLERY_NOT_EXISTS)
+
+    const updateRes = await this._gallerySrv.entityRepo().update(
+      { id: In(ids) },
+      { status },
+    )
+
+    return updateRes.affected
   }
 }

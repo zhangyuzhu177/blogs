@@ -15,6 +15,7 @@ import {
   SuccessStringDto,
 } from 'src/dto'
 
+import { ChangeStatusBodyDto } from 'src/dto/common'
 import { GalleryService } from '../gallery.service'
 import { GalleryEntitiesService } from './gallery-entities.service'
 import { UpsertGalleryBodyDto } from './dto/upsert-gallery-entity-body.dto'
@@ -113,5 +114,17 @@ export class GalleryEntitiesController {
       catch (_) { }
     }
     return success
+  }
+
+  @ApiOperation({
+    summary: '批量修改图库状态',
+  })
+  @ApiSuccessResponse(SuccessNumberDto)
+  @HasPermission(PermissionType.GALLERY_CHANGE_STATUS)
+  @Post('status')
+  async changeGalleryStatus(
+    @Body() body: ChangeStatusBodyDto,
+  ) {
+    return this._galleryEntitySrv.changeGalleryStatus(body)
   }
 }

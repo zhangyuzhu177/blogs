@@ -77,6 +77,8 @@ export enum PermissionType {
   GALLERY_UPDATE = 'gallery:update',
   /** 删除图库 */
   GALLERY_DELETE = 'gallery:delete',
+  /** 修改图库状态 */
+  GALLERY_CHANGE_STATUS = 'gallery:change-status',
 
   /** 查询图库类型 */
   GALLERY_TYPE_QUERY = 'gallery-type:query',
@@ -127,6 +129,7 @@ export const permissionDescriptions: Record<PermissionType, string> = {
   [PermissionType.GALLERY_CREATE]: '创建图库',
   [PermissionType.GALLERY_UPDATE]: '更新图库',
   [PermissionType.GALLERY_DELETE]: '删除图库',
+  [PermissionType.GALLERY_CHANGE_STATUS]: '修改图库状态',
 
   [PermissionType.GALLERY_TYPE_QUERY]: '查询图库类型',
   [PermissionType.GALLERY_TYPE_CREATE]: '创建图库类型',
