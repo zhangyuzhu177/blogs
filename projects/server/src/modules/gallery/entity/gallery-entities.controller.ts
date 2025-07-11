@@ -1,11 +1,14 @@
-import { PermissionType } from 'types'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { ErrorCode, LikesType, PermissionType } from 'types'
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common'
 
 import { HasPermission } from 'src/guards'
 import type { Gallery } from 'src/entities/gallery'
+import { ChangeStatusBodyDto } from 'src/dto/common'
 import { GalleryIdDto } from 'src/dto/id/gallery.dto'
-import { ApiSuccessResponse, getQuery } from 'src/utils'
+import { LikesService } from 'src/modules/likes/likes.service'
+import { ApiSuccessResponse, getQuery, responseError } from 'src/utils'
+import { CreateLikeBodyDto } from 'src/modules/likes/dto/create-link-body.dto'
 import {
   IdsDto,
   QueryDto,
@@ -15,7 +18,6 @@ import {
   SuccessStringDto,
 } from 'src/dto'
 
-import { ChangeStatusBodyDto } from 'src/dto/common'
 import { GalleryService } from '../gallery.service'
 import { GalleryEntitiesService } from './gallery-entities.service'
 import { UpsertGalleryBodyDto } from './dto/upsert-gallery-entity-body.dto'
@@ -24,6 +26,7 @@ import { UpsertGalleryBodyDto } from './dto/upsert-gallery-entity-body.dto'
 @ApiTags('GalleryEntity | 图库')
 export class GalleryEntitiesController {
   constructor(
+    private readonly _linkSrv: LikesService,
     private readonly _gallerySrv: GalleryService,
     private readonly _galleryEntitySrv: GalleryEntitiesService,
   ) { }
@@ -126,5 +129,23 @@ export class GalleryEntitiesController {
     @Body() body: ChangeStatusBodyDto,
   ) {
     return this._galleryEntitySrv.changeGalleryStatus(body)
+  }
+
+  @ApiOperation({
+    summary: '点赞',
+  })
+  @ApiSuccessResponse(SuccessStringDto)
+  @Post('link/:galleryId')
+  public async createLink(
+      @Req() req: FastifyRequest,
+      @Body() body: CreateLikeBodyDto,
+      @Param() { galleryId }: GalleryIdDto,
+  ) {
+    const { ip } = req.raw
+
+    if (!(await this._gallerySrv.entityRepo().existsBy({ id: galleryId })))
+      responseError(ErrorCode.GALLERY_NOT_EXISTS)
+
+    return this._linkSrv.createLink(ip, LikesType.GALLERY, galleryId, body)
   }
 }

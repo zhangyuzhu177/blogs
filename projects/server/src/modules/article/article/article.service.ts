@@ -54,7 +54,6 @@ export class ArticleEntitiesService {
       where: { id },
       relations: {
         tags: true,
-        likes: true,
       },
       select: {
         tags: {

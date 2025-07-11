@@ -22,6 +22,10 @@ const _commonError: ErrorMessageCollection = {
     httpStatus: HttpStatus.GONE,
     message: '已废弃的功能',
   },
+  [ErrorCode.LIKE_IS_EXIST]: {
+    httpStatus: HttpStatus.CONFLICT,
+    message: '已存在点赞',
+  },
 }
 
 export default _commonError

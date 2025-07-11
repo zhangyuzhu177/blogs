@@ -105,6 +105,10 @@ export enum ErrorCode {
   GALLERY_TYPE_IS_EXIST = 700012,
   /** 图库类型下有图库 */
   GALLERY_TYPE_HAS_GALLERY = 700013,
+
+  // ---- 图库相关相关错误码 ----
+
+  LIKE_IS_EXIST = 800001,
 }
 
 export type ErrorMessageCollection = Partial<

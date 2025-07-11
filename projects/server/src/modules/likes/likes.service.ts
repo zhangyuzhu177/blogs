@@ -1,8 +1,10 @@
 import { Repository } from 'typeorm'
-import type { LikesType } from 'types'
 import { Injectable } from '@nestjs/common'
+import { ErrorCode, type LikesType } from 'types'
 import { InjectRepository } from '@nestjs/typeorm'
+
 import { Likes } from 'src/entities/likes'
+import { parseSqlError, responseError } from 'src/utils'
 import type { CreateLikeBodyDto } from './dto/create-link-body.dto'
 
 @Injectable()
@@ -31,7 +33,14 @@ export class LikesService {
       return insertRes.identifiers[0].id
     }
     catch (e) {
-      console.log(e)
+      const sqlError = parseSqlError(e)
+      if (sqlError === SqlError.DUPLICATE_ENTRY)
+        responseError(ErrorCode.LIKE_IS_EXIST)
+      throw e
     }
+  }
+
+  public linkeRepo() {
+    return this._likesRepo
   }
 }
