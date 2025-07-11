@@ -1,5 +1,5 @@
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { forwardRef, Global, Module } from '@nestjs/common'
+import { Global, Module, forwardRef } from '@nestjs/common'
 import { JwtModule, JwtService } from '@nestjs/jwt'
 import { AuthModule } from '../auth/auth.module'
 import { JwtAuthService } from './jwt-auth.service'
@@ -22,7 +22,7 @@ import { JwtAuthService } from './jwt-auth.service'
     JwtService,
   ],
   exports: [
-    JwtAuthService
+    JwtAuthService,
   ],
 })
 

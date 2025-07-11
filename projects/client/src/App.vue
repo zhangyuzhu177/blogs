@@ -1,37 +1,17 @@
 <script setup lang="ts">
-// const { isAdmin } = useSysConfig()
+// import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
-// onBeforeMount(() => {
-//   isAdmin.value = false
+// onMounted(async () => {
+//   try {
+//     const res = await FingerprintJS.load()
+//     console.log(res)
+//     const { visitorId } = await res.get()
+//     console.log(visitorId)
+//   }
+//   catch (e) {
+//     console.log(e)
+//   }
 // })
-
-/** 监听窗口大小，缩放页面 */
-// watch(
-//   width,
-//   (newVal) => {
-//     if (isClient) {
-//       nextTick(() => {
-//         const body = document.body
-//         if (body) {
-//           if (newVal < APP_MIN_WIDTH) {
-//             const ratio = zoomRatio.value
-//             body.style.transform = `scale(${ratio})`
-//             body.style.width = `${100 / ratio}%`
-//             body.style.height = `${100 / ratio}%`
-//           }
-//           else {
-//             body.style.transform = ''
-//             body.style.width = '100%'
-//             body.style.height = '100%'
-//           }
-//         }
-//       })
-//     }
-//   },
-//   {
-//     immediate: true,
-//   },
-// )
 </script>
 
 <template>

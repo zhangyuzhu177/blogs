@@ -30,6 +30,7 @@ import { WebsocketGateway } from './modules/websocket/websocket.gateway'
 import { PermissionModule } from './modules/permission/permission.module'
 import { ResponseInterceptor } from './interceptors/response.interceptor'
 import { ThrottlerExceptionFilter } from './filter/throttler-exception.filter'
+import { LikesModule } from './modules/likes/likes.module'
 
 @Module({
   imports: [
@@ -38,10 +39,11 @@ import { ThrottlerExceptionFilter } from './filter/throttler-exception.filter'
     AuthModule,
     UserModule,
     RoleModule,
-    RedisModule,
-    EmailModule,
     FileModule,
     CodeModule,
+    RedisModule,
+    EmailModule,
+    LikesModule,
     JwtAuthModule,
     ArticleModule,
     GalleryModule,

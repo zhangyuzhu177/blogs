@@ -1,10 +1,13 @@
-import { PermissionType } from 'types'
 import type { Article } from 'src/entities/article'
 import { ChangeStatusBodyDto } from 'src/dto/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { HasPermission } from 'src/guards/permission.guard'
-import { ApiSuccessResponse, getQuery } from 'src/utils'
+import { ErrorCode, LikesType, PermissionType } from 'types'
+import { ApiSuccessResponse, getQuery, responseError } from 'src/utils'
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common'
+
+import { LikesService } from 'src/modules/likes/likes.service'
+import { CreateLikeBodyDto } from 'src/modules/likes/dto/create-link-body.dto'
 import {
   ArticleIdDto,
   IdsDto,
@@ -22,6 +25,7 @@ import { UpsertArticleBodyDto } from './dto/upsert-body.dto'
 @ApiTags('Article | 文章')
 export class ArticleEntitiesController {
   constructor(
+    private readonly _linkSrv: LikesService,
     private readonly _articleSrv: ArticleService,
     private readonly _entitiesSrv: ArticleEntitiesService,
   ) { }
@@ -133,5 +137,23 @@ export class ArticleEntitiesController {
     @Body() body: ChangeStatusBodyDto,
   ) {
     return this._entitiesSrv.changeArticleStatus(body)
+  }
+
+  @ApiOperation({
+    summary: '点赞',
+  })
+  @ApiSuccessResponse(SuccessStringDto)
+  @Post('link/:articleId')
+  public async createLink(
+    @Req() req: FastifyRequest,
+    @Body() body: CreateLikeBodyDto,
+    @Param() { articleId }: ArticleIdDto,
+  ) {
+    const { ip } = req.raw
+
+    if (!(await this._articleSrv.entitiesRepo().existsBy({ id: articleId })))
+      responseError(ErrorCode.ARTICLE_NOT_EXISTS)
+
+    return this._linkSrv.createLink(ip, LikesType.ARTICLE, articleId, body)
   }
 }
