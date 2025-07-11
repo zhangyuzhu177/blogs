@@ -21,18 +21,18 @@ import { ArticleTagController } from './tag/tag.controller'
     ArticleService,
     ArticleTagService,
     ArticleTypeService,
-    ArticleEntitiesService
+    ArticleEntitiesService,
   ],
   exports: [
     ArticleService,
     ArticleTagService,
     ArticleTypeService,
-    ArticleEntitiesService
+    ArticleEntitiesService,
   ],
   controllers: [
     ArticleTagController,
     ArticleTypeController,
     ArticleEntitiesController,
-  ]
+  ],
 })
 export class ArticleModule {}

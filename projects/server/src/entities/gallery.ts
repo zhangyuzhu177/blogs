@@ -6,11 +6,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
 import { BaseTimeStamp } from './_timestamp'
 import { GalleryType } from './gallery-type'
+import { Likes } from './likes'
 
 @Entity()
 export class Gallery extends BaseTimeStamp implements IGallery {
@@ -49,6 +51,7 @@ export class Gallery extends BaseTimeStamp implements IGallery {
     description: '图库描述',
   })
   @Column({
+    type: 'text',
     nullable: true,
   })
   desc?: string
@@ -73,4 +76,11 @@ export class Gallery extends BaseTimeStamp implements IGallery {
   @ManyToOne(() => GalleryType, galleryType => galleryType.galleries)
   @JoinColumn()
   galleryType: GalleryType
+
+  // 虚拟关联 (非外键)
+  @ApiProperty({
+    description: '点赞列表',
+  })
+  @OneToMany(() => Likes, likes => likes.contentId)
+  likes?: Likes[]
 }

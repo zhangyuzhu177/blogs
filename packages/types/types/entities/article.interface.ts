@@ -1,10 +1,12 @@
 import type { INameDto } from '../dto/name.interface'
-import type { IArticleTypeIdDto } from '../dto/id/article-type.interface'
 import type { IStatusDto } from '../dto/status.interface'
 import type { ArticleTheme } from '../enum/article-theme.enum'
+import type { IArticleTypeIdDto } from '../dto/id/article-type.interface'
+
+import type { ILikes } from './likes.interface'
+import type { IArticleTag } from './article-tag.interface'
 import type { IArticleType } from './article-type.interface'
 import type { ICreatedAt, IUpdatedAt } from './_timestamp.interface'
-import type { IArticleTag } from './article-tag.interface'
 
 export interface IArticle
   extends
@@ -27,4 +29,6 @@ export interface IArticle
   pageView?: number
   /** 文章主题 */
   theme?: ArticleTheme
+  /** 点赞列表 */
+  likes?: ILikes[]
 }

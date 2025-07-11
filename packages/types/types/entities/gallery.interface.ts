@@ -3,6 +3,7 @@ import type { IStatusDto } from '../dto/status.interface'
 import type { IDescOptionalDto } from '../dto/desc.interface'
 import type { IGalleryTypeIdDto } from '../dto/id/gallery-type.interface'
 
+import type { ILikes } from './likes.interface'
 import type { IGalleryType } from './gallery-type.interface'
 import type { ICreatedAt, IUpdatedAt } from './_timestamp.interface'
 
@@ -22,4 +23,6 @@ export interface IGallery
   galleryType: IGalleryType
   /** 图片访问量 */
   pageView?: number
+  /** 点赞列表 */
+  likes?: ILikes[]
 }

@@ -8,12 +8,14 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
 import { BaseTimeStamp } from './_timestamp'
 import { ArticleType } from './article-type'
 import { ArticleTag } from './article-tag'
+import { Likes } from './likes'
 
 @Entity()
 export class Article extends BaseTimeStamp implements IArticle {
@@ -97,4 +99,11 @@ export class Article extends BaseTimeStamp implements IArticle {
     name: 'article_tags',
   })
   tags?: ArticleTag[]
+
+  // 虚拟关联 (非外键)
+  @ApiProperty({
+    description: '点赞列表',
+  })
+  @OneToMany(() => Likes, likes => likes.contentId)
+  likes?: Likes[]
 }
