@@ -88,7 +88,11 @@ const icons: { name: string; icon: string }[] = [
 
 <template>
   <div v-if="skills?.length" flex="~ col gap4 ">
-    <div subtitle-1 text-center v-text="'专业技能'" />
+    <div flex="~ center gap-2">
+      <div w-1 h-1 b-rd-full bg="grey-9 dark:grey-1" />
+      <div subtitle-1 text-center v-text="'专业技能'" />
+      <div w-1 h-1 b-rd-full bg="grey-9 dark:grey-1" />
+    </div>
     <div flex="~ col gap4" sm="flex-wrap flex-row">
       <div
         v-for="skill in skills" :key="skill.id"

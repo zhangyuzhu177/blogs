@@ -3,7 +3,6 @@ import { SysConfig } from 'types'
 import type { IConfigDto } from 'types'
 
 import Skill from './skill.vue'
-import Count from './count.vue'
 import PersonInfo from './personInfo.vue'
 
 /** 配置 */
@@ -20,7 +19,7 @@ onBeforeMount(async () => {
     <!-- 基本信息 -->
     <PersonInfo :info="config" />
     <!-- 文章数量 -->
-    <Count />
+    <!-- <Count /> -->
     <!-- 专业技能 -->
     <Skill :skills="config?.skills" />
   </div>

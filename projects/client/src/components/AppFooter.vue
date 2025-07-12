@@ -1,32 +1,43 @@
 <script setup lang="ts">
-const route = useRoute()
+interface Data {
+  /** 总访问量 */
+  total: number
+  /** 今日访问量 */
+  today: number
+}
 
-// const url = computed(() => {
-//   return `ws://${import.meta.env.VITE_SERVER_URL}`
-// })
+const data = ref<Data>()
 
-// const socket = io(url.value)
-
-onMounted(() => {
-  // 监听 'usersCount' 事件，并更新用户数
-  // socket.on('usersCount', (count) => {
-  //   onlineNumber.value = count
-  // })
+onMounted(async () => {
+  data.value = await getVisitCountApi()
 })
 </script>
 
 <template>
   <footer
-    :class="route.meta.footer ? 'absolute bottom-0' : ''"
-    flex="~ col gap-2 center" subtitle-3
-    text="grey-5" py-6 px-4 w-full
+    flex="~ col center" subtitle-3
+    text="grey-7 dark:grey-3" w-full
+    b-t="1 grey-3 dark:grey-7"
   >
-    <a
-      text-sm
-      href="https://beian.miit.gov.cn"
-      target="_blank"
-    >
-      互联网ICP备案：鄂ICP备2024072756号-1
-    </a>
+    <div flex="~ gap6" py-6 px-4>
+      <div flex="~ col">
+        <div text-sm>
+          总访问量
+        </div>
+        <div text="lg grey-9 dark:grey-1" font-500 v-text="data?.total" />
+      </div>
+      <div flex="~ col">
+        <div text-sm>
+          今日访问
+        </div>
+        <div text="lg grey-9 dark:grey-1" font-500 v-text="data?.today" />
+      </div>
+    </div>
+    <div w-25 h-1px bg="grey-3 dark:grey-7" />
+    <div py-6 px-4>
+      <a href="https://beian.miit.gov.cn" target="_blank">
+        备案/许可证 鄂ICP备2024072756号-1
+      </a>
+    </div>
   </footer>
 </template>
