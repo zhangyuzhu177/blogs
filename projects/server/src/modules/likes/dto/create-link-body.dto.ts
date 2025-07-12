@@ -8,4 +8,10 @@ export class CreateLikeBodyDto implements ICreateLikeBodyDto {
   })
   @IsString()
   visitorId: string
+
+  @ApiPropertyOptional({
+    description: '内容id',
+  })
+  @IsString()
+  contentId: string
 }

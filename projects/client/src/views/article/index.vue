@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import 'md-editor-v3/lib/style.css'
-import { MdPreview } from 'md-editor-v3'
-import { isClient } from '@vueuse/core'
-import type { IArticle } from 'types'
 import moment from 'moment'
+import { LikesType } from 'types'
+import type { IArticle, ICreateLikeBodyDto, IGetLinkBodyDto, ILikes } from 'types'
+import { isClient } from '@vueuse/core'
+import { MdPreview } from 'md-editor-v3'
+
+import 'md-editor-v3/lib/style.css'
 
 const route = useRoute()
 const router = useRouter()
+const { visitorId } = useVisitor()
 // const { width } = useWindowSize()
 // const { scrollEl } = useClientApp()
 
@@ -17,8 +20,23 @@ const state = reactive({
 const sticky = ref(false)
 const scrollElement = ref<HTMLElement | null>(null)
 
+/** 加载中 */
+const loading = ref(false)
 /** 文章 */
 const article = ref<IArticle>()
+/** 文章id */
+const articleId = ref()
+/** 点赞记录 */
+const likes = ref<ILikes[]>()
+
+/** 是否点赞 */
+const liked = computed({
+  get() {
+    return likes.value?.some(v => v.visitorId === visitorId.value) ?? false
+  },
+  set() {
+  },
+})
 
 function mdHeadingId(_text: string, _level: number, index: number) {
   return `h-${_level}-${index}`
@@ -35,6 +53,54 @@ function mdHeadingId(_text: string, _level: number, index: number) {
 //     )
 //   }
 // }
+
+/**
+ * 点赞
+ */
+async function thumbsUp() {
+  if (liked.value)
+    return
+  const body: ICreateLikeBodyDto = {
+    contentId: articleId.value,
+    visitorId: visitorId.value,
+  }
+  try {
+    await likeArticleApi(body)
+    // 避免重复点赞
+    if (!liked.value) {
+      likes.value = [
+        ...(likes.value || []),
+        { visitorId: visitorId.value } as ILikes,
+      ]
+    }
+  }
+  catch (e) {
+
+  }
+}
+
+/**
+ * 获取数据
+ */
+async function loadData() {
+  loading.value = true
+
+  try {
+    const body: IGetLinkBodyDto = {
+      contentId: articleId.value,
+      type: LikesType.ARTICLE,
+    }
+    const [articleRes, likesRes] = await Promise.all([
+      gerArticleDetailApi(articleId.value as string),
+      getLinkApi(body),
+    ])
+    article.value = articleRes || {}
+    likes.value = likesRes || []
+  }
+  finally {
+    loading.value = false
+  }
+}
 
 onBeforeMount(async () => {
   nextTick(() => {
@@ -53,16 +119,19 @@ onBeforeMount(async () => {
     scrollElement.value = document?.querySelector('.q-scrollarea__container') as HTMLElement
   })
 
-  const { articleId } = route.query
-  if (!articleId)
+  const { articleId: id } = route.query
+  if (!id)
     return router.replace('/')
 
-  article.value = await gerArticleDetailApi(articleId as string) || {}
+  articleId.value = id
+  loadData()
 })
 </script>
 
 <template>
-  <div flex="~ col gap6 sm:gap10" pt-6 md:pt-8>
+  <div flex="~ col gap8 sm:gap10" pt-6 md:pt-8>
+    <ZLoading :value="loading" />
+
     <div flex="~ col gap2">
       <h1 v-text="article?.name" />
       <div
@@ -88,7 +157,7 @@ onBeforeMount(async () => {
         </template>
       </div>
     </div>
-    <div class="el" flex="~ gap-6 justify-between">
+    <div class="el" pb-10 sm:pb-16 flex="~ gap-6 justify-between">
       <div lg="max-w-1080px" flex="~ 1" w-0>
         <MdPreview
           :model-value="article?.content"
@@ -121,6 +190,12 @@ onBeforeMount(async () => {
         </div>
       </div> -->
     </div>
+    <ThumbsUp
+      v-if="article"
+      v-model:liked="liked"
+      :count="likes?.length"
+      @callback="thumbsUp"
+    />
   </div>
 </template>
 

@@ -1,12 +1,10 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm'
 import { ID_EXAMPLE, type ILikes, LikesType } from 'types'
 import { ApiProperty } from '@nestjs/swagger'
 import { CreatedAt } from './_timestamp'
 
 @Entity()
-@Index('IDX_CONTENT_VISITOR_UNIQUE', ['type', 'contentId', 'visitorId'], {
-  unique: true,
-})
+@Unique('Likes', ['type', 'contentId', 'visitorId'])
 export class Likes extends CreatedAt implements ILikes {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty({
@@ -18,9 +16,7 @@ export class Likes extends CreatedAt implements ILikes {
   @ApiProperty({
     description: '点赞的浏览器指纹',
   })
-  @Column({
-    unique: true,
-  })
+  @Column()
   visitorId: string
 
   @ApiProperty({

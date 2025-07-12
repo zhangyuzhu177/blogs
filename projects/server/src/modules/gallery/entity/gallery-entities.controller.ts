@@ -135,17 +135,17 @@ export class GalleryEntitiesController {
     summary: '点赞',
   })
   @ApiSuccessResponse(SuccessStringDto)
-  @Post('link/:galleryId')
+  @Post('like')
   public async createLink(
       @Req() req: FastifyRequest,
       @Body() body: CreateLikeBodyDto,
-      @Param() { galleryId }: GalleryIdDto,
   ) {
     const { ip } = req.raw
+    const { contentId } = body
 
-    if (!(await this._gallerySrv.entityRepo().existsBy({ id: galleryId })))
+    if (!(await this._gallerySrv.entityRepo().existsBy({ id: contentId })))
       responseError(ErrorCode.GALLERY_NOT_EXISTS)
 
-    return this._linkSrv.createLink(ip, LikesType.GALLERY, galleryId, body)
+    return this._linkSrv.createLink(ip, LikesType.GALLERY, body)
   }
 }

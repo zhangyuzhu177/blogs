@@ -102,6 +102,7 @@ declare global {
   const getEnvVariable: typeof import('../../../shared/utils/common/env')['getEnvVariable']
   const getGalleryDetailByIdApi: typeof import('../../../shared/api/gallery')['getGalleryDetailByIdApi']
   const getId: typeof import('../../../shared/utils/common/tool')['getId']
+  const getLinkApi: typeof import('../../../shared/api/likes')['getLinkApi']
   const getOwnProfileApi: typeof import('../../../shared/api/user')['getOwnProfileApi']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
@@ -112,6 +113,8 @@ declare global {
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
+  const likeArticleApi: typeof import('../../../shared/api/article')['likeArticleApi']
+  const likeGalleryApi: typeof import('../../../shared/api/gallery')['likeGalleryApi']
   const loginByEmailCodeApi: typeof import('../../../shared/api/auth')['loginByEmailCodeApi']
   const loginByPasswordApi: typeof import('../../../shared/api/auth')['loginByPasswordApi']
   const logoutApi: typeof import('../../../shared/api/auth')['logoutApi']
@@ -516,6 +519,7 @@ declare module 'vue' {
     readonly getEnvVariable: UnwrapRef<typeof import('../../../shared/utils/common/env')['getEnvVariable']>
     readonly getGalleryDetailByIdApi: UnwrapRef<typeof import('../../../shared/api/gallery')['getGalleryDetailByIdApi']>
     readonly getId: UnwrapRef<typeof import('../../../shared/utils/common/tool')['getId']>
+    readonly getLinkApi: UnwrapRef<typeof import('../../../shared/api/likes')['getLinkApi']>
     readonly getOwnProfileApi: UnwrapRef<typeof import('../../../shared/api/user')['getOwnProfileApi']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
@@ -526,6 +530,8 @@ declare module 'vue' {
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly likeArticleApi: UnwrapRef<typeof import('../../../shared/api/article')['likeArticleApi']>
+    readonly likeGalleryApi: UnwrapRef<typeof import('../../../shared/api/gallery')['likeGalleryApi']>
     readonly loginByEmailCodeApi: UnwrapRef<typeof import('../../../shared/api/auth')['loginByEmailCodeApi']>
     readonly loginByPasswordApi: UnwrapRef<typeof import('../../../shared/api/auth')['loginByPasswordApi']>
     readonly logoutApi: UnwrapRef<typeof import('../../../shared/api/auth')['logoutApi']>

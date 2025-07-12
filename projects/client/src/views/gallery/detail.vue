@@ -1,13 +1,75 @@
 <script setup lang="ts">
 import moment from 'moment'
-import type { IGallery } from 'types'
+import { type ICreateLikeBodyDto, type IGallery, type IGetLinkBodyDto, type ILikes, LikesType } from 'types'
 
 const route = useRoute()
+const { visitorId } = useVisitor()
 
 /** 加载中 */
 const loading = ref(false)
 /** 图库详情 */
 const galleryDetail = ref<IGallery>()
+/** 图库id */
+const galleryId = ref()
+/** 点赞记录 */
+const likes = ref<ILikes[]>()
+
+/** 是否点赞 */
+const liked = computed({
+  get() {
+    return likes.value?.some(v => v.visitorId === visitorId.value) ?? false
+  },
+  set() {
+  },
+})
+
+/**
+ * 点赞
+ */
+async function thumbsUp() {
+  if (liked.value)
+    return
+  const body: ICreateLikeBodyDto = {
+    contentId: galleryId.value,
+    visitorId: visitorId.value,
+  }
+  try {
+    await likeGalleryApi(body)
+    // 避免重复点赞
+    if (!liked.value) {
+      likes.value = [
+        ...(likes.value || []),
+        { visitorId: visitorId.value } as ILikes,
+      ]
+    }
+  }
+  catch (e) {
+
+  }
+}
+
+/**
+ * 获取数据
+ */
+async function loadData() {
+  loading.value = true
+
+  try {
+    const body: IGetLinkBodyDto = {
+      contentId: galleryId.value,
+      type: LikesType.GALLERY,
+    }
+    const [galleryRes, likesRes] = await Promise.all([
+      getGalleryDetailByIdApi(galleryId.value as string),
+      getLinkApi(body),
+    ])
+    galleryDetail.value = galleryRes || {}
+    likes.value = likesRes || []
+  }
+  finally {
+    loading.value = false
+  }
+}
 
 onBeforeMount(async () => {
   const { id } = route.query as { id?: string }
@@ -15,19 +77,13 @@ onBeforeMount(async () => {
   if (!id)
     return
 
-  loading.value = true
-  try {
-    const res = await getGalleryDetailByIdApi(id)
-    galleryDetail.value = res || {}
-  }
-  finally {
-    loading.value = false
-  }
+  galleryId.value = id
+  loadData()
 })
 </script>
 
 <template>
-  <div flex="~ col gap6 sm:gap10" pt-6 md:pt-8>
+  <div flex="~ col gap8 sm:gap10" pt-6 md:pt-8>
     <div flex="~ col gap2">
       <h1 v-text="galleryDetail?.name" />
       <div
@@ -66,11 +122,20 @@ onBeforeMount(async () => {
 
     <div
       v-if="galleryDetail?.picture.length"
-      flex="~ col gap4 sm:gap6"
+      flex="~ col gap6" pb-10 sm:pb-16
     >
       <div v-for="(item, index) in galleryDetail.picture" :key="index">
-        <ZImg :model-value="item" readonly width="100%" height="100%" />
+        <ZImg
+          :model-value="item"
+          readonly width="100%" height="100%" gap6
+        />
       </div>
     </div>
+    <ThumbsUp
+      v-if="galleryDetail"
+      v-model:liked="liked"
+      :count="likes?.length"
+      @callback="thumbsUp"
+    />
   </div>
 </template>

@@ -143,17 +143,18 @@ export class ArticleEntitiesController {
     summary: '点赞',
   })
   @ApiSuccessResponse(SuccessStringDto)
-  @Post('link/:articleId')
+  @Post('like')
   public async createLink(
     @Req() req: FastifyRequest,
     @Body() body: CreateLikeBodyDto,
-    @Param() { articleId }: ArticleIdDto,
   ) {
     const { ip } = req.raw
 
-    if (!(await this._articleSrv.entitiesRepo().existsBy({ id: articleId })))
+    const { contentId } = body
+
+    if (!(await this._articleSrv.entitiesRepo().existsBy({ id: contentId })))
       responseError(ErrorCode.ARTICLE_NOT_EXISTS)
 
-    return this._linkSrv.createLink(ip, LikesType.ARTICLE, articleId, body)
+    return this._linkSrv.createLink(ip, LikesType.ARTICLE, body)
   }
 }

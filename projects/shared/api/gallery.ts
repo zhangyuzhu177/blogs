@@ -1,5 +1,6 @@
 import type {
   IChangeStatusBodyDto,
+  ICreateLikeBodyDto,
   IGallery,
   IIdsDto,
   IQueryDto,
@@ -57,4 +58,11 @@ export function batchDeleteGalleryApi(body: IIdsDto) {
  */
 export function changeGalleryStatusApi(body: IChangeStatusBodyDto) {
   return $post<number>('/gallery/entities/status', body)
+}
+
+/**
+ * 点赞
+ */
+export function likeGalleryApi(body: ICreateLikeBodyDto) {
+  return $post<string>('/gallery/entities/like', body)
 }

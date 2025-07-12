@@ -26,6 +26,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     ScrollTop: typeof import('./../components/ScrollTop/ScrollTop.vue')['default']
     SMSInput: typeof import('./../../../shared/components/input/SMSInput.vue')['default']
+    ThumbsUp: typeof import('./../components/ThumbsUp/ThumbsUp.vue')['default']
     Waves: typeof import('./../components/waves/Waves.vue')['default']
     ZBtn: typeof import('./../../../shared/components/btn/ZBtn.vue')['default']
     ZBtnToggle: typeof import('./../../../shared/components/btn/ZBtnToggle.vue')['default']

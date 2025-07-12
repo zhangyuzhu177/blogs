@@ -20,7 +20,6 @@ export class LikesService {
   public async createLink(
     ip: string,
     type: LikesType,
-    contentId: string,
     body: CreateLikeBodyDto,
   ) {
     try {
@@ -28,7 +27,6 @@ export class LikesService {
         ...body,
         ip,
         type,
-        contentId,
       })
       return insertRes.identifiers[0].id
     }

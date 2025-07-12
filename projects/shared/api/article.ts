@@ -2,6 +2,7 @@ import type {
   IArticle,
   IArticleCount,
   IChangeStatusBodyDto,
+  ICreateLikeBodyDto,
   IIdsDto,
   IQueryDto,
   IQueryPaginatedResData,
@@ -65,4 +66,11 @@ export function deleteArticleApi(body: IIdsDto) {
  */
 export function deleteArticleByIdApi(articleId: string) {
   return $delete<number>(`/article/entities/delete/${articleId}`)
+}
+
+/**
+ * 点赞
+ */
+export function likeArticleApi(body: ICreateLikeBodyDto) {
+  return $post<string>('/article/entities/like', body)
 }
