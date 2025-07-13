@@ -6,7 +6,7 @@
 }
 
 /* 中性色 */
-@for $i from 1 through 8 {
+@for $i from 1 through 9 {
   .text-grey-#{$i} {
     color: var(--grey-#{$i}) !important;
   }

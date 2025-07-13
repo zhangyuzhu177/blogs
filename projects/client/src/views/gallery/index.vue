@@ -14,15 +14,28 @@ const typeId = ref()
 /** 图库列表 */
 const galleryList = ref<IGallery[]>()
 /** 分页 */
-const pagination = {
-  page: 1,
-  pageSize: 8,
-}
+const page = ref(1)
+/** 总数 */
+const total = ref(0)
 
 watch(
-  () => [typeId.value, pagination.page],
-  async ([newTypeId, newPage]) => {
-    if (newTypeId || newPage)
+  typeId,
+  async (newTypeId, oldTypeId) => {
+    if (newTypeId !== oldTypeId) {
+      page.value = 1
+      galleryList.value = []
+    }
+    if (newTypeId)
+      await loadData()
+  },
+)
+
+watch(
+  page,
+  async (newPage) => {
+    if (newPage === 1)
+      return
+    if (newPage)
       await loadData()
   },
 )
@@ -32,12 +45,11 @@ watch(
  */
 async function loadData() {
   loading.value = true
-  const { page, pageSize } = pagination
   try {
     const body: IQueryDto<IGallery> = {
       pagination: {
-        page,
-        pageSize,
+        page: page.value,
+        pageSize: 8,
       },
       order: {
         createdAt: 'DESC',
@@ -51,8 +63,11 @@ async function loadData() {
       status: true,
     }
 
-    const { data } = await queryGalleryListApi(body)
-    galleryList.value = data
+    const { data, total: t } = await queryGalleryListApi(body)
+    galleryList.value = page.value === 1
+      ? data
+      : [...(galleryList.value ?? []), ...data]
+    total.value = t
   }
   finally {
     loading.value = false
@@ -168,7 +183,15 @@ onBeforeMount(async () => {
           </div>
         </div>
       </div>
-      <!-- <ZBtn label="查看更多" /> -->
+      <ZBtn
+        v-if="page * 8 < total"
+        text-color="grey-9" label="加载更多"
+        b-rd-2
+        :params="{
+          outline: true,
+        }"
+        @click="page++"
+      />
     </template>
   </div>
 </template>

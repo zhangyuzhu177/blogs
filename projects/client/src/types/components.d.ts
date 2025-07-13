@@ -12,6 +12,7 @@ declare module 'vue' {
     ArtButton: typeof import('./../components/Art/Button/ArtButton.vue')['default']
     ArtLogo: typeof import('./../components/Art/ArtLogo.vue')['default']
     ArtPattern: typeof import('./../components/Art/Background/ArtPattern.vue')['default']
+    ArtRainbowButton: typeof import('./../components/Art/Button/ArtRainbowButton.vue')['default']
     Canvas: typeof import('./../../../shared/components/canvas/index.vue')['default']
     CaptchaInput: typeof import('./../../../shared/components/input/CaptchaInput.vue')['default']
     Container: typeof import('./../components/Container/Container.vue')['default']
