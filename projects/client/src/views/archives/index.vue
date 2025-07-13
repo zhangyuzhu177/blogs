@@ -164,7 +164,7 @@ onBeforeMount(async () => {
             cursor-pointer truncate
             flex-1 w-0 hover:subtitle-2
             transition-all
-            @click="router.push(`/article?articleId=${article.id}`)"
+            @click="router.push(`/archives/article?articleId=${article.id}`)"
           >
             <span v-text="article.name" />
           </div>

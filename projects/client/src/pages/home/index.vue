@@ -9,5 +9,4 @@ import Home from '~/views/home/index.vue'
 <route lang="yaml">
 meta:
   layout: home
-  footer: true
 </route>

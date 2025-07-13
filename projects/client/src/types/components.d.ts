@@ -15,8 +15,6 @@ declare module 'vue' {
     Canvas: typeof import('./../../../shared/components/canvas/index.vue')['default']
     CaptchaInput: typeof import('./../../../shared/components/input/CaptchaInput.vue')['default']
     Container: typeof import('./../components/Container/Container.vue')['default']
-    Dark: typeof import('./../components/FunBtns/Dark.vue')['default']
-    FunBtns: typeof import('./../components/FuncBtns/FunBtns.vue')['default']
     FuncBtns: typeof import('./../components/FuncBtns/FuncBtns.vue')['default']
     LogoutDialog: typeof import('./../../../shared/components/dialog/LogoutDialog.vue')['default']
     Menu: typeof import('./../components/menu/Menu.vue')['default']

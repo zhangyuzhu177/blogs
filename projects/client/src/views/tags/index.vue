@@ -113,7 +113,7 @@ onBeforeMount(async () => {
         sm:p4 p2 cursor-pointer b-rd-2
         bg="grey-1 dark:grey-9"
         b="1 transparent" overflow-hidden
-        @click="router.push(`/article?articleId=${article.id}`)"
+        @click="router.push(`/archives/article?articleId=${article.id}`)"
       >
         <div subtitle-1 truncate v-text="article.name" />
         <div flex="~ col gap2 justify-between">

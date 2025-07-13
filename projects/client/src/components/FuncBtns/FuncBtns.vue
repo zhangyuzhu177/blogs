@@ -136,7 +136,7 @@ function jump(id: string) {
   dialog.value = false
 
   if (type.value === 'article')
-    router.push(`/article?articleId=${id}`)
+    router.push(`/archives/article?articleId=${id}`)
   else if (type.value === 'gallery')
     router.push(`/gallery/detail?id=${id}`)
 }
