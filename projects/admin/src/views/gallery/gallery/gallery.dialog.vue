@@ -3,7 +3,7 @@ import { Notify } from 'quasar'
 import { cloneDeep } from 'lodash'
 import { objectPick } from 'utils'
 import type { IGallery, IGalleryType, IUpsertGalleryBodyDto } from 'types'
-import { validateDesc, validateName } from 'shared/utils/validators'
+import { validateDesc } from 'shared/utils/validators'
 
 interface GalleryProps {
   /**
@@ -168,7 +168,7 @@ async function upsertGallery() {
         placeholder="请输入名称"
         required :readonly
         :rules="[
-          (val: string) => validateName(val) || true,
+          (val: string) => !!val || '名称不能为空',
         ]"
       />
       <ZSelect
