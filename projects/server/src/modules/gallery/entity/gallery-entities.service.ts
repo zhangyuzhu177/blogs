@@ -2,7 +2,6 @@ import { In } from 'typeorm'
 import { ErrorCode } from 'types'
 import { Injectable, Logger } from '@nestjs/common'
 
-import type { User } from 'src/entities/user'
 import { parseSqlError, responseError } from 'src/utils'
 import type { ChangeStatusBodyDto } from 'src/dto/common'
 
@@ -20,7 +19,7 @@ export class GalleryEntitiesService {
   /**
    * 获取图库详情
    */
-  public async getGalleryDetail(id: string, user: User, ip: string) {
+  public async getGalleryDetail(id: string, ip: string) {
     const article = await this._gallerySrv.entityRepo().findOne({
       where: { id },
       relations: {
@@ -31,10 +30,8 @@ export class GalleryEntitiesService {
     if (!article)
       responseError(ErrorCode.ARTICLE_NOT_EXISTS)
 
-    if (!user) {
-      this._logger.verbose(ip)
-      await this._gallerySrv.entityRepo().increment({ id }, 'pageView', 1)
-    }
+    this._logger.verbose(ip)
+    await this._gallerySrv.entityRepo().increment({ id }, 'pageView', 1)
 
     return article
   }

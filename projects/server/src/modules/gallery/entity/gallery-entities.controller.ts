@@ -39,8 +39,8 @@ export class GalleryEntitiesController {
     @Param() { galleryId }: GalleryIdDto,
     @Req() req: FastifyRequest,
   ) {
-    const { user, ip } = req.raw
-    return this._galleryEntitySrv.getGalleryDetail(galleryId, user, ip)
+    const { ip } = req.raw
+    return this._galleryEntitySrv.getGalleryDetail(galleryId, ip)
   }
 
   @ApiOperation({
