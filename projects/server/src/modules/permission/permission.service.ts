@@ -1,13 +1,14 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common'
 import { In, Not, Repository } from 'typeorm'
+import { permissionDescriptions } from 'types'
 import { InjectRepository } from '@nestjs/typeorm'
 import type { OnModuleInit } from '@nestjs/common'
+import { objectEntries, objectKeys } from '@catsjuice/utils'
+import { Inject, Injectable, forwardRef } from '@nestjs/common'
 
 import { Permission } from 'src/entities/permission'
-import { RoleService } from '../role/role.service'
-import { objectEntries, objectKeys } from '@catsjuice/utils'
 import { parseSqlError } from 'src/utils/sql-error/parse-sql-error'
-import { permissionDescriptions } from 'types'
+
+import { RoleService } from '../role/role.service'
 
 @Injectable()
 export class PermissionService implements OnModuleInit {

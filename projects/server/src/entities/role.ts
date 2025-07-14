@@ -1,7 +1,13 @@
-import { IRole } from 'types'
+import type { IRole } from 'types'
 import { ApiProperty } from '@nestjs/swagger'
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 
 import { Permission } from './permission'
 import { User } from './user'

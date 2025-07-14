@@ -1,6 +1,8 @@
+import { ErrorCode } from 'types'
+import type { CodeAction } from 'types'
 import { Injectable } from '@nestjs/common'
-import { CodeAction, ErrorCode } from 'types'
 import { randomString } from '@catsjuice/utils'
+
 import { responseError } from 'src/utils/response'
 
 import { RedisService } from '../redis/redis.service'

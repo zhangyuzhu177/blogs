@@ -1,16 +1,16 @@
 import * as svgCaptcha from 'svg-captcha'
 import { Throttle } from '@nestjs/throttler'
-import { ApiSuccessResponse } from 'src/utils/response'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { Body, Controller, Get, Post, Req } from '@nestjs/common'
 
-import { AuthService } from './auth.service'
+import { ApiSuccessResponse } from 'src/utils/response'
+
 import { CodeService } from '../code/code.service'
+import { AuthService } from './auth.service'
 import { RegisterBodyDto } from './dto/register.body.dto'
 import { LoginSuccessResDto } from './dto/login-success.res.dto'
 import { LoginByPasswordBodyDto } from './dto/login-by-password.body.dto'
 import { LoginByEmailCodeBodyDto } from './dto/login-by-email-code.body.dto'
-import { text } from 'node:stream/consumers'
 
 @Controller('auth')
 @ApiTags('Auth | 身份验证')
@@ -24,9 +24,8 @@ export class AuthController {
   @Post('register')
   public async register(
     @Body() body: RegisterBodyDto,
-    @Req() req: FastifyRequest
   ) {
-    return this._authSrv.register(body, req.raw.ip)
+    return this._authSrv.register(body)
   }
 
   @ApiOperation({ summary: '账号/邮箱 + 密码登录' })
@@ -34,9 +33,8 @@ export class AuthController {
   @Post('login/password')
   public async loginByPassword(
     @Body() body: LoginByPasswordBodyDto,
-    @Req() req: FastifyRequest
+    @Req() req: FastifyRequest,
   ) {
-
     return this._authSrv.loginByPassword(body, req.raw.ip)
   }
 
@@ -45,7 +43,7 @@ export class AuthController {
   @Post('login/email/code')
   public async loginByEmailCode(
     @Body() body: LoginByEmailCodeBodyDto,
-    @Req() req: FastifyRequest
+    @Req() req: FastifyRequest,
   ) {
     return await this._authSrv.loginByEmailCode(body, req.raw.ip)
   }

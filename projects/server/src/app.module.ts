@@ -19,6 +19,7 @@ import { FileModule } from './modules/file/file.module'
 import { RoleModule } from './modules/role/role.module'
 import { RedisModule } from './modules/redis/redis.module'
 import { EmailModule } from './modules/email/email.module'
+import { LikesModule } from './modules/likes/likes.module'
 import { AuthMiddleware } from './middleware/auth.middleware'
 import { InfoMiddleware } from './middleware/info.middleware'
 import { GalleryModule } from './modules/gallery/gallery.module'
@@ -30,7 +31,6 @@ import { WebsocketGateway } from './modules/websocket/websocket.gateway'
 import { PermissionModule } from './modules/permission/permission.module'
 import { ResponseInterceptor } from './interceptors/response.interceptor'
 import { ThrottlerExceptionFilter } from './filter/throttler-exception.filter'
-import { LikesModule } from './modules/likes/likes.module'
 
 @Module({
   imports: [

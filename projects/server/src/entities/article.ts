@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger'
 import type { IArticle } from 'types'
+import { ApiProperty } from '@nestjs/swagger'
 import { ArticleTheme, ID_EXAMPLE } from 'types'
 import {
   Column,

@@ -1,5 +1,5 @@
-import { registerAs } from "@nestjs/config";
-import { parseIntRaw } from "utils";
+import { parseIntRaw } from 'utils'
+import { registerAs } from '@nestjs/config'
 
 export default registerAs('jwt', () => {
   const {
@@ -10,4 +10,4 @@ export default registerAs('jwt', () => {
     loginAuthSecret: JWT_LOGIN_AUTH_SECRET,
     loginAuthExpireInSeconds: parseIntRaw(JWT_LOGIN_AUTH_EXPIRE_IN_SECONDS, 28800),
   }
-});
+})

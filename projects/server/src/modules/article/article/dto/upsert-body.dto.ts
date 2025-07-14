@@ -1,11 +1,12 @@
 import { Mixin } from 'ts-mixer'
+import { Type } from 'class-transformer'
 import type { IUpsertArticleBodyDto } from 'types'
 import { ArticleTheme, ID_EXAMPLE } from 'types'
-import { IsArray, IsString } from 'src/decorators'
 import { ApiPropertyOptional } from '@nestjs/swagger'
-import { ArticleTypeIdDto, NameDto, StatusDto } from 'src/dto'
 import { IsEnum, IsOptional } from 'class-validator'
-import { Type } from 'class-transformer'
+
+import { IsArray, IsString } from 'src/decorators'
+import { ArticleTypeIdDto, NameDto, StatusDto } from 'src/dto'
 
 export class UpsertArticleBodyDto
   extends Mixin(

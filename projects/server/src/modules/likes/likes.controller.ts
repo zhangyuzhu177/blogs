@@ -18,7 +18,7 @@ export class LikesController {
   public async getLink(
     @Body() body: GetLinkBodyDto,
   ) {
-    return await this._linkSrv.linkeRepo().find({
+    return await this._linkSrv.likeRepo().find({
       where: body,
     })
   }

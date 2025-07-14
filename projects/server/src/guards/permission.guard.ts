@@ -1,11 +1,13 @@
+import { ErrorCode } from 'types'
 import { Reflector } from '@nestjs/core'
-import { Injectable, SetMetadata, UseGuards, applyDecorators } from '@nestjs/common'
+import type { PermissionType } from 'types'
 import type { CanActivate, ExecutionContext } from '@nestjs/common'
+import { Injectable, SetMetadata, UseGuards, applyDecorators } from '@nestjs/common'
 
 import { RoleService } from 'src/modules/role/role.service'
-import { IsLoginApis, LoginGuard } from './login.guard'
 import { ApiErrorResponse, getReflectorValue, responseError } from 'src/utils'
-import { ErrorCode, PermissionType } from 'types'
+
+import { IsLoginApis, LoginGuard } from './login.guard'
 
 type PermissionRelation = 'OR' | 'AND'
 

@@ -1,11 +1,11 @@
-import { ILogin } from 'types'
+import type { ILogin } from 'types'
 import { ApiProperty } from '@nestjs/swagger'
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn
+  PrimaryColumn,
 } from 'typeorm'
 
 import { User } from './user'

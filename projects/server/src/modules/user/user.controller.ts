@@ -1,5 +1,5 @@
-import { Throttle } from '@nestjs/throttler'
 import { PermissionType } from 'types'
+import { Throttle } from '@nestjs/throttler'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import {
   Body,

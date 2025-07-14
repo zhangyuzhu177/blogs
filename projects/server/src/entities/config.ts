@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
-import { IConfigDto, ISysConfig, SysConfig } from "types";
+import { SysConfig } from 'types'
+import type { IConfigDto, ISysConfig } from 'types'
+import { Column, Entity, PrimaryColumn } from 'typeorm'
 
 @Entity()
 export class Config implements ISysConfig<SysConfig> {

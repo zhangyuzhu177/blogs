@@ -1,11 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
-import { InjectRepository } from '@nestjs/typeorm';
-import { VersionDto } from 'src/dto/version.dto';
-import { Config } from 'src/entities/config';
-import { responseError } from 'src/utils/response';
-import { Repository } from 'typeorm';
-import { ErrorCode, IConfigDto, IUser, PermissionType, SysConfig } from 'types';
+import { Repository } from 'typeorm'
+import { Injectable } from '@nestjs/common'
+import type { IConfigDto, IUser } from 'types'
+import { InjectRepository } from '@nestjs/typeorm'
+import { ErrorCode, PermissionType, SysConfig } from 'types'
+
+import { Config } from 'src/entities/config'
+import { responseError } from 'src/utils/response'
+import type { VersionDto } from 'src/dto/version.dto'
 
 @Injectable()
 export class SysConfigService {
@@ -19,17 +20,17 @@ export class SysConfigService {
     private readonly _sysCfgRepo: Repository<Config>,
   ) { }
 
-    /**
+  /**
    * 判断用户是否具有修改该配置的权限
    */
-    public hasPermission(version: SysConfig, user: Partial<IUser>) {
-      const permissions = user.role?.permissions.map(v => v.name)
-      if (
-        ((version === SysConfig.HOME|| version === SysConfig.ABOUT)
+  public hasPermission(version: SysConfig, user: Partial<IUser>) {
+    const permissions = user.role?.permissions.map(v => v.name)
+    if (
+      ((version === SysConfig.HOME || version === SysConfig.ABOUT)
           && !permissions.includes(PermissionType.CONFIG_UPSERT_APP))
-      )
-        responseError(ErrorCode.PERMISSION_DENIED)
-    }
+    )
+      responseError(ErrorCode.PERMISSION_DENIED)
+  }
 
   public async getConfig<T extends SysConfig>(param: VersionDto<T>) {
     return (await this._sysCfgRepo.findOne({

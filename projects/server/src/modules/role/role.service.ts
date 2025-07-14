@@ -1,15 +1,15 @@
-import { randomId } from 'utils';
-import { Repository } from 'typeorm';
-import { Role } from 'src/entities/role';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { responseError } from 'src/utils/response';
-import { ALL_PERMISSIONS, DEFAULT_ADMIN_ROLES, ErrorCode } from 'types';
+import { Repository } from 'typeorm'
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { ALL_PERMISSIONS, DEFAULT_ADMIN_ROLES, ErrorCode } from 'types'
 
-import { UserService } from '../user/user.service';
-import { UpsertRoleBodyDto } from './dto/upsert-role.body.dto';
-import { PermissionService } from '../permission/permission.service';
-import { parseSqlError } from 'src/utils';
+import { Role } from 'src/entities/role'
+import { parseSqlError } from 'src/utils'
+import { responseError } from 'src/utils/response'
+
+import { UserService } from '../user/user.service'
+import { PermissionService } from '../permission/permission.service'
+import type { UpsertRoleBodyDto } from './dto/upsert-role.body.dto'
 
 @Injectable()
 export class RoleService {
@@ -17,7 +17,7 @@ export class RoleService {
     @InjectRepository(Role)
     private readonly _roleRepo: Repository<Role>,
     private readonly _userSrv: UserService,
-    private readonly _permissionSrv:PermissionService
+    private readonly _permissionSrv: PermissionService,
   ) { }
 
   /** 初始化默认角色 */
@@ -84,9 +84,10 @@ export class RoleService {
     if (DEFAULT_ADMIN_ROLES.some(r => r.id === id))
       responseError(ErrorCode.ROLE_DELETE_ROOT)
     try {
-      const res = await this._roleRepo.delete({id})
+      const res = await this._roleRepo.delete({ id })
       return res.affected
-    } catch (e) {
+    }
+    catch (e) {
       const sqlError = parseSqlError(e)
       if (sqlError === SqlError.FOREIGN_KEY_CONSTRAINT_FAILS)
         responseError(ErrorCode.ROLE_IN_USAGE)

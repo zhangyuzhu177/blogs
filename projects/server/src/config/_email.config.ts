@@ -1,5 +1,5 @@
-import { registerAs } from "@nestjs/config";
-import { parseBoolRaw, parseIntRaw } from "utils";
+import { registerAs } from '@nestjs/config'
+import { parseBoolRaw, parseIntRaw } from 'utils'
 
 export interface EmailConfig {
   /** 邮件服务传输协议 */

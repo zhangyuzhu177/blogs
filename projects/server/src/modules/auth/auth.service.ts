@@ -1,23 +1,22 @@
-import { CodeAction, ErrorCode } from 'types'
 import { Cron } from '@nestjs/schedule'
+import { Injectable } from '@nestjs/common'
+import { CodeAction, ErrorCode } from 'types'
 import { objectOmit } from '@catsjuice/utils'
 import { LessThan, Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Injectable, } from '@nestjs/common'
 
-import { User } from 'src/entities/user'
 import { Login } from 'src/entities/login'
 import { responseError } from 'src/utils/response'
+import { comparePassword, paramAtLeastOne } from 'src/utils'
 import { parseSqlError } from 'src/utils/sql-error/parse-sql-error'
 
 import { CodeService } from '../code/code.service'
 import { UserService } from '../user/user.service'
 import { JwtAuthService } from '../jwt-auth/jwt-auth.service'
 
-import { RegisterBodyDto } from './dto/register.body.dto'
-import { LoginByPasswordBodyDto } from './dto/login-by-password.body.dto'
-import { LoginByEmailCodeBodyDto } from './dto/login-by-email-code.body.dto'
-import { comparePassword, paramAtLeastOne } from 'src/utils'
+import type { RegisterBodyDto } from './dto/register.body.dto'
+import type { LoginByPasswordBodyDto } from './dto/login-by-password.body.dto'
+import type { LoginByEmailCodeBodyDto } from './dto/login-by-email-code.body.dto'
 
 @Injectable()
 export class AuthService {
@@ -25,7 +24,7 @@ export class AuthService {
     @InjectRepository(Login)
     private readonly _loginRepo: Repository<Login>,
 
-    private readonly _codeSrv:CodeService,
+    private readonly _codeSrv: CodeService,
     private readonly _userSrv: UserService,
     private readonly _jwtAuthSrv: JwtAuthService,
   ) { }
@@ -38,8 +37,8 @@ export class AuthService {
   }
 
   /** 注册 */
-  public async register(body: RegisterBodyDto, ip:string) {
-    const user =await this._userSrv.qb().where('account=:account', { account: body.account }).getOne()
+  public async register(body: RegisterBodyDto) {
+    const user = await this._userSrv.qb().where('account=:account', { account: body.account }).getOne()
 
     if (user)
       responseError(ErrorCode.USER_ACCOUNT_REGISTERED)
@@ -55,9 +54,10 @@ export class AuthService {
       const sign = await this._jwtAuthSrv.signLoginAuthToken(user)
       return {
         sign,
-        user:objectOmit(user,['password'])
+        user: objectOmit(user, ['password']),
       }
-    } catch (error) {
+    }
+    catch (error) {
       const sqlError = parseSqlError(error)
       if (sqlError === SqlError.DUPLICATE_ENTRY)
         responseError(ErrorCode.USER_EXISTED, '账号已注册')
@@ -71,11 +71,10 @@ export class AuthService {
   public async loginByPassword(body: LoginByPasswordBodyDto, ip: string) {
     paramAtLeastOne(body, 'account', 'email')
 
-    const {account, email, code, bizId, password}=body
+    const { account, email, code, bizId, password } = body
 
-    if (!(await this._codeSrv.verifyCaptcha(bizId, [ip, code]))) {
+    if (!(await this._codeSrv.verifyCaptcha(bizId, [ip, code])))
       responseError(ErrorCode.AUTH_CODE_NOT_MATCHED)
-    }
 
     const qb = this._userSrv.qb().addSelect('u.password')
     if (account)
@@ -89,10 +88,9 @@ export class AuthService {
       responseError(
         account
           ? ErrorCode.USER_ACCOUNT_NOT_REGISTERED
-          : ErrorCode.USER_EMAIL_NOT_REGISTERED
+          : ErrorCode.USER_EMAIL_NOT_REGISTERED,
       )
     }
-
 
     // 用户是否被禁用
     if (!user.status)
@@ -112,7 +110,7 @@ export class AuthService {
   /**
    * 邮箱 + 验证码登录
    */
-  public async loginByEmailCode(body: LoginByEmailCodeBodyDto,ip: string) {
+  public async loginByEmailCode(body: LoginByEmailCodeBodyDto, ip: string) {
     const { bizId, code, email } = body
     await this._codeSrv.verifyWithError(bizId, [email, CodeAction.LOGIN, code])
 
@@ -128,12 +126,12 @@ export class AuthService {
   /**
    * 退出登录
   */
-  public async logout(token:string) {
+  public async logout(token: string) {
     await this._jwtAuthSrv.destroyLoginAuthToken(token)
     return true
   }
 
   public repo() {
-    return this._loginRepo;
+    return this._loginRepo
   }
 }

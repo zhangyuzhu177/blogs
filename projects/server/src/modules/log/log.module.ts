@@ -1,9 +1,10 @@
-import { Global, Module } from '@nestjs/common';
-import { LogService } from './log.service';
-import { LogController } from './log.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { DailyCount } from 'src/entities/daily-count';
-import { DailyCountService } from './daily-count/daily-count.service';
+import { Global, Module } from '@nestjs/common'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { DailyCount } from 'src/entities/daily-count'
+
+import { LogService } from './log.service'
+import { LogController } from './log.controller'
+import { DailyCountService } from './daily-count/daily-count.service'
 
 @Global()
 @Module({

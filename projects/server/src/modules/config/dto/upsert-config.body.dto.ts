@@ -1,16 +1,17 @@
-import { ApiPropertyOptional } from "@nestjs/swagger"
-import { VersionDto } from "src/dto/version.dto"
-import { IConfigDto, IUpsertConfigBodyDto, SysConfig } from "types"
+import { ApiPropertyOptional } from '@nestjs/swagger'
+import type { IConfigDto, IUpsertConfigBodyDto, SysConfig } from 'types'
+
+import { VersionDto } from 'src/dto/version.dto'
 
 export class UpsertConfigBodyDto
   extends VersionDto
-  implements IUpsertConfigBodyDto{
+  implements IUpsertConfigBodyDto {
   @ApiPropertyOptional({
     description: '页面配置',
     example: {
-      title:'',
+      title: '',
       label: '',
-      url:'',
+      url: '',
     },
   })
   home?: IConfigDto[SysConfig.HOME]
@@ -18,14 +19,14 @@ export class UpsertConfigBodyDto
   @ApiPropertyOptional({
     description: '关于页配置',
     example: {
-    avatar: '',
-    name: '',
-    job: '',
-    location: '',
-    skills: [],
-    desc:'',
-    email: '',
-    github:'',
+      avatar: '',
+      name: '',
+      job: '',
+      location: '',
+      skills: [],
+      desc: '',
+      email: '',
+      github: '',
     },
   })
   about?: IConfigDto[SysConfig.ABOUT]

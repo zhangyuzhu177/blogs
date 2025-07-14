@@ -1,6 +1,7 @@
+import { JwtModule, JwtService } from '@nestjs/jwt'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { Global, Module, forwardRef } from '@nestjs/common'
-import { JwtModule, JwtService } from '@nestjs/jwt'
+
 import { AuthModule } from '../auth/auth.module'
 import { JwtAuthService } from './jwt-auth.service'
 

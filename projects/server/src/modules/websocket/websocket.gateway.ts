@@ -1,6 +1,6 @@
-import type { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit } from '@nestjs/websockets'
+import { Server } from 'socket.io'
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets'
-import type { Server, Socket } from 'socket.io'
+import type { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit } from '@nestjs/websockets'
 
 @WebSocketGateway({
   // 允许跨域

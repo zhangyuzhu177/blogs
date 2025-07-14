@@ -1,7 +1,8 @@
-import type { Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 import { Injectable } from '@nestjs/common'
-import { Article } from 'src/entities/article'
 import { InjectRepository } from '@nestjs/typeorm'
+
+import { Article } from 'src/entities/article'
 import { ArticleType } from 'src/entities/article-type'
 import { ArticleTag } from 'src/entities/article-tag'
 

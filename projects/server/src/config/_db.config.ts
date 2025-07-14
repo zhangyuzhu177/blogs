@@ -3,7 +3,6 @@ import { parseBoolRaw, parseIntRaw } from 'utils'
 import type { TypeOrmModuleOptions } from '@nestjs/typeorm'
 
 export default registerAs('db', () => {
-
   const {
     DB_HOST, DB_PORT, DB_USER, DB_PSWD,
     DB_NAME, DB_CONNECT_TIMEOUT,

@@ -10,9 +10,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
+import { Likes } from './likes'
 import { BaseTimeStamp } from './_timestamp'
 import { GalleryType } from './gallery-type'
-import { Likes } from './likes'
 
 @Entity()
 export class Gallery extends BaseTimeStamp implements IGallery {

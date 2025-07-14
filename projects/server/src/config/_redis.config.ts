@@ -1,5 +1,5 @@
+import { parseIntRaw } from 'utils'
 import { registerAs } from '@nestjs/config'
-import {parseIntRaw} from 'utils'
 
 export type RedisConfig = Record<
   RedisType,

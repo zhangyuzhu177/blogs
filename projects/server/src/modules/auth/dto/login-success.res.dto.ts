@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
+import type { ILoginSuccessResData, ILoginSuccessResDto } from 'types'
+
 import { SuccessDto } from 'src/dto'
 import { User } from 'src/entities/user'
-import { ILoginSuccessResData, ILoginSuccessResDto } from 'types'
 
 class Sing {
   @ApiProperty({

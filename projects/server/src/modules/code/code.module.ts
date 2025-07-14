@@ -4,10 +4,10 @@ import { CodeService } from './code.service'
 @Global()
 @Module({
   providers: [
-    CodeService
+    CodeService,
   ],
   exports: [
-    CodeService
+    CodeService,
   ],
 })
 export class CodeModule {}

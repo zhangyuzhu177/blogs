@@ -1,10 +1,10 @@
+import { CodeAction } from 'types'
 import * as nodemailer from 'nodemailer'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { SendEmailCodeBodyDto } from './dto/send-email-code.body.dto'
-import { CodeService } from '../code/code.service'
-import { CodeAction } from 'types'
 
+import { CodeService } from '../code/code.service'
+import type { SendEmailCodeBodyDto } from './dto/send-email-code.body.dto'
 
 @Injectable()
 export class EmailService {
@@ -37,29 +37,32 @@ export class EmailService {
   public async sendCode(body: SendEmailCodeBodyDto) {
     const expInMin = 5
     const { action, email } = body
-    const {bizId,code}=await this._codeSrv.createCode(
+    const { bizId, code } = await this._codeSrv.createCode(
       email,
       action,
       expInMin,
     )
     let html, subject
     if (action === CodeAction.REGISTER) {
-      subject = `【验证码】用户注册`
+      subject = '【验证码】用户注册'
       html = `<p>我们已收到您邮箱验证的请求。您的注册验证码为：<strong>${code}</strong>`
-    }else if (action === CodeAction.LOGIN) {
-      subject = `【验证码】用户登陆`
+    }
+    else if (action === CodeAction.LOGIN) {
+      subject = '【验证码】用户登陆'
       html = `<p>我们已收到您邮箱验证的请求。您的登录验证码为：<strong>${code}</strong>`
-    }else if (action === CodeAction.CHANGE_PASSWORD) {
-      subject = `【验证码】用户修改密码`
+    }
+    else if (action === CodeAction.CHANGE_PASSWORD) {
+      subject = '【验证码】用户修改密码'
       html = `<p>我们已收到您邮箱验证的请求。您的修改密码验证码为：<strong>${code}</strong>`
-    }else {
+    }
+    else {
       subject = `BLOGS ${action}`
       html = `<p>Your code for ${action} is: <strong>${code}</strong>, expire in ${expInMin} minutes</p>`
     }
     this.send({
       to: email,
       html,
-      subject
+      subject,
     })
     return { bizId }
   }

@@ -6,12 +6,12 @@ import { ArticleTag } from 'src/entities/article-tag'
 import { ArticleType } from 'src/entities/article-type'
 
 import { ArticleService } from './article.service'
+import { ArticleTagService } from './tag/tag.service'
 import { ArticleTypeService } from './type/type.service'
+import { ArticleTagController } from './tag/tag.controller'
 import { ArticleTypeController } from './type/type.controller'
 import { ArticleEntitiesService } from './article/article.service'
 import { ArticleEntitiesController } from './article/article.controller'
-import { ArticleTagService } from './tag/tag.service'
-import { ArticleTagController } from './tag/tag.controller'
 
 @Module({
   imports: [

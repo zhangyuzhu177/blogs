@@ -1,4 +1,4 @@
-import { IDailyCount } from 'types'
+import type { IDailyCount } from 'types'
 import { ApiProperty } from '@nestjs/swagger'
 import { Column, Entity, PrimaryColumn } from 'typeorm'
 

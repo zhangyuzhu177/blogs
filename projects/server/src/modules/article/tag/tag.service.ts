@@ -1,10 +1,11 @@
+import { ErrorCode } from 'types'
+import type { Repository } from 'typeorm'
 import { Injectable } from '@nestjs/common'
-import { ArticleService } from '../article.service'
-import { Repository } from 'typeorm'
-import { ArticleTag } from 'src/entities/article-tag'
-import { ErrorCode, IUpsertArticleTagBodyDto } from 'types'
-import { parseSqlError, responseError } from 'src/utils'
+import type { IUpsertArticleTagBodyDto } from 'types'
 
+import { parseSqlError, responseError } from 'src/utils'
+import type { ArticleTag } from 'src/entities/article-tag'
+import { ArticleService } from '../article.service'
 
 @Injectable()
 export class ArticleTagService {
@@ -22,11 +23,12 @@ export class ArticleTagService {
   public async createArticleTag(body: IUpsertArticleTagBodyDto) {
     try {
       const insertRes = await this._articleTagSrv.insert(
-        this._articleTagSrv.create(body)
+        this._articleTagSrv.create(body),
       )
 
       return insertRes.identifiers[0].id
-    } catch (e) {
+    }
+    catch (e) {
       const sqlError = parseSqlError(e)
       if (sqlError === SqlError.FOREIGN_KEY_CONSTRAINT_FAILS)
         responseError(ErrorCode.ARTICLE_TAG_NOT_EXISTS)
@@ -46,7 +48,8 @@ export class ArticleTagService {
         responseError(ErrorCode.ARTICLE_TAG_NOT_EXISTS)
 
       return id
-    } catch (e) {
+    }
+    catch (e) {
       const sqlError = parseSqlError(e)
       if (sqlError === SqlError.DUPLICATE_ENTRY)
         responseError(ErrorCode.ARTICLE_TAG_IS_EXIST)
@@ -64,7 +67,8 @@ export class ArticleTagService {
         responseError(ErrorCode.ARTICLE_TAG_NOT_EXISTS)
 
       return id
-    } catch (e) {
+    }
+    catch (e) {
       const sqlError = parseSqlError(e)
       if (sqlError === SqlError.FOREIGN_KEY_CONSTRAINT_FAILS)
         responseError(ErrorCode.ARTICLE_TAG_HAS_ARTICLE)

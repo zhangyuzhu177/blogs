@@ -1,4 +1,4 @@
-import { registerAs } from "@nestjs/config";
+import { registerAs } from '@nestjs/config'
 
 export interface OssConfig {
   /** OSS 服务 AK */
@@ -14,13 +14,12 @@ export interface OssConfig {
 }
 
 export default registerAs('oss', () => {
-
-  const {OSS_ACCESS_KEY_ID}=process.env
+  const { OSS_ACCESS_KEY_ID, OSS_ACCESS_KEY_SECRET, OSS_BUCKET, OSS_REGION } = process.env
 
   return {
-    accessKeyId: process.env.OSS_ACCESS_KEY_ID,
-    accessKeySecret: process.env.OSS_ACCESS_KEY_SECRET,
-    bucket: process.env.OSS_BUCKET,
-    region: process.env.OSS_REGION,
+    accessKeyId: OSS_ACCESS_KEY_ID,
+    accessKeySecret: OSS_ACCESS_KEY_SECRET,
+    bucket: OSS_BUCKET,
+    region: OSS_REGION,
   }
 })

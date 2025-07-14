@@ -1,19 +1,21 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
-import { SysConfigService } from './config.service';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ApiSuccessResponse } from 'src/utils/response';
-import { ConfigResDto } from './dto/config.res.dto';
-import { UpsertConfigBodyDto } from './dto/upsert-config.body.dto';
-import { Config } from 'src/entities/config';
-import { HasPermission } from 'src/guards/permission.guard';
-import { PermissionType } from 'types';
-import { VersionDto } from 'src/dto/version.dto';
+import { PermissionType } from 'types'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common'
+
+import { VersionDto } from 'src/dto/version.dto'
+import type { Config } from 'src/entities/config'
+import { ApiSuccessResponse } from 'src/utils/response'
+import { HasPermission } from 'src/guards/permission.guard'
+
+import { UpsertConfigBodyDto } from './dto/upsert-config.body.dto'
+import { ConfigResDto } from './dto/config.res.dto'
+import { SysConfigService } from './config.service'
 
 @Controller('config')
 @ApiTags('Config | 全局配置')
 export class ConfigController {
   constructor(
-    private readonly _sysCfgSrv: SysConfigService
+    private readonly _sysCfgSrv: SysConfigService,
   ) { }
 
   @ApiOperation({ summary: '获取指定全局配置' })

@@ -1,12 +1,13 @@
-import { getQuery } from 'src/utils'
 import { PermissionType } from 'types'
-import { Role } from 'src/entities/role'
-import { RoleIdDto } from 'src/dto/id/role.dto'
-import { IdsDto, QueryDto, QueryResDto, SuccessStringDto } from 'src/dto'
-import { ApiSuccessResponse } from 'src/utils/response'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { HasPermission } from 'src/guards/permission.guard'
 import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common'
+
+import { getQuery } from 'src/utils'
+import type { Role } from 'src/entities/role'
+import { RoleIdDto } from 'src/dto/id/role.dto'
+import { ApiSuccessResponse } from 'src/utils/response'
+import { HasPermission } from 'src/guards/permission.guard'
+import { IdsDto, QueryDto, QueryResDto, SuccessStringDto } from 'src/dto'
 
 import { RoleService } from './role.service'
 import { UpsertRoleBodyDto } from './dto/upsert-role.body.dto'
@@ -15,7 +16,7 @@ import { UpsertRoleBodyDto } from './dto/upsert-role.body.dto'
 @ApiTags('Role | 角色')
 export class RoleController {
   constructor(
-    private readonly _roleSrv: RoleService
+    private readonly _roleSrv: RoleService,
   ) { }
 
   @ApiOperation({ summary: '查询管理员角色列表' })
@@ -40,7 +41,7 @@ export class RoleController {
   @HasPermission(PermissionType.ROLE_CREATE)
   @Post('create')
   public createRole(
-    @Body() body: UpsertRoleBodyDto
+    @Body() body: UpsertRoleBodyDto,
   ) {
     return this._roleSrv.createRole(body)
   }
@@ -53,9 +54,9 @@ export class RoleController {
   @HasPermission(PermissionType.ROLE_UPDATE)
   public upsertRole(
     @Body() body: UpsertRoleBodyDto,
-    @Param() {roleId}: RoleIdDto
+    @Param() { roleId }: RoleIdDto,
   ) {
-    return this._roleSrv.updateRole(body,roleId)
+    return this._roleSrv.updateRole(body, roleId)
   }
 
   @ApiOperation({
@@ -64,7 +65,7 @@ export class RoleController {
   })
   @Delete('delete')
   public async deleteRoles(
-    @Body() { ids }: IdsDto
+    @Body() { ids }: IdsDto,
   ) {
     if (ids.length === 1) {
       return await this._roleSrv.deleteRole(ids[0])
@@ -89,7 +90,7 @@ export class RoleController {
   })
   @Delete('delete/:roleId')
   public deleteRole(
-    @Param() { roleId }: RoleIdDto
+    @Param() { roleId }: RoleIdDto,
   ) {
     return this._roleSrv.deleteRole(roleId)
   }

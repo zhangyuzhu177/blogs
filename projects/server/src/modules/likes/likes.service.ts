@@ -38,7 +38,7 @@ export class LikesService {
     }
   }
 
-  public linkeRepo() {
+  public likeRepo() {
     return this._likesRepo
   }
 }

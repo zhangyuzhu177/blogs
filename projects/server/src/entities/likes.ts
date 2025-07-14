@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm'
-import { ID_EXAMPLE, type ILikes, LikesType } from 'types'
 import { ApiProperty } from '@nestjs/swagger'
+import { ID_EXAMPLE, type ILikes, LikesType } from 'types'
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm'
+
 import { CreatedAt } from './_timestamp'
 
 @Entity()

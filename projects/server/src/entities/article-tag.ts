@@ -1,5 +1,5 @@
-import type { IArticleTag } from 'types'
 import { ID_EXAMPLE } from 'types'
+import type { IArticleTag } from 'types'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm'
 

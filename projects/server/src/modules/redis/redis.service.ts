@@ -1,8 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { createClient } from 'redis'
 import type { RedisClientType } from 'redis'
-import { RedisConfig } from 'src/config/_redis.config';
+import { ConfigService } from '@nestjs/config'
+import { Injectable, Logger } from '@nestjs/common'
+
+import type { RedisConfig } from 'src/config/_redis.config'
 
 @Injectable()
 export class RedisService {
@@ -12,7 +13,7 @@ export class RedisService {
   private readonly _clients: Map<string, RedisClientType> = new Map()
 
   constructor(
-    private readonly _cfgSrv:ConfigService,
+    private readonly _cfgSrv: ConfigService,
   ) { }
 
   /**

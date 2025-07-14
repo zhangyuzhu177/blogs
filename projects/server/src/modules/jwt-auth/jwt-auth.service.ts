@@ -1,11 +1,11 @@
 import { ErrorCode } from 'types'
 import { JwtService } from '@nestjs/jwt'
-import { forwardRef, Inject, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { objectOmit, objectPick } from 'utils'
+import { Inject, Injectable, forwardRef } from '@nestjs/common'
 
-import { User } from 'src/entities/user'
 import { md5 } from 'src/utils/encrypt/md5'
+import type { User } from 'src/entities/user'
 import { responseError } from 'src/utils/response'
 
 import { RedisService } from '../redis/redis.service'
@@ -48,9 +48,9 @@ export class JwtAuthService {
     return {
       sign: {
         access_token,
-        expireAt: Date.now() + expiresIn
+        expireAt: Date.now() + expiresIn,
       },
-      user: objectOmit(user, 'password')
+      user: objectOmit(user, 'password'),
     }
   }
 

@@ -1,13 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
-import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { ApiSuccessResponse, getQuery } from 'src/utils'
-import { ArticleTypeIdDto, IdsDto, QueryDto, QueryResDto, SuccessNumberDto, SuccessStringDto } from 'src/dto'
-import type { ArticleType } from 'src/entities/article-type'
-import { HasPermission } from 'src/guards'
 import { PermissionType } from 'types'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+
+import { HasPermission } from 'src/guards'
+import { ApiSuccessResponse, getQuery } from 'src/utils'
+import type { ArticleType } from 'src/entities/article-type'
+import { ArticleTypeIdDto, IdsDto, QueryDto, QueryResDto, SuccessNumberDto, SuccessStringDto } from 'src/dto'
+
 import { ArticleService } from '../article.service'
-import { UpsertArticleTypeBodyDto } from './dto/upsert-article-type-body.dto'
 import { ArticleTypeService } from './type.service'
+import { UpsertArticleTypeBodyDto } from './dto/upsert-article-type-body.dto'
 
 @Controller('article/type')
 @ApiTags('ArticleType | 文章分类')

@@ -1,7 +1,6 @@
-import { IdsDto, RoleIdOptionalDto } from 'src/dto';
 import { Mixin } from 'ts-mixer'
-import { IAssignRoleBodyDto } from 'types';
-
+import type { IAssignRoleBodyDto } from 'types'
+import { IdsDto, RoleIdOptionalDto } from 'src/dto'
 
 /**
  * 分配管理员角色

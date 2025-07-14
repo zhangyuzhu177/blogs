@@ -1,8 +1,9 @@
+import { PermissionType } from 'types'
+import type { IPermission } from 'types'
 import { ApiProperty } from '@nestjs/swagger'
 import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm'
-import { Role } from './role'
-import { IPermission, PermissionType } from 'types'
 
+import { Role } from './role'
 
 @Entity()
 export class Permission implements IPermission {

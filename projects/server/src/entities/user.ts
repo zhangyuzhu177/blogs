@@ -1,3 +1,6 @@
+import { ID_EXAMPLE } from 'types'
+import type { IUser } from 'types'
+import { EMAIL_MAX_LENGTH } from 'utils'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import {
   Column,
@@ -8,9 +11,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
-import type { IUser } from 'types'
-import { ID_EXAMPLE } from 'types'
-import { EMAIL_MAX_LENGTH } from 'utils'
 import { Role } from './role'
 import { Login } from './login'
 import { BaseTimeStamp } from './_timestamp'
