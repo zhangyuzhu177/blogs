@@ -4,6 +4,9 @@ import FingerprintJS from '@fingerprintjs/fingerprintjs'
 const visitorId = ref()
 
 export function useVisitor() {
+  /**
+   * 获取浏览器指纹
+   */
   async function getVisitorId() {
     try {
       const fp = await FingerprintJS.load()

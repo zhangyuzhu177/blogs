@@ -72,7 +72,7 @@ async function loadData() {
 }
 
 onBeforeMount(async () => {
-  const { id } = route.query as { id?: string }
+  const { galleryId: id } = route.query as { galleryId?: string }
 
   if (!id)
     return

@@ -3,7 +3,8 @@ import moment from 'moment'
 import { Like } from 'typeorm'
 import type { IArticle, IGallery, IQueryDto } from 'types'
 
-interface SearchResult extends IArticle, IGallery {}
+interface SearchResult extends IArticle, IGallery { }
+type SearchType = 'article' | 'gallery'
 
 const router = useRouter()
 const isDark = useDark({
@@ -23,9 +24,9 @@ const dialog = ref(false)
 /** 搜索 */
 const search = ref('')
 /** 搜索类型 */
-const type = ref<'article' | 'gallery'>('article')
+const type = ref<SearchType>('article')
 /** 搜索选项 */
-const typeOptions = ref<{ label: string; name: 'article' | 'gallery' }[]>([
+const typeOptions = ref<{ label: string; name: SearchType }[]>([
   { label: '文章', name: 'article' },
   { label: '图库', name: 'gallery' },
 ])
@@ -138,12 +139,12 @@ function jump(id: string) {
   if (type.value === 'article')
     router.push(`/archives/article?articleId=${id}`)
   else if (type.value === 'gallery')
-    router.push(`/gallery/detail?id=${id}`)
+    router.push(`/gallery/detail?galleryId=${id}`)
 }
 </script>
 
 <template>
-  <div flex="~ justify-end items-center" b-rd>
+  <div flex="~ items-center gap2" b-rd>
     <q-btn flat round @click="dialog = true">
       <div size-5 i-mingcute:search-line />
     </q-btn>
@@ -197,43 +198,45 @@ function jump(id: string) {
               </div>
             </div>
           </div>
-          <div v-else-if="type === 'gallery'">
-            <div grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4>
-              <div
-                v-for="item in searchResult" :key="item.id"
-                class="group"
-                relative rounded-lg overflow-hidden cursor-pointer
-                transform transition duration-300 h-60
-                hover:shadow-xl
-                @click="jump(item.id)"
+          <div
+            v-else-if="type === 'gallery'"
+            grid grid-cols-1 gap-4
+            sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4
+          >
+            <div
+              v-for="item in searchResult" :key="item.id"
+              class="group"
+              relative rounded-lg overflow-hidden cursor-pointer
+              transform transition duration-300 h-60
+              hover:shadow-xl
+              @click="jump(item.id)"
+            >
+              <img
+                :src="item.picture[0]"
+                full object-cover transition-transform
+                duration-300 group-hover:scale-105
               >
-                <img
-                  :src="item.picture[0]"
-                  full object-cover transition-transform
-                  duration-300 group-hover:scale-105
-                >
-                <div
-                  class="absolute top-3 right-3 bg-black/30 text-grey-1
+              <div
+                class="absolute top-3 right-3 bg-black/30 text-grey-1
                     px-2 py-1 rounded-2 text-sm"
-                  v-text="item.picture.length"
-                />
-                <div
-                  class="absolute inset-0 bg-black/40 opacity-0
+                v-text="item.picture.length"
+              />
+              <div
+                class="absolute inset-0 bg-black/40 opacity-0
                   group-hover:opacity-100 transition-opacity duration-300"
-                />
-                <div class="absolute bottom-0 left-0 right-0 p-4">
-                  <div relative z-9999 flex="~ col gap-2">
-                    <h3 subtitle-1 text-grey-1 v-text="item.name" />
-                    <p
-                      text-grey-1
-                      class="text-sm opacity-0 max-h-0
+              />
+              <div class="absolute bottom-0 left-0 right-0 p-4">
+                <div relative z-9999 flex="~ col gap-2">
+                  <h3 subtitle-1 text-grey-1 v-text="item.name" />
+                  <p
+                    text-grey-1
+                    class="text-sm opacity-0 max-h-0
                         overflow-hidden transition-all duration-500
                         group-hover:opacity-100 group-hover:max-h-20 line-clamp-3"
-                      v-text="item.desc"
-                    />
-                  </div>
-                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    v-text="item.desc"
+                  />
                 </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
             </div>
           </div>

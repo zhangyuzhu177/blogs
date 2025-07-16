@@ -119,7 +119,7 @@ onBeforeMount(async () => {
   <div full flex="~ col gap6 sm:gap8" pt-6 md:pt-8>
     <ZLoading :value="loading" />
 
-    <div flex="~ gap2 col" sm="justify-center flex-row gap4">
+    <div flex="~ gap2 col" sm="justify-center flex-row gap4" w-full>
       <ZTabs
         v-if="width > 600"
         v-model="typeId"
@@ -138,7 +138,7 @@ onBeforeMount(async () => {
         option-value="id"
         option-label="name"
         size="small"
-        w-35
+        w-full
       />
     </div>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Detail from '~/views/gallery/detail.vue'
+import Detail from '~/views/gallery/detail/detail.vue'
 </script>
 
 <template>

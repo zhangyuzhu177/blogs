@@ -33,14 +33,9 @@ nextTick(() => {
     :border="theme === 'dark' ? 'transparent' : 'grey-3'"
     :bg="theme === 'dark' ? 'transparent' : ''"
   >
-    <!-- Logo -->
-    <div full flex="~ justify-end items-center" relative>
-      <ArtLogo
-        absolute left-0 top-0
-        cursor-pointer
-        @click="router.push('/')"
-      />
-      <div flex="~ gap4">
+    <div full flex="~ justify-between items-center" relative>
+      <ArtLogo @click="router.push('/')" />
+      <div flex="~ gap2">
         <Navigation v-if="width > 600" />
         <Menu v-else />
         <FuncBtns />

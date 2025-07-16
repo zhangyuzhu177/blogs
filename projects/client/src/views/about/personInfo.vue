@@ -22,7 +22,7 @@ const defaultAvatar = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
         :src="info?.avatar || defaultAvatar"
       />
     </div>
-    <div max-w-150 flex="~ items-center col gap1" text="grey-6 dark:grey-4">
+    <div max-w-150 flex="~ items-center col gap2" text="grey-7 dark:grey-4">
       <h1 text="grey-9 dark:grey-1" v-text="info?.name" />
       <div subtitle-2 flex="~ items-center gap2">
         <div
