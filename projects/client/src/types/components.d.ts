@@ -20,7 +20,6 @@ declare module 'vue' {
     LogoutDialog: typeof import('./../../../shared/components/dialog/LogoutDialog.vue')['default']
     Menu: typeof import('./../components/menu/Menu.vue')['default']
     Navigation: typeof import('./../components/navigation/Navigation.vue')['default']
-    ParticlesBg: typeof import('./../components/Art/Background/ParticlesBg.vue')['default']
     ReadonlyInput: typeof import('./../../../shared/components/input/ReadonlyInput.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
