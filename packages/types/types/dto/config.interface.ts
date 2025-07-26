@@ -9,6 +9,10 @@ export interface IConfigDto {
     label?: string
     /** 页面图片 */
     url?: string
+    /** 是否启用艺术背景 */
+    isArtBg?: boolean
+    /** 是否启用艺术鼠标 */
+    isArtCursor?: boolean
   }
 
   /** 关于页配置 */

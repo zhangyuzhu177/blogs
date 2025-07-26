@@ -14,9 +14,14 @@ export class LogController {
   @ApiOperation({ summary: '获取总访问量、今日访问量' })
   @Get('visit-count')
   public async getVisitCount() {
+    const [total, today] = await Promise.all([
+      this._dailyCountSrv.getAccessTotal(),
+      this._dailyCountSrv.getAccessToday(),
+    ])
+
     return {
-      total: await this._dailyCountSrv.getAccessTotal(),
-      today: await this._dailyCountSrv.getAccessToday(),
+      total,
+      today,
     }
   }
 }

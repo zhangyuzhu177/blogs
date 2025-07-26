@@ -63,7 +63,7 @@ export class DailyCountService {
   async getAccessToday() {
     const { id } = this._getDate()
     return Number(
-      (await this._dailyCountRepo.findOne({ where: { id } })).access || 0,
+      (await this._dailyCountRepo.findOne({ where: { id } }))?.access || 0,
     )
   }
 

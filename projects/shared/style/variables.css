@@ -4,7 +4,7 @@
   --primary-3: #004C9A;
   --primary-4: #E3EFFD;
 
-  --grey-1: #FFFFFF;
+  /* --grey-1: #FFFFFF;
   --grey-2: #F7F9FC;
   --grey-3: #E4E7EC;
   --grey-4: #D0D5DD;
@@ -12,7 +12,17 @@
   --grey-6: #667185;
   --grey-7: #475367;
   --grey-8: #344054;
-  --grey-9: #12161E;
+  --grey-9: #12161E; */
+
+  --grey-1: #FFFFFF;  /* 纯白保留 */
+  --grey-2: #F8F9FA;  /* 微暖白 */
+  --grey-3: #E9ECEF;  /* 非常浅灰 */
+  --grey-4: #DEE2E6;  /* 浅灰 */
+  --grey-5: #ADB5BD;  /* 中浅灰 */
+  --grey-6: #6C757D;  /* 中等灰 */
+  --grey-7: #495057;  /* 中深灰 */
+  --grey-8: #343A40;  /* 深灰 */
+  --grey-9: #212529;  /* 接近黑但不死黑 */
 
   --grey-1-a0: rgba(255, 255, 255, 0);
   --grey-1-a2: rgba(255, 255, 255, 0.2);
@@ -53,15 +63,15 @@
 /* 黑夜颜色 */
 [theme="dark"]:root {
   --comment-color: var(--grey-1);
-  --grey-1: #12161E;
-  --grey-2: #344054;
-  --grey-3: #475367;
-  --grey-4: #667185;
-  --grey-5: #A6B1C2;
-  --grey-6: #D0D5DD;
-  --grey-7: #E4E7EC;
-  --grey-8: #F7F9FC;
-  --grey-9: #FFFFFF;
+  --grey-1: #212529;  /* 原--grey-9提升为最浅色 */
+  --grey-2: #343A40;  /* 原--grey-8 */
+  --grey-3: #495057;  /* 原--grey-7 */
+  --grey-4: #6C757D;  /* 原--grey-6 */
+  --grey-5: #ADB5BD;  /* 原--grey-5 */
+  --grey-6: #DEE2E6;  /* 原--grey-4 */
+  --grey-7: #E9ECEF;  /* 原--grey-3 */
+  --grey-8: #F8F9FA;  /* 原--grey-2 */
+  --grey-9: #FFFFFF;  /* 原--grey-1变为最深色 */
 
   --grey-1-a0: rgba(18, 22, 30, 0);
   --grey-1-a2: rgba(18, 22, 30, 0.2);

@@ -11,7 +11,7 @@ export class VersionDto<T = SysConfig> implements IVersionDto<T> {
   @decorate(ApiProperty({
     description: `配置版本
     \n${objectEntries(sysConfigDescriptions).map(([key, value]) => `- \`${key}\`: ${value}`).join('\n')}
-    ${sharedVariableMarkdown('SysConfig', 'zjf-types', 'version枚举值')}`,
+    ${sharedVariableMarkdown('SysConfig', 'types', 'version枚举值')}`,
     enum: SysConfig,
     example: SysConfig.HOME,
   }))

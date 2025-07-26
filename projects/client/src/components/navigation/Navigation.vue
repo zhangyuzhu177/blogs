@@ -21,7 +21,6 @@ const tab = ref(MENU[0].to)
 .nav {
   :deep(.q-tabs__content) {
     gap: 8px;
-    color: var(--grey-8);
 
     .q-tab {
       padding: 0 8px !important;
@@ -34,7 +33,12 @@ const tab = ref(MENU[0].to)
       .q-tab__label {
         font-size: 16px;
         line-height: 24px;
-        font-weight: 600;
+        transition: all .3s;
+        font-weight: normal;
+
+        &:hover {
+          font-weight: bold;
+        }
       }
 
       .q-ripple {
@@ -45,10 +49,18 @@ const tab = ref(MENU[0].to)
         display: none;
       }
     }
+
+    .q-tab--active {
+      color: var(--grey-9);
+
+      .q-tab__content {
+
+        .q-tab__label{
+          font-weight: bold !important;
+        }
+      }
+    }
   }
 
-  .q-tab--active {
-    color: var(--grey-9);
-  }
 }
 </style>

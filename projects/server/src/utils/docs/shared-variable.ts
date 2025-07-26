@@ -2,7 +2,7 @@ import { wrap } from './wrap'
 
 export function sharedVariableMarkdown(
   variableName: string,
-  from = 'zjf-utils',
+  from = 'utils',
   name = '描述信息',
 ) {
   return (

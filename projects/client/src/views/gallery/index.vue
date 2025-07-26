@@ -121,7 +121,7 @@ onBeforeMount(async () => {
   <div full flex="~ col gap6 sm:gap8 items-center" pt-6 md:pt-8>
     <ZLoading :value="loading" />
 
-    <div flex="~ gap2 col" sm="justify-center flex-row gap4" w-full>
+    <div v-if="types" flex="~ gap2 col items-center" sm="justify-center flex-row gap4" w-full>
       <ZTabs
         v-if="width > 600"
         v-model="typeId"
@@ -140,7 +140,7 @@ onBeforeMount(async () => {
         option-value="id"
         option-label="name"
         size="small"
-        w-full
+        w-50
       />
     </div>
 
@@ -154,11 +154,11 @@ onBeforeMount(async () => {
           hover:shadow-xl
           @click="router.push(`/gallery/detail?galleryId=${item.id}`)"
         >
-          <img
+          <q-img
             :src="item.picture[0]"
-            full object-cover transition-transform
+            h-100 w-100 transition-transform
             duration-300 group-hover:scale-105
-          >
+          />
           <div
             class="absolute top-3 right-3 bg-black/30 text-grey-1
             px-2 py-1 rounded-2 text-sm"

@@ -6,6 +6,8 @@ interface Data {
   today: number
 }
 
+const route = useRoute()
+
 const data = ref<Data>()
 
 onMounted(async () => {
@@ -15,6 +17,7 @@ onMounted(async () => {
 
 <template>
   <footer
+    v-if="route.meta.footer !== false"
     flex="~ col center" subtitle-3
     text="grey-7 dark:grey-3" w-full
     b-t="1 grey-3 dark:grey-7"

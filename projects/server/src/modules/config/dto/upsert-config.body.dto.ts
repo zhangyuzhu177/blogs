@@ -12,6 +12,8 @@ export class UpsertConfigBodyDto
       title: '',
       label: '',
       url: '',
+      isArtBg: true,
+      isArtCursor: true,
     },
   })
   home?: IConfigDto[SysConfig.HOME]

@@ -2,66 +2,67 @@
 import { SysConfig } from 'types'
 import type { IConfigDto } from 'types'
 
-const router = useRouter()
+// import { hyperspeedPresets } from '~/components/Art/Background/HyperspeedPresets'
+
+// const effectOptions = ref(hyperspeedPresets.one)
 
 /** 配置 */
 const config = ref<IConfigDto[SysConfig.HOME]>()
 
-const signature = ref<string>('')
-const time = ref<NodeJS.Timer | null>(null)
-
-function appear(text: string) {
-  signature.value = ''
-  clearTimeout(time.value as NodeJS.Timeout)
-
-  let speed = 80
-  let count = 1
-  function changeContent() {
-    signature.value = text.substring(0, count)
-    count++
-
-    if (count !== text.length + 1) {
-      speed -= 1
-      if (speed < 5)
-        speed = 5
-      time.value = setTimeout(changeContent, speed)
-    }
-  }
-  changeContent()
-}
-
 onBeforeMount(async () => {
   const data = await getConfigApi(SysConfig.HOME) || {}
   config.value = data as IConfigDto[SysConfig.HOME]
-  if (config.value?.label)
-    appear(config.value?.label as string)
 })
 </script>
 
 <template>
   <div full flex="~ col center">
-    <div full relative>
-      <div
+    <div w-full h-100vh relative>
+      <Hyperspeed />
+      <!-- <Aurora
+        :particle-count="200"
+        :particle-spread="10"
+        :speed="0.1"
+        :particle-colors="['#ffffff']"
+        :move-particles-on-hover="false"
+        :particle-hover-factor="1"
+        :alpha-particles="false"
+        :particle-base-size="100"
+        :size-randomness="1"
+        :camera-distance="20"
+        :disable-rotation="false"
+        class="w-full h-full"
+      /> -->
+      <!-- <div
         full overflow-hidden
         bg="cover center"
         style="height: calc(100vh);"
       >
         <q-img loading="lazy" full :src="config?.url" />
-      </div>
+      </div> -->
       <div
         class="title" flex="~ col gap8 center"
         absolute inset-0 text="center" px-6
       >
         <div flex="~ col gap4 center">
-          <h1 text-48px v-text="config?.title" />
-          <h4 v-if="signature">
-            <span v-text="signature" />
-            <span class="typed-cursor">|</span>
-          </h4>
+          <SplitTitle
+            v-if="config?.title"
+            :text="config?.title"
+            class-name="text-64px leading-72px font-semibold text-center"
+          />
+          <TextType
+            v-if="config?.label"
+            :text="config.label"
+            :typing-speed="80"
+            :pause-duration="1500"
+            class-name="subtitle-1"
+            cursor-character="_"
+          />
         </div>
-        <!-- <ArtButton text="查看全部" @click="router.push('/archives')" /> -->
+        <!-- <ArtButton text="查看更多" /> -->
       </div>
     </div>
+    <SplashCursor />
   </div>
 </template>
 
