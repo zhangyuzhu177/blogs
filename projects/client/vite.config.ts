@@ -142,6 +142,7 @@ export default ({ mode }: any) => {
     ssr: {
       // TODO: workaround until they support native ESM
       noExternal: [
+        'gsap',
         'lodash',
         'moment',
         'crypto-js',
