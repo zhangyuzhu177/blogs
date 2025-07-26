@@ -13,9 +13,17 @@ const initData: IConfigDto[SysConfig.HOME] = {
   title: '',
   label: '',
   url: '',
+  isArtBg: true,
+  isArtCursor: true,
 }
 /** 配置 */
 const pageCfg = ref<IConfigDto[SysConfig.HOME]>(cloneDeep(initData))
+/** 旧数据 */
+const oldPageCfg = ref<IConfigDto[SysConfig.HOME]>()
+
+const disable = computed(() => {
+  return JSON.stringify(pageCfg.value) === JSON.stringify(oldPageCfg.value)
+})
 
 /** 上传logo图片 */
 const pageImg = ref<File>()
@@ -37,10 +45,14 @@ watch(pageImg, async (newVal) => {
 
 /** 获取数据 */
 async function getConfigList() {
+  if (disable.value)
+    return
+
   loading.value = true
   try {
     const data = await getConfigApi(active.value) || initData
     pageCfg.value = data as IConfigDto[SysConfig.HOME]
+    oldPageCfg.value = JSON.parse(JSON.stringify(data))
   }
   catch (error) {}
   finally {
@@ -52,17 +64,16 @@ async function getConfigList() {
 async function save() {
   loading.value = true
   try {
-    const data = await upsertConfigApi({
+    await upsertConfigApi({
       version: active.value,
       [SysConfig.HOME]:
       {
         ...pageCfg.value,
       },
     })
-    if (data)
-      Notify.create({ message: '修改成功', type: 'success' })
+    Notify.create({ message: '修改成功', type: 'success' })
+    getConfigList()
   }
-  catch (error) {}
   finally {
     loading.value = false
   }
@@ -82,6 +93,7 @@ onMounted(() => {
       <h3 v-text="PAGE_NAV[0].label" />
       <ZBtn
         label="保存"
+        :disable="disable"
         @click="save()"
       >
         <template #left>
@@ -105,7 +117,27 @@ onMounted(() => {
           placeholder="请输入简介"
           mb5
         />
-        <div flex="~ col gap2" mb-5>
+        <div flex="~ col gap2" mb5>
+          <ZLabel
+            label="背景"
+            w34
+          />
+          <div flex="~ 1 gap5" right-2>
+            <ZRadio
+              :model-value="pageCfg!.isArtBg?.toString()"
+              val="true"
+              label="艺术背景"
+              @update:model-value="pageCfg!.isArtBg = true"
+            />
+            <ZRadio
+              :model-value="pageCfg!.isArtBg?.toString()"
+              val="false"
+              label="图片背景"
+              @update:model-value="pageCfg!.isArtBg = false"
+            />
+          </div>
+        </div>
+        <div v-if="!pageCfg!.isArtBg" flex="~ col gap2" mb-5>
           <ZLabel label="背景图片" />
           <div flex="~ gap4">
             <ZImg v-model="pageCfg!.url" width="200" height="120" />
@@ -124,6 +156,26 @@ onMounted(() => {
                 <div text="grey-5" v-text="'上传背景图片'" />
               </div>
             </ZUpload>
+          </div>
+        </div>
+        <div flex="~ col gap2" mb5>
+          <ZLabel
+            label="鼠标特效"
+            w34
+          />
+          <div flex="~ 1 gap5" right-2>
+            <ZRadio
+              :model-value="pageCfg!.isArtCursor?.toString()"
+              val="true"
+              label="启用"
+              @update:model-value="pageCfg!.isArtCursor = true"
+            />
+            <ZRadio
+              :model-value="pageCfg!.isArtCursor?.toString()"
+              val="false"
+              label="禁用"
+              @update:model-value="pageCfg!.isArtCursor = false"
+            />
           </div>
         </div>
       </div>

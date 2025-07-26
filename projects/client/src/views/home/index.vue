@@ -10,36 +10,22 @@ import type { IConfigDto } from 'types'
 const config = ref<IConfigDto[SysConfig.HOME]>()
 
 onBeforeMount(async () => {
-  const data = await getConfigApi(SysConfig.HOME) || {}
-  config.value = data as IConfigDto[SysConfig.HOME]
+  config.value = await getConfigApi(SysConfig.HOME) || {}
 })
 </script>
 
 <template>
   <div full flex="~ col center">
     <div w-full h-100vh relative>
-      <Hyperspeed />
-      <!-- <Aurora
-        :particle-count="200"
-        :particle-spread="10"
-        :speed="0.1"
-        :particle-colors="['#ffffff']"
-        :move-particles-on-hover="false"
-        :particle-hover-factor="1"
-        :alpha-particles="false"
-        :particle-base-size="100"
-        :size-randomness="1"
-        :camera-distance="20"
-        :disable-rotation="false"
-        class="w-full h-full"
-      /> -->
-      <!-- <div
+      <Hyperspeed v-if="config?.isArtBg" />
+      <div
+        v-else
         full overflow-hidden
         bg="cover center"
         style="height: calc(100vh);"
       >
         <q-img loading="lazy" full :src="config?.url" />
-      </div> -->
+      </div>
       <div
         class="title" flex="~ col gap8 center"
         absolute inset-0 text="center" px-6
@@ -62,7 +48,7 @@ onBeforeMount(async () => {
         <!-- <ArtButton text="查看更多" /> -->
       </div>
     </div>
-    <SplashCursor />
+    <SplashCursor v-if="config?.isArtCursor" />
   </div>
 </template>
 

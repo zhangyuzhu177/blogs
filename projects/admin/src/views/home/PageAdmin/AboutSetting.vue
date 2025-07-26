@@ -33,6 +33,8 @@ const initData: IConfigDto[SysConfig.ABOUT] = {
 }
 /** 页面配置 */
 const config = ref<IConfigDto[SysConfig.ABOUT]>(cloneDeep(initData))
+/** 旧数据 */
+const oldConfig = ref<IConfigDto[SysConfig.ABOUT]>()
 
 /** 上传头像 */
 const avatar = ref<File>()
@@ -57,7 +59,9 @@ watch(
 
 const disable = computed(() => {
   const { name, email, github, desc } = config.value || {}
-  return (!!name && !!validateName(name))
+
+  return JSON.stringify(config.value) === JSON.stringify(oldConfig.value)
+    || (!!name && !!validateName(name))
     || (!!email && !!validateEmail(email))
     || (!!github && !!validateUrl(github))
     || (!!desc && !!validateDesc(desc))
@@ -69,7 +73,7 @@ async function getConfigList() {
   try {
     const data = await getConfigApi(active.value) || initData
     config.value = {
-      ...initData,
+      // ...initData,
       ...(data as IConfigDto[SysConfig.ABOUT]),
       skills: (data as IConfigDto[SysConfig.ABOUT])?.skills || [{
         id: randomId(),
@@ -78,6 +82,7 @@ async function getConfigList() {
         desc: '',
       }],
     }
+    oldConfig.value = JSON.parse(JSON.stringify(data))
   }
   finally {
     loading.value = false
@@ -102,6 +107,7 @@ async function save() {
         message: '修改成功',
         type: 'success',
       })
+      getConfigList()
     }
   }
   finally {

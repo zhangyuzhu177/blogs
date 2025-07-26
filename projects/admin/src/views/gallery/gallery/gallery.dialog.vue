@@ -194,9 +194,10 @@ async function upsertGallery() {
       <div flex="~ col gap2" mb-5>
         <ZLabel required label="图片" />
         <div flex="~ gap4 wrap">
-          <ZImg v-model="form.picture" width="120" height="120" />
+          <ZImg v-model="form.picture" :readonly="readonly" width="120" height="120" />
           <ZUpload
             v-model="picture"
+            :disable="readonly"
             type="image"
             multiple
             accept="image/*"
