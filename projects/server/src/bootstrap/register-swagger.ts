@@ -1,10 +1,11 @@
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import { validatePath } from 'utils'
 import type { ConfigService } from '@nestjs/config'
 import type { INestApplication } from '@nestjs/common'
 import type { SwaggerCustomOptions } from '@nestjs/swagger'
-import { validatePath } from 'utils'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+
 /**
- * 注册
+ * 注册 swagger 文档
  */
 export default async function registerSwagger(
   app: INestApplication,
