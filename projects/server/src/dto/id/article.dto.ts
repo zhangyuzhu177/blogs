@@ -1,7 +1,7 @@
-import type { IArticleIdDto, IArticleIdOptionalDto } from 'types'
 import { ID_EXAMPLE } from 'types'
 import { decorate } from 'ts-mixer'
 import { GenerateStringDecorator } from 'src/utils'
+import type { IArticleIdDto, IArticleIdOptionalDto } from 'types'
 
 const DESC = '文章的唯一标识'
 

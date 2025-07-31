@@ -149,7 +149,6 @@ export class ArticleEntitiesController {
     @Body() body: CreateLikeBodyDto,
   ) {
     const { ip } = req.raw
-
     const { contentId } = body
 
     if (!(await this._articleSrv.entitiesRepo().existsBy({ id: contentId })))

@@ -1,7 +1,7 @@
 import { ID_EXAMPLE } from 'types'
 import { decorate } from 'ts-mixer'
-import type { IGalleryTypeIdDto, IGalleryTypeIdOptionalDto } from 'types'
 import { GenerateStringDecorator } from 'src/utils'
+import type { IGalleryTypeIdDto, IGalleryTypeIdOptionalDto } from 'types'
 
 const DESC = '图库类型的唯一标识'
 
