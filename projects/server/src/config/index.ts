@@ -4,6 +4,7 @@ import _ossConfig from './_oss.config'
 import _jwtConfig from './_jwt.config'
 import _redisConfig from './_redis.config'
 import _emailConfig from './_email.config'
+import _systemConfig from './_system.config'
 
 export default [
   _saConfig,
@@ -12,4 +13,5 @@ export default [
   _ossConfig,
   _redisConfig,
   _emailConfig,
+  _systemConfig,
 ]

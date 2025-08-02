@@ -31,6 +31,7 @@ import { WebsocketGateway } from './modules/websocket/websocket.gateway'
 import { PermissionModule } from './modules/permission/permission.module'
 import { ResponseInterceptor } from './interceptors/response.interceptor'
 import { ThrottlerExceptionFilter } from './filter/throttler-exception.filter'
+import { SystemMonitorModule } from './modules/system-monitor/system-monitor.module'
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { ThrottlerExceptionFilter } from './filter/throttler-exception.filter'
     SysConfigModule,
     PermissionModule,
     WebsocketGateway,
+    SystemMonitorModule,
 
     // External Modules
     // 定时任务

@@ -171,6 +171,18 @@ declare global {
       RSA_PUBLIC_KEY: string
       /** 解密私钥 */
       RSA_PRIVATE_KEY: string
+
+      /** ---------- 服务器配置 ---------- */
+      /** 服务器地址 */
+      REMOTE_SERVER_HOST: string
+      /** 服务器端口 */
+      REMOTE_SERVER_PORT: number
+      /** 登录用户名 */
+      REMOTE_SERVER_USERNAME: string
+      /** 登录密码 */
+      REMOTE_SERVER_PASSWORD: string
+      /** 私钥 */
+      REMOTE_SERVER_PRIVATE_KEY: string
     }
   }
 }

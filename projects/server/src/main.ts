@@ -26,7 +26,7 @@ async function bootstrap() {
   )
 
   // 是否开启跨域功能
-  // app.enableCors()
+  app.enableCors()
 
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const packageJson = await require(join(__dirname, '../package.json'))
