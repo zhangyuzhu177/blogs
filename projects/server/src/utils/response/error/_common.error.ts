@@ -26,6 +26,10 @@ const _commonError: ErrorMessageCollection = {
     httpStatus: HttpStatus.CONFLICT,
     message: '已存在点赞',
   },
+  [ErrorCode.COMMON_CONNECT_SERVER_FAILED]: {
+    httpStatus: HttpStatus.BAD_GATEWAY,
+    message: '连接远程服务器失败',
+  },
 }
 
 export default _commonError

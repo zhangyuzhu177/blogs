@@ -3,12 +3,15 @@ import { Client } from 'ssh2'
 import type { ConnectConfig } from 'ssh2'
 import { Injectable, Logger } from '@nestjs/common'
 import type { SystemConfig } from 'src/config/_system.config'
+import { responseError } from 'src/utils'
+import { ErrorCode } from 'types'
 
 @Injectable()
 export class SystemMonitorService {
   private readonly _logger = new Logger(SystemMonitorService.name)
+  // ssh连接配置
   private readonly _connConfig: ConnectConfig
-
+  // ssh连接实例
   private _conn: Client
 
   constructor(
@@ -21,7 +24,7 @@ export class SystemMonitorService {
   /**
    * 连接远程服务器
    */
-  public connect(): Promise<void> {
+  public async connect(): Promise<void> {
     return new Promise((resolve, reject) => {
       this._conn = new Client()
 
@@ -30,147 +33,158 @@ export class SystemMonitorService {
         resolve()
       })
 
-      this._conn.on('error', (err) => {
-        this._logger.error('远程服务器连接失败:', err)
-        reject(new Error(`SSH连接失败: ${err.message}`))
+      this._conn.on('error', (err: Error) => {
+        this._logger.error('远程服务器连接失败')
+        reject(err)
       })
 
       this._conn.on('end', () => {
         this._logger.log('SSH连接已关闭')
       })
 
-      try {
-        this._conn.connect(this._connConfig)
-      }
-      catch (err) {
-        this._logger.error('SSH连接初始化失败:', err)
-        reject(new Error(`SSH连接初始化失败: ${err.message}`))
-      }
+      this._conn.connect(this._connConfig)
     })
   }
 
-  // async getSystemInfo() {
-  //   try {
-  //     const commands = [
-  //       'echo "===== Memory ====="',
-  //       'free -m',
-  //       'echo ""',
-  //       'echo "===== Disk ====="',
-  //       'df -h',
-  //       'echo ""',
-  //       'echo "===== CPU ====="',
-  //       'lscpu || cat /proc/cpuinfo',
-  //       'echo ""',
-  //       'echo "===== Uptime ====="',
-  //       'uptime',
-  //       'echo ""',
-  //       'echo "===== OS Info ====="',
-  //       'cat /etc/os-release || lsb_release -a',
-  //     ].join('; ')
+  async getSystemInfo() {
+    try {
+      await this.connect()
 
-  //     const rawData = await this.connect()
-  //     return this.parseSystemInfo(rawData)
-  //   }
-  //   finally {
-  //     this.sshService.disconnect()
-  //   }
-  // }
+      // 1. 获取操作系统和架构信息
+      const osInfo = await this.executeCommand('uname -smo')
+      const [osName, , architecture] = osInfo.trim().split(' ')
 
-  // private parseSystemInfo(rawData: string) {
-  //   const sections = rawData.split('=====').map(s => s.trim()).filter(Boolean)
-  //   const result: Record<string, any> = {}
+      // 2. 获取CPU信息
+      const cpuInfo = {
+        model: await this.executeCommand('cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -d ":" -f 2 | sed \'s/^[ \\t]*//\''),
+        cores: Number.parseInt(await this.executeCommand('nproc')),
+        load: await this.getCpuLoad(),
+      }
 
-  //   sections.forEach((section) => {
-  //     const [title, ...content] = section.split('\n')
-  //     const key = title.trim()
+      // 3. 获取内存信息
+      const memoryInfo = await this.parseMemoryInfo()
 
-  //     switch (key) {
-  //       case 'Memory':
-  //         result.memory = this.parseMemoryInfo(content.join('\n'))
-  //         break
-  //       case 'Disk':
-  //         result.disk = this.parseDiskInfo(content.join('\n'))
-  //         break
-  //       case 'CPU':
-  //         result.cpu = this.parseCpuInfo(content.join('\n'))
-  //         break
-  //       case 'Uptime':
-  //         result.uptime = content.join('\n').trim()
-  //         break
-  //       case 'OS Info':
-  //         result.os = this.parseOsInfo(content.join('\n'))
-  //         break
-  //       default:
-  //         result[key] = content.join('\n').trim()
-  //     }
-  //   })
+      // 4. 获取磁盘信息
+      const diskInfo = await this.parseDiskInfo()
 
-  //   return result
-  // }
+      return {
+        system: {
+          os: osName,
+          architecture,
+          hostname: await this.executeCommand('hostname'),
+        },
+        cpu: cpuInfo,
+        memory: memoryInfo,
+        disks: diskInfo,
+        uptime: await this.executeCommand('uptime -p'),
+      }
+    }
+    catch (e) {
+      responseError(ErrorCode.COMMON_CONNECT_SERVER_FAILED)
+    }
+    finally {
+      this.disconnect()
+    }
+  }
 
-  // private parseMemoryInfo(data: string) {
-  //   const lines = data.split('\n').filter(l => l.trim())
-  //   if (lines.length < 2)
-  //     return null
+  /**
+   * 辅助方法：执行SSH命令
+   */
+  private async executeCommand(command: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this._conn.exec(command, (err, stream) => {
+        if (err)
+          return reject(err)
 
-  //   const headers = lines[0].split(/\s+/).filter(h => h)
-  //   const values = lines[1].split(/\s+/).filter(v => v)
+        let data = ''
+        stream.on('data', (chunk) => {
+          data += chunk.toString()
+        })
+          .on('close', () => {
+            resolve(data)
+          })
+          .stderr.on('data', (err) => {
+            reject(new Error(err.toString()))
+          })
+      })
+    })
+  }
 
-  //   const memory: Record<string, string> = {}
-  //   headers.forEach((header, index) => {
-  //     if (values[index])
-  //       memory[header.toLowerCase()] = values[index]
-  //   })
+  /**
+   * 获取CPU负载
+   */
+  private async getCpuLoad(): Promise<{ avg1: number; avg5: number; avg15: number }> {
+    const load = (await this.executeCommand('cat /proc/loadavg')).trim().split(/\s+/)
+    return {
+      avg1: Number.parseFloat(load[0]),
+      avg5: Number.parseFloat(load[1]),
+      avg15: Number.parseFloat(load[2]),
+    }
+  }
 
-  //   return memory
-  // }
+  /**
+   * 解析内存信息
+   */
+  private async parseMemoryInfo(): Promise<{
+    total: number
+    used: number
+    free: number
+    cached: number
+    swapTotal: number
+    swapUsed: number
+  }> {
+    const memInfo = await this.executeCommand('cat /proc/meminfo')
+    const values: Record<string, number> = {}
 
-  // private parseDiskInfo(data: string) {
-  //   const lines = data.split('\n').filter(l => l.trim())
-  //   if (lines.length < 2)
-  //     return []
+    memInfo.split('\n').forEach((line) => {
+      const match = line.match(/^([^:]+):\s+(\d+)\s*kB/)
+      if (match)
+        values[match[1]] = Number.parseInt(match[2]) * 1024 // 转换为bytes
+    })
 
-  //   const headers = lines[0].split(/\s+/).filter(h => h)
-  //   return lines.slice(1).map((line) => {
-  //     const values = line.split(/\s+/).filter(v => v)
-  //     const disk: Record<string, string> = {}
-  //     headers.forEach((header, index) => {
-  //       if (values[index])
-  //         disk[header.toLowerCase()] = values[index]
-  //     })
-  //     return disk
-  //   })
-  // }
+    return {
+      total: values.MemTotal,
+      used: values.MemTotal - values.MemFree - values.Buffers - values.Cached,
+      free: values.MemFree,
+      cached: values.Cached,
+      swapTotal: values.SwapTotal,
+      swapUsed: values.SwapTotal - values.SwapFree,
+    }
+  }
 
-  // private parseCpuInfo(data: string) {
-  //   const lines = data.split('\n').filter(l => l.trim())
-  //   const cpu: Record<string, string> = {}
+  /**
+   * 解析磁盘信息
+   */
+  private async parseDiskInfo(): Promise<{
+    total: number
+    used: number
+    available: number
+    usagePercent: string
+  } > {
+  // 使用 df 命令获取所有物理磁盘的汇总信息（排除tmpfs等特殊文件系统）
+    const dfOutput = await this.executeCommand(`
+    df -k --total -x tmpfs -x devtmpfs -x squashfs | grep 'total'
+  `)
 
-  //   lines.forEach((line) => {
-  //     const [key, ...valueParts] = line.split(':')
-  //     if (key && valueParts.length)
-  //       cpu[key.trim()] = valueParts.join(':').trim()
-  //   })
+    // 示例输出：
+    // total      102400000  61440000  40960000   60%
+    const parts = dfOutput.trim().split(/\s+/)
 
-  //   return cpu
-  // }
+    return {
+      total: Number.parseInt(parts[1]) * 1024, // 转换为bytes
+      used: Number.parseInt(parts[2]) * 1024,
+      available: Number.parseInt(parts[3]) * 1024,
+      usagePercent: parts[4],
+    }
+  }
 
-  // private parseOsInfo(data: string) {
-  //   const lines = data.split('\n').filter(l => l.trim())
-  //   const os: Record<string, string> = {}
-
-  //   lines.forEach((line) => {
-  //     if (line.includes('=')) {
-  //       const [key, value] = line.split('=').map(s => s.trim())
-  //       os[key] = value.replace(/"/g, '')
-  //     }
-  //     else {
-  //       const [key, ...valueParts] = line.split(':').map(s => s.trim())
-  //       if (key && valueParts.length)
-  //         os[key] = valueParts.join(':').trim()
-  //     }
-  //   })
-
-  //   return os
-  // }
+  /**
+   * 断开SSH连接
+   */
+  public disconnect() {
+    if (this._conn) {
+      this._conn.end()
+      this._conn = null
+    }
+  }
 }

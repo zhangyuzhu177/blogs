@@ -13,6 +13,6 @@ export class SystemMonitorController {
   @ApiOperation({ summary: '获取服务器信息' })
   @Get()
   public sendEmail() {
-    return this._systemMonitorSrv.connect()
+    return this._systemMonitorSrv.getSystemInfo()
   }
 }

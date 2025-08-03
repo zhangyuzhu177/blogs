@@ -12,6 +12,8 @@ export enum ErrorCode {
   COMMON_NOT_IMPLEMENTED = 100004,
   /** 已废弃的功能 */
   COMMON_DEPRECATED = 100005,
+  /** 连接远程服务器失败 */
+  COMMON_CONNECT_SERVER_FAILED = 100006,
 
   // ---- 身份验证相关错误码 ----
   /** 用户未登录 */
