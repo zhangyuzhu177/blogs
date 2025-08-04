@@ -1,10 +1,12 @@
-import { ConfigService } from '@nestjs/config'
 import { Client } from 'ssh2'
-import type { ConnectConfig } from 'ssh2'
-import { Injectable, Logger } from '@nestjs/common'
-import type { SystemConfig } from 'src/config/_system.config'
-import { responseError } from 'src/utils'
 import { ErrorCode } from 'types'
+import type { ConnectConfig } from 'ssh2'
+import { ConfigService } from '@nestjs/config'
+import { Injectable, Logger } from '@nestjs/common'
+import type { ICpuInfo, IDiskInfo, IMemoryInfo } from 'types'
+
+import { responseError } from 'src/utils'
+import type { SystemConfig } from 'src/config/_system.config'
 
 @Injectable()
 export class SystemMonitorService {
@@ -29,7 +31,7 @@ export class SystemMonitorService {
       this._conn = new Client()
 
       this._conn.on('ready', () => {
-        this._logger.log('远程服务器连接成功')
+        this._logger.verbose('远程服务器连接成功')
         resolve()
       })
 
@@ -39,13 +41,16 @@ export class SystemMonitorService {
       })
 
       this._conn.on('end', () => {
-        this._logger.log('SSH连接已关闭')
+        this._logger.verbose('SSH连接已关闭')
       })
 
       this._conn.connect(this._connConfig)
     })
   }
 
+  /**
+   * 获取服务器监控信息
+   */
   async getSystemInfo() {
     try {
       await this.connect()
@@ -71,7 +76,7 @@ export class SystemMonitorService {
         system: {
           os: osName,
           architecture,
-          hostname: await this.executeCommand('hostname'),
+          node: (await this.executeCommand('node -v')).trim().split(/\s+/)[0],
         },
         cpu: cpuInfo,
         memory: memoryInfo,
@@ -113,7 +118,7 @@ export class SystemMonitorService {
   /**
    * 获取CPU负载
    */
-  private async getCpuLoad(): Promise<{ avg1: number; avg5: number; avg15: number }> {
+  private async getCpuLoad(): Promise<ICpuInfo['load']> {
     const load = (await this.executeCommand('cat /proc/loadavg')).trim().split(/\s+/)
     return {
       avg1: Number.parseFloat(load[0]),
@@ -125,42 +130,40 @@ export class SystemMonitorService {
   /**
    * 解析内存信息
    */
-  private async parseMemoryInfo(): Promise<{
-    total: number
-    used: number
-    free: number
-    cached: number
-    swapTotal: number
-    swapUsed: number
-  }> {
+  private async parseMemoryInfo(): Promise<IMemoryInfo> {
     const memInfo = await this.executeCommand('cat /proc/meminfo')
     const values: Record<string, number> = {}
-
     memInfo.split('\n').forEach((line) => {
       const match = line.match(/^([^:]+):\s+(\d+)\s*kB/)
       if (match)
         values[match[1]] = Number.parseInt(match[2]) * 1024 // 转换为bytes
     })
 
+    const total = values.MemTotal
+    const used = total - values.MemFree - values.Buffers - values.Cached
+    // 计算内存使用率，保留两位小数
+    const usagePercent = total > 0 ? Number.parseFloat((used / total * 100).toFixed(2)) : 0
+
+    // 从 /proc/meminfo 获取更精确的 Available 内存（适用于较新内核）
+    const available = await this.executeCommand(`
+    grep -i MemAvailable /proc/meminfo | awk '{print $2 * 1024}'
+  `).catch(() => {
+    // 回退计算方式（旧内核不支持 MemAvailable）
+      return values[6] || (values[1] - values[2] - values[5])
+    })
+
     return {
       total: values.MemTotal,
       used: values.MemTotal - values.MemFree - values.Buffers - values.Cached,
-      free: values.MemFree,
-      cached: values.Cached,
-      swapTotal: values.SwapTotal,
-      swapUsed: values.SwapTotal - values.SwapFree,
+      available: Number(available),
+      usagePercent,
     }
   }
 
   /**
    * 解析磁盘信息
    */
-  private async parseDiskInfo(): Promise<{
-    total: number
-    used: number
-    available: number
-    usagePercent: string
-  } > {
+  private async parseDiskInfo(): Promise<IDiskInfo> {
   // 使用 df 命令获取所有物理磁盘的汇总信息（排除tmpfs等特殊文件系统）
     const dfOutput = await this.executeCommand(`
     df -k --total -x tmpfs -x devtmpfs -x squashfs | grep 'total'
@@ -170,11 +173,15 @@ export class SystemMonitorService {
     // total      102400000  61440000  40960000   60%
     const parts = dfOutput.trim().split(/\s+/)
 
+    // 提取使用率百分比并转换为数字
+    const usagePercentStr = parts[4]
+    const usagePercent = usagePercentStr ? Number.parseFloat(usagePercentStr.replace('%', '')) : 0
+
     return {
       total: Number.parseInt(parts[1]) * 1024, // 转换为bytes
       used: Number.parseInt(parts[2]) * 1024,
       available: Number.parseInt(parts[3]) * 1024,
-      usagePercent: parts[4],
+      usagePercent,
     }
   }
 

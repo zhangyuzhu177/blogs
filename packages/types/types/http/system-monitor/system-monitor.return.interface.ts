@@ -1,7 +1,7 @@
 /**
  * 服务器返回信息
  */
-export interface SystemMonitorReturnInfo {
+export interface ISystemMonitorReturnInfo {
   /**
    * 系统信息
    */
@@ -33,9 +33,9 @@ export interface ISystemInfo {
    */
   architecture: string
   /**
-   * 主机名
+   * node.js版本
    */
-  hostname: string
+  node: string
 }
 
 /**
@@ -79,7 +79,7 @@ export interface IMemoryInfo {
   /**
    * 内存使用率
    */
-  usagePercent: string
+  usagePercent: number
 }
 
 /**
@@ -101,5 +101,5 @@ export interface IDiskInfo {
   /**
    * 磁盘使用率
    */
-  usagePercent: string
+  usagePercent: number
 }

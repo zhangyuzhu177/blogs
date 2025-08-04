@@ -88,6 +88,10 @@ export enum PermissionType {
   GALLERY_TYPE_UPDATE = 'gallery-type:update',
   /** 删除图库类型 */
   GALLERY_TYPE_DELETE = 'gallery-type:delete',
+
+  // ------------------ 系统监控 ---------------------
+  /** 查询服务监控信息 */
+  SYSTEM_MONITOR_QUERY = 'system-monitor:query',
 }
 
 /**
@@ -135,4 +139,6 @@ export const permissionDescriptions: Record<PermissionType, string> = {
   [PermissionType.GALLERY_TYPE_CREATE]: '创建图库类型',
   [PermissionType.GALLERY_TYPE_UPDATE]: '更新图库类型',
   [PermissionType.GALLERY_TYPE_DELETE]: '删除图库类型',
+
+  [PermissionType.SYSTEM_MONITOR_QUERY]: '查询服务监控信息',
 }

@@ -4,7 +4,6 @@ import type { ValidationError } from '@nestjs/common'
 
 import { responseError } from '.'
 
-
 export function exceptionFactory(errs: ValidationError[]) {
   const detail: {
     property: string
