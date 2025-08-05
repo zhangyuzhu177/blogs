@@ -3,7 +3,7 @@ import { ErrorCode } from 'types'
 import type { ConnectConfig } from 'ssh2'
 import { ConfigService } from '@nestjs/config'
 import { Injectable, Logger } from '@nestjs/common'
-import type { ICpuInfo, IDiskInfo, IMemoryInfo } from 'types'
+import type { ICpuInfo, IDiskInfo, IMemoryInfo, ISystemInfo } from 'types'
 
 import { responseError } from 'src/utils'
 import type { SystemConfig } from 'src/config/_system.config'
@@ -56,31 +56,29 @@ export class SystemMonitorService {
       await this.connect()
 
       // 1. 获取操作系统和架构信息
-      const osInfo = await this.executeCommand('uname -smo')
-      const [osName, , architecture] = osInfo.trim().split(' ')
+      const os = await this.executeCommand('uname -s')
+      const architecture = await this.executeCommand('uname -m')
+      const node = await this.executeCommand('node -v')
+
+      const systemInfo: ISystemInfo = {
+        os,
+        architecture,
+        node,
+      }
 
       // 2. 获取CPU信息
-      const cpuInfo = {
+      const cpuInfo: ICpuInfo = {
         model: await this.executeCommand('cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -d ":" -f 2 | sed \'s/^[ \\t]*//\''),
         cores: Number.parseInt(await this.executeCommand('nproc')),
         load: await this.getCpuLoad(),
+        coresLoad: await this.getCoreLoads(),
       }
 
-      // 3. 获取内存信息
-      const memoryInfo = await this.parseMemoryInfo()
-
-      // 4. 获取磁盘信息
-      const diskInfo = await this.parseDiskInfo()
-
       return {
-        system: {
-          os: osName,
-          architecture,
-          node: (await this.executeCommand('node -v')).trim().split(/\s+/)[0],
-        },
+        system: systemInfo,
         cpu: cpuInfo,
-        memory: memoryInfo,
-        disks: diskInfo,
+        memory: await this.parseMemoryInfo(),
+        disks: await this.parseDiskInfo(),
         uptime: await this.executeCommand('uptime -p'),
       }
     }
@@ -128,6 +126,34 @@ export class SystemMonitorService {
   }
 
   /**
+   * 获取cpu核心负载
+   */
+  private async getCoreLoads(): Promise<ICpuInfo['coresLoad']> {
+  // 获取 /proc/stat 内容
+    const stat = await this.executeCommand('cat /proc/stat')
+
+    const cores: ICpuInfo['coresLoad'] = []
+
+    stat.split('\n').forEach((line) => {
+      if (line.startsWith('cpu') && !line.startsWith('cpu ')) {
+        const cols = line.trim().split(/\s+/)
+        const coreId = Number.parseInt(cols[0].substring(3))
+
+        // 计算总时间片
+        const total = cols.slice(1).reduce((sum, v) => sum + Number.parseInt(v), 0)
+        const idle = Number.parseInt(cols[4]) // 空闲时间
+
+        cores.push({
+          core: coreId,
+          usage: total > 0 ? Math.round(100 * (1 - idle / total)) : 0,
+        })
+      }
+    })
+
+    return cores
+  }
+
+  /**
    * 解析内存信息
    */
   private async parseMemoryInfo(): Promise<IMemoryInfo> {
@@ -164,24 +190,27 @@ export class SystemMonitorService {
    * 解析磁盘信息
    */
   private async parseDiskInfo(): Promise<IDiskInfo> {
-  // 使用 df 命令获取所有物理磁盘的汇总信息（排除tmpfs等特殊文件系统）
-    const dfOutput = await this.executeCommand(`
-    df -k --total -x tmpfs -x devtmpfs -x squashfs | grep 'total'
-  `)
+  // 1. 获取根分区挂载的真实物理设备（如 /dev/sda1）
+    const rootDevice = await this.executeCommand(`
+    df / | tail -n 1 | awk '{print $1}'
+  `).then(res => res.trim())
 
-    // 示例输出：
-    // total      102400000  61440000  40960000   60%
+    // 2. 获取该物理设备的实际容量（单位：bytes）
+    const diskSize = await this.executeCommand(`
+    lsblk -b ${rootDevice} -o SIZE -n | head -n 1
+  `).then(res => Number(res.trim()))
+
+    // 3. 获取根分区的使用情况（单位：bytes）
+    const dfOutput = await this.executeCommand(`
+    df -B1 / | tail -n 1
+  `)
     const parts = dfOutput.trim().split(/\s+/)
 
-    // 提取使用率百分比并转换为数字
-    const usagePercentStr = parts[4]
-    const usagePercent = usagePercentStr ? Number.parseFloat(usagePercentStr.replace('%', '')) : 0
-
     return {
-      total: Number.parseInt(parts[1]) * 1024, // 转换为bytes
-      used: Number.parseInt(parts[2]) * 1024,
-      available: Number.parseInt(parts[3]) * 1024,
-      usagePercent,
+      total: diskSize, // 物理设备真实总容量
+      used: Number(parts[2]), // 已用空间
+      available: Number(parts[3]), // 可用空间
+      usagePercent: Number(parts[4].replace('%', '')), // 使用率
     }
   }
 

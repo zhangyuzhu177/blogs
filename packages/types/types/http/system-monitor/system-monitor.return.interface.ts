@@ -1,7 +1,7 @@
 /**
  * 服务器返回信息
  */
-export interface ISystemMonitorReturnInfo {
+export interface IServerMonitorReturnInfo {
   /**
    * 系统信息
    */
@@ -54,10 +54,32 @@ export interface ICpuInfo {
    * CPU负载
    */
   load: {
+    /**
+     * 过去1分钟的平均负载
+     */
     avg1: number
+    /**
+     * 过去5分钟的平均负载
+     */
     avg5: number
+    /**
+     * 过去15分钟的平均负载
+     */
     avg15: number
   }
+  /**
+   * 核心负载
+   */
+  coresLoad: {
+    /**
+     * 核心
+     */
+    core: number
+    /**
+     * 使用率
+     */
+    usage: number
+  }[]
 }
 
 /**

@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { type ISystemMonitorReturnInfo, PermissionType } from 'types'
+import { type IServerMonitorReturnInfo, PermissionType } from 'types'
 
 import { SuccessDto } from 'src/dto'
 import { HasPermission } from 'src/guards'
@@ -15,7 +15,7 @@ export class SystemMonitorController {
   ) { }
 
   @ApiOperation({ summary: '获取服务监控信息' })
-  @ApiSuccessResponse(SuccessDto<ISystemMonitorReturnInfo>)
+  @ApiSuccessResponse(SuccessDto<IServerMonitorReturnInfo>)
   @HasPermission(PermissionType.SYSTEM_MONITOR_QUERY)
   @Get('server-info')
   public getSystemInfo() {

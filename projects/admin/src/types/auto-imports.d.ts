@@ -18,6 +18,14 @@ declare global {
   const APP_NAME_EN: typeof import('../../../shared/constants/app')['APP_NAME_EN']
   const AUTH_TOKEN_KEY: typeof import('../../../shared/constants/storage')['AUTH_TOKEN_KEY']
   const CLASSIFY: typeof import('../constants/article')['CLASSIFY']
+  const ECHARTS_COLOR: typeof import('../constants/echarts')['ECHARTS_COLOR']
+  const ECHARTS_DATA_ZOOM: typeof import('../constants/echarts')['ECHARTS_DATA_ZOOM']
+  const ECHARTS_GRID: typeof import('../constants/echarts')['ECHARTS_GRID']
+  const ECHARTS_LEGEND: typeof import('../constants/echarts')['ECHARTS_LEGEND']
+  const ECHARTS_PIE: typeof import('../constants/echarts')['ECHARTS_PIE']
+  const ECHARTS_TOOLTIP: typeof import('../constants/echarts')['ECHARTS_TOOLTIP']
+  const ECHARTS_X_AXIS: typeof import('../constants/echarts')['ECHARTS_X_AXIS']
+  const ECHARTS_Y_AXIS: typeof import('../constants/echarts')['ECHARTS_Y_AXIS']
   const EMAIL_MAX_LENGTH: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MAX_LENGTH']
   const EMAIL_MIN_LENGTH: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MIN_LENGTH']
   const EMAIL_REQUIREMENTS_DESC: typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']
@@ -104,6 +112,7 @@ declare global {
   const getId: typeof import('../../../shared/utils/common/tool')['getId']
   const getLinkApi: typeof import('../../../shared/api/likes')['getLinkApi']
   const getOwnProfileApi: typeof import('../../../shared/api/user')['getOwnProfileApi']
+  const getServerMonitorInfoApi: typeof import('../../../shared/api/system-monitor')['getServerMonitorInfoApi']
   const getVisitCountApi: typeof import('../../../shared/api/log')['getVisitCountApi']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
@@ -263,6 +272,7 @@ declare global {
   const useDocumentVisibility: typeof import('@vueuse/core')['useDocumentVisibility']
   const useDraggable: typeof import('@vueuse/core')['useDraggable']
   const useDropZone: typeof import('@vueuse/core')['useDropZone']
+  const useECharts: typeof import('../composables/echarts')['useECharts']
   const useElementBounding: typeof import('@vueuse/core')['useElementBounding']
   const useElementByPoint: typeof import('@vueuse/core')['useElementByPoint']
   const useElementHover: typeof import('@vueuse/core')['useElementHover']
@@ -441,6 +451,14 @@ declare module 'vue' {
     readonly APP_NAME: UnwrapRef<typeof import('../../../shared/constants/app')['APP_NAME']>
     readonly AUTH_TOKEN_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['AUTH_TOKEN_KEY']>
     readonly CLASSIFY: UnwrapRef<typeof import('../constants/article')['CLASSIFY']>
+    readonly ECHARTS_COLOR: UnwrapRef<typeof import('../constants/echarts')['ECHARTS_COLOR']>
+    readonly ECHARTS_DATA_ZOOM: UnwrapRef<typeof import('../constants/echarts')['ECHARTS_DATA_ZOOM']>
+    readonly ECHARTS_GRID: UnwrapRef<typeof import('../constants/echarts')['ECHARTS_GRID']>
+    readonly ECHARTS_LEGEND: UnwrapRef<typeof import('../constants/echarts')['ECHARTS_LEGEND']>
+    readonly ECHARTS_PIE: UnwrapRef<typeof import('../constants/echarts')['ECHARTS_PIE']>
+    readonly ECHARTS_TOOLTIP: UnwrapRef<typeof import('../constants/echarts')['ECHARTS_TOOLTIP']>
+    readonly ECHARTS_X_AXIS: UnwrapRef<typeof import('../constants/echarts')['ECHARTS_X_AXIS']>
+    readonly ECHARTS_Y_AXIS: UnwrapRef<typeof import('../constants/echarts')['ECHARTS_Y_AXIS']>
     readonly EMAIL_MAX_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MAX_LENGTH']>
     readonly EMAIL_MIN_LENGTH: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_MIN_LENGTH']>
     readonly EMAIL_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/email.validator')['EMAIL_REQUIREMENTS_DESC']>
@@ -522,6 +540,7 @@ declare module 'vue' {
     readonly getId: UnwrapRef<typeof import('../../../shared/utils/common/tool')['getId']>
     readonly getLinkApi: UnwrapRef<typeof import('../../../shared/api/likes')['getLinkApi']>
     readonly getOwnProfileApi: UnwrapRef<typeof import('../../../shared/api/user')['getOwnProfileApi']>
+    readonly getServerMonitorInfoApi: UnwrapRef<typeof import('../../../shared/api/system-monitor')['getServerMonitorInfoApi']>
     readonly getVisitCountApi: UnwrapRef<typeof import('../../../shared/api/log')['getVisitCountApi']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
@@ -676,6 +695,7 @@ declare module 'vue' {
     readonly useDocumentVisibility: UnwrapRef<typeof import('@vueuse/core')['useDocumentVisibility']>
     readonly useDraggable: UnwrapRef<typeof import('@vueuse/core')['useDraggable']>
     readonly useDropZone: UnwrapRef<typeof import('@vueuse/core')['useDropZone']>
+    readonly useECharts: UnwrapRef<typeof import('../composables/echarts')['useECharts']>
     readonly useElementBounding: UnwrapRef<typeof import('@vueuse/core')['useElementBounding']>
     readonly useElementByPoint: UnwrapRef<typeof import('@vueuse/core')['useElementByPoint']>
     readonly useElementHover: UnwrapRef<typeof import('@vueuse/core')['useElementHover']>

@@ -66,6 +66,13 @@ export function useMenu() {
           flag: role?.includes(PermissionType.ROLE_QUERY),
         },
       ],
+      monitor: [
+        {
+          id: 'server-monitor',
+          label: '服务器监控',
+          flag: role?.includes(PermissionType.SYSTEM_MONITOR_QUERY),
+        },
+      ],
     }
     return menu[$route.path.substring(1)]
   })

@@ -356,4 +356,24 @@ export const ADMIN_MENU_LIST: PermissionItem[] = [
       },
     ],
   },
+  {
+    name: '系统监控',
+    to: '/monitor',
+    value: [
+      PermissionType.SYSTEM_MONITOR_QUERY,
+    ],
+    children: [
+      {
+        name: '服务器监控',
+        children: [
+          {
+            name: '只读访问服务器监控',
+            value: [
+              PermissionType.SYSTEM_MONITOR_QUERY,
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ]
