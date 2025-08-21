@@ -94,6 +94,7 @@ declare global {
   const getId: typeof import('../../../shared/utils/common/tool')['getId']
   const getLinkApi: typeof import('../../../shared/api/likes')['getLinkApi']
   const getOwnProfileApi: typeof import('../../../shared/api/user')['getOwnProfileApi']
+  const getServerMonitorInfoApi: typeof import('../../../shared/api/system-monitor')['getServerMonitorInfoApi']
   const getVisitCountApi: typeof import('../../../shared/api/log')['getVisitCountApi']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
@@ -497,6 +498,7 @@ declare module 'vue' {
     readonly getId: UnwrapRef<typeof import('../../../shared/utils/common/tool')['getId']>
     readonly getLinkApi: UnwrapRef<typeof import('../../../shared/api/likes')['getLinkApi']>
     readonly getOwnProfileApi: UnwrapRef<typeof import('../../../shared/api/user')['getOwnProfileApi']>
+    readonly getServerMonitorInfoApi: UnwrapRef<typeof import('../../../shared/api/system-monitor')['getServerMonitorInfoApi']>
     readonly getVisitCountApi: UnwrapRef<typeof import('../../../shared/api/log')['getVisitCountApi']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>

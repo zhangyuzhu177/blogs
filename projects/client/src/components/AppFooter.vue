@@ -39,7 +39,7 @@ onMounted(async () => {
     <div w-25 h-1px bg="grey-3 dark:grey-7" />
     <div py-6 px-4>
       <a href="https://beian.miit.gov.cn" target="_blank">
-        备案/许可证 鄂ICP备2024072756号-1
+        备案/许可证 浙ICP备2025193081号
       </a>
     </div>
   </footer>
