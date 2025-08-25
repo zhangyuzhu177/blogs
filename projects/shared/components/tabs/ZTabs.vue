@@ -81,6 +81,7 @@ const value = useVModel(props, 'modelValue')
         // background-color: red;
         border-radius: 8px;
         min-width: auto;
+        transition: all .3s;
 
         .q-tab__label {
           font-size: 16px;
