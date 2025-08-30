@@ -121,7 +121,7 @@ onBeforeMount(async () => {
 
     <div flex="~ gap2 col" sm="justify-center flex-row gap4" w-full>
       <ZTabs
-        v-if="width > 600"
+        v-if="width > 400"
         v-model="typeId"
         :options="types?.map(v => {
           return {

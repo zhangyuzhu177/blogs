@@ -123,7 +123,7 @@ onBeforeMount(async () => {
 
     <div v-if="types" flex="~ gap2 col items-center" sm="justify-center flex-row gap4" w-full>
       <ZTabs
-        v-if="width > 600"
+        v-if="width > 400"
         v-model="typeId"
         :options="types?.map(v => {
           return {
@@ -140,7 +140,7 @@ onBeforeMount(async () => {
         option-value="id"
         option-label="name"
         size="small"
-        w-50
+        w-full
       />
     </div>
 
