@@ -19,6 +19,8 @@ const form = reactive({
   account: '',
   /** 密码 */
   password: '',
+  /** 30天免登录  */
+  expires: false,
   /** 记住账号密码 */
   remember: false,
 })
@@ -69,6 +71,7 @@ async function login() {
           ? 'email'
           : 'account'
         ]: form.account,
+        expires: form.expires ? (30 * 24 * 60 * 60) : undefined,
         password: form.password,
         code: code.value,
         bizId: bizId.value,
@@ -114,12 +117,20 @@ async function login() {
           dark
           @keydown.enter="login"
         />
-        <q-checkbox
-          v-model="form.remember"
-          dark size="sm"
-          label="记住账号密码"
-          relative right-2 self-start
-        />
+        <div flex="~ justify-between items-center">
+          <q-checkbox
+            v-model="form.expires"
+            dark size="sm"
+            label="30天内免登录"
+            relative right-2 self-start
+          />
+          <q-checkbox
+            v-model="form.remember"
+            dark size="sm"
+            label="记住账号密码"
+            relative right-2 self-start
+          />
+        </div>
       </div>
       <div flex="~ col gap4">
         <ZBtn
@@ -129,7 +140,7 @@ async function login() {
           label="登录"
           :disable="disable"
           :params="{
-            loading
+            loading,
           }"
           @click="login"
         />

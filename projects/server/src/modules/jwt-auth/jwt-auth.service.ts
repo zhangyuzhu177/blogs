@@ -24,8 +24,8 @@ export class JwtAuthService {
   /**
    * 根据用户签发登录成功的授权token
    */
-  public async signLoginAuthToken(user: Partial<User>, ip?: string) {
-    const expiresIn = this._cfgSrv.get<number>('jwt.loginAuthExpireInSeconds')
+  public async signLoginAuthToken(user: Partial<User>, ip?: string, expires?: number) {
+    const expiresIn = expires || this._cfgSrv.get<number>('jwt.loginAuthExpireInSeconds')
     const secret = this._cfgSrv.get<string>('jwt.loginAuthSecret')
     const signObj = {
       ...objectPick(user, 'id', 'account', 'email'),

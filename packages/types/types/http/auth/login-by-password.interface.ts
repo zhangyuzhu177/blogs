@@ -14,7 +14,10 @@ export interface ILoginByPasswordBodyDto
   IPasswordDto,
   IAccountOptionalDto,
   IEmailOptionalDto,
-  ICodeVerifyDto { }
+  ICodeVerifyDto {
+  /** 过期时间戳 */
+  expires?: number
+}
 
 /**
  * 登录成功的响应数据

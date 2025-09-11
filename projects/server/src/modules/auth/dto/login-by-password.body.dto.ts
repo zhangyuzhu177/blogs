@@ -13,4 +13,7 @@ export class LoginByPasswordBodyDto
     PasswordDto,
     CodeVerifyDto,
   )
-  implements ILoginByPasswordBodyDto { }
+  implements ILoginByPasswordBodyDto {
+  /** 过期时间戳 */
+  expires?: number
+}
