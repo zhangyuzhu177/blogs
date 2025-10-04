@@ -103,7 +103,7 @@ export class AuthService {
     const correct = await comparePassword(password, user.password)
     if (!correct)
       responseError(ErrorCode.AUTH_PASSWORD_NOT_MATCHED)
-    return this._jwtAuthSrv.signLoginAuthToken(user, ip, body.expires)
+    return this._jwtAuthSrv.signLoginAuthToken(user, ip, body.expiresIn)
   }
 
   /**
