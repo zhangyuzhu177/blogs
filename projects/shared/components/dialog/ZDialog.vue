@@ -25,6 +25,10 @@ interface ZDialogProps {
   /** 是否使用滚动区域 */
   scroll?: boolean
   loading?: boolean
+  /**
+   * 单击对话框外部来关闭对话框
+   */
+  noBackdropDismiss?: boolean
   params?: Omit<QDialogProps, 'modelValue'>
 }
 
@@ -32,6 +36,7 @@ const props = withDefaults(defineProps<ZDialogProps>(), {
   cancelText: '取消',
   confirmText: '确认',
   confirmClose: true,
+  noBackdropDismiss: true,
 })
 defineEmits(['update:modelValue', 'ok'])
 
@@ -47,7 +52,7 @@ defineExpose({
 <template>
   <q-dialog
     v-model="value"
-    no-backdrop-dismiss no-route-dismiss
+    :no-backdrop-dismiss no-route-dismiss
     v-bind="params"
   >
     <q-card
@@ -58,7 +63,7 @@ defineExpose({
         ...wrapperStyle,
       }"
     >
-      <header flex="~ row justify-between items-center" px6>
+      <header v-if="title" flex="~ row justify-between items-center" px6>
         <div text="grey-8 dark:grey-1" flex="~ row items-center gap1">
           <div font-600 v-text="title" />
           <div text="sm grey-6 dark:grey-1" font-400 v-text="caption" />

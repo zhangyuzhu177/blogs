@@ -43,13 +43,13 @@ const icons = {
           <div
             v-if="label"
             subtitle-2 whitespace-pre-wrap
-            text="grey-9 center"
+            text="grey-9 dark:grey-1 center"
             v-text="label"
           />
           <slot name="explain">
             <div
               v-if="explain"
-              text="sm grey-6 center"
+              text="sm grey-6 dark:grey-4 center"
               v-text="explain"
             />
           </slot>

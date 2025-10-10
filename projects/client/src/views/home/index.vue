@@ -17,7 +17,7 @@ onBeforeMount(async () => {
 <template>
   <div full flex="~ col center">
     <div w-full h-100vh relative>
-      <Hyperspeed v-if="config?.isArtBg" />
+      <VectorField v-if="config?.isArtBg" />
       <div
         v-else
         full overflow-hidden
@@ -28,7 +28,7 @@ onBeforeMount(async () => {
       </div>
       <div
         class="title" flex="~ col gap8 center"
-        absolute inset-0 text="center" px-6
+        absolute inset-0 text="center" px-6 bg-transparent
       >
         <div flex="~ col gap4 center">
           <SplitTitle
