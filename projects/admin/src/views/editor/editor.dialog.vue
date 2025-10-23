@@ -67,10 +67,13 @@ const dialog = computed({
 
 /** 加载中 */
 const loading = ref(false)
+/** 生成摘要中 */
+const abstractLoading = ref(false)
 
 const initData: IUpsertArticleBodyDto = {
   name: '',
   articleTypeId: '',
+  abstract: '',
   content: '',
   status: true,
   tagIds: [],
@@ -90,7 +93,7 @@ watch(
         form.value = {
           ...objectPick(
             article,
-            'name', 'articleTypeId', 'content',
+            'name', 'articleTypeId', 'abstract', 'content',
             'tags', 'status',
           ),
         }
@@ -104,8 +107,8 @@ watch(
 )
 
 const disable = computed(() => {
-  const { name, articleTypeId, content, tagIds } = form.value
-  return !name || !articleTypeId || !content || !tagIds?.length
+  const { name, articleTypeId, content, tagIds, abstract } = form.value
+  return !name || !articleTypeId || !abstract || !content || !tagIds?.length || abstractLoading.value
 })
 
 /**
@@ -133,6 +136,82 @@ async function callback() {
     loading.value = false
   }
 }
+
+/**
+ * 生成摘要
+ */
+async function generateAbstract() {
+  abstractLoading.value = true
+  form.value.abstract = '思考中...'
+
+  try {
+    const res = await fetch('/api/article/entities/abstract', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'text/event-stream',
+        'Authorization': `Bearer ${authToken.value.trim()}`,
+      },
+      body: JSON.stringify({
+        content: form.value.content,
+      }),
+    })
+
+    if (!res.ok)
+      throw new Error(`HTTP error! status: ${res.status}`)
+
+    const reader = res.body?.getReader()
+    const decoder = new TextDecoder()
+
+    if (!reader)
+      throw new Error('No reader available')
+
+    let isFirstChunk = true // 标记是否是第一个数据块
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done)
+        break
+
+      const chunk = decoder.decode(value)
+      const lines = chunk.split('\n')
+
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = line.slice(6)
+
+          if (data === '[DONE]')
+            return
+
+          try {
+            const parsed = JSON.parse(data)
+            // 如果是第一个有效数据块，清除 "思考中..."
+            if (isFirstChunk && parsed.content) {
+              form.value.abstract = parsed.content
+              isFirstChunk = false
+            }
+            else {
+              form.value.abstract += parsed.content
+            }
+          }
+          catch (e) {
+            Notify.create({
+              type: 'danger',
+              message: '生成摘要失败',
+            })
+          }
+        }
+      }
+    }
+  }
+  catch (error) {
+    // 出错时也清除"思考中..."
+    form.value.abstract = '生成失败，请重试...'
+  }
+  finally {
+    abstractLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -142,8 +221,9 @@ async function callback() {
     scroll :loading footer
     :disable-confirm="disable"
     :wrapper-style="{
-      width: '600px',
-      maxHeight: '530px',
+      width: '700px',
+      maxWidth: '700px',
+      maxHeight: '700px',
     }"
     @ok="callback"
   >
@@ -171,6 +251,23 @@ async function callback() {
           popupContentClass: 'z-select-popup-content',
         }"
       />
+      <div flex="~ col gap1" mb5>
+        <div flex="~ justify-between items-center">
+          <ZLabel required label="摘要" />
+          <ZBtn
+            size="small"
+            :disable="abstractLoading"
+            :label="abstractLoading ? '生成中...' : form.abstract ? '重新生成' : '生成摘要'"
+            @click="generateAbstract"
+          />
+        </div>
+        <ZInput
+          v-model="form.abstract"
+          required
+          type="textarea"
+          placeholder="请输入文章摘要"
+        />
+      </div>
       <div flex="~ col gap2" mb5>
         <ZLabel
           label="文章状态"

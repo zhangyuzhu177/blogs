@@ -1,3 +1,4 @@
+import { FastifyReply } from 'fastify'
 import { ErrorCode, LikesType, PermissionType } from 'types'
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, Res } from '@nestjs/common'
 
@@ -159,13 +160,28 @@ export class ArticleEntitiesController {
   }
 
   @ApiOperation({ summary: 'AI生成文章摘要 流式返回' })
-  @ApiSuccessResponse(SuccessStringDto)
   @HasPermission(PermissionType.ARTICLE_UPDATE)
   @Post('abstract')
   public async aiGenerateAbstract(
     @Body() body: CreateAbstractBodyDto,
-    @Res() res: Response,
+    @Res() reply: FastifyReply,
   ) {
-    return this._entitiesSrv.aiGenerateAbstract(body.content, res)
+    const res = reply.raw
+
+    res.setHeader('Content-Type', 'text/event-stream; charset=utf-8')
+    res.setHeader('Cache-Control', 'no-cache')
+    res.setHeader('Connection', 'keep-alive')
+    res.setHeader('Access-Control-Allow-Origin', '*') // 如果需要跨域
+
+    const stream = await this._entitiesSrv.aiGenerateAbstract(body.content)
+
+    for await (const chunk of stream) {
+      const delta = chunk.choices[0]?.delta?.content || ''
+      if (delta)
+        res.write(`data: ${JSON.stringify({ content: delta })}\n\n`)
+    }
+
+    res.write('data: [DONE]\n\n')
+    res.end()
   }
 }

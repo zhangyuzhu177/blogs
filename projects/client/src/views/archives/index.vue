@@ -117,7 +117,7 @@ onBeforeMount(async () => {
 
 <template>
   <div full flex="~ col gap6 sm:gap8" pt-6 md:pt-8>
-    <ZLoading :value="loading" />
+    <ZLoading :value="loading" class-name="text-grey-9 dark:text-grey-1" />
 
     <div flex="~ gap2 col" sm="justify-center flex-row gap4" w-full>
       <ZTabs

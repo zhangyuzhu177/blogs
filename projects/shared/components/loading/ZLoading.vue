@@ -1,15 +1,18 @@
 <script lang="ts" setup>
-defineProps<{
+withDefaults(defineProps<{
   value?: boolean
-}>()
+  className?: string
+}>(), {
+  className: 'text-primary-2',
+})
 </script>
 
 <template>
   <q-inner-loading
     v-if="value"
     :showing="value"
+    :class="className"
     label="加载中..."
-    text-primary-2
     z99999
   />
 </template>

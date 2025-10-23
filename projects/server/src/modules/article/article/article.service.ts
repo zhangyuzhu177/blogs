@@ -65,6 +65,7 @@ export class ArticleEntitiesService {
       select: {
         tags: {
           id: true,
+          name: true,
         },
       },
     })
@@ -176,16 +177,16 @@ export class ArticleEntitiesService {
   /**
    * AI自动生成摘要
    */
-  public async aiGenerateAbstract(content: string, res: any) {
+  public async aiGenerateAbstract(content: string) {
     if (!this._openaiClient)
       return
 
     try {
       const prompt = `
         你是一名专业的中文编辑。请为以下文章生成一段简洁、连贯的中文摘要，要求：
-        1. 摘要长度控制在 80 到 120 字之间；
+        1. 摘要长度控制在 80 到 100 字之间；
         2. 语言流畅、通顺；
-        3. 不要出现“本文”“文章”这样的措辞；
+        3. 不要出现“本文”“文章”“教程”这样的措辞；
         4. 仅返回摘要内容，不要解释或附加说明。
 
         文章内容如下：
@@ -202,20 +203,7 @@ export class ArticleEntitiesService {
         temperature: 0.7,
       })
 
-      // 设置 SSE 响应头（Server-Sent Events）
-      res.setHeader('Content-Type', 'text/event-stream')
-      res.setHeader('Cache-Control', 'no-cache')
-      res.setHeader('Connection', 'keep-alive')
-
-      // 遍历流输出
-      for await (const chunk of result) {
-        const delta = chunk.choices[0]?.delta?.content || ''
-        if (delta)
-          res.write(`data: ${delta}\n\n`)
-      }
-
-      res.write('data: [DONE]\n\n')
-      res.end()
+      return result
     }
     catch (error) {
       responseError(ErrorCode.ARTICLE_ABSTRACT_GENERATE_FAILED)

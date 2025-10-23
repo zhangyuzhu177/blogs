@@ -7,6 +7,8 @@ import { MdPreview } from 'md-editor-v3'
 
 import 'md-editor-v3/lib/style.css'
 
+import robot from '~/assets/icons/robot.svg?raw'
+
 const route = useRoute()
 const router = useRouter()
 const { visitorId } = useVisitor()
@@ -29,6 +31,16 @@ const articleId = ref()
 /** 点赞记录 */
 const likes = ref<ILikes[]>()
 
+const weekMap: Record<number, string> = {
+  0: '星期日',
+  1: '星期一',
+  2: '星期二',
+  3: '星期三',
+  4: '星期四',
+  5: '星期五',
+  6: '星期六',
+}
+
 /** 是否点赞 */
 const liked = computed({
   get() {
@@ -36,6 +48,14 @@ const liked = computed({
   },
   set() {
   },
+})
+
+const formattedDate = computed(() => {
+  if (!article.value?.createdAt)
+    return ''
+  const m = moment(article.value.createdAt)
+  const dateStr = m.format('YYYY年MM月DD日')
+  return `${dateStr}，${weekMap[m.day()]}`
 })
 
 function mdHeadingId(_text: string, _level: number, index: number) {
@@ -130,25 +150,25 @@ onBeforeMount(async () => {
 
 <template>
   <div flex="~ col gap8 sm:gap10" pt-6 md:pt-8>
-    <ZLoading :value="loading" />
+    <ZLoading :value="loading" class-name="text-grey-9 dark:text-grey-1" />
 
-    <div flex="~ col gap2">
+    <div v-if="article" flex="~ col gap2">
       <h1 v-text="article?.name" />
       <div
-        subtitle-3 flex="~ items-center gap2"
-        style="color: var(--grey-8);"
+        subtitle-3 flex="~ items-center gap4"
+        style="color: var(--grey-6);"
       >
         <div flex="~ items-center gap1">
           <div i-mingcute:time-line />
           <div
             v-if="article?.createdAt"
-            v-text="moment.utc(article.createdAt).format('YYYY-MM-DD')"
+            v-text="formattedDate"
           />
         </div>
         <template v-if="article?.pageView">
           <div
             w-1.5 h-1.5 b-rd-10
-            style="background-color: var(--grey-8);"
+            style="background-color: var(--grey-6);"
           />
           <div flex="~ items-center gap1">
             <div i-mingcute:eye-2-line />
@@ -158,7 +178,24 @@ onBeforeMount(async () => {
       </div>
     </div>
     <div class="el" pb-10 sm:pb-16 flex="~ gap-6 justify-between">
-      <div lg="max-w-1080px" flex="~ 1" w-0>
+      <div lg="max-w-1080px" flex="~ 1 col gap4" w-0>
+        <div
+          v-if="article?.abstract"
+          bg="#231639" b-rd-2 p-4 flex="~ col gap2"
+        >
+          <div flex="~ justify-between">
+            <div text="6 grey-1" subtitle-1>
+              摘要
+            </div>
+            <div flex="~ items-center gap2">
+              <div text-grey-5 v-html="robot" />
+              <div text-grey-5 text-sm>
+                此内容由 AI 生成
+              </div>
+            </div>
+          </div>
+          <div text-grey-3 v-text="article?.abstract" />
+        </div>
         <MdPreview
           :model-value="article?.content"
           :preview-theme="article?.theme"
@@ -166,6 +203,16 @@ onBeforeMount(async () => {
           :md-heading-id="mdHeadingId"
           :theme="dark ? 'dark' : 'light'"
         />
+        <div flex="~ gap-2 items-center" p-t-10>
+          <div>标签：</div>
+          <div
+            v-for="v in article?.tags" :key="v.id"
+            px-2 py1 b-rd-1 transition-all
+            bg="grey-2 dark:grey-8"
+            hover:bg="grey-3 dark:grey-7"
+            v-text="`#${v.name}`"
+          />
+        </div>
       </div>
       <!-- <div v-if="width >= 960" w-60>
         <div
@@ -190,6 +237,7 @@ onBeforeMount(async () => {
         </div>
       </div> -->
     </div>
+
     <ThumbsUp
       v-if="article"
       v-model:liked="liked"

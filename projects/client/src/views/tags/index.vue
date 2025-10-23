@@ -86,7 +86,7 @@ onBeforeMount(async () => {
     full flex="~ col gap6 sm:gap8"
     pt-6 md:pt-8 whitespace-nowrap
   >
-    <ZLoading :value="loading" />
+    <ZLoading :value="loading" class-name="text-grey-9 dark:text-grey-1" />
 
     <!-- 标签列表 -->
     <div flex="~ gap2 sm:gap4 wrap row" sm="flex- flex-row">

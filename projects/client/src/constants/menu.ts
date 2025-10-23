@@ -12,10 +12,10 @@ export const MENU: Menu[] = [
     to: '/archives',
     label: '归档',
   },
-  {
-    to: '/tags',
-    label: '标签',
-  },
+  // {
+  //   to: '/tags',
+  //   label: '标签',
+  // },
   {
     to: '/gallery',
     label: '图库',
