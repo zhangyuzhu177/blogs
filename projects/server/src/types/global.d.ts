@@ -88,40 +88,6 @@ declare global {
       /** 单个邮箱的发送频率限制（单位：封/秒，默认值：2） */
       EMAIL_SEND_HZ_LIMIT?: string | number
 
-      /** ---------- 阿里云手机短信服务配置 ---------- */
-      /** 短信服务 AK */
-      SMS_AK: string
-      /** 短信服务 SK */
-      SMS_SK: string
-      /** 短信服务签名 */
-      SMS_SIGN: string
-      /** 验证码短信模板编号 */
-      SMS_CODE_TEMPLATE: string
-      /** 验证码短信签名 */
-      SMS_CODE_SIGN?: string
-      /** 认证通过短信模板编号 */
-      SMS_VERIFY_APPROVE_TEMPLATE: string
-      /** 认证通过短信签名 */
-      SMS_VERIFY_APPROVE_SIGN?: string
-      /** 认证驳回短信模板编号 */
-      SMS_VERIFY_REJECT_TEMPLATE: string
-      /** 认证驳回短信签名 */
-      SMS_VERIFY_REJECT_SIGN?: string
-      /** 认证过期短信模板编号 */
-      SMS_VERIFY_EXPIRE_TEMPLATE: string
-      /** 认证过期短信签名 */
-      SMS_VERIFY_EXPIRE_SIGN?: string
-
-      /** ---------- 阿里云验证码服务配置 ---------- */
-      /** 验证码服务的 AK */
-      CAPTCHA_AK: string
-      /** 验证码服务的 SK */
-      CAPTCHA_SK: string
-      /** 验证码服务的场景ID */
-      CAPTCHA_SERVICE_SCENE_ID: string
-      /** 验证码服务的身份标 */
-      CAPTCHA_SERVICE_PREFIX: string
-
       /** ---------- 阿里云 OSS 服务配置 ---------- */
       /** OSS 服务 AK */
       OSS_AK: string
@@ -142,47 +108,17 @@ declare global {
       /** OSS 小组数据桶名 */
       OSS_BUCKET_GROUP: string
 
-      /** ---------- ES 配置 ---------- */
-      /** ES 服务地址 */
-      ES_HOST: string
-      /** ES 用户名 */
-      ES_USER?: string
-      /** ES 密码 */
-      ES_PSWD?: string
-      /** ES 数据日志索引 */
-      ES_INDEX_DATA: string
-      /** ES 云桌面日志索引 */
-      ES_INDEX_DESKTOP: string
-
-      /** ---------- 微信服务配置 ---------- */
-      /** 微信公众号的名称 */
-      WEIXIN_MP_NAME: string
-      /** 微信服务的请求接口 */
-      WEIXIN_API_URL: string
-      /** 微信服务的账号 */
-      WEIXIN_ACCOUNT: string
-      /** 微信服务的密码 */
-      WEIXIN_PASSWORD: string
-      /** 微信服务的加密公钥 */
-      WEIXIN_RSA_PUBLIC_KEY: string
-
       /** ---------- RSA密钥对 ---------- */
       /** 加密公钥 */
       RSA_PUBLIC_KEY: string
       /** 解密私钥 */
       RSA_PRIVATE_KEY: string
 
-      /** ---------- 服务器配置 ---------- */
-      /** 服务器地址 */
-      REMOTE_SERVER_HOST: string
-      /** 服务器端口 */
-      REMOTE_SERVER_PORT: number
-      /** 登录用户名 */
-      REMOTE_SERVER_USERNAME: string
-      /** 登录密码 */
-      REMOTE_SERVER_PASSWORD: string
-      /** 私钥 */
-      REMOTE_SERVER_PRIVATE_KEY: string
+      /** ---------- OPENAI 配置---------- */
+      /** 密钥 */
+      OPENAI_API_KEY: string
+      /** 基础地址 */
+      OPENAI_BASE_URL: string
     }
   }
 }

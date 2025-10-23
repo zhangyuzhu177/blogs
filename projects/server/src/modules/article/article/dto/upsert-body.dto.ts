@@ -19,6 +19,12 @@ export class UpsertArticleBodyDto
     description: '文章内容',
   })
   @IsString()
+  abstract: string
+
+  @ApiPropertyOptional({
+    description: '文章内容',
+  })
+  @IsString()
   content: string
 
   @ApiPropertyOptional({

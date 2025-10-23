@@ -96,6 +96,8 @@ export enum ErrorCode {
   ARTICLE_TAG_IS_EXIST = 600022,
   /** 文章标签下有文章 */
   ARTICLE_TAG_HAS_ARTICLE = 600023,
+  /** 摘要生成失败 */
+  ARTICLE_ABSTRACT_GENERATE_FAILED = 600024,
 
   // ---- 图库相关相关错误码 ----
   /** 图库不存在 */
@@ -109,7 +111,6 @@ export enum ErrorCode {
   GALLERY_TYPE_HAS_GALLERY = 700013,
 
   // ---- 图库相关相关错误码 ----
-
   LIKE_IS_EXIST = 800001,
 }
 

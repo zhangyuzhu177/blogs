@@ -36,6 +36,10 @@ const _articleErrors: ErrorMessageCollection = {
     httpStatus: HttpStatus.FORBIDDEN,
     message: '标签已绑定文章',
   },
+  [ErrorCode.ARTICLE_ABSTRACT_GENERATE_FAILED]: {
+    httpStatus: HttpStatus.NOT_FOUND,
+    message: '摘要生成失败',
+  },
 }
 
 export default _articleErrors

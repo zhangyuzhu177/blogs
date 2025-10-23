@@ -1,4 +1,4 @@
-import { INameDto } from "../../dto/name.interface";
+import type { INameDto } from '../../dto/name.interface'
 
 /**
  * 文章数量

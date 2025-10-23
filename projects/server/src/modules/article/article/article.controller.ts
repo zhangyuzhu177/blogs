@@ -1,5 +1,5 @@
 import { ErrorCode, LikesType, PermissionType } from 'types'
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, Res } from '@nestjs/common'
 
 import type { Article } from 'src/entities/article'
 import { ChangeStatusBodyDto } from 'src/dto/common'
@@ -20,6 +20,7 @@ import {
 import { ArticleService } from '../article.service'
 import { ArticleEntitiesService } from './article.service'
 import { UpsertArticleBodyDto } from './dto/upsert-body.dto'
+import { CreateAbstractBodyDto } from './dto/create-abstract-body.dto'
 
 @Controller('article/entities')
 @ApiTags('Article | 文章')
@@ -155,5 +156,16 @@ export class ArticleEntitiesController {
       responseError(ErrorCode.ARTICLE_NOT_EXISTS)
 
     return this._linkSrv.createLink(ip, LikesType.ARTICLE, body)
+  }
+
+  @ApiOperation({ summary: 'AI生成文章摘要 流式返回' })
+  @ApiSuccessResponse(SuccessStringDto)
+  @HasPermission(PermissionType.ARTICLE_UPDATE)
+  @Post('abstract')
+  public async aiGenerateAbstract(
+    @Body() body: CreateAbstractBodyDto,
+    @Res() res: Response,
+  ) {
+    return this._entitiesSrv.aiGenerateAbstract(body.content, res)
   }
 }

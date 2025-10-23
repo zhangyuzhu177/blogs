@@ -1,6 +1,8 @@
 import { In } from 'typeorm'
+import OpenAI from 'openai'
 import { ErrorCode } from 'types'
 import { objectOmit } from 'utils'
+import { ConfigService } from '@nestjs/config'
 import { Injectable, Logger } from '@nestjs/common'
 
 import type { User } from 'src/entities/user'
@@ -14,9 +16,14 @@ import type { UpsertArticleBodyDto } from './dto/upsert-body.dto'
 export class ArticleEntitiesService {
   private readonly _logger = new Logger(ArticleEntitiesService.name)
 
+  private readonly _openaiClient: OpenAI
+
   constructor(
+    private readonly _cfgSrv: ConfigService,
     private readonly _articleSrv: ArticleService,
-  ) { }
+  ) {
+    this._openaiClient = new OpenAI(this._cfgSrv.get('openai'))
+  }
 
   /**
    * 获取分类,标签,文章数量
@@ -164,5 +171,54 @@ export class ArticleEntitiesService {
 
     const deleteRes = await this._articleSrv.entitiesRepo().delete({ id })
     return deleteRes.affected
+  }
+
+  /**
+   * AI自动生成摘要
+   */
+  public async aiGenerateAbstract(content: string, res: any) {
+    if (!this._openaiClient)
+      return
+
+    try {
+      const prompt = `
+        你是一名专业的中文编辑。请为以下文章生成一段简洁、连贯的中文摘要，要求：
+        1. 摘要长度控制在 80 到 120 字之间；
+        2. 语言流畅、通顺；
+        3. 不要出现“本文”“文章”这样的措辞；
+        4. 仅返回摘要内容，不要解释或附加说明。
+
+        文章内容如下：
+        ${content}
+      `
+
+      const result = await this._openaiClient.chat.completions.create({
+        model: 'deepseek-ai/DeepSeek-V3.1-Terminus',
+        messages: [
+          { role: 'user', content: prompt },
+        ],
+        stream: true,
+        max_completion_tokens: 200,
+        temperature: 0.7,
+      })
+
+      // 设置 SSE 响应头（Server-Sent Events）
+      res.setHeader('Content-Type', 'text/event-stream')
+      res.setHeader('Cache-Control', 'no-cache')
+      res.setHeader('Connection', 'keep-alive')
+
+      // 遍历流输出
+      for await (const chunk of result) {
+        const delta = chunk.choices[0]?.delta?.content || ''
+        if (delta)
+          res.write(`data: ${delta}\n\n`)
+      }
+
+      res.write('data: [DONE]\n\n')
+      res.end()
+    }
+    catch (error) {
+      responseError(ErrorCode.ARTICLE_ABSTRACT_GENERATE_FAILED)
+    }
   }
 }

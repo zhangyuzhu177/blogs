@@ -19,6 +19,8 @@ export interface IArticle
   id: string
   /** 文章分类 */
   articleType: IArticleType
+  /** 摘要 */
+  abstract: string
   /** 文章内容 */
   content: string
   /** 文章标签 */

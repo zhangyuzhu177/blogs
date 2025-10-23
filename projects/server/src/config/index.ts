@@ -5,6 +5,7 @@ import _jwtConfig from './_jwt.config'
 import _redisConfig from './_redis.config'
 import _emailConfig from './_email.config'
 import _systemConfig from './_system.config'
+import _openaiConfig from './_openai.config'
 
 export default [
   _saConfig,
@@ -14,4 +15,5 @@ export default [
   _redisConfig,
   _emailConfig,
   _systemConfig,
+  _openaiConfig,
 ]
