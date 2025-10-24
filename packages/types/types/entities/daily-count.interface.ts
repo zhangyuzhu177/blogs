@@ -1,7 +1,9 @@
+import type { IIpDto } from '../dto/ip.interface'
+
 /**
  * 每日统计
  */
-export interface IDailyCount {
+export interface IDailyCount extends IIpDto {
   /** 每日统计的唯一标识 */
   id: string
   /** 年份 */

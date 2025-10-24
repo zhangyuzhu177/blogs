@@ -9,9 +9,10 @@ export class AccessMiddleware implements NestMiddleware {
     private readonly _modRef: ModuleRef,
   ) {}
 
-  use(_req: any, _res: any, next: () => void) {
+  use(req: FastifyRequest, _res: any, next: () => void) {
     const dailyCountSrv = this._modRef.get(DailyCountService, { strict: false })
-    dailyCountSrv.recordAccess()
+
+    dailyCountSrv.recordAccess(req.ip)
     next()
   }
 }

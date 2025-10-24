@@ -20,6 +20,10 @@ export class DailyCount implements IDailyCount {
   @Column()
   date: number
 
+  @ApiProperty({ description: 'ip 地址' })
+  @Column()
+  ip: string
+
   @ApiProperty({ description: '访问数量' })
   @Column({ type: 'integer', default: 1 })
   access: number

@@ -114,6 +114,12 @@ declare global {
       /** 解密私钥 */
       RSA_PRIVATE_KEY: string
 
+      /** ---------- GitHub 配置---------- */
+      /** GitHub 客户端id */
+      GITHUB_CLIENT_ID: string
+      /** GitHub 密钥 */
+      GITHUB_CLIENT_SECRET: string
+
       /** ---------- OPENAI 配置---------- */
       /** 密钥 */
       OPENAI_API_KEY: string
