@@ -8,6 +8,8 @@ import { DailyCount } from 'src/entities/daily-count'
 export class DailyCountService {
   private readonly _logger = new Logger(DailyCountService.name)
 
+  private readonly cache = new Map<string, number>() // 临时缓存 (ip -> timestamp)
+
   constructor(
     @InjectRepository(DailyCount)
     private readonly _dailyCountRepo: Repository<DailyCount>,
@@ -33,6 +35,13 @@ export class DailyCountService {
 
     if (await this._dailyCountRepo.existsBy({ id }))
       return
+
+    const now = Date.now()
+    const last = this.cache.get(ip) || 0
+    // 如果距离上次记录不到 60 秒，则忽略
+    if (now - last < 60_000)
+      return
+    this.cache.set(ip, now)
 
     try {
       const updateRes = await this._dailyCountRepo.increment({ id }, 'access', 1)
