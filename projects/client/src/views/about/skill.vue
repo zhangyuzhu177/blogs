@@ -88,14 +88,16 @@ const icons: { name: string; icon: string }[] = [
 
 <template>
   <div v-if="skills?.length" flex="~ col gap4 ">
-    <div flex="~ center gap-2">
+    <div class="skill-title" flex="~ center gap-2">
       <div w-1 h-1 b-rd-full bg="grey-9 dark:grey-1" />
       <div subtitle-1 text-center v-text="'专业技能'" />
       <div w-1 h-1 b-rd-full bg="grey-9 dark:grey-1" />
     </div>
     <div flex="~ col gap4" sm="flex-wrap flex-row">
       <div
-        v-for="skill in skills" :key="skill.id"
+        v-for="(skill, index) in skills" :key="skill.id"
+        class="skill-card"
+        :style="{ '--skill-index': index }"
         flex="~ 1 col gap2" b-rd-2 sm="p-4"
         p-2 min-w-56 relative
         border="1 grey-3 dark:grey-8"
@@ -121,3 +123,45 @@ const icons: { name: string; icon: string }[] = [
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.skill-title {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+  animation-delay: 0.75s;
+}
+
+.skill-card {
+  opacity: 0;
+  animation: fadeInScale 0.6s ease-out forwards;
+  animation-delay: calc(1s + var(--skill-index) * 0.1s);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+</style>

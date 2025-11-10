@@ -46,3 +46,6 @@ docker-compose.yaml
 
 # deploy-scripts
 .deploy.mjs
+
+.claude
+CLAUDE.md

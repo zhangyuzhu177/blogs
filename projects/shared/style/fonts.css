@@ -1,20 +1,20 @@
 @font-face {
   font-family: 'PingFang';
-  src: url('../assets/fonts/PingFang_400.ttf') format('truetype');
+  src: url('https://zyz-fonts.oss-cn-hangzhou.aliyuncs.com/PingFang_400.ttf') format('truetype');
   font-weight: 400;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'PingFang';
-  src: url('../assets/fonts/PingFang_500.ttf') format('truetype');
+  src: url('https://zyz-fonts.oss-cn-hangzhou.aliyuncs.com/PingFang_500.ttf') format('truetype');
   font-weight: 500;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'PingFang';
-  src: url('../assets/fonts/PingFang_600.ttf') format('truetype');
+  src: url('https://zyz-fonts.oss-cn-hangzhou.aliyuncs.com/PingFang_600.ttf') format('truetype');
   font-weight: 600;
   font-display: swap;
 }
