@@ -2,10 +2,6 @@
 import { SysConfig } from 'types'
 import type { IConfigDto } from 'types'
 
-// import { hyperspeedPresets } from '~/components/Art/Background/HyperspeedPresets'
-
-// const effectOptions = ref(hyperspeedPresets.one)
-
 /** 配置 */
 const config = ref<IConfigDto[SysConfig.HOME]>()
 
@@ -17,7 +13,7 @@ onBeforeMount(async () => {
 <template>
   <div full flex="~ col center">
     <div w-full h-100vh relative>
-      <VectorField v-if="config?.isArtBg" />
+      <Aurora v-if="config?.isArtBg" />
       <div
         v-else
         full overflow-hidden

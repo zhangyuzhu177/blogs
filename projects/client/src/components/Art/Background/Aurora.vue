@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<ParticlesProps>(), {
   particleCount: 200,
   particleSpread: 10,
   speed: 0.1,
-  particleColors: () => ['#ffffff'],
+  particleColors: () => ['#ADB5BD'],
   moveParticlesOnHover: false,
   particleHoverFactor: 1,
   alphaParticles: false,
@@ -43,7 +43,42 @@ let animationFrameId: number | null = null
 let lastTime = 0
 let elapsed = 0
 
-const defaultColors = ['#ffffff', '#ffffff', '#ffffff']
+const lightModeColors = ['#212529', '#212529', '#212529']
+const darkModeColors = ['#ffffff', '#ffffff', '#ffffff']
+
+const colorMode = ref<'light' | 'dark'>()
+
+let media: MediaQueryList | null = null
+let mediaHandler: ((ev: MediaQueryListEvent) => void) | null = null
+let observer: MutationObserver | null = null
+
+function detectColorMode() {
+  const prefersDark = media?.matches ?? false
+  const classDark = document.documentElement.classList.contains('dark')
+
+  colorMode.value = (prefersDark || classDark) ? 'dark' : 'light'
+}
+
+function setupColorModeListeners() {
+  media = window.matchMedia?.('(prefers-color-scheme: dark)') ?? null
+  if (media) {
+    mediaHandler = () => detectColorMode()
+    media.addEventListener ? media.addEventListener('change', mediaHandler) : media.addListener(mediaHandler)
+  }
+
+  observer = new MutationObserver(() => detectColorMode())
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+}
+
+function teardownColorModeListeners() {
+  if (media && mediaHandler)
+    media.removeEventListener ? media.removeEventListener('change', mediaHandler) : media.removeListener(mediaHandler)
+
+  observer?.disconnect()
+  media = null
+  mediaHandler = null
+  observer = null
+}
 
 function hexToRgb(hex: string): [number, number, number] {
   hex = hex.replace(/^#/, '')
@@ -180,7 +215,11 @@ function initParticles() {
   const positions = new Float32Array(count * 3)
   const randoms = new Float32Array(count * 4)
   const colors = new Float32Array(count * 3)
-  const palette = props.particleColors && props.particleColors.length > 0 ? props.particleColors : defaultColors
+  const palette = props.particleColors && props.particleColors.length > 0
+    ? props.particleColors
+    : colorMode.value === 'dark'
+      ? darkModeColors
+      : lightModeColors
 
   for (let i = 0; i < count; i++) {
     let x: number, y: number, z: number, len: number
@@ -295,10 +334,18 @@ function cleanup() {
 }
 
 onMounted(() => {
+  setupColorModeListeners()
+  detectColorMode()
+  initParticles()
+})
+
+watch(colorMode, () => {
+  cleanup()
   initParticles()
 })
 
 onUnmounted(() => {
+  teardownColorModeListeners()
   cleanup()
 })
 
