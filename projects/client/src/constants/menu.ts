@@ -5,7 +5,7 @@ export interface Menu {
 
 export const MENU: Menu[] = [
   {
-    to: '/home',
+    to: '/',
     label: '首页',
   },
   {

@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import Home from '~/views/home/index.vue'
 </script>
 
 <template>
-  <div />
+  <Home />
 </template>
 
 <route lang="yaml">
-redirect: /home
+meta:
+  layout: home
+  footer: false
 </route>

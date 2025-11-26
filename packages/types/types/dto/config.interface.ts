@@ -25,33 +25,38 @@ export interface IConfigDto {
     job?: string
     /** 所在地 */
     location?: string
-    /** 技能 */
-    skills?: {
-      id?: string
-      /** 名称 */
-      name?: string
-      /** 描述 */
-      desc?: string
-      /** 等级 */
-      level?: number
-    }[]
+
     /** 描述 */
     desc?: string
     /** 邮箱 */
     email?: string
     /** github地址 */
     github?: string
+    /** 技能 */
+    skills?: ISkillsConfigDto[]
     /** 作品 */
-    works?: {
-      id?: string
-      /** 名称 */
-      name?: string
-      /** 图标 */
-      icon?: string
-      /** 描述 */
-      desc?: string
-      /** 链接 */
-      url?: string
-    }[]
+    works?: IWorksConfigDto[]
   }
+}
+
+export interface ISkillsConfigDto {
+  id?: string
+  /** 名称 */
+  name?: string
+  /** 描述 */
+  desc?: string
+  /** 等级 */
+  level?: number
+}
+
+export interface IWorksConfigDto {
+  id?: string
+  /** 名称 */
+  name?: string
+  /** 图标 */
+  icon?: string
+  /** 描述 */
+  desc?: string
+  /** 链接 */
+  url?: string
 }

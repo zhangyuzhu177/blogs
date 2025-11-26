@@ -2,8 +2,9 @@
 import { SysConfig } from 'types'
 import type { IConfigDto } from 'types'
 
-import Skill from './skill.vue'
-import PersonInfo from './personInfo.vue'
+import Skills from './components/skills.vue'
+import Works from './components/works.vue'
+import PersonInfo from './components/personInfo.vue'
 
 /** 配置 */
 const config = ref<IConfigDto[SysConfig.ABOUT]>()
@@ -21,7 +22,9 @@ onBeforeMount(async () => {
     <!-- 文章数量 -->
     <!-- <Count /> -->
     <!-- 专业技能 -->
-    <Skill :skills="config?.skills" />
+    <Skills v-if="config.skills?.length" :skills="config.skills" />
+    <!-- 个人作品 -->
+    <Works v-if="config.works?.length" :works="config.works" />
   </div>
 </template>
 

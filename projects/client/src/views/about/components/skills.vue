@@ -1,17 +1,7 @@
 <script setup lang="ts">
-interface SkillProps {
-  skills?: {
-    id?: string
-    /** 名称 */
-    name?: string
-    /** 描述 */
-    desc?: string
-    /** 等级 */
-    level?: number
-  }[]
-}
+import type { ISkillsConfigDto } from 'types'
 
-defineProps<SkillProps>()
+defineProps<{ skills: ISkillsConfigDto[] }>()
 
 /** 预设图标 */
 const icons: { name: string; icon: string }[] = [
@@ -87,7 +77,7 @@ const icons: { name: string; icon: string }[] = [
 </script>
 
 <template>
-  <div v-if="skills?.length" flex="~ col gap4 ">
+  <div flex="~ col gap6">
     <div class="skill-title" flex="~ center gap-2">
       <div w-1 h-1 b-rd-full bg="grey-9 dark:grey-1" />
       <div subtitle-1 text-center v-text="'专业技能'" />
@@ -100,7 +90,7 @@ const icons: { name: string; icon: string }[] = [
         :style="{ '--skill-index': index }"
         flex="~ 1 col gap2" b-rd-2 sm="p-4"
         p-2 min-w-56 relative
-        border="1 grey-3 dark:grey-8"
+        border="1 grey-3 dark:grey-7"
         bg="grey-1 dark:grey-9"
       >
         <div
