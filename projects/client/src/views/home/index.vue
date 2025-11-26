@@ -13,7 +13,10 @@ onBeforeMount(async () => {
 <template>
   <div full flex="~ col center">
     <div w-full h-100vh relative>
-      <Aurora v-if="config?.isArtBg" />
+      <ArtOrb
+        v-if="config?.isArtBg" inset-0 absolute
+        :hover-intensity="0.5" :rotate-on-hover="true" :hue="0" :force-hover-state="false"
+      />
       <div
         v-else
         full overflow-hidden
@@ -24,7 +27,7 @@ onBeforeMount(async () => {
       </div>
       <div
         class="title" flex="~ col gap8 center"
-        absolute inset-0 text="center" px-6 bg-transparent
+        text="center" px-6 bg-transparent full
       >
         <div flex="~ col gap4 center">
           <SplitTitle
@@ -41,7 +44,6 @@ onBeforeMount(async () => {
             cursor-character="_"
           />
         </div>
-        <!-- <ArtButton text="查看更多" /> -->
       </div>
     </div>
     <SplashCursor v-if="config?.isArtCursor" />
