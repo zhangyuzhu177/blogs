@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { Notify } from 'quasar'
 import { SysConfig } from 'types'
-import { cloneDeep, isArray } from 'lodash'
-import {
-  VueDraggable,
-} from 'vue-draggable-plus'
 import type { IConfigDto } from 'types'
+import { cloneDeep, isArray } from 'lodash'
 import { randomId, validateUrl } from 'utils'
+import { VueDraggable } from 'vue-draggable-plus'
 import { validateDesc, validateEmail, validateName } from 'shared/utils/validators'
 
 const { PAGE_NAV, active } = usePageAdmin()
+
+/** 技能列表折叠状态 */
+const skillsCollapsed = ref(false)
+/** 作品列表折叠状态 */
+const worksCollapsed = ref(false)
 
 /** 加载中 */
 const loading = ref(false)
@@ -19,14 +22,8 @@ const initData: IConfigDto[SysConfig.ABOUT] = {
   name: '',
   job: '',
   location: '',
-  skills: [
-    {
-      id: randomId(),
-      name: '',
-      level: 0,
-      desc: '',
-    },
-  ],
+  skills: [],
+  works: [],
   desc: '',
   email: '',
   github: '',
@@ -58,13 +55,71 @@ watch(
 )
 
 const disable = computed(() => {
-  const { name, email, github, desc } = config.value || {}
+  const currentConfig = config.value
+  const { name, email, github, desc } = currentConfig || {}
 
-  return JSON.stringify(config.value) === JSON.stringify(oldConfig.value)
+  const skillsList = currentConfig?.skills
+  const worksList = currentConfig?.works
+  const skillsEmpty = !isArray(skillsList) || skillsList.length === 0
+  const worksEmpty = !isArray(worksList) || worksList.length === 0
+
+  const skillsInvalid = isArray(skillsList) && skillsList.some((skill) => {
+    if (!skill)
+      return false
+
+    const level = skill.level
+    const levelFilled = level !== undefined && level !== null && `${level}` !== ''
+    const parsedLevel = Number(level)
+    const levelInvalid = levelFilled && (Number.isNaN(parsedLevel) || parsedLevel < 0 || parsedLevel > 100)
+
+    return (!!skill.name && !!validateName(skill.name))
+      || (!!skill.desc && !!validateDesc(skill.desc))
+      || levelInvalid
+  })
+
+  const skillsIncomplete = isArray(skillsList) && skillsList.some((skill) => {
+    if (!skill)
+      return true
+
+    const level = skill.level
+    const levelFilled = level !== undefined && level !== null && `${level}` !== ''
+
+    return !skill.name?.trim()
+      || !skill.desc?.trim()
+      || !levelFilled
+  })
+
+  const worksInvalid = isArray(worksList) && worksList.some((work) => {
+    if (!work)
+      return false
+
+    return (!!work.name && !!validateName(work.name))
+      || (!!work.desc && !!validateDesc(work.desc))
+      || (!!work.icon && !!validateUrl(work.icon))
+      || (!!work.url && !!validateUrl(work.url))
+  })
+
+  const worksIncomplete = isArray(worksList) && worksList.some((work) => {
+    if (!work)
+      return true
+
+    return !work.name?.trim()
+      || !work.desc?.trim()
+      || !work.icon?.trim()
+      || !work.url?.trim()
+  })
+
+  return JSON.stringify(currentConfig) === JSON.stringify(oldConfig.value)
     || (!!name && !!validateName(name))
     || (!!email && !!validateEmail(email))
     || (!!github && !!validateUrl(github))
     || (!!desc && !!validateDesc(desc))
+    || skillsEmpty
+    || worksEmpty
+    || skillsIncomplete
+    || worksIncomplete
+    || skillsInvalid
+    || worksInvalid
 })
 
 /** 获取数据 */
@@ -75,12 +130,8 @@ async function getConfigList() {
     config.value = {
       // ...initData,
       ...(data as IConfigDto[SysConfig.ABOUT]),
-      skills: (data as IConfigDto[SysConfig.ABOUT])?.skills || [{
-        id: randomId(),
-        name: '',
-        level: 0,
-        desc: '',
-      }],
+      skills: (data as IConfigDto[SysConfig.ABOUT])?.skills || [],
+      works: (data as IConfigDto[SysConfig.ABOUT])?.works || [],
     }
     oldConfig.value = JSON.parse(JSON.stringify(data))
   }
@@ -124,8 +175,8 @@ onBeforeMount(() => {
   <div flex="~ col gap4" full>
     <ZLoading :value="loading" />
     <!-- 标题 -->
-    <div flex="~ items-center justify-between">
-      <h3 v-text="PAGE_NAV[1].label" />
+    <div flex="~ items-center justify-between" py-2 b-b="1 grey-3">
+      <div subtitle-1 v-text="PAGE_NAV[1].label" />
       <ZBtn
         label="保存"
         :disable="disable"
@@ -209,9 +260,17 @@ onBeforeMount(() => {
             (val:string) => !val || validateDesc(val) || true,
           ]"
         />
-        <div flex="~ col gap2">
+        <div flex="~ col gap2" mb-5>
           <div flex="~ justify-between gap2">
-            <ZLabel label="技能" />
+            <div flex="~ items-center gap2">
+              <ZLabel label="技能" />
+              <div
+                i-mingcute:down-line
+                transition-all cursor-pointer size-5 text-primary-1
+                :style="{ transform: `rotate(${skillsCollapsed ? '180deg' : '0deg'})` }"
+                @click="skillsCollapsed = !skillsCollapsed"
+              />
+            </div>
             <ZTextBtn
               label="添加项"
               @click="config?.skills?.push({
@@ -224,6 +283,7 @@ onBeforeMount(() => {
 
           <VueDraggable
             v-if="isArray(config?.skills) && config?.skills?.length"
+            v-show="!skillsCollapsed"
             v-model="config.skills"
             item-key="id"
             :animation="300"
@@ -266,6 +326,90 @@ onBeforeMount(() => {
                 />
                 <ZInput
                   v-model="skill.desc"
+                  label="描述"
+                  placeholder="请输入描述"
+                  mb-5
+                />
+              </div>
+            </div>
+          </VueDraggable>
+        </div>
+
+        <div flex="~ col gap2" mb-5>
+          <div flex="~ justify-between gap2">
+            <div flex="~ items-center gap2">
+              <ZLabel label="作品" />
+              <div
+                i-mingcute:down-line
+                transition-all cursor-pointer size-5 text-primary-1
+                :style="{ transform: `rotate(${worksCollapsed ? '180deg' : '0deg'})` }"
+                @click="worksCollapsed = !worksCollapsed"
+              />
+            </div>
+            <ZTextBtn
+              label="添加项"
+              @click="config?.works?.push({
+                id: randomId(),
+                name: '',
+                icon: '',
+                url: '',
+                desc: '',
+              })"
+            />
+          </div>
+          <VueDraggable
+            v-if="isArray(config?.works) && config?.works?.length"
+            v-show="!worksCollapsed"
+            v-model="config.works"
+            item-key="id"
+            :animation="300"
+            drag-class="drag"
+            class="flex flex-1 flex-col flex-nowrap gap2 h0 overflow-y-auto"
+            :group="{ name: 'skills' }"
+          >
+            <div
+              v-for="(work, index) in config.works" :key="work.id"
+              flex="~ col gap2" bg-grey-2 b="1  grey-3" p4
+              b-rd-2
+            >
+              <div flex="~ justify-between">
+                <div subtitle-3 v-text="`列表项 ${index + 1}`" />
+                <ZIconBtn
+                  icon="i-mingcute:close-line"
+                  :disable="config?.works!.length === 1"
+                  @click="() => {
+                    if (config?.works!.length !== 1)
+                      config?.works?.splice(index, 1)
+                  }"
+                />
+              </div>
+              <div>
+                <ZInput
+                  v-model="work.name"
+                  label="名称"
+                  placeholder="请输入名称"
+                  :rules="[
+                    (val: string) => !val || validateName(val) || true,
+                  ]"
+                />
+                <ZInput
+                  v-model="work.icon"
+                  label="图标"
+                  placeholder="请输入图标地址"
+                  :rules="[
+                    (val: string) => !val || validateUrl(val) || true,
+                  ]"
+                />
+                <ZInput
+                  v-model="work.url"
+                  label="地址"
+                  placeholder="请输入作品地址"
+                  :rules="[
+                    (val: string) => !val || validateUrl(val) || true,
+                  ]"
+                />
+                <ZInput
+                  v-model="work.desc"
                   label="描述"
                   placeholder="请输入描述"
                   mb-5

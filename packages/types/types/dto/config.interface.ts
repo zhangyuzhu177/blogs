@@ -41,5 +41,17 @@ export interface IConfigDto {
     email?: string
     /** github地址 */
     github?: string
+    /** 作品 */
+    works?: {
+      id?: string
+      /** 名称 */
+      name?: string
+      /** 图标 */
+      icon?: string
+      /** 描述 */
+      desc?: string
+      /** 链接 */
+      url?: string
+    }[]
   }
 }

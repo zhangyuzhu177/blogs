@@ -89,8 +89,8 @@ onMounted(() => {
     <ZLoading :value="loading" />
 
     <!-- 标题 -->
-    <div flex="~ items-center justify-between">
-      <h3 v-text="PAGE_NAV[0].label" />
+    <div flex="~ items-center justify-between" py-2 b-b="1 grey-3">
+      <div subtitle-1 v-text="PAGE_NAV[0].label" />
       <ZBtn
         label="保存"
         :disable="disable"
