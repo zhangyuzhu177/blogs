@@ -265,9 +265,9 @@ onBeforeMount(() => {
             <div flex="~ items-center gap2">
               <ZLabel label="技能" />
               <div
-                i-mingcute:down-line
+                i-mingcute:right-line
                 transition-all cursor-pointer size-5 text-primary-1
-                :style="{ transform: `rotate(${skillsCollapsed ? '180deg' : '0deg'})` }"
+                :style="{ transform: `rotate(${skillsCollapsed ? '0deg' : '90deg'})` }"
                 @click="skillsCollapsed = !skillsCollapsed"
               />
             </div>
@@ -340,9 +340,9 @@ onBeforeMount(() => {
             <div flex="~ items-center gap2">
               <ZLabel label="作品" />
               <div
-                i-mingcute:down-line
+                i-mingcute:right-line
                 transition-all cursor-pointer size-5 text-primary-1
-                :style="{ transform: `rotate(${worksCollapsed ? '180deg' : '0deg'})` }"
+                :style="{ transform: `rotate(${worksCollapsed ? '0deg' : '90deg'})` }"
                 @click="worksCollapsed = !worksCollapsed"
               />
             </div>
