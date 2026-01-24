@@ -13,9 +13,10 @@ onBeforeMount(async () => {
 <template>
   <div full flex="~ col center">
     <div w-full h-100vh relative>
-      <ArtOrb
-        v-if="config?.isArtBg" inset-0 absolute
-        :hover-intensity="0.5" :rotate-on-hover="true" :hue="0" :force-hover-state="false"
+      <!-- inset-0 absolute
+        :hover-intensity="0.5" :rotate-on-hover="true" :hue="0" :force-hover-state="false" -->
+      <ArtSingularity
+        v-if="config?.isArtBg"
       />
       <div
         v-else
