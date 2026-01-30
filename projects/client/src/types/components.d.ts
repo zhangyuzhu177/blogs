@@ -27,7 +27,6 @@ declare module 'vue' {
     ScrollTop: typeof import('./../components/ScrollTop/ScrollTop.vue')['default']
     SearchBtn: typeof import('./../components/FuncBtns/SearchBtn.vue')['default']
     ShaderToy: typeof import('./../components/Art/Background/ShaderToy.vue')['default']
-    SingularityBackground: typeof import('./../components/ui/bg-singularity/SingularityBackground.vue')['default']
     SMSInput: typeof import('./../../../shared/components/input/SMSInput.vue')['default']
     SplashCursor: typeof import('./../components/Art/Animations/SplashCursor.vue')['default']
     SplitTitle: typeof import('./../components/Art/Title/SplitTitle.vue')['default']
