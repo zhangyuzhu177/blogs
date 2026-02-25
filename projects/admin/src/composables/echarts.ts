@@ -4,6 +4,7 @@ import * as echarts from 'echarts/core'
 // 引入图表，图表后缀都为 Chart
 import {
   BarChart,
+  LineChart,
 } from 'echarts/charts'
 
 // 引入直角坐标系、图例、提示框等组件，组件后缀都为 Component
@@ -29,6 +30,7 @@ import { ECHARTS_COLOR } from '~/constants/echarts'
 echarts.use([
   // charts
   BarChart,
+  LineChart,
 
   // components
   GridComponent,
