@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import denied from '~/assets/empty/denied.svg?raw'
-import item from '~/assets/empty/item.svg?raw'
+const iconModules = import.meta.glob('../../assets/empty/*.svg', {
+  eager: true,
+  import: 'default',
+  query: '?raw',
+})
+
+type EmptyIcon = 'denied' | 'item'
 
 interface EmptyProps {
-  icon?: keyof (typeof icons)
+  icon?: EmptyIcon
   label?: string
   captions?: string
 }
@@ -13,9 +18,9 @@ withDefaults(defineProps<EmptyProps>(), {
   label: '暂无数据',
 })
 
-const icons = {
-  denied,
-  item,
+const icons: Record<EmptyIcon, string> = {
+  denied: iconModules['../../assets/empty/denied.svg'] as string,
+  item: iconModules['../../assets/empty/item.svg'] as string,
 }
 </script>
 

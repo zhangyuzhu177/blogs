@@ -9,7 +9,7 @@ import Article from '~/views/archives/article/index.vue'
   >
     <div
       flex="~ 1 col"
-      lg="max-w-1080px px-0" sm="px-6"
+      lg="max-w-1360px px-0" sm="px-6"
       px-4
     >
       <Article />

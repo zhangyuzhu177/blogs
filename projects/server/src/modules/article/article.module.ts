@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Article } from 'src/entities/article'
 import { ArticleTag } from 'src/entities/article-tag'
 import { ArticleType } from 'src/entities/article-type'
+import { AgentModule } from 'src/modules/agent/agent.module'
 
 import { ArticleService } from './article.service'
 import { ArticleTagService } from './tag/tag.service'
@@ -16,6 +17,7 @@ import { ArticleEntitiesController } from './article/article.controller'
 @Module({
   imports: [
     TypeOrmModule.forFeature([Article, ArticleType, ArticleTag]),
+    AgentModule,
   ],
   providers: [
     ArticleService,

@@ -6,8 +6,10 @@ import { ConfigService } from '@nestjs/config'
 import { Injectable, Logger } from '@nestjs/common'
 
 import type { User } from 'src/entities/user'
+import type { OpenAIConfig } from 'src/config/_openai.config'
 import type { ChangeStatusBodyDto } from 'src/dto/common'
 import { parseSqlError, responseError } from 'src/utils'
+import { RetrievalService } from 'src/modules/agent/retrieval.service'
 
 import { ArticleService } from '../article.service'
 import type { UpsertArticleBodyDto } from './dto/upsert-body.dto'
@@ -18,11 +20,20 @@ export class ArticleEntitiesService {
 
   private readonly _openaiClient: OpenAI
 
+  private readonly _chatModel: string
+
   constructor(
     private readonly _cfgSrv: ConfigService,
     private readonly _articleSrv: ArticleService,
+    private readonly _retrievalSrv: RetrievalService,
   ) {
-    this._openaiClient = new OpenAI(this._cfgSrv.get('openai'))
+    const openaiConfig = this._cfgSrv.get<OpenAIConfig>('openai')
+
+    this._chatModel = openaiConfig?.chatModel || 'deepseek-ai/DeepSeek-V3.1-Terminus'
+    this._openaiClient = new OpenAI({
+      apiKey: openaiConfig?.apiKey,
+      baseURL: openaiConfig?.baseURL,
+    })
   }
 
   /**
@@ -96,6 +107,8 @@ export class ArticleEntitiesService {
 
       const insertRes = await this._articleSrv.entitiesRepo().save(data)
 
+      await this._syncArticleIndex(insertRes.id, insertRes.status)
+
       return insertRes.id
     }
     catch (e) {
@@ -132,6 +145,7 @@ export class ArticleEntitiesService {
       })
 
       await this._articleSrv.entitiesRepo().save(article)
+      await this._syncArticleIndex(id, article.status)
 
       return id
     }
@@ -160,6 +174,8 @@ export class ArticleEntitiesService {
       { status },
     )
 
+    await Promise.all(ids.map(id => this._syncArticleIndex(id, status)))
+
     return updateRes.affected
   }
 
@@ -171,7 +187,25 @@ export class ArticleEntitiesService {
       responseError(ErrorCode.ARTICLE_NOT_EXISTS)
 
     const deleteRes = await this._articleSrv.entitiesRepo().delete({ id })
+    await this._syncArticleIndex(id, false)
+
     return deleteRes.affected
+  }
+
+  /**
+   * 同步文章 RAG 索引。
+   * 索引属于增强能力，失败时只记录日志，不阻断文章发布、编辑或删除主流程。
+   */
+  private async _syncArticleIndex(articleId: string, enabled: boolean) {
+    try {
+      if (enabled)
+        await this._retrievalSrv.indexArticle(articleId)
+      else
+        await this._retrievalSrv.removeArticleIndex(articleId)
+    }
+    catch (error) {
+      this._logger.warn(`同步文章 RAG 索引失败：${articleId}，${(error as Error).message}`)
+    }
   }
 
   /**
@@ -194,12 +228,12 @@ export class ArticleEntitiesService {
       `
 
       const result = await this._openaiClient.chat.completions.create({
-        model: 'deepseek-ai/DeepSeek-V3.1-Terminus',
+        model: this._chatModel,
         messages: [
           { role: 'user', content: prompt },
         ],
         stream: true,
-        max_completion_tokens: 200,
+        max_tokens: 200,
         temperature: 0.7,
       })
 

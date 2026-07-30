@@ -30,6 +30,7 @@ declare global {
   const PHONE_NUMBER_REQUIREMENTS_DESC: typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_REQUIREMENTS_DESC']
   const REMEMBER_LOGIN_INFO_KEY: typeof import('../../../shared/constants/storage')['REMEMBER_LOGIN_INFO_KEY']
   const RSA_KEY: typeof import('../../../shared/constants/encrypt')['RSA_KEY']
+  const archiveAgentConversationApi: typeof import('../../../shared/api/agent')['archiveAgentConversationApi']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const authToken: typeof import('../../../shared/composables/user')['authToken']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
@@ -81,6 +82,8 @@ declare global {
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const gerArticleDetailApi: typeof import('../../../shared/api/article')['gerArticleDetailApi']
+  const getAgentConversationsApi: typeof import('../../../shared/api/agent')['getAgentConversationsApi']
+  const getAgentMessagesApi: typeof import('../../../shared/api/agent')['getAgentMessagesApi']
   const getArticleAndTypeAndTagCountApi: typeof import('../../../shared/api/article')['getArticleAndTypeAndTagCountApi']
   const getArticleTagListApi: typeof import('../../../shared/api/articleTag')['getArticleTagListApi']
   const getArticleTypeListApi: typeof import('../../../shared/api/articleType')['getArticleTypeListApi']
@@ -98,6 +101,8 @@ declare global {
   const getVisitCountApi: typeof import('../../../shared/api/log')['getVisitCountApi']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
+  const indexAgentArticleKnowledgeApi: typeof import('../../../shared/api/agent')['indexAgentArticleKnowledgeApi']
+  const indexAllAgentArticleKnowledgeApi: typeof import('../../../shared/api/agent')['indexAllAgentArticleKnowledgeApi']
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const isDefined: typeof import('@vueuse/core')['isDefined']
@@ -434,6 +439,7 @@ declare module 'vue' {
     readonly PHONE_NUMBER_REQUIREMENTS_DESC: UnwrapRef<typeof import('../../../shared/utils/validators/phone.validator')['PHONE_NUMBER_REQUIREMENTS_DESC']>
     readonly REMEMBER_LOGIN_INFO_KEY: UnwrapRef<typeof import('../../../shared/constants/storage')['REMEMBER_LOGIN_INFO_KEY']>
     readonly RSA_KEY: UnwrapRef<typeof import('../../../shared/constants/encrypt')['RSA_KEY']>
+    readonly archiveAgentConversationApi: UnwrapRef<typeof import('../../../shared/api/agent')['archiveAgentConversationApi']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly authToken: UnwrapRef<typeof import('../../../shared/composables/user')['authToken']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
@@ -485,6 +491,8 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly gerArticleDetailApi: UnwrapRef<typeof import('../../../shared/api/article')['gerArticleDetailApi']>
+    readonly getAgentConversationsApi: UnwrapRef<typeof import('../../../shared/api/agent')['getAgentConversationsApi']>
+    readonly getAgentMessagesApi: UnwrapRef<typeof import('../../../shared/api/agent')['getAgentMessagesApi']>
     readonly getArticleAndTypeAndTagCountApi: UnwrapRef<typeof import('../../../shared/api/article')['getArticleAndTypeAndTagCountApi']>
     readonly getArticleTagListApi: UnwrapRef<typeof import('../../../shared/api/articleTag')['getArticleTagListApi']>
     readonly getArticleTypeListApi: UnwrapRef<typeof import('../../../shared/api/articleType')['getArticleTypeListApi']>
@@ -502,6 +510,8 @@ declare module 'vue' {
     readonly getVisitCountApi: UnwrapRef<typeof import('../../../shared/api/log')['getVisitCountApi']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
+    readonly indexAgentArticleKnowledgeApi: UnwrapRef<typeof import('../../../shared/api/agent')['indexAgentArticleKnowledgeApi']>
+    readonly indexAllAgentArticleKnowledgeApi: UnwrapRef<typeof import('../../../shared/api/agent')['indexAllAgentArticleKnowledgeApi']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>

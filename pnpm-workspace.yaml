@@ -1,3 +1,11 @@
 packages:
   - packages/*
   - projects/*
+allowBuilds:
+  '@nestjs/core': true
+  '@scarf/scarf': true
+  core-js: true
+  cpu-features: true
+  esbuild: true
+  ssh2: true
+  vue-demi: true

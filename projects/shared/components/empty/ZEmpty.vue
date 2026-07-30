@@ -1,6 +1,11 @@
 <script lang="ts" setup>
-import data from '../../assets/empty/data.svg?raw'
-import denied from '../../assets/empty/denied.svg?raw'
+const iconModules = import.meta.glob('../../assets/empty/*.svg', {
+  eager: true,
+  import: 'default',
+  query: '?raw',
+})
+
+type EmptyIcon = 'data' | 'denied'
 
 interface ZEmptyProps {
   /**
@@ -8,7 +13,7 @@ interface ZEmptyProps {
    *
    * 默认值：`denied`
    */
-  icon?: keyof (typeof icons)
+  icon?: EmptyIcon
   /**
    * 空状态文本
    *
@@ -25,9 +30,9 @@ withDefaults(defineProps<ZEmptyProps>(), {
   icon: 'denied',
 })
 
-const icons = {
-  data,
-  denied,
+const icons: Record<EmptyIcon, string> = {
+  data: iconModules['../../assets/empty/data.svg'] as string,
+  denied: iconModules['../../assets/empty/denied.svg'] as string,
 }
 </script>
 

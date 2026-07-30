@@ -14,6 +14,7 @@ import allConfig from './config'
 import { LogModule } from './modules/log/log.module'
 import { CodeModule } from './modules/code/code.module'
 import { UserModule } from './modules/user/user.module'
+import { AgentModule } from './modules/agent/agent.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { FileModule } from './modules/file/file.module'
 import { RoleModule } from './modules/role/role.module'
@@ -37,6 +38,7 @@ import { SystemMonitorModule } from './modules/system-monitor/system-monitor.mod
   imports: [
     // Internal Modules
     LogModule,
+    AgentModule,
     AuthModule,
     UserModule,
     RoleModule,

@@ -125,6 +125,20 @@ declare global {
       OPENAI_API_KEY: string
       /** 基础地址 */
       OPENAI_BASE_URL: string
+      /** 聊天模型 */
+      OPENAI_CHAT_MODEL: string
+      /** Embedding 模型 */
+      OPENAI_EMBEDDING_MODEL?: string
+
+      /** ---------- 通用 LLM 配置---------- */
+      /** LLM 密钥，优先级高于 OPENAI_API_KEY */
+      LLM_API_KEY: string
+      /** LLM 基础地址，优先级高于 OPENAI_BASE_URL */
+      LLM_BASE_URL: string
+      /** LLM 聊天模型，优先级高于 OPENAI_CHAT_MODEL */
+      LLM_CHAT_MODEL: string
+      /** LLM Embedding 模型，优先级高于 OPENAI_EMBEDDING_MODEL */
+      LLM_EMBEDDING_MODEL?: string
     }
   }
 }
