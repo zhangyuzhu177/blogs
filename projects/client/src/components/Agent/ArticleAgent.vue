@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import type { AgentAction, IAgentMessage, IAgentReference, IAgentToolResult } from 'types'
-import type { IArticle } from 'types'
+import type { AgentAction, IAgentMessage, IAgentReference, IAgentToolResult, IArticle } from 'types'
 import { MdPreview } from 'md-editor-v3'
 
-
 import 'md-editor-v3/lib/preview.css'
-import aiAssistantIcon from '~/assets/icons/ai.svg'
 import { useAgentStream } from './useAgentStream'
+import aiAssistantIcon from '~/assets/icons/ai.svg'
 
 interface ChatMessage {
   id: string
@@ -158,13 +156,15 @@ function upsertToolEvent(messageId: string, event: AgentToolUiEvent) {
   const toolEvents = [...(messages.value[index].toolEvents || [])]
   const existedIndex = toolEvents.findIndex(item => item.toolCallId === event.toolCallId)
 
-  if (existedIndex === -1)
+  if (existedIndex === -1) {
     toolEvents.push(event)
-  else
+  }
+  else {
     toolEvents[existedIndex] = {
       ...toolEvents[existedIndex],
       ...event,
     }
+  }
 
   messages.value[index] = {
     ...messages.value[index],
@@ -644,6 +644,7 @@ onBeforeUnmount(abort)
           w-10 cursor-pointer
           transition duration-200
         "
+        bg-grey-1 dark:bg-grey-9
         type="button"
         aria-label="打开 AI 助手"
         @click="toggleOpen"

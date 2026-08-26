@@ -13,41 +13,36 @@ const defaultAvatar = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
 </script>
 
 <template>
-  <div flex="~ col center gap2 sm:gap4">
-    <div flex="~ justify-center" class="animate-item" style="--animation-order: 0;">
-      <q-img
-        class="avatar"
-        w-40 h-40 b-rd-full overflow-hidden shadow-2xl
-        cursor-pointer loading="lazy"
-        :src="info?.avatar || defaultAvatar"
-      />
-    </div>
-    <div max-w-150 flex="~ items-center col gap2" text="grey-7 dark:grey-4">
-      <h1 class="animate-item" style="--animation-order: 1;" text="grey-9 dark:grey-1" v-text="info?.name" />
-      <div class="animate-item" style="--animation-order: 2;" subtitle-2 flex="~ items-center gap2">
-        <div
-          v-if="info?.github"
-          flex="~ items-center gap1"
-        >
+  <div flex="~ gap-6 col sm:gap4 sm:row justify-between" pt-4 pb-10 border-b border="grey-3 dark:grey-7">
+    <div flex="~ col gap-4">
+      <h1 v-text="info?.name" />
+      <div text-18px style="--animation-order: 3;" v-text="info?.job" />
+      <div style="--animation-order: 4;" v-text="info?.desc" />
+      <div style="--animation-order: 2;" flex="~ items-center gap2">
+        <div v-if="info?.github" flex="~ items-center gap1">
           <a :href="info?.github" target="_blank">
             <div size-5 i-bxl:github />
           </a>
         </div>
-        <div
-          v-if="info?.email"
-          flex="~ items-center gap1"
-        >
+        <div v-if="info?.email" flex="~ items-center gap1">
           <a :href="`mailto:${info?.email}`" target="_blank">
             <div size-5 i-mingcute:mail-fill />
           </a>
         </div>
-        <div flex="~ items-center">
+      </div>
+    </div>
+    <div flex="~ col gap-4 justify-end items-end">
+      <div flex="~ col gap-4">
+        <q-img
+          w-40 h-40 rounded-5 overflow-hidden
+          loading="lazy"
+          :src="info?.avatar || defaultAvatar"
+        />
+        <div flex="~ gap-1 items-center">
           <div flex-center size-5 v-html="localIcon" />
-          <div v-text="info?.location" />
+          <div text-sm v-text="info?.location" />
         </div>
       </div>
-      <div class="animate-item" style="--animation-order: 3;" subtitle-2 v-text="info?.job" />
-      <div class="animate-item" style="--animation-order: 4;" subtitle-3 text-center v-text="info?.desc" />
     </div>
   </div>
 </template>

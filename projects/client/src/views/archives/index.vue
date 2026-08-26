@@ -153,7 +153,7 @@ onBeforeMount(async () => {
       <div flex="~ col gap2 sm:gap4" px-4>
         <div
           v-for="article in articles" :key="article.id"
-          flex="~ 1 gap-2 items-center"
+          flex="~ 1 gap-2 items-center" hover:transform-translate-x--2 transition-all
         >
           <div
             text-nowrap
@@ -162,8 +162,7 @@ onBeforeMount(async () => {
           <div icon i-mingcute:arrows-right-line />
           <div
             cursor-pointer truncate
-            flex-1 w-0 hover:subtitle-2
-            transition-all
+            flex-1 w-0
             @click="router.push(`/archives/article?articleId=${article.id}`)"
           >
             <span v-text="article.name" />

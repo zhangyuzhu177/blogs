@@ -18,11 +18,12 @@ onMounted(async () => {
 <template>
   <footer
     v-if="route.meta.footer !== false"
-    flex="~ col center" subtitle-3
-    text="grey-7 dark:grey-3" w-full
+    py-5 px-6
+    flex="~ col center gap-4" subtitle-3 font-400
+    text="grey-6 dark:grey-3" w-full
     b-t="1 grey-3 dark:grey-7"
   >
-    <div flex="~ gap6" py-6 px-4>
+    <!-- <div flex="~ gap6" py-6 px-4>
       <div flex="~ col">
         <div text-sm>
           总访问量
@@ -35,12 +36,19 @@ onMounted(async () => {
         </div>
         <div text="lg grey-9 dark:grey-1" font-500 v-text="data?.today" />
       </div>
+    </div> -->
+    <div>
+      保持好奇，慢慢生活。
     </div>
     <div w-25 h-1px bg="grey-3 dark:grey-7" />
-    <div py-6 px-4>
+    <div flex gap-2 text-12px>
       <a href="https://beian.miit.gov.cn" target="_blank">
-        备案/许可证 浙ICP备2025193081号
+        浙ICP备2025193081号
       </a>
+      <div>
+        |
+      </div>
+      <div>©2026 zyz</div>
     </div>
   </footer>
 </template>

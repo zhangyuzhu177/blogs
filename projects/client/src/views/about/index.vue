@@ -3,7 +3,6 @@ import { SysConfig } from 'types'
 import type { IConfigDto } from 'types'
 
 import Skills from './components/skills.vue'
-import Works from './components/works.vue'
 import PersonInfo from './components/personInfo.vue'
 
 /** 配置 */
@@ -24,7 +23,7 @@ onBeforeMount(async () => {
     <!-- 专业技能 -->
     <Skills v-if="config.skills?.length" :skills="config.skills" />
     <!-- 个人作品 -->
-    <Works v-if="config.works?.length" :works="config.works" />
+    <!-- <Works v-if="config.works?.length" :works="config.works" /> -->
   </div>
 </template>
 

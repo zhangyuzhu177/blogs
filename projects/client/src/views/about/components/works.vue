@@ -15,7 +15,7 @@ function openWork(url?: string) {
   <div flex="~ col gap6">
     <div class="work-title" flex="~ center gap-2">
       <div w-1 h-1 b-rd-full bg="grey-9 dark:grey-1" />
-      <div subtitle-1 text-center v-text="'个人作品'" />
+      <H3 text-center v-text="'WORKS'" />
       <div w-1 h-1 b-rd-full bg="grey-9 dark:grey-1" />
     </div>
     <div flex="~ col gap4" sm="flex-wrap flex-row">

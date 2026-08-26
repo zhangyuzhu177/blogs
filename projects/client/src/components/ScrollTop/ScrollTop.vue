@@ -11,7 +11,7 @@ nextTick(() => {
   watch(
     () => y.value,
     (newVal) => {
-      if (newVal > 400)
+      if (newVal > 600)
         show.value = true
       else
         show.value = false

@@ -78,36 +78,79 @@ const icons: { name: string; icon: string }[] = [
 
 <template>
   <div flex="~ col gap6">
-    <div class="skill-title" flex="~ center gap-2">
+    <div flex="~ center gap-2">
       <div w-1 h-1 b-rd-full bg="grey-9 dark:grey-1" />
-      <div subtitle-1 text-center v-text="'专业技能'" />
+      <h3 text-center v-text="'SKILLS'" />
       <div w-1 h-1 b-rd-full bg="grey-9 dark:grey-1" />
     </div>
-    <div flex="~ col gap4" sm="flex-wrap flex-row">
+    <div
+      grid
+      grid-cols-1
+      sm="grid-cols-2"
+      b="1 solid grey-3 dark:grey-7"
+      rounded-3
+      overflow-hidden
+    >
       <div
-        v-for="(skill, index) in skills" :key="skill.id"
-        class="skill-card"
+        v-for="(skill, index) in skills"
+        :key="skill.id"
         :style="{ '--skill-index': index }"
-        flex="~ 1 col gap2" b-rd-2 sm="p-4"
-        p-2 min-w-56 relative
-        border="1 grey-3 dark:grey-7"
+        flex="~ 1 col gap2"
+        sm="p-4"
+        p-2
+        relative
         bg="grey-1 dark:grey-9"
+        flex-1
+        :class="[
+          // =========================
+          // 移动端：单列布局
+          // 除了最后一个，全部添加底部边框
+          // =========================
+          index !== skills.length - 1
+            && 'border-b border-solid border-grey-3 dark:border-grey-7',
+
+          // =========================
+          // sm：两列布局
+          // 第一行添加底部边框
+          // =========================
+          index < 2
+            && 'sm:border-b sm:border-solid sm:border-grey-3 dark:sm:border-grey-7',
+
+          // 第二行取消移动端继承的底部边框
+          index >= 2
+            && 'sm:border-b-0',
+
+          // =========================
+          // sm：左侧元素添加右边框
+          // index 0、2
+          // =========================
+          index % 2 === 0
+            && 'sm:border-r sm:border-solid sm:border-grey-3 dark:sm:border-grey-7',
+        ]"
       >
+        <!-- 图标 -->
         <div
           v-if="skill?.name"
-          :class="icons.find(item => item.name.includes(skill?.name as string))?.icon || 'i-mingcute:terminal-line'"
-          w-6 h-6
+          :class="
+            icons.find(item => item.name.includes(skill?.name as string))?.icon
+              || 'i-mingcute:terminal-line'
+          "
+          w-6
+          h-6
         />
-        <div subtitle-2 v-text="skill?.name" />
+
+        <!-- 标题 -->
         <div
-          text-sm text-nowrap truncate
-          style="color:var(--grey-6)" v-text="skill?.desc"
+          v-text="skill?.name"
         />
-        <q-linear-progress
-          v-if="skill?.level"
-          :value="skill?.level / 100"
-          h-1.5 b-rd-2
-          style="background-color: var(--grey-3);"
+
+        <!-- 描述 -->
+        <div
+          text-sm
+          text-nowrap
+          truncate
+          style="color: var(--grey-6)"
+          v-text="skill?.desc"
         />
       </div>
     </div>
@@ -126,11 +169,6 @@ const icons: { name: string; icon: string }[] = [
   animation: fadeInScale 0.6s ease-out forwards;
   animation-delay: calc(1s + var(--skill-index) * 0.1s);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  }
 }
 
 @keyframes fadeInUp {

@@ -49,7 +49,7 @@ async function loadData() {
     const body: IQueryDto<IGallery> = {
       pagination: {
         page: page.value,
-        pageSize: 8,
+        pageSize: 'all',
       },
       order: {
         createdAt: 'DESC',
@@ -154,36 +154,29 @@ onBeforeMount(async () => {
           hover:shadow-xl
           @click="router.push(`/gallery/detail?galleryId=${item.id}`)"
         >
-          <q-img
+          <img
             :src="item.picture[0]"
-            h-100 w-100 transition-transform
+            w-full h-full object-cover transition-transform
             duration-300 group-hover:scale-105
-          />
+          >
           <div
             class="absolute top-3 right-3 bg-black/30 text-grey-1
             px-2 py-1 rounded-2 text-sm"
             v-text="item.picture.length"
           />
           <div
-            class="absolute inset-0 bg-black/40 opacity-0
+            class="absolute inset-0 bg-black/20 opacity-0
             group-hover:opacity-100 transition-opacity duration-300"
           />
           <div class="absolute bottom-0 left-0 right-0 p-4">
             <div relative z-10 flex="~ col gap-2">
               <h3 subtitle-1 text-grey-1 v-text="item.name" />
-              <p
-                text-grey-1
-                class="text-sm opacity-0 max-h-0
-                overflow-hidden transition-all duration-500
-                group-hover:opacity-100 group-hover:max-h-20 line-clamp-3"
-                v-text="item.desc"
-              />
             </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
         </div>
       </div>
-      <ZBtn
+      <!-- <ZBtn
         v-if="page * 8 < total"
         text-color="grey-9" label="加载更多"
         b-rd-2
@@ -191,7 +184,7 @@ onBeforeMount(async () => {
           outline: true,
         }"
         @click="page++"
-      />
+      /> -->
     </template>
   </div>
 </template>
