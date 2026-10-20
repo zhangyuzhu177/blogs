@@ -11,14 +11,8 @@ services:
       TZ: Asia/Shanghai
       NODE_ENV: production
       SERVER_PORT: 3000
-      DB_HOST: ${DB_HOST:-host.docker.internal}
-      DB_PORT: ${DB_PORT:-3306}
-      REDIS_HOST: ${REDIS_HOST:-host.docker.internal}
-      REDIS_PORT: ${REDIS_PORT:-6379}
     env_file:
-      - ${SERVER_ENV_FILE:-./projects/server/.env}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - ./projects/server/.env
     ports:
       - "3000:3000"
     networks:

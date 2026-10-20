@@ -1,4 +1,6 @@
-FROM node:22.19.0-bookworm AS base
+ARG NODE_IMAGE=docker.io/library/node
+
+FROM ${NODE_IMAGE}:22.19.0-bookworm AS base
 
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
@@ -33,7 +35,7 @@ FROM base AS production-deps
 RUN --mount=type=cache,id=blogs-pnpm,target=/pnpm/store \
     pnpm install --filter server... --prod --frozen-lockfile --store-dir /pnpm/store
 
-FROM node:22.19.0-bookworm-slim AS runtime
+FROM ${NODE_IMAGE}:22.19.0-bookworm-slim AS runtime
 
 ENV NODE_ENV=production
 ENV SERVER_PORT=3000

@@ -13,19 +13,11 @@ Compose 只部署后端，连接现有 MySQL、Redis，保留原有配置：
 
 #### 1. 准备配置
 
-在仓库根目录执行：
+Compose 通过 `env_file` 直接读取 `projects/server/.env`，不在 Compose 中覆盖数据库或 Redis 的连接配置。请在该文件中设置有效的 `DB_HOST`、`DB_PORT`、`DB_USER`、`DB_PSWD`、`DB_NAME` 以及 `REDIS_HOST`、`REDIS_PORT` 和 Redis 认证信息。
 
-```sh
-cp .env.example .env
-```
+如果 MySQL 和 Redis 容器接入同一个外部 `blogs_net` 网络，`DB_HOST`、`REDIS_HOST` 填写对应容器名或网络别名，容器间可通过 Docker 网络发现彼此。当前 Redis 容器名为 `blogs_redis`，所以 `.env` 中的 Redis 地址配置为 `REDIS_HOST=blogs_redis`、`REDIS_PORT=6379`；不需要填写宿主机网关地址。只有服务确实运行在宿主机上时，才配置宿主机可达的地址。
 
-编辑根目录 `.env` 中的 `DB_HOST`、`DB_PORT`、`REDIS_HOST`、`REDIS_PORT`。这些值由 Compose 显式注入，优先于后端环境文件中的同名变量：
-
-- 数据库、Redis 是同一 `blogs_net` 网络中的容器：填写对应容器名或网络别名。
-- 服务运行在宿主机：使用默认的 `host.docker.internal`，服务须监听容器可以访问的宿主机地址。
-- 远程服务：填写对应 IP 或域名。
-
-`projects/server/.env` 保存其余应用配置，包括 `DB_USER`、`DB_PSWD`、`DB_NAME`、Redis 认证信息、JWT、RSA、SMTP、OSS 和模型配置。也可通过根目录 `.env` 中的 `SERVER_ENV_FILE` 指定独立的生产配置文件。
+`.env` 中的示例值如果以 `#` 注释，应用不会读取它们，部署前请取消注释并确认主机名和端口正确。后端还会从配置文件读取 JWT、RSA、SMTP、OSS 和模型配置。
 
 生产环境建议将后端配置中的 `DB_ORM_ENABLE_SYNC` 设为 `false`，使用已有且匹配当前实体的数据库表；当前项目启动时会初始化角色、权限等数据，空库须先准备表结构。邮件用户名与 OSS 配置在启动阶段就会被读取，需填写有效配置。
 
