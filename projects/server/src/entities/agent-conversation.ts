@@ -1,4 +1,5 @@
-import type { AgentConversationStatus, AgentSourceType, IAgentConversation } from 'types'
+import { AgentConversationStatus, AgentSourceType } from 'types'
+import type { IAgentConversation } from 'types'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import {
   Column,

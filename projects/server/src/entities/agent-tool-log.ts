@@ -1,6 +1,8 @@
-import type {
+import {
   AgentToolLogStatus,
   AgentToolName,
+} from 'types'
+import type {
   IAgentToolLog,
 } from 'types'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'

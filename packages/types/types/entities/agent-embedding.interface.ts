@@ -2,7 +2,7 @@ import type { ICreatedAt, IUpdatedAt } from './_timestamp.interface'
 import type { IAgentKnowledgeChunk } from './agent-knowledge-chunk.interface'
 
 /** Agent 向量生成方 */
-export type AgentEmbeddingProvider = 'openai-compatible' | 'local-hash'
+export type AgentEmbeddingProvider = 'openai-compatible'
 
 /** Agent 向量实体 */
 export interface IAgentEmbedding extends ICreatedAt, IUpdatedAt {

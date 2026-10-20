@@ -139,6 +139,16 @@ declare global {
       LLM_CHAT_MODEL: string
       /** LLM Embedding 模型，优先级高于 OPENAI_EMBEDDING_MODEL */
       LLM_EMBEDDING_MODEL?: string
+
+      /** ---------- Embedding 配置---------- */
+      /** Embedding 密钥，优先级高于聊天模型密钥 */
+      EMBEDDING_API_KEY?: string
+      /** Embedding 兼容接口地址 */
+      EMBEDDING_BASE_URL?: string
+      /** Embedding 模型，优先级高于 LLM_EMBEDDING_MODEL */
+      EMBEDDING_MODEL?: string
+      /** 可选输出维度；不配置时使用模型默认维度 */
+      EMBEDDING_DIMENSIONS?: string
     }
   }
 }

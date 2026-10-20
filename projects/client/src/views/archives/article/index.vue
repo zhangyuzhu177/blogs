@@ -11,6 +11,9 @@ import aiAssistantIcon from '~/assets/icons/robot.svg'
 const route = useRoute()
 const router = useRouter()
 const { visitorId } = useVisitor()
+const articleContentRef = ref<HTMLElement>()
+
+useArticleProgress(articleContentRef)
 
 const dark = useDark()
 const state = reactive({
@@ -120,7 +123,7 @@ onBeforeMount(async () => {
     <ZLoading :value="loading" class-name="text-grey-9 dark:text-grey-1" />
 
     <div class="article-shell">
-      <article class="article-content">
+      <article ref="articleContentRef" class="article-content">
         <header v-if="article" class="article-hero">
           <h1 v-text="article?.name" />
           <div class="article-meta">

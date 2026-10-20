@@ -1,9 +1,8 @@
-import type { FastifyReply } from 'fastify'
-import { PermissionType } from 'types'
+import { FastifyReply } from 'fastify'
+import { AgentSourceType, PermissionType } from 'types'
 import { Body, Controller, Get, Param, Patch, Post, Query, Req, Res } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 
-import type { AgentSourceType } from 'types'
 import { HasPermission } from 'src/guards/permission.guard'
 
 import { AgentService } from './agent.service'
@@ -20,6 +19,10 @@ export class AgentController {
     summary: 'Agent 流式问答',
   })
   @Post('chat/stream')
+  /**
+   * 流式问答。
+   * 以 SSE 把 Agent 的增量回答、工具状态和引用来源推给前端。
+   */
   public async streamChat(
     @Req() req: FastifyRequest,
     @Body() body: AgentChatStreamBodyDto,
@@ -58,6 +61,10 @@ export class AgentController {
     summary: '获取访客的 Agent 会话列表',
   })
   @Get('conversations')
+  /**
+   * 获取当前访客的会话列表。
+   * 可按来源页面过滤，只返回该访客自己的活跃会话。
+   */
   public getConversations(
     @Query('visitorId') visitorId: string,
     @Query('sourceType') sourceType?: AgentSourceType,
@@ -70,6 +77,10 @@ export class AgentController {
     summary: '获取指定 Agent 会话的消息列表',
   })
   @Get('conversations/:conversationId/messages')
+  /**
+   * 获取指定会话的历史消息。
+   * 需要同时提供访客 Id，避免通过会话 Id 读取他人记录。
+   */
   public getMessages(
     @Param('conversationId') conversationId: string,
     @Query('visitorId') visitorId: string,
@@ -81,6 +92,10 @@ export class AgentController {
     summary: '归档指定 Agent 会话',
   })
   @Patch('conversations/:conversationId/archive')
+  /**
+   * 归档指定会话。
+   * 归档后前台不再恢复该会话，历史消息仍保留在数据库中。
+   */
   public archiveConversation(
     @Param('conversationId') conversationId: string,
     @Query('visitorId') visitorId: string,
@@ -93,6 +108,10 @@ export class AgentController {
   })
   @HasPermission(PermissionType.ARTICLE_UPDATE)
   @Post('index/article/:articleId')
+  /**
+   * 重建单篇文章的知识库索引。
+   * 需要文章更新权限，供后台或 Swagger 手动触发。
+   */
   public indexArticleKnowledge(
     @Param('articleId') articleId: string,
   ) {
@@ -104,6 +123,10 @@ export class AgentController {
   })
   @HasPermission(PermissionType.ARTICLE_UPDATE)
   @Post('index/articles')
+  /**
+   * 重建全部已发布文章的知识库索引。
+   * 需要文章更新权限，适合首次上线或切换 Embedding 模型后执行。
+   */
   public indexAllArticleKnowledge() {
     return this._agentSrv.indexAllArticleKnowledge()
   }

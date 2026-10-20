@@ -174,11 +174,11 @@ export class ArticleEntitiesController {
     res.setHeader('Access-Control-Allow-Origin', '*') // 如果需要跨域
 
     const stream = await this._entitiesSrv.aiGenerateAbstract(body.content)
+    if (!stream)
+      return
 
-    for await (const chunk of stream) {
-      const delta = chunk.choices[0]?.delta?.content || ''
-      if (delta)
-        res.write(`data: ${JSON.stringify({ content: delta })}\n\n`)
+    for await (const delta of stream) {
+      res.write(`data: ${JSON.stringify({ content: delta })}\n\n`)
     }
 
     res.write('data: [DONE]\n\n')

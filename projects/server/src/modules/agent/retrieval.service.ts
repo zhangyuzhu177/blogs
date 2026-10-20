@@ -10,7 +10,7 @@ import { Article } from 'src/entities/article'
 import { AgentEmbedding } from 'src/entities/agent-embedding'
 import { AgentKnowledgeChunk } from 'src/entities/agent-knowledge-chunk'
 
-import { EmbeddingService } from './embedding.service'
+import { type AgentEmbeddingResult, EmbeddingService } from './embedding.service'
 
 interface SearchKnowledgeOptions {
   /** 返回的最大知识块数量 */
@@ -96,16 +96,19 @@ export class RetrievalService {
       },
     })))
 
-    for (const chunk of savedChunks) {
-      const embedding = await this._embeddingSrv.embedText(`${chunk.title}\n${chunk.content}`)
-      await this._embeddingRepo.save(this._embeddingRepo.create({
+    const embeddings = await this._embeddingSrv.embedTexts(
+      savedChunks.map(chunk => `${chunk.title}\n${chunk.content}`),
+    )
+    await this._embeddingRepo.save(savedChunks.map((chunk, index) => {
+      const embedding = embeddings[index]
+      return this._embeddingRepo.create({
         chunkId: chunk.id,
         provider: embedding.provider,
         model: embedding.model,
         dimension: embedding.dimension,
         vector: embedding.vector,
-      }))
-    }
+      })
+    }))
 
     return {
       articleId: article.id,
@@ -179,7 +182,14 @@ export class RetrievalService {
    */
   public async searchKnowledge(query: string, options: SearchKnowledgeOptions = {}) {
     const limit = options.limit || 5
-    const embedding = await this._embeddingSrv.embedText(query)
+    let embedding: AgentEmbeddingResult
+    try {
+      embedding = await this._embeddingSrv.embedText(query)
+    }
+    catch (error) {
+      this._logger.warn(`查询向量生成失败，已退回关键词检索：${(error as Error).message}`)
+      return this._searchByKeyword(query, options)
+    }
     const rows = await this._createEmbeddingQuery(embedding.model, options).getMany()
 
     if (!rows.length)
@@ -187,7 +197,7 @@ export class RetrievalService {
 
     const matches = rows
       .filter(row => row.chunk)
-      .map<AgentKnowledgeMatch>(row => {
+      .map<AgentKnowledgeMatch>((row) => {
         const semanticScore = this._cosineSimilarity(embedding.vector, this._normalizeStoredVector(row.vector))
         const keywordScore = this._keywordScore(query, `${row.chunk!.title}\n${row.chunk!.content}`)
         return {
@@ -252,6 +262,9 @@ export class RetrievalService {
     return Array.from(references.values())
   }
 
+  /**
+   * 查询当前 Embedding 模型对应的有效向量，并带出所属知识块。
+   */
   private _createEmbeddingQuery(model: string, options: SearchKnowledgeOptions) {
     const query = this._embeddingRepo
       .createQueryBuilder('embedding')
@@ -264,6 +277,9 @@ export class RetrievalService {
     return query
   }
 
+  /**
+   * 查询有效知识块，供关键词检索使用。
+   */
   private _createChunkQuery(options: SearchKnowledgeOptions) {
     const query = this._chunkRepo
       .createQueryBuilder('chunk')
@@ -274,6 +290,9 @@ export class RetrievalService {
     return query
   }
 
+  /**
+   * 按来源类型、来源 Id 和排除 Id 过滤知识块。
+   */
   private _applyChunkFilters(query: any, options: SearchKnowledgeOptions) {
     if (options.sourceTypes?.length)
       query.andWhere('chunk.sourceType IN (:...sourceTypes)', { sourceTypes: options.sourceTypes })
@@ -285,6 +304,10 @@ export class RetrievalService {
       query.andWhere('chunk.sourceId != :excludeSourceId', { excludeSourceId: options.excludeSourceId })
   }
 
+  /**
+   * 按关键词重合度检索知识块。
+   * 向量接口失败或没有向量命中时作为兜底。
+   */
   private async _searchByKeyword(queryText: string, options: SearchKnowledgeOptions) {
     const limit = options.limit || 5
     const chunks = await this._createChunkQuery(options).getMany()
@@ -304,6 +327,9 @@ export class RetrievalService {
     return matches
   }
 
+  /**
+   * 把文章标题、分类、标签、摘要和正文拼成待索引文本。
+   */
   private _buildArticleKnowledgeText(article: Article) {
     const tags = article.tags?.map(tag => tag.name).join('、')
 
@@ -316,6 +342,10 @@ export class RetrievalService {
     ].filter(Boolean).join('\n')
   }
 
+  /**
+   * 按段落切分文章。
+   * 单个段落超过窗口时，再按固定长度和重叠切块。
+   */
   private _splitText(text: string) {
     const normalized = text
       .replace(/\r\n/g, '\n')
@@ -356,6 +386,9 @@ export class RetrievalService {
     return chunks
   }
 
+  /**
+   * 清洗空白后写入一个非空知识块。
+   */
   private _pushChunk(chunks: string[], content: string) {
     const normalized = content.replace(/\s+/g, ' ').trim()
 
@@ -363,11 +396,17 @@ export class RetrievalService {
       chunks.push(normalized)
   }
 
+  /**
+   * 保留上一块末尾内容，作为下一块的重叠上下文。
+   */
   private _overlapTail(previous: string, nextParagraph: string) {
     const tail = previous.slice(Math.max(previous.length - this._chunkOverlap, 0)).trim()
     return tail ? `${tail}\n\n${nextParagraph}` : nextParagraph
   }
 
+  /**
+   * 计算两个已归一化向量的点积，用来近似余弦相似度。
+   */
   private _cosineSimilarity(left: number[], right: number[]) {
     const length = Math.min(left.length, right.length)
     if (!length)
@@ -380,6 +419,9 @@ export class RetrievalService {
     return score
   }
 
+  /**
+   * 把数据库中的数组或 JSON 字符串还原成数字向量。
+   */
   private _normalizeStoredVector(vector: number[] | string | null) {
     if (Array.isArray(vector))
       return vector
@@ -396,6 +438,9 @@ export class RetrievalService {
     }
   }
 
+  /**
+   * 按查询词在内容中的命中比例计算关键词分数。
+   */
   private _keywordScore(query: string, content: string) {
     const tokens = this._tokenize(query)
     if (!tokens.length)
@@ -412,6 +457,9 @@ export class RetrievalService {
     return hit / tokens.length
   }
 
+  /**
+   * 把文本拆成英文词和中文双字，用于关键词打分。
+   */
   private _tokenize(text: string) {
     const normalized = text.toLowerCase()
     const words = normalized.match(/[a-z0-9_]{2,}/g) || []
@@ -426,6 +474,9 @@ export class RetrievalService {
     ].filter(Boolean)))
   }
 
+  /**
+   * 压缩空白并截断过长文本。
+   */
   private _truncate(text: string, maxLength: number) {
     const normalized = text.replace(/\s+/g, ' ').trim()
 

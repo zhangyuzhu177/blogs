@@ -1,5 +1,5 @@
+import { ChatOpenAI } from '@langchain/openai'
 import { In } from 'typeorm'
-import OpenAI from 'openai'
 import { ErrorCode } from 'types'
 import { objectOmit } from 'utils'
 import { ConfigService } from '@nestjs/config'
@@ -18,9 +18,7 @@ import type { UpsertArticleBodyDto } from './dto/upsert-body.dto'
 export class ArticleEntitiesService {
   private readonly _logger = new Logger(ArticleEntitiesService.name)
 
-  private readonly _openaiClient: OpenAI
-
-  private readonly _chatModel: string
+  private readonly _model: ChatOpenAI
 
   constructor(
     private readonly _cfgSrv: ConfigService,
@@ -29,10 +27,20 @@ export class ArticleEntitiesService {
   ) {
     const openaiConfig = this._cfgSrv.get<OpenAIConfig>('openai')
 
-    this._chatModel = openaiConfig?.chatModel || 'deepseek-ai/DeepSeek-V3.1-Terminus'
-    this._openaiClient = new OpenAI({
+    this._model = new ChatOpenAI({
+      model: openaiConfig?.chatModel || 'deepseek-ai/DeepSeek-V3.1-Terminus',
       apiKey: openaiConfig?.apiKey,
-      baseURL: openaiConfig?.baseURL,
+      temperature: 0.7,
+      maxTokens: 200,
+      streaming: true,
+      streamUsage: false,
+      useResponsesApi: false,
+      maxRetries: 1,
+      timeout: 120000,
+      configuration: {
+        apiKey: openaiConfig?.apiKey,
+        baseURL: openaiConfig?.baseURL,
+      },
     })
   }
 
@@ -212,11 +220,7 @@ export class ArticleEntitiesService {
    * AI自动生成摘要
    */
   public async aiGenerateAbstract(content: string) {
-    if (!this._openaiClient)
-      return
-
-    try {
-      const prompt = `
+    const prompt = `
         你是一名专业的中文编辑。请为以下文章生成一段简洁、连贯的中文摘要，要求：
         1. 摘要长度控制在 80 到 100 字之间；
         2. 语言流畅、通顺；
@@ -227,20 +231,45 @@ export class ArticleEntitiesService {
         ${content}
       `
 
-      const result = await this._openaiClient.chat.completions.create({
-        model: this._chatModel,
-        messages: [
-          { role: 'user', content: prompt },
-        ],
-        stream: true,
-        max_tokens: 200,
-        temperature: 0.7,
-      })
-
-      return result
+    try {
+      const stream = await this._model.stream(prompt)
+      return this._readAbstractStream(stream)
     }
     catch (error) {
       responseError(ErrorCode.ARTICLE_ABSTRACT_GENERATE_FAILED)
     }
+  }
+
+  /**
+   * 把 LangChain 消息块转成纯文本增量，保持摘要接口的 SSE 内容格式不变。
+   */
+  private async *_readAbstractStream(stream: AsyncIterable<{ content: unknown }>) {
+    for await (const chunk of stream) {
+      const delta = this._extractText(chunk.content)
+      if (delta)
+        yield delta
+    }
+  }
+
+  private _extractText(content: unknown) {
+    if (typeof content === 'string')
+      return content
+
+    if (!Array.isArray(content))
+      return ''
+
+    return content.map((block) => {
+      if (typeof block === 'string')
+        return block
+
+      if (!block || typeof block !== 'object' || !('text' in block))
+        return ''
+
+      const typedBlock = block as { type?: string, text?: unknown }
+      if (typedBlock.type && typedBlock.type !== 'text')
+        return ''
+
+      return String(typedBlock.text || '')
+    }).join('')
   }
 }

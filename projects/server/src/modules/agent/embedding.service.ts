@@ -1,5 +1,5 @@
-import OpenAI from 'openai'
 import { createHash } from 'node:crypto'
+import { OpenAIEmbeddings } from '@langchain/openai'
 import { ConfigService } from '@nestjs/config'
 import { Injectable, Logger } from '@nestjs/common'
 
@@ -19,81 +19,91 @@ export interface AgentEmbeddingResult {
 export class EmbeddingService {
   private readonly _logger = new Logger(EmbeddingService.name)
 
-  private readonly _openaiClient: OpenAI
+  /** 只负责向量接口，不复用聊天模型的 key 和地址 */
+  private readonly _embeddings?: OpenAIEmbeddings
 
-  private readonly _apiKey?: string
+  private readonly _model: string
 
-  private readonly _embeddingModel: string
+  /** 显式配置时才传给兼容接口；否则使用模型默认维度 */
+  private readonly _dimensions?: number
 
-  private readonly _localModel = 'local-hash-v1'
+  /** DashScope 兼容接口单次最多 20 条，这里留出余量 */
+  private readonly _batchSize = 10
 
-  private readonly _localDimension = 384
-
-  private _remoteEmbeddingDisabled = false
+  /** 避免超长查询把 embedding 请求打爆 */
+  private readonly _maxInputChars = 8000
 
   constructor(
     private readonly _cfgSrv: ConfigService,
   ) {
     const openaiConfig = this._cfgSrv.get<OpenAIConfig>('openai')
 
-    this._apiKey = openaiConfig?.apiKey
-    this._embeddingModel = openaiConfig?.embeddingModel || this._localModel
-    this._openaiClient = new OpenAI({
-      apiKey: openaiConfig?.apiKey,
-      baseURL: openaiConfig?.baseURL,
-    })
+    this._model = openaiConfig?.embeddingModel || ''
+    this._dimensions = openaiConfig?.embeddingDimensions
+
+    if (openaiConfig?.embeddingApiKey && this._model) {
+      this._embeddings = new OpenAIEmbeddings({
+        model: this._model,
+        apiKey: openaiConfig.embeddingApiKey,
+        batchSize: this._batchSize,
+        ...(this._dimensions ? { dimensions: this._dimensions } : {}),
+        configuration: {
+          apiKey: openaiConfig.embeddingApiKey,
+          baseURL: openaiConfig.embeddingBaseURL,
+        },
+      })
+      this._logger.log(`Embedding 使用远端模型 ${this._model}`)
+    }
   }
 
   /**
-   * 当前实际用于索引和检索的模型名。
-   * 如果远端 embedding 不可用，会降级为本地哈希模型，检索链路仍可运行。
+   * 当前用于索引和检索的 Embedding 模型名。
    */
   public get activeModel() {
-    return this._remoteEmbeddingDisabled ? this._localModel : this._embeddingModel
+    return this._model
   }
 
   /**
    * 生成单段文本的向量。
-   * 优先调用 OpenAI-compatible embedding 接口；如果当前供应商不支持 embedding，
-   * 会自动降级为本地哈希向量，避免文章发布/检索流程被模型能力卡死。
+   * 调用真实 Embedding 模型，失败时直接抛错。
    */
-  public async embedText(text: string): Promise<AgentEmbeddingResult> {
-    const normalized = this.normalizeText(text)
-
-    if (this._shouldUseRemoteEmbedding()) {
-      try {
-        const result = await this._openaiClient.embeddings.create({
-          model: this._embeddingModel,
-          input: normalized || 'empty',
-        })
-        const vector = result.data[0]?.embedding || []
-
-        if (vector.length) {
-          return {
-            provider: 'openai-compatible',
-            model: this._embeddingModel,
-            dimension: vector.length,
-            vector: this.normalizeVector(vector),
-          }
-        }
-      }
-      catch (error) {
-        this._remoteEmbeddingDisabled = true
-        this._logger.warn(`Embedding 接口不可用，已降级为本地哈希向量：${(error as Error).message}`)
-      }
-    }
-
-    const vector = this._createLocalHashVector(normalized)
-    return {
-      provider: 'local-hash',
-      model: this._localModel,
-      dimension: vector.length,
-      vector,
-    }
+  public async embedText(text: string) {
+    const [result] = await this.embedTexts([text])
+    return result
   }
 
   /**
-   * 归一化文本，既用于 hash 判断，也用于本地哈希向量。
+   * 批量生成向量，顺序与入参一致。
+   * 索引重建时按批请求，减少逐段调用带来的延迟。
+   */
+  public async embedTexts(texts: string[]) {
+    const inputs = texts.map(text => this._clipInput(this.normalizeText(text) || 'empty'))
+
+    if (!inputs.length)
+      return []
+
+    if (!this._embeddings)
+      throw new Error('未配置 Embedding 模型，请检查 EMBEDDING_API_KEY、EMBEDDING_BASE_URL 和 EMBEDDING_MODEL')
+
+    const vectors = await this._embeddings.embedDocuments(inputs)
+    if (vectors.length !== inputs.length)
+      throw new Error(`Embedding 返回数量不匹配：期望 ${inputs.length}，实际 ${vectors.length}`)
+
+    return vectors.map((vector) => {
+      if (!vector.length)
+        throw new Error('Embedding 接口返回了空向量')
+
+      return {
+        provider: 'openai-compatible' as const,
+        model: this._model,
+        dimension: vector.length,
+        vector: this.normalizeVector(vector),
+      }
+    })
+  }
+
+  /**
+   * 归一化文本，既用于 hash 判断，也用于送进 embedding 模型前的清洗。
    */
   public normalizeText(text = '') {
     return text
@@ -126,46 +136,12 @@ export class EmbeddingService {
     return vector.map(value => value / length)
   }
 
-  private _shouldUseRemoteEmbedding() {
-    return Boolean(
-      this._apiKey
-      && this._embeddingModel
-      && this._embeddingModel !== this._localModel
-      && !this._remoteEmbeddingDisabled,
-    )
-  }
-
   /**
-   * 本地哈希向量不是语义 embedding，但能提供稳定的关键词/短语相似度。
-   * 它主要用作兜底：当 DeepSeek 等供应商只提供聊天模型时，RAG 流程仍能工作。
+   * 截断超长文本，避免超过 Embedding 模型的输入限制。
    */
-  private _createLocalHashVector(text: string) {
-    const vector = new Array(this._localDimension).fill(0)
-    const tokens = this._tokenize(text)
-
-    for (const token of tokens) {
-      const hash = createHash('sha256').update(token).digest()
-      const index = hash.readUInt32BE(0) % this._localDimension
-      const sign = hash[4] % 2 === 0 ? 1 : -1
-      const weight = token.length > 1 ? 1.2 : 1
-      vector[index] += sign * weight
-    }
-
-    return this.normalizeVector(vector)
-  }
-
-  private _tokenize(text: string) {
-    const normalized = text.toLowerCase()
-    const words = normalized.match(/[a-z0-9_]+/g) || []
-    const chars = Array.from(normalized).filter(char => /[\u4E00-\u9FFF]/.test(char))
-    const cjkBigrams = chars
-      .slice(0, -1)
-      .map((char, index) => `${char}${chars[index + 1]}`)
-
-    return [
-      ...words,
-      ...chars,
-      ...cjkBigrams,
-    ].filter(Boolean)
+  private _clipInput(text: string) {
+    return text.length > this._maxInputChars
+      ? text.slice(0, this._maxInputChars)
+      : text
   }
 }

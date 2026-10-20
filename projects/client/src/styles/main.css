@@ -95,3 +95,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+#nprogress.nprogress-article .bar {
+  background: var(--primary-1);
+  opacity: 1;
+}

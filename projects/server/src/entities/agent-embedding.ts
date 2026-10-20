@@ -1,5 +1,5 @@
+import { AgentEmbeddingProvider } from 'types'
 import type {
-  AgentEmbeddingProvider,
   IAgentEmbedding,
 } from 'types'
 import { ApiProperty } from '@nestjs/swagger'
@@ -15,7 +15,7 @@ import {
 import { BaseTimeStamp } from './_timestamp'
 import { AgentKnowledgeChunk } from './agent-knowledge-chunk'
 
-const AGENT_EMBEDDING_PROVIDERS: AgentEmbeddingProvider[] = ['openai-compatible', 'local-hash']
+const AGENT_EMBEDDING_PROVIDERS: AgentEmbeddingProvider[] = ['openai-compatible']
 
 @Entity()
 @Index('idx_agent_embedding_chunk_model', ['chunkId', 'model'], {

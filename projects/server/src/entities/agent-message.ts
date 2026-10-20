@@ -1,4 +1,5 @@
-import type { AgentMessageRole, IAgentMessage, IAgentMessageMetadata } from 'types'
+import { AgentMessageRole, IAgentMessageMetadata } from 'types'
+import type { IAgentMessage } from 'types'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import {
   Column,

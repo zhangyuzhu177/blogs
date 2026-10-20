@@ -1,10 +1,9 @@
-import OpenAI from 'openai'
-import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions'
+import { AIMessage, type BaseMessage, HumanMessage } from '@langchain/core/messages'
+import { ChatOpenAI } from '@langchain/openai'
+import { createAgent, toolCallLimitMiddleware } from 'langchain'
 import { Repository } from 'typeorm'
 import type {
   AgentAction,
-  AgentToolName,
-  AgentSourceType,
   AgentStreamEvent,
   IAgentReference,
   IAgentToolResult,
@@ -23,17 +22,38 @@ import type { AgentChatStreamBodyDto } from './dto/chat-stream.body.dto'
 import { RetrievalService } from './retrieval.service'
 import { ToolRegistryService } from './tool-registry.service'
 
-interface ArticleContext {
-  article?: Article
-  references: IAgentReference[]
-  contextText: string
+interface LangChainStreamEvent {
+  event: string
+  metadata?: {
+    langgraph_node?: string
+  }
+  data?: {
+    chunk?: {
+      content?: unknown
+      text?: unknown
+      tool_call_chunks?: unknown[]
+    }
+    output?: {
+      content?: unknown
+      text?: unknown
+      tool_calls?: unknown[]
+    }
+  }
+}
+
+const ACTION_HINTS: Record<AgentAction, string> = {
+  'chat': '',
+  'summarize': '请先读取当前文章，再用结构化要点总结。',
+  'related': '请检索站内文章和知识库，只根据工具结果推荐可继续阅读的内容，并保留链接。',
+  'explain-code': '请先读取当前文章，再解释其中的代码或实现思路。',
+  'learning-path': '请结合当前文章检索站内内容，给出循序渐进的学习路线和链接。',
 }
 
 @Injectable()
 export class AgentService {
   private readonly _logger = new Logger(AgentService.name)
 
-  private readonly _openaiClient: OpenAI
+  private readonly _model: ChatOpenAI
 
   private readonly _chatModel: string
 
@@ -51,16 +71,27 @@ export class AgentService {
     const openaiConfig = this._cfgSrv.get<OpenAIConfig>('openai')
 
     this._chatModel = openaiConfig?.chatModel || 'deepseek-ai/DeepSeek-V3.1-Terminus'
-    this._openaiClient = new OpenAI({
+    this._model = new ChatOpenAI({
+      model: this._chatModel,
       apiKey: openaiConfig?.apiKey,
-      baseURL: openaiConfig?.baseURL,
+      temperature: 0.6,
+      maxTokens: 1200,
+      streaming: true,
+      streamUsage: false,
+      useResponsesApi: false,
+      maxRetries: 1,
+      timeout: 120000,
+      configuration: {
+        apiKey: openaiConfig?.apiKey,
+        baseURL: openaiConfig?.baseURL,
+      },
     })
+    this._model.supportsStrictToolCalling = false
   }
 
   /**
    * 流式问答主流程。
-   * 这里使用 async generator，是为了把“业务事件”和“SSE 写入”解耦：
-   * Service 只产出事件，Controller 负责把事件写到 HTTP 响应里。
+   * LangChain agent 负责决定调用哪些只读工具，Service 把工具状态和模型增量转换成 SSE 事件。
    */
   public async *streamChat(
     body: AgentChatStreamBodyDto,
@@ -75,58 +106,14 @@ export class AgentService {
     const startedAt = Date.now()
     const action = body.action || 'chat'
     const conversation = await this._getOrCreateConversation(body, user)
-    const articleContext = await this._buildArticleContext(body, action, body.message)
-    const toolEvents: IAgentToolResult[] = []
+    const currentArticle = await this._loadCurrentArticle(body)
+    const history = await this._loadHistoryMessages(conversation.id)
 
     yield {
       type: 'conversation',
       conversationId: conversation.id,
     }
 
-    const toolNames = this._toolRegistrySrv.planTools({
-      action,
-      userMessage: body.message,
-      sourceType: body.sourceType,
-      sourceId: body.sourceId,
-      currentArticle: articleContext.article,
-    })
-
-    for (const toolName of toolNames) {
-      const toolCallId = this._createToolCallId(toolName)
-
-      yield {
-        type: 'tool_start',
-        toolCallId,
-        toolName,
-        displayText: this._toolRegistrySrv.getToolStartText(toolName),
-      }
-
-      const result = await this._toolRegistrySrv.runTool(
-        conversation.id,
-        toolName,
-        toolCallId,
-        {
-          userMessage: body.message,
-          sourceId: body.sourceId,
-          currentArticle: articleContext.article,
-        },
-      )
-
-      if (result.contextText)
-        articleContext.contextText = [articleContext.contextText, result.contextText].filter(Boolean).join('\n\n')
-
-      this._appendReferences(articleContext.references, result.references)
-      toolEvents.push(result.event)
-
-      yield {
-        type: 'tool_result',
-        result: result.event,
-      }
-    }
-
-    const messages = await this._buildMessages(conversation.id, body.message, articleContext, action)
-
-    // 先构建模型上下文，再保存当前用户消息，避免历史记录里重复出现本轮问题。
     await this._messageRepo.save(this._messageRepo.create({
       conversationId: conversation.id,
       role: 'user',
@@ -136,71 +123,23 @@ export class AgentService {
       },
     }))
 
-    let answer = ''
+    const queue = new AsyncEventQueue<AgentStreamEvent>()
+    const run = this._runAgent({
+      queue,
+      body,
+      action,
+      conversation,
+      currentArticle,
+      history,
+      startedAt,
+    })
 
     try {
-      const stream = await this._openaiClient.chat.completions.create({
-        model: this._chatModel,
-        messages,
-        stream: true,
-        max_tokens: 1200,
-        temperature: 0.6,
-      })
-
-      for await (const chunk of stream) {
-        const delta = chunk.choices[0]?.delta?.content || ''
-        if (!delta)
-          continue
-
-        answer += delta
-        yield {
-          type: 'delta',
-          content: delta,
-        }
-      }
-
-      if (articleContext.references.length) {
-        yield {
-          type: 'references',
-          references: articleContext.references,
-        }
-      }
-
-      await this._messageRepo.save(this._messageRepo.create({
-        conversationId: conversation.id,
-        role: 'assistant',
-        content: answer || '暂时没有生成有效回答。',
-        metadata: {
-          action,
-          model: this._chatModel,
-          durationMs: Date.now() - startedAt,
-          references: articleContext.references,
-          toolEvents,
-        },
-      }))
-
-      yield {
-        type: 'done',
-      }
+      for await (const event of queue)
+        yield event
     }
-    catch (error) {
-      this._logger.error('Agent stream failed', error)
-
-      await this._messageRepo.save(this._messageRepo.create({
-        conversationId: conversation.id,
-        role: 'assistant',
-        content: 'AI 助手暂时不可用，请稍后重试。',
-        metadata: {
-          action,
-          model: this._chatModel,
-          durationMs: Date.now() - startedAt,
-        },
-      }))
-
-      yield {
-        type: 'error',
-        message: 'AI 助手暂时不可用，请稍后重试',
-      }
+    finally {
+      await run
     }
   }
 
@@ -210,7 +149,7 @@ export class AgentService {
    */
   public async getConversations(
     visitorId: string,
-    sourceType?: AgentSourceType,
+    sourceType?: AgentChatStreamBodyDto['sourceType'],
     sourceId?: string,
   ) {
     if (!visitorId)
@@ -290,6 +229,189 @@ export class AgentService {
     return this._retrievalSrv.indexAllArticles()
   }
 
+  /**
+   * 执行 LangChain Agent。
+   * 把模型增量、引用来源和结束状态写入事件队列，供流式接口向外推送。
+   */
+  private async _runAgent(options: {
+    queue: AsyncEventQueue<AgentStreamEvent>
+    body: AgentChatStreamBodyDto
+    action: AgentAction
+    conversation: AgentConversation
+    currentArticle?: Article
+    history: BaseMessage[]
+    startedAt: number
+  }) {
+    const { queue, body, action, conversation, currentArticle, history, startedAt } = options
+    const references: IAgentReference[] = []
+    const toolEvents: IAgentToolResult[] = []
+    let answer = ''
+
+    if (currentArticle)
+      references.push(this._currentArticleReference(currentArticle))
+
+    try {
+      const tools = this._toolRegistrySrv.createTools({
+        conversationId: conversation.id,
+        sourceId: body.sourceId,
+        currentArticle,
+        onEvent: (event) => {
+          if (event.type === 'tool_result')
+            toolEvents.push(event.result)
+
+          queue.push(event)
+        },
+        onReferences: nextReferences => this._appendReferences(references, nextReferences),
+      })
+      const agent = createAgent({
+        model: this._model,
+        tools,
+        systemPrompt: this._buildSystemPrompt(action, body, currentArticle),
+        middleware: [
+          toolCallLimitMiddleware({
+            runLimit: 5,
+            exitBehavior: 'continue',
+          }),
+        ],
+      })
+      const eventStream = await agent.streamEvents(
+        {
+          messages: [
+            ...history,
+            new HumanMessage(this._composeUserMessage(body.message, action)),
+          ],
+        },
+        {
+          version: 'v2',
+          recursionLimit: 12,
+        },
+      )
+
+      for await (const event of eventStream as AsyncIterable<LangChainStreamEvent>) {
+        if (event.event !== 'on_chat_model_stream' && event.event !== 'on_chat_model_end')
+          continue
+
+        const node = event.metadata?.langgraph_node
+        if (node && node !== 'model_request')
+          continue
+
+        const delta = event.event === 'on_chat_model_stream'
+          ? this._extractChunkText(event.data?.chunk)
+          : (!answer && !event.data?.output?.tool_calls?.length
+              ? this._extractChunkText(event.data?.output)
+              : '')
+        if (!delta)
+          continue
+
+        answer += delta
+        queue.push({
+          type: 'delta',
+          content: delta,
+        })
+      }
+
+      if (!answer) {
+        answer = '暂时没有生成有效回答。'
+        queue.push({
+          type: 'delta',
+          content: answer,
+        })
+      }
+
+      await this._saveAssistantMessage({
+        conversationId: conversation.id,
+        content: answer,
+        action,
+        startedAt,
+        references,
+        toolEvents,
+      })
+
+      if (references.length) {
+        queue.push({
+          type: 'references',
+          references,
+        })
+      }
+
+      queue.push({
+        type: 'done',
+      })
+    }
+    catch (error) {
+      this._logger.error('Agent stream failed', error)
+
+      const content = answer || 'AI 助手暂时不可用，请稍后重试。'
+      try {
+        await this._saveAssistantMessage({
+          conversationId: conversation.id,
+          content,
+          action,
+          startedAt,
+          references,
+          toolEvents,
+        })
+      }
+      catch (saveError) {
+        this._logger.error('保存 Agent 回答失败', saveError)
+      }
+
+      if (answer) {
+        if (references.length) {
+          queue.push({
+            type: 'references',
+            references,
+          })
+        }
+
+        queue.push({
+          type: 'done',
+        })
+        return
+      }
+
+      queue.push({
+        type: 'error',
+        message: 'AI 助手暂时不可用，请稍后重试',
+      })
+    }
+    finally {
+      queue.close()
+    }
+  }
+
+  /**
+   * 保存助手回答。
+   * 同时记录模型、耗时、引用来源和工具调用结果。
+   */
+  private async _saveAssistantMessage(options: {
+    conversationId: string
+    content: string
+    action: AgentAction
+    startedAt: number
+    references: IAgentReference[]
+    toolEvents: IAgentToolResult[]
+  }) {
+    const { conversationId, content, action, startedAt, references, toolEvents } = options
+
+    await this._messageRepo.save(this._messageRepo.create({
+      conversationId,
+      role: 'assistant',
+      content,
+      metadata: {
+        action,
+        model: this._chatModel,
+        durationMs: Date.now() - startedAt,
+        references,
+        toolEvents,
+      },
+    }))
+  }
+
+  /**
+   * 获取或创建会话。
+   * 会话 Id 属于当前访客时复用，否则用首条问题创建新会话。
+   */
   private async _getOrCreateConversation(body: AgentChatStreamBodyDto, user?: User) {
     if (body.conversationId) {
       const existed = await this._conversationRepo.findOne({
@@ -304,7 +426,6 @@ export class AgentService {
     }
 
     const title = this._createConversationTitle(body.message)
-
     const conversation = this._conversationRepo.create({
       visitorId: body.visitorId,
       userId: user?.id,
@@ -318,125 +439,112 @@ export class AgentService {
     return this._conversationRepo.save(conversation)
   }
 
+  /**
+   * 用用户首条问题生成会话标题，过长时截断。
+   */
   private _createConversationTitle(message: string) {
     const normalized = message.replace(/\s+/g, ' ').trim()
     return normalized.length > 32 ? `${normalized.slice(0, 32)}...` : normalized
   }
 
-  private _createToolCallId(toolName: AgentToolName) {
-    return `${toolName}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+  /**
+   * 加载当前文章。
+   * 仅当前页面是已发布文章时返回，供 Agent 总结和解释使用。
+   */
+  private async _loadCurrentArticle(body: AgentChatStreamBodyDto) {
+    if (body.sourceType !== 'article' || !body.sourceId)
+      return
+
+    return this._articleRepo.findOne({
+      where: {
+        id: body.sourceId,
+        status: true,
+      },
+      relations: {
+        tags: true,
+        articleType: true,
+      },
+    })
   }
 
   /**
-   * 构建当前文章上下文和 RAG 检索上下文。
-   * 阶段二开始，站内推荐不再直接拼接最近文章列表，而是走知识块索引检索。
+   * 读取最近对话并转换成 LangChain 消息，作为多轮上下文。
    */
-  private async _buildArticleContext(
-    body: AgentChatStreamBodyDto,
-    action: AgentAction,
-    userMessage: string,
-  ): Promise<ArticleContext> {
-    const references: IAgentReference[] = []
-    const contextParts: string[] = []
-    let currentArticle: Article | undefined
-
-    if (body.sourceType === 'article' && body.sourceId) {
-      const article = await this._articleRepo.findOne({
-        where: {
-          id: body.sourceId,
-          status: true,
-        },
-        relations: {
-          tags: true,
-          articleType: true,
-        },
-      })
-
-      if (article) {
-        currentArticle = article
-        const articleText = [
-          `标题：${article.name}`,
-          article.abstract ? `摘要：${article.abstract}` : '',
-          article.tags?.length ? `标签：${article.tags.map(tag => tag.name).join('、')}` : '',
-          `正文：${this._truncate(article.content || '', 9000)}`,
-        ].filter(Boolean).join('\n')
-
-        contextParts.push(`【当前文章】\n${articleText}`)
-
-        references.push({
-          sourceType: 'article',
-          sourceId: article.id,
-          title: article.name,
-          url: `/archives/article?articleId=${article.id}`,
-          snippet: this._truncate(article.abstract || article.content || '', 120),
-          score: 1,
-        })
-      }
-    }
-
-    await this._appendRetrievalContext({
-      action,
-      userMessage,
-      currentArticle,
-      references,
-      contextParts,
+  private async _loadHistoryMessages(conversationId: string) {
+    const history = await this._messageRepo.find({
+      where: {
+        conversationId,
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+      take: 8,
     })
 
+    return history
+      .reverse()
+      .filter(message => message.role === 'user' || message.role === 'assistant')
+      .map((message) => {
+        const content = this._truncate(message.content, 1200)
+        return message.role === 'assistant'
+          ? new AIMessage(content)
+          : new HumanMessage(content)
+      })
+  }
+
+  /**
+   * 组装系统提示词。
+   * 约束助手使用中文，并在需要站内内容时先调用工具。
+   */
+  private _buildSystemPrompt(
+    action: AgentAction,
+    body: AgentChatStreamBodyDto,
+    article?: Article,
+  ) {
+    return [
+      '你是此博客网站的中文阅读助手，你的名字叫小张。',
+      '你可以调用工具读取当前文章、检索站内文章、检索知识库、检索图库和读取归档统计。',
+      '回答要求：',
+      '1. 使用自然、简洁的中文；',
+      '2. 不确定时直接说明不确定，不要编造不存在的文章、链接或数据；',
+      '3. 需要文章内容、统计、图库或站内推荐时，必须先调用工具，只根据工具结果回答；',
+      '4. 总结或解释当前文章时，先调用 getCurrentArticle；',
+      '5. 推荐相关内容或学习路线时，调用 searchArticles 和 searchKnowledge，并保留工具返回的链接；',
+      `当前快捷动作：${action}`,
+      body.sourceType ? `当前页面类型：${body.sourceType}` : '',
+      body.sourceId ? `当前页面 Id：${body.sourceId}` : '',
+      article?.name ? `当前文章标题：${article.name}` : '',
+    ].filter(Boolean).join('\n')
+  }
+
+  /**
+   * 把快捷动作的提示拼到用户问题前面。
+   */
+  private _composeUserMessage(message: string, action: AgentAction) {
+    const hint = ACTION_HINTS[action]
+    if (!hint)
+      return message
+
+    return `${hint}\n${message}`
+  }
+
+  /**
+   * 把当前文章转换成前端可展示的引用来源。
+   */
+  private _currentArticleReference(article: Article): IAgentReference {
     return {
-      article: currentArticle,
-      references,
-      contextText: contextParts.filter(Boolean).join('\n\n'),
+      sourceType: 'article',
+      sourceId: article.id,
+      title: article.name,
+      url: `/archives/article?articleId=${article.id}`,
+      snippet: this._truncate(article.abstract || article.content || '', 120),
+      score: 1,
     }
   }
 
   /**
-   * 根据问题检索知识库，并把 top chunks 塞入模型上下文。
-   * 检索失败不阻断主问答，避免索引表未初始化或模型服务异常时影响当前文章追问。
+   * 合并工具返回的引用，并按来源去重。
    */
-  private async _appendRetrievalContext(options: {
-    action: AgentAction
-    userMessage: string
-    currentArticle?: Article
-    references: IAgentReference[]
-    contextParts: string[]
-  }) {
-    const { action, userMessage, currentArticle, references, contextParts } = options
-    const relatedQuestion = this._isRelatedQuestion(action, userMessage)
-    const retrievalQuery = relatedQuestion && currentArticle
-      ? [
-          currentArticle.name,
-          currentArticle.abstract,
-          currentArticle.tags?.map(tag => tag.name).join(' '),
-          userMessage,
-        ].filter(Boolean).join('\n')
-      : userMessage
-
-    try {
-      const matches = await this._retrievalSrv.searchKnowledge(retrievalQuery, {
-        limit: relatedQuestion ? 6 : 4,
-        sourceTypes: ['article'],
-        sourceId: currentArticle && !relatedQuestion ? currentArticle.id : undefined,
-        excludeSourceId: currentArticle && relatedQuestion ? currentArticle.id : undefined,
-      })
-
-      const knowledgeContext = this._retrievalSrv.buildKnowledgeContext(matches)
-      if (knowledgeContext)
-        contextParts.push(knowledgeContext)
-
-      this._appendReferences(references, this._retrievalSrv.buildReferences(matches))
-    }
-    catch (error) {
-      this._logger.warn(`知识库检索失败，已跳过 RAG 上下文：${(error as Error).message}`)
-    }
-  }
-
-  private _isRelatedQuestion(action: AgentAction, message: string) {
-    if (action === 'related' || action === 'learning-path')
-      return true
-
-    return /相关|推荐|继续阅读|学习路线|先看|还有哪些|站内/.test(message)
-  }
-
   private _appendReferences(references: IAgentReference[], nextReferences: IAgentReference[]) {
     const existed = new Set(references.map(reference => `${reference.sourceType}:${reference.sourceId}`))
 
@@ -450,56 +558,47 @@ export class AgentService {
     }
   }
 
-  private async _buildMessages(
-    conversationId: string,
-    userMessage: string,
-    articleContext: ArticleContext,
-    action: AgentAction,
-  ): Promise<ChatCompletionMessageParam[]> {
-    const history = await this._messageRepo.find({
-      where: {
-        conversationId,
-      },
-      order: {
-        createdAt: 'DESC',
-      },
-      take: 8,
-    })
+  /**
+   * 从模型流式块中提取可展示文本，忽略工具调用片段。
+   */
+  private _extractChunkText(chunk?: LangChainStreamEvent['data']['chunk']) {
+    if (!chunk?.tool_call_chunks?.length && typeof chunk?.text === 'string' && chunk.text)
+      return chunk.text
 
-    const systemPrompt = [
-      '你是 小张 该博客的中文阅读助手。',
-      '你需要基于当前文章、站内知识库检索结果和用户问题回答。',
-      '回答要求：',
-      '1. 使用自然、简洁的中文；',
-      '2. 不确定时直接说明不确定，不要编造不存在的文章、链接或数据；',
-      '3. 如果用户要求总结，优先给出结构化要点；',
-      '4. 如果用户要求找相关内容，只能基于提供的站内知识库检索结果推荐；',
-      '5. 如果用户要求解释代码，先解释思路，再给出必要的注意点；',
-      `当前快捷动作：${action}`,
-      articleContext.contextText ? `\n${articleContext.contextText}` : '',
-    ].filter(Boolean).join('\n')
+    if (chunk?.tool_call_chunks?.length)
+      return ''
 
-    const normalizedHistory = history
-      .reverse()
-      .filter(message => message.role === 'user' || message.role === 'assistant')
-      .map<ChatCompletionMessageParam>(message => ({
-        role: message.role as 'user' | 'assistant',
-        content: this._truncate(message.content, 1200),
-      }))
-
-    return [
-      {
-        role: 'system',
-        content: systemPrompt,
-      },
-      ...normalizedHistory,
-      {
-        role: 'user',
-        content: userMessage,
-      },
-    ]
+    return this._extractText(chunk?.content)
   }
 
+  /**
+   * 把字符串或内容块数组提取成纯文本。
+   */
+  private _extractText(content: unknown): string {
+    if (typeof content === 'string')
+      return content
+
+    if (!Array.isArray(content))
+      return ''
+
+    return content.map((block) => {
+      if (typeof block === 'string')
+        return block
+
+      if (!block || typeof block !== 'object' || !('text' in block))
+        return ''
+
+      const typedBlock = block as { type?: string; text?: unknown }
+      if (typedBlock.type && typedBlock.type !== 'text')
+        return ''
+
+      return String(typedBlock.text || '')
+    }).join('')
+  }
+
+  /**
+   * 压缩空白并截断过长文本。
+   */
   private _truncate(text: string, maxLength: number) {
     const normalized = text.replace(/\s+/g, ' ').trim()
 
@@ -507,5 +606,63 @@ export class AgentService {
       return normalized
 
     return `${normalized.slice(0, maxLength)}...`
+  }
+}
+
+class AsyncEventQueue<T> implements AsyncIterable<T> {
+  private readonly _items: T[] = []
+
+  private readonly _waiters: Array<(result: IteratorResult<T>) => void> = []
+
+  private _closed = false
+
+  /**
+   * 写入一条事件。
+   * 已有等待中的消费者时直接交给它，否则先放入队列。
+   */
+  public push(item: T) {
+    if (this._closed)
+      return
+
+    const waiter = this._waiters.shift()
+    if (waiter) {
+      waiter({ value: item, done: false })
+      return
+    }
+
+    this._items.push(item)
+  }
+
+  /**
+   * 关闭队列，并唤醒所有等待中的消费者。
+   */
+  public close() {
+    if (this._closed)
+      return
+
+    this._closed = true
+    while (this._waiters.length) {
+      const waiter = this._waiters.shift()
+      waiter?.({ value: undefined as T, done: true })
+    }
+  }
+
+  /**
+   * 按写入顺序消费事件。
+   * 队列为空时等待新事件，关闭后结束迭代。
+   */
+  public [Symbol.asyncIterator](): AsyncIterator<T> {
+    return {
+      next: () => {
+        const item = this._items.shift()
+        if (item !== undefined)
+          return Promise.resolve({ value: item, done: false as const })
+
+        if (this._closed)
+          return Promise.resolve({ value: undefined as T, done: true as const })
+
+        return new Promise<IteratorResult<T>>(resolve => this._waiters.push(resolve))
+      },
+    }
   }
 }

@@ -1,8 +1,10 @@
-import type {
+import {
   AgentKnowledgeChunkStatus,
   AgentSourceType,
-  IAgentKnowledgeChunk,
   IAgentKnowledgeChunkMetadata,
+} from 'types'
+import type {
+  IAgentKnowledgeChunk,
 } from 'types'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import {
