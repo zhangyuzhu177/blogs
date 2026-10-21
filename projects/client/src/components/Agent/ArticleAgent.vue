@@ -73,6 +73,8 @@ const lastAssistantMessage = computed(() =>
 )
 
 const previewTheme = computed(() => (isAgentDark.value ? 'dark' : 'light'))
+const assistantContentClass = 'max-w-full min-w-0 w-full text-14px text-grey-9 leading-[1.8] [overflow-wrap:anywhere] dark:text-white'
+const userContentClass = 'max-w-[90%] min-w-0 rounded bg-primary-4 px-3 py-2 text-14px text-grey-9 leading-[1.8] [overflow-wrap:anywhere] dark:bg-primary-1/20 dark:text-white'
 
 function mdHeadingId(_text: string, level: number, index: number) {
   return `agent-h-${level}-${index}`
@@ -480,52 +482,83 @@ onBeforeUnmount(abort)
   <Teleport to="body" :disabled="embedded">
     <div
       v-if="article"
-      class="article-agent"
-      :class="{
-        'article-agent--embedded': embedded,
-        'article-agent--dark': isAgentDark,
-      }"
+      class="isolate"
+      :class="[
+        isAgentDark && 'dark',
+        embedded
+          ? 'pointer-events-auto relative z-1 h-full w-full'
+          : 'pointer-events-none fixed bottom-[150px] right-6 z-[2147483000] lt-sm:bottom-3 lt-sm:right-3',
+      ]"
     >
-      <Transition name="agent-pop">
-        <div v-if="open" class="article-agent__dialog">
-          <header class="article-agent__header">
-            <div class="article-agent__ident">
-              <img class="article-agent__icon" :src="aiAssistantIcon" alt="">
-              <div>
-                <div class="article-agent__title">
+      <Transition
+        :enter-active-class="embedded ? 'transition-opacity duration-200' : 'transition duration-200 ease-out'"
+        :enter-from-class="embedded ? 'opacity-0' : 'opacity-0 translate-y-2 scale-95'"
+        enter-to-class="opacity-100 translate-y-0 scale-100"
+        :leave-active-class="embedded ? 'transition-opacity duration-200' : 'transition duration-200 ease-in'"
+        leave-from-class="opacity-100 translate-y-0 scale-100"
+        :leave-to-class="embedded ? 'opacity-0' : 'opacity-0 translate-y-2 scale-95'"
+      >
+        <div
+          v-if="open"
+          class="pointer-events-auto flex flex-col overflow-hidden border border-grey-3 rounded-4 border-solid bg-white/95 shadow-[0_24px_70px_rgba(15,23,42,0.14)] backdrop-blur-xl dark:border-white/10 dark:bg-[#111827]/95 dark:shadow-[0_28px_80px_rgba(0,0,0,0.42)]"
+          :class="embedded
+            ? 'relative z-1 h-[min(560px,calc(100vh-104px))] min-h-[430px] w-full'
+            : 'fixed bottom-6 right-6 z-[2147483001] h-[min(650px,calc(100vh-112px))] w-[min(430px,calc(100vw-32px))] lt-sm:bottom-3 lt-sm:right-3 lt-sm:h-[min(560px,calc(100vh-96px))] lt-sm:w-[calc(100vw-32px)]'"
+        >
+          <header class="min-h-17 flex items-center justify-between border-b border-grey-3 border-solid bg-gradient-to-b px-4 py-3.5 dark:border-white/10 from-white to-transparent dark:from-[#111827]">
+            <div class="flex items-center gap-2.5">
+              <div class="rounded-2.5 bg-primary-4 flex-center size-10 shrink-0 dark:bg-primary-1/15">
+                <img class="h-7 w-7 object-contain" :src="aiAssistantIcon" alt="">
+              </div>
+              <div class="min-w-0">
+                <div class="text-15px text-grey-9 font-650 leading-5 dark:text-white">
                   AI 助手
                 </div>
-                <div class="article-agent__subtitle">
+                <div class="max-w-[230px] truncate text-11px text-grey-5 leading-[17px] lt-sm:max-w-[180px]">
                   您的智能博客助手，随时为您解答
                 </div>
               </div>
             </div>
-            <div class="article-agent__tools">
-              <button type="button" aria-label="重置对话" @click="resetConversation">
+            <div class="flex items-center gap-1.5">
+              <button
+                class="flex-center size-7 cursor-pointer border-none rounded-full bg-transparent text-grey-5 transition duration-200 dark:hover:bg-white/10 hover:bg-grey-2 dark:hover:text-white hover:text-grey-9"
+                type="button"
+                aria-label="重置对话"
+                @click="resetConversation"
+              >
                 <div i-mingcute:refresh-2-line />
               </button>
-              <button type="button" aria-label="关闭 AI 助手" @click="closeDialog">
+              <button
+                class="flex-center size-7 cursor-pointer border-none rounded-full bg-transparent text-grey-5 transition duration-200 dark:hover:bg-white/10 hover:bg-grey-2 dark:hover:text-white hover:text-grey-9"
+                type="button"
+                aria-label="关闭 AI 助手"
+                @click="closeDialog"
+              >
                 <div i-mingcute:close-line />
               </button>
             </div>
           </header>
 
-          <div ref="bodyRef" class="article-agent__body">
-            <div class="article-agent__thread">
-              <div class="article-agent__message article-agent__message--assistant">
-                <div class="article-agent__bubble">
-                  <p>👋 你好！我是你的 AI 助手</p>
-                  <p>可以帮你解释文章内容、技术问题，或推荐相关灵感。</p>
+          <div ref="bodyRef" class="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto bg-white px-4 pb-3.5 pt-4.5 dark:bg-[#111827]">
+            <div class="grid min-w-0 gap-5">
+              <div class="min-w-0 flex items-start justify-start gap-2.5">
+                <div :class="assistantContentClass">
+                  <p class="m-0">
+                    👋 你好！我是你的 AI 助手
+                  </p>
+                  <p class="m-0 mt-1 text-grey-5">
+                    可以帮你解释文章内容、技术问题，或推荐相关灵感。
+                  </p>
                 </div>
               </div>
 
               <div
                 v-for="message in messages"
                 :key="message.id"
-                class="article-agent__message"
-                :class="`article-agent__message--${message.role}`"
+                class="min-w-0 flex items-start gap-2.5"
+                :class="message.role === 'user' ? 'justify-end' : 'justify-start'"
               >
-                <div class="article-agent__bubble">
+                <div :class="message.role === 'user' ? userContentClass : assistantContentClass">
                   <MdPreview
                     v-if="message.content && !message.loading"
                     class="article-agent__markdown"
@@ -538,32 +571,32 @@ onBeforeUnmount(abort)
                   />
                   <span
                     v-else-if="message.content"
-                    class="article-agent__streaming-text"
+                    class="block whitespace-pre-wrap break-words"
                     v-text="message.content"
                   />
-                  <span v-else class="article-agent__typing">思考中...</span>
+                  <span v-else class="text-grey-5">思考中...</span>
 
                   <div
                     v-if="message.toolEvents?.length"
-                    class="article-agent__tool-events"
+                    class="grid mt-3.5 gap-1.5"
                   >
                     <div
                       v-for="toolEvent in message.toolEvents"
                       :key="toolEvent.toolCallId"
-                      class="article-agent__tool-event"
-                      :class="`article-agent__tool-event--${toolEvent.status}`"
+                      class="flex items-start gap-2 border border-grey-3 rounded px-3 py-3 text-xs dark:border-white/10"
+                      :class="toolEvent.status === 'done' ? 'text-primary-1' : 'text-grey-5'"
                     >
                       <div
                         v-if="toolEvent.status === 'running'"
                         i-mingcute:loading-line
-                        class="article-agent__tool-icon article-agent__loading"
+                        class="mt-0.5 size-3.5 shrink-0 animate-spin"
                       />
                       <div
                         v-else
                         i-mingcute:check-circle-line
-                        class="article-agent__tool-icon"
+                        class="mt-0.5 size-3.5 shrink-0"
                       />
-                      <span v-text="toolEvent.displayText" />
+                      <span class="min-w-0 [overflow-wrap:anywhere]" v-text="toolEvent.displayText" />
                     </div>
                   </div>
                 </div>
@@ -571,37 +604,39 @@ onBeforeUnmount(abort)
 
               <div
                 v-if="restoring"
-                class="article-agent__message article-agent__message--assistant"
+                class="min-w-0 flex items-start justify-start gap-2.5"
               >
-                <div class="article-agent__bubble">
-                  <span class="article-agent__typing">正在恢复对话...</span>
+                <div :class="assistantContentClass">
+                  <span class="text-grey-5">正在恢复对话...</span>
                 </div>
               </div>
 
               <div
                 v-if="lastAssistantMessage?.references?.length"
-                class="article-agent__references"
+                class="max-w-full min-w-0 flex flex-col overflow-hidden border border-grey-3 rounded-2.5 bg-grey-2/80 px-3 py-2.5 dark:border-white/10 dark:bg-white/5"
               >
-                <div class="article-agent__reference-title">
+                <div class="mb-2 flex items-center justify-between gap-2.5 text-xs text-grey-5">
                   <span>引用来源</span>
-                  <span>RAG 检索</span>
+                  <span class="text-11px">RAG 检索</span>
                 </div>
-                <div class="article-agent__reference-list">
+                <div class="max-h-[clamp(126px,28vh,206px)] min-w-0 overflow-x-hidden overflow-y-auto overscroll-contain pr-1 -mr-1 lt-sm:max-h-[132px]">
                   <a
                     v-for="reference in lastAssistantMessage.references"
                     :key="`${reference.sourceType}-${reference.sourceId}`"
                     :href="reference.url || undefined"
-                    class="article-agent__reference"
+                    class="group block max-w-full min-w-0 overflow-hidden border-t border-grey-3 py-1.75 text-13px text-primary-1 leading-[19px] no-underline first:border-t-0 dark:border-white/10"
                   >
-                    <div class="article-agent__reference-head">
-                      <span v-text="reference.title" />
+                    <div class="min-w-0 flex items-center justify-between gap-2.5">
+                      <span class="min-w-0 flex-1 truncate group-hover:underline" v-text="reference.title" />
                       <small
                         v-if="formatReferenceScore(reference.score)"
+                        class="shrink-0 text-11px text-grey-5"
                         v-text="formatReferenceScore(reference.score)"
                       />
                     </div>
                     <p
                       v-if="reference.snippet"
+                      class="line-clamp-1 m-0 mt-1 text-xs text-grey-5 [overflow-wrap:anywhere]"
                       v-text="reference.snippet"
                     />
                   </a>
@@ -610,25 +645,32 @@ onBeforeUnmount(abort)
             </div>
           </div>
 
-          <form class="article-agent__input" @submit.prevent="send()">
-            <div class="article-agent__actions">
+          <form class="border-t border-grey-3 border-solid bg-gradient-to-b px-3.5 pb-3.5 pt-3 dark:border-white/10 from-transparent to-white dark:to-[#111827]" @submit.prevent="send()">
+            <div class="mb-2.5 flex flex-wrap gap-2">
               <button
                 v-for="item in quickActions"
                 :key="item.action"
+                class="inline-flex h-7 min-w-17 cursor-pointer items-center justify-center border border-grey-3 rounded-full bg-white/80 px-3 text-xs text-grey-5 transition duration-200 dark:border-white/10 dark:bg-white/5 hover:border-primary-1/30 hover:bg-primary-4 hover:text-primary-1 dark:hover:bg-primary-1/20 disabled:cursor-not-allowed disabled:opacity-50"
                 type="button"
+                :disabled="loading"
                 @click="sendQuickAction(item.action, item.prompt)"
               >
                 <span v-text="item.label" />
               </button>
             </div>
-            <div class="article-agent__input-row">
+            <div class="h-10.5 flex items-center gap-2 border border-grey-4 rounded-3 bg-white/90 pl-3.5 pr-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.42)] transition duration-200 dark:border-white/15 focus-within:border-primary-1/40 dark:bg-[#0f172a]/70">
               <input
                 v-model="input"
+                class="h-full min-w-0 flex-1 border-none bg-transparent text-xs text-grey-9 outline-none dark:text-white placeholder:text-grey-5"
                 :disabled="loading"
                 placeholder="输入问题，Enter 发送"
               >
-              <button type="submit" :disabled="loading || !input.trim()">
-                <div v-if="loading" i-mingcute:loading-line class="article-agent__loading" />
+              <button
+                class="flex-center size-7.5 cursor-pointer border-none rounded-full transition duration-200 disabled:cursor-not-allowed disabled:opacity-50"
+                type="submit"
+                :disabled="loading || !input.trim()"
+              >
+                <div v-if="loading" i-mingcute:loading-line class="animate-spin" />
                 <div v-else i-mingcute:send-plane-line />
               </button>
             </div>
@@ -638,329 +680,33 @@ onBeforeUnmount(abort)
 
       <button
         v-if="!open && !embedded"
-        class="
-          pointer-events-auto border rounded-full relative z-[2147483001]
-          flex gap-0.5 p-2 flex-col items-center justify-center
-          w-10 cursor-pointer
-          transition duration-200
-        "
-        bg-grey-1 dark:bg-grey-9
+        class="pointer-events-auto relative z-[2147483001] w-11 flex flex-col cursor-pointer items-center justify-center gap-1 border border-grey-3 rounded-full bg-white p-2 text-grey-8 shadow-[0_12px_34px_rgba(15,23,42,0.08)] transition duration-200 dark:border-white/10 dark:bg-grey-9 dark:text-white hover:shadow-[0_14px_34px_rgba(24,121,221,0.22)] hover:-translate-y-0.5"
         type="button"
         aria-label="打开 AI 助手"
         @click="toggleOpen"
       >
-        <img class="w-6.5 h-6.5 object-contain" :src="aiAssistantIcon" alt="">
-        <div class="flex flex-col">
+        <img class="h-6.5 w-6.5 object-contain" :src="aiAssistantIcon" alt="">
+        <span class="flex flex-col items-center gap-0.75 text-12px font-500 leading-none">
           <span>AI</span>
           <span>助</span>
           <span>手</span>
-        </div>
+        </span>
       </button>
     </div>
   </Teleport>
 </template>
 
 <style scoped lang="scss">
-.article-agent {
-  --agent-bg: rgba(255, 255, 255, 0.98);
-  --agent-bg-strong: #ffffff;
-  --agent-border: rgba(226, 232, 240, 0.9);
-  --agent-border-strong: rgba(203, 213, 225, 0.88);
-  --agent-text: #111827;
-  --agent-muted: #8a94a6;
-  --agent-soft: rgba(248, 250, 252, 0.78);
-  --agent-bubble: rgba(255, 255, 255, 0.88);
-  --agent-bubble-border: rgba(226, 232, 240, 0.86);
-  --agent-user-bubble: #e9f3ff;
-  --agent-user-text: #1d5fae;
-  --agent-user-border: rgba(98, 157, 231, 0.24);
-  --agent-action-bg: rgba(255, 255, 255, 0.76);
-  --agent-action-hover: rgba(232, 243, 255, 0.92);
-  --agent-input-bg: rgba(255, 255, 255, 0.9);
-  --agent-shadow: 0 24px 70px rgba(15, 23, 42, 0.14);
-  --agent-card-shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
-
-  position: fixed;
-  right: 24px;
-  bottom: 150px;
-  z-index: 2147483000;
-  isolation: isolate;
-  pointer-events: none;
-}
-
-.article-agent--dark,
-:global(html[theme="dark"]) .article-agent,
-:global(html.dark) .article-agent,
-:global(.dark) .article-agent {
-  --agent-bg: rgba(17, 24, 39, 0.98);
-  --agent-bg-strong: #111827;
-  --agent-border: rgba(148, 163, 184, 0.18);
-  --agent-border-strong: rgba(148, 163, 184, 0.28);
-  --agent-text: #f8fafc;
-  --agent-muted: rgba(226, 232, 240, 0.56);
-  --agent-soft: rgba(15, 23, 42, 0.46);
-  --agent-bubble: rgba(30, 41, 59, 0.72);
-  --agent-bubble-border: rgba(148, 163, 184, 0.18);
-  --agent-user-bubble: rgba(37, 99, 154, 0.46);
-  --agent-user-text: #dbeafe;
-  --agent-user-border: rgba(125, 211, 252, 0.16);
-  --agent-action-bg: rgba(15, 23, 42, 0.46);
-  --agent-action-hover: rgba(30, 64, 112, 0.48);
-  --agent-input-bg: rgba(15, 23, 42, 0.72);
-  --agent-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
-  --agent-card-shadow: 0 12px 34px rgba(0, 0, 0, 0.2);
-}
-
-.article-agent__entry,
-.article-agent__dialog,
-.article-agent__collapsed {
-  pointer-events: auto;
-}
-
-.article-agent--embedded {
-  position: relative;
-  right: auto;
-  bottom: auto;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  pointer-events: auto;
-}
-
-.article-agent__entry {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.article-agent__button {
-  position: relative;
-  z-index: 1;
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--agent-border);
-  border-radius: 50%;
-  color: var(--primary-1);
-  background: var(--agent-bg-strong);
-  box-shadow: var(--agent-card-shadow);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 34px rgba(24, 121, 221, 0.22);
-  }
-}
-
-.article-agent__button-icon {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-.article-agent__label {
-  height: 36px;
-  margin-left: -48px;
-  padding: 0 18px 0 52px;
-  border: 1px solid var(--agent-border);
-  border-radius: 999px;
-  color: var(--primary-1);
-  background: var(--agent-bg-strong);
-  font-size: 13px;
-  font-weight: 600;
-  box-shadow: var(--agent-card-shadow);
-  cursor: pointer;
-}
-
-.article-agent__trigger-text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  color: var(--agent-text);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0;
-}
-
-.article-agent__dialog {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  z-index: 2147483001;
-  display: flex;
-  flex-direction: column;
-  width: min(430px, calc(100vw - 32px));
-  max-width: calc(100vw - 32px);
-  height: min(560px, calc(100vh - 112px));
-  overflow: hidden;
-  border: 1px solid var(--agent-border);
-  border-radius: 12px;
-  background: var(--agent-bg);
-  box-shadow: var(--agent-shadow);
-  backdrop-filter: blur(20px) saturate(1.35);
-  -webkit-backdrop-filter: blur(20px) saturate(1.35);
-}
-
-.article-agent--embedded .article-agent__dialog {
-  position: relative;
-  right: auto;
-  bottom: auto;
-  z-index: 1;
-  width: 100%;
-  height: min(560px, calc(100vh - 104px));
-  min-height: 430px;
-}
-
-.article-agent__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 68px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--agent-border);
-  background: linear-gradient(180deg, var(--agent-bg-strong), rgba(255, 255, 255, 0));
-}
-
-.article-agent--dark .article-agent__header,
-:global(html[theme="dark"]) .article-agent__header,
-:global(html.dark) .article-agent__header,
-:global(.dark) .article-agent__header {
-  background: linear-gradient(180deg, var(--agent-bg-strong), rgba(17, 24, 39, 0));
-}
-
-.article-agent__ident {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.article-agent__icon {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-}
-
-.article-agent__title {
-  color: var(--agent-text);
-  font-size: 15px;
-  font-weight: 650;
-  line-height: 20px;
-}
-
-.article-agent__subtitle {
-  max-width: 230px;
-  overflow: hidden;
-  color: var(--agent-muted);
-  font-size: 11px;
-  line-height: 17px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.article-agent__tools {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    border: none;
-    border-radius: 50%;
-    color: var(--agent-muted);
-    background: transparent;
-    cursor: pointer;
-    transition: color 0.2s, background 0.2s;
-
-    &:hover {
-      color: var(--agent-text);
-      background: var(--agent-soft);
-    }
-  }
-}
-
-.article-agent__body {
-  flex: 1;
-  min-width: 0;
-  min-height: 0;
-  padding: 18px 16px 14px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background:
-    radial-gradient(circle at 12% 10%, rgba(96, 165, 250, 0.08), transparent 26%),
-    radial-gradient(circle at 88% 6%, rgba(168, 85, 247, 0.07), transparent 24%),
-    var(--agent-bg);
-}
-
-.article-agent__thread {
-  display: grid;
-  min-width: 0;
-  gap: 16px;
-}
-
-.article-agent__message {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-
-  &--user {
-    justify-content: flex-end;
-
-    .article-agent__bubble {
-      color: var(--agent-user-text);
-      border-color: var(--agent-user-border);
-      border-radius: 12px 12px 4px 12px;
-      background: var(--agent-user-bubble);
-      box-shadow: none;
-    }
-  }
-
-  &--assistant {
-    justify-content: flex-start;
-
-    .article-agent__bubble {
-      color: var(--agent-text);
-      border-color: var(--agent-bubble-border);
-      border-radius: 12px 12px 12px 4px;
-      background: var(--agent-bubble);
-    }
-  }
-}
-
-.article-agent__bubble {
-  min-width: 0;
-  max-width: min(78%, 300px);
-  padding: 11px 13px;
-  border: 1px solid transparent;
-  font-size: 13px;
-  line-height: 1.65;
-  overflow: hidden;
-  box-shadow: var(--agent-card-shadow);
-
-  p {
-    margin: 0;
-
-    + p {
-      margin-top: 4px;
-    }
-  }
-}
-
 .article-agent__markdown {
-  --md-color: var(--agent-text);
+  --md-color: inherit;
   --md-bk-color: transparent;
   --md-border-color: transparent;
 
   width: 100%;
   min-width: 0;
   color: inherit;
+  font-size: inherit;
+  line-height: inherit;
   background: transparent;
 
   :deep(.md-editor-preview-wrapper) {
@@ -969,8 +715,8 @@ onBeforeUnmount(abort)
 
   :deep(.md-editor-preview) {
     color: inherit;
-    font-size: 13px;
-    line-height: 1.65;
+    font-size: inherit;
+    line-height: inherit;
     word-break: break-word;
   }
 
@@ -983,8 +729,8 @@ onBeforeUnmount(abort)
   }
 
   :deep(.md-editor-preview p) {
-    margin: 0 0 8px;
-    line-height: 1.65;
+    margin: 0 0 12px;
+    line-height: inherit;
   }
 
   :deep(.md-editor-preview h1),
@@ -993,9 +739,9 @@ onBeforeUnmount(abort)
   :deep(.md-editor-preview h4),
   :deep(.md-editor-preview h5),
   :deep(.md-editor-preview h6) {
-    margin: 10px 0 6px;
+    margin: 18px 0 10px;
     color: inherit;
-    font-size: 13px;
+    font-size: inherit;
     line-height: 1.55;
   }
 
@@ -1023,324 +769,6 @@ onBeforeUnmount(abort)
     padding: 10px;
     font-size: 12px;
     white-space: pre;
-  }
-}
-
-.article-agent__streaming-text {
-  display: block;
-  color: inherit;
-  font-size: 13px;
-  line-height: 1.65;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.article-agent__typing {
-  color: var(--agent-muted);
-}
-
-.article-agent__tool-events {
-  display: grid;
-  gap: 6px;
-  margin-top: 9px;
-  padding-top: 8px;
-  border-top: 1px solid var(--agent-border);
-}
-
-.article-agent__tool-event {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 6px;
-  color: var(--agent-muted);
-  font-size: 12px;
-  line-height: 18px;
-
-  span {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-
-.article-agent__tool-event--done {
-  color: var(--primary-1);
-}
-
-.article-agent__tool-icon {
-  flex: 0 0 auto;
-  width: 14px;
-  height: 14px;
-}
-
-.article-agent__references {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  max-width: 100%;
-  padding: 10px 12px;
-  overflow: hidden;
-  border: 1px solid var(--agent-border);
-  border-radius: 10px;
-  background: var(--agent-soft);
-}
-
-.article-agent__reference-title {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 8px;
-  color: var(--agent-muted);
-  font-size: 12px;
-
-  span:last-child {
-    font-size: 11px;
-  }
-}
-
-.article-agent__reference-list {
-  min-width: 0;
-  max-height: clamp(126px, 28vh, 206px);
-  margin-right: -4px;
-  padding-right: 4px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
-.article-agent__reference {
-  display: block;
-  min-width: 0;
-  max-width: 100%;
-  padding: 7px 0;
-  overflow: hidden;
-  color: var(--primary-1);
-  font-size: 13px;
-  line-height: 19px;
-  text-decoration: none;
-
-  + .article-agent__reference {
-    border-top: 1px solid var(--agent-border);
-  }
-
-  &:hover {
-    .article-agent__reference-head span {
-      text-decoration: underline;
-    }
-  }
-
-  p {
-    display: -webkit-box;
-    margin: 4px 0 0;
-    overflow: hidden;
-    color: var(--agent-muted);
-    font-size: 12px;
-    line-height: 17px;
-    overflow-wrap: anywhere;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-  }
-}
-
-.article-agent__reference-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-width: 0;
-  gap: 10px;
-
-  span {
-    display: block;
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow: hidden;
-    color: var(--primary-1);
-    overflow-wrap: anywhere;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  small {
-    flex: 0 0 auto;
-    color: var(--agent-muted);
-    font-size: 11px;
-  }
-}
-
-.article-agent__input {
-  padding: 12px 14px 14px;
-  border-top: 1px solid var(--agent-border);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0), var(--agent-bg-strong));
-}
-
-.article-agent--dark .article-agent__input,
-:global(html[theme="dark"]) .article-agent__input,
-:global(html.dark) .article-agent__input,
-:global(.dark) .article-agent__input {
-  background: linear-gradient(180deg, rgba(17, 24, 39, 0), var(--agent-bg-strong));
-}
-
-.article-agent__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 10px;
-
-  button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 68px;
-    height: 28px;
-    padding: 0 12px;
-    border: 1px solid var(--agent-border);
-    border-radius: 999px;
-    color: var(--agent-muted);
-    background: var(--agent-action-bg);
-    font-size: 12px;
-    line-height: 1;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
-
-    &:hover {
-      color: var(--primary-1);
-      border-color: rgba(37, 99, 235, 0.26);
-      background: var(--agent-action-hover);
-    }
-  }
-}
-
-.article-agent__input-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 42px;
-  padding: 0 6px 0 14px;
-  border: 1px solid var(--agent-border-strong);
-  border-radius: 12px;
-  background: var(--agent-input-bg);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42);
-  transition: border-color 0.2s, box-shadow 0.2s;
-
-  input {
-    min-width: 0;
-    flex: 1;
-    height: 100%;
-    padding: 0;
-    border: none;
-    color: var(--agent-text);
-    background: transparent;
-    font-size: 12px;
-    outline: none;
-
-    &::placeholder {
-      color: var(--agent-muted);
-    }
-  }
-
-  button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
-  }
-}
-
-.article-agent__loading {
-  animation: agent-spin 0.9s linear infinite;
-}
-
-.article-agent__collapsed {
-  position: relative;
-  z-index: 2147483001;
-  display: flex;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-
-  button {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    height: 38px;
-    padding: 0 14px;
-    border: 1px solid var(--agent-border);
-    border-radius: 999px;
-    color: var(--primary-1);
-    background: var(--agent-bg-strong);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: var(--agent-card-shadow);
-  }
-}
-
-.agent-pop-enter-active,
-.agent-pop-leave-active {
-  transition: opacity 0.18s, transform 0.18s;
-}
-
-.agent-pop-enter-from,
-.agent-pop-leave-to {
-  opacity: 0;
-  transform: translateY(8px) scale(0.98);
-}
-
-.article-agent--embedded .agent-pop-enter-active,
-.article-agent--embedded .agent-pop-leave-active {
-  transition: opacity 0.16s;
-}
-
-.article-agent--embedded .agent-pop-enter-from,
-.article-agent--embedded .agent-pop-leave-to {
-  transform: none;
-}
-
-@keyframes agent-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (max-width: 640px) {
-  .article-agent {
-    right: 12px;
-    bottom: 12px;
-  }
-
-  .article-agent__dialog {
-    right: 12px;
-    bottom: 12px;
-    width: calc(100vw - 32px);
-    height: min(560px, calc(100vh - 96px));
-  }
-
-  .article-agent__subtitle {
-    max-width: 180px;
-  }
-
-  .article-agent__bubble {
-    max-width: 82%;
-  }
-
-  .article-agent__reference-list {
-    max-height: 132px;
   }
 }
 </style>
