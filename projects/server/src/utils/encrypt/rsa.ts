@@ -1,4 +1,4 @@
-import * as NodeRSA from 'node-rsa'
+import NodeRSA = require('node-rsa')
 
 /**
  * 对字符串进行rsa加密
@@ -19,7 +19,8 @@ export function rsaEncrypt(password: string, publicKey = process.env.RSA_PUBLIC_
 export function rsaDecrypt(hash: string, privateKey = process.env.RSA_PRIVATE_KEY, key = 'zhangyuzhu') {
   try {
     const rsa = new NodeRSA()
-    rsa.setOptions({ encryptionScheme: 'pkcs1' })
+    // Node 20+ 禁止 crypto.privateDecrypt 使用 RSA_PKCS1_PADDING，改走纯 JS 实现
+    rsa.setOptions({ encryptionScheme: 'pkcs1', environment: 'browser' })
     rsa.importKey(privateKey, 'pkcs8-private')
     const str = rsa.decrypt(hash, 'utf8')
     if (!str)
